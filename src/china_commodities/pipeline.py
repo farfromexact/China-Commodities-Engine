@@ -48,6 +48,7 @@ from .storage import (
     publish_scope_verified,
     publish_status,
     publish_verified,
+    read_json,
 )
 
 
@@ -248,7 +249,12 @@ def _build_module_quality(
         for record in result.futures_records
     )
     contract_statuses = statuses("contract_info")
-    if any(status.state == "error" for status in contract_statuses):
+    metadata_carried = any(
+        record.get("carried_forward") is True for record in result.contract_metadata
+    )
+    if metadata_carried:
+        contract_quality = "partial_error_with_carry_forward"
+    elif any(status.state == "error" for status in contract_statuses):
         contract_quality = "partial_error"
     elif metadata_complete:
         contract_quality = "complete"
@@ -265,7 +271,12 @@ def _build_module_quality(
         for status in statuses("warehouse")
         if status.scope in expected_warehouse
     ]
-    if any(status.state == "error" for status in warehouse_statuses):
+    warehouse_carried = any(
+        record.get("carried_forward") is True for record in result.warehouse_records
+    )
+    if warehouse_carried:
+        warehouse_quality = "partial_error_with_carry_forward"
+    elif any(status.state == "error" for status in warehouse_statuses):
         warehouse_quality = "partial_error"
     elif warehouse_statuses and all(status.is_fresh for status in warehouse_statuses):
         warehouse_quality = "verified_official"
@@ -279,7 +290,13 @@ def _build_module_quality(
         record.get("ranking_reconciled") is True
         for record in result.member_ranking_summaries
     )
-    if any(status.state == "error" for status in ranking_statuses):
+    ranking_carried = any(
+        record.get("carried_forward") is True
+        for record in result.member_ranking_summaries
+    )
+    if ranking_carried:
+        ranking_quality = "reconciled_distribution_with_carry_forward"
+    elif any(status.state == "error" for status in ranking_statuses):
         ranking_quality = "partial_error"
     elif rankings_reconciled:
         ranking_quality = "reconciled_published_distribution"
@@ -289,8 +306,13 @@ def _build_module_quality(
         ranking_quality = "unavailable"
 
     option_statuses = statuses("options")
+    options_carried = any(
+        record.get("carried_forward") is True for record in result.option_summaries
+    )
     if not include_options:
         options_quality = "not_collected"
+    elif options_carried:
+        options_quality = "partial_error_with_carry_forward_product_aggregate_only"
     elif any(status.state == "error" for status in option_statuses):
         options_quality = "partial_error_product_aggregate_only"
     elif result.option_records:
@@ -302,7 +324,11 @@ def _build_module_quality(
         "futures": futures_quality,
         "contract_meta": contract_quality,
         "warehouse": warehouse_quality,
-        "basis": "proxy_unmatched" if result.basis_records else "unavailable",
+        "basis": (
+            "proxy_unmatched_with_carry_forward"
+            if any(record.get("carried_forward") is True for record in result.basis_records)
+            else "proxy_unmatched" if result.basis_records else "unavailable"
+        ),
         "member_rankings": ranking_quality,
         "options_chain": options_quality,
         "options_surface": "not_ready",
@@ -374,12 +400,230 @@ def _build_quality_metrics(
         "ohlc_placeholder_count": ohlc_placeholder_count,
         "negative_volume_or_oi_count": negative_volume_or_oi_count,
         "member_rankings_reconciled": ranking_reconciled,
+        "carried_forward_contract_meta_count": sum(
+            record.get("carried_forward") is True
+            for record in result.contract_metadata
+        ),
+        "carried_forward_warehouse_count": sum(
+            record.get("carried_forward") is True
+            for record in result.warehouse_records
+        ),
+        "carried_forward_basis_count": sum(
+            record.get("carried_forward") is True
+            for record in result.basis_records
+        ),
+        "carried_forward_member_ranking_count": sum(
+            record.get("carried_forward") is True
+            for record in result.member_ranking_summaries
+        ),
+        "carried_forward_option_summary_count": sum(
+            record.get("carried_forward") is True
+            for record in result.option_summaries
+        ),
         "critical_module_errors": len(result.validation_errors),
         "full_market_ready": bool(result.verified),
         "excluded_exchange_count": len(result.excluded_exchanges),
         "coverage_penalty": bool(result.excluded_exchanges),
         "included_exchange_count": len(selected_exchanges),
     }
+
+
+def _carry_forward_record(
+    record: dict[str, Any],
+    *,
+    current_trade_date: str,
+    current_state: str,
+    reason: str,
+) -> dict[str, Any]:
+    carried = dict(record)
+    source_trade_date = str(record.get("trade_date") or record.get("as_of_date") or "")
+    carried.update(
+        {
+            "carried_forward": True,
+            "carried_from_trade_date": source_trade_date or None,
+            "current_trade_date": current_trade_date,
+            "current_collection_state": current_state,
+            "carry_forward_reason": reason,
+            "is_stale": bool(source_trade_date and source_trade_date != current_trade_date),
+        }
+    )
+    return carried
+
+
+def _merge_previous_records(
+    current: list[dict[str, Any]],
+    previous: list[dict[str, Any]],
+    *,
+    key_fields: tuple[str, ...],
+    scope_for: Callable[[dict[str, Any]], str],
+    statuses: dict[str, ModuleStatus],
+    current_trade_date: str,
+    previous_trade_date: str | None,
+    count_field: str | None = None,
+) -> list[dict[str, Any]]:
+    current_by_key = {
+        tuple(record.get(field) for field in key_fields): dict(record)
+        for record in current
+    }
+    for record in current_by_key.values():
+        record.setdefault("carried_forward", False)
+        record.setdefault("is_stale", False)
+
+    same_trade_date = previous_trade_date == current_trade_date
+    for prior in previous:
+        key = tuple(prior.get(field) for field in key_fields)
+        scope = scope_for(prior)
+        status = statuses.get(scope)
+        state = status.state if status is not None else "missing"
+        existing = current_by_key.get(key)
+        degraded_same_day = bool(
+            same_trade_date
+            and count_field
+            and existing is not None
+            and (prior.get(count_field) or 0) > (existing.get(count_field) or 0)
+        )
+        failed_current_module = status is None or status.state != "ok"
+        missing_same_day = same_trade_date and existing is None
+        if not (degraded_same_day or failed_current_module or missing_same_day):
+            continue
+        if existing is not None and not degraded_same_day:
+            continue
+        reason = (
+            "same_trade_date_degraded_repeat"
+            if same_trade_date
+            else f"current_module_{state}"
+        )
+        current_by_key[key] = _carry_forward_record(
+            prior,
+            current_trade_date=current_trade_date,
+            current_state=state,
+            reason=reason,
+        )
+    return sorted(
+        current_by_key.values(),
+        key=lambda record: tuple(str(record.get(field) or "") for field in key_fields),
+    )
+
+
+def _merge_previous_auxiliary(
+    result: PipelineResult,
+    previous_snapshot: dict[str, Any],
+    previous_contract_meta: dict[str, Any],
+) -> None:
+    previous_trade_date = previous_snapshot.get("trade_date")
+
+    def status_map(dataset: str) -> dict[str, ModuleStatus]:
+        return {
+            status.scope: status
+            for status in result.statuses
+            if status.dataset == dataset
+        }
+
+    result.warehouse_records = _merge_previous_records(
+        result.warehouse_records,
+        list(previous_snapshot.get("warehouse_inventory", [])),
+        key_fields=("exchange", "product"),
+        scope_for=lambda record: str(record.get("exchange") or ""),
+        statuses=status_map("warehouse"),
+        current_trade_date=result.trade_date,
+        previous_trade_date=previous_trade_date,
+    )
+    result.basis_records = _merge_previous_records(
+        result.basis_records,
+        list(previous_snapshot.get("proxy_basis", [])),
+        key_fields=("product",),
+        scope_for=lambda record: "100PPI",
+        statuses=status_map("basis"),
+        current_trade_date=result.trade_date,
+        previous_trade_date=previous_trade_date,
+    )
+    result.member_ranking_summaries = _merge_previous_records(
+        result.member_ranking_summaries,
+        list(previous_snapshot.get("member_rankings", [])),
+        key_fields=("exchange", "product", "contract", "ranking_scope"),
+        scope_for=lambda record: str(record.get("exchange") or ""),
+        statuses=status_map("member_rankings"),
+        current_trade_date=result.trade_date,
+        previous_trade_date=previous_trade_date,
+    )
+    result.option_summaries = _merge_previous_records(
+        result.option_summaries,
+        list(previous_snapshot.get("commodity_options", [])),
+        key_fields=("exchange", "product", "source_symbol"),
+        scope_for=lambda record: (
+            f"{record.get('exchange')}:{record.get('product')}"
+        ),
+        statuses=status_map("options"),
+        current_trade_date=result.trade_date,
+        previous_trade_date=previous_trade_date,
+        count_field="contract_count",
+    )
+
+    current_contracts = {
+        (record["exchange"], record["contract"])
+        for record in result.futures_records
+    }
+    current_metadata = {
+        (record.get("exchange"), record.get("contract")): dict(record)
+        for record in result.contract_metadata
+    }
+    contract_statuses = status_map("contract_info")
+    previous_meta_date = previous_contract_meta.get("trade_date")
+    same_meta_date = previous_meta_date == result.trade_date
+    risk_fields = (
+        "multiplier",
+        "tick_size",
+        "tick_value",
+        "margin_rate_percent",
+        "price_limit_percent",
+        "list_date",
+        "last_trading_day",
+        "last_delivery_day",
+    )
+    for prior in previous_contract_meta.get("contracts", []):
+        if not any(prior.get(field) is not None for field in risk_fields):
+            continue
+        key = (prior.get("exchange"), prior.get("contract"))
+        if key not in current_contracts:
+            continue
+        status = contract_statuses.get(str(prior.get("exchange") or ""))
+        state = status.state if status is not None else "missing"
+        existing = current_metadata.get(key)
+        if existing is not None:
+            fields = [
+                field
+                for field in risk_fields
+                if existing.get(field) is None and prior.get(field) is not None
+            ]
+            if not fields or not (same_meta_date or status is None or status.state != "ok"):
+                continue
+            for field in fields:
+                existing[field] = prior[field]
+            existing["carried_forward"] = True
+            existing["carried_forward_fields"] = fields
+            existing["carried_from_trade_date"] = previous_meta_date
+            existing["is_stale"] = previous_meta_date != result.trade_date
+            continue
+        if not (same_meta_date or status is None or status.state != "ok"):
+            continue
+        carried = _carry_forward_record(
+            dict(prior),
+            current_trade_date=result.trade_date,
+            current_state=state,
+            reason=(
+                "same_trade_date_degraded_repeat"
+                if same_meta_date
+                else f"current_module_{state}"
+            ),
+        )
+        carried["as_of_date"] = prior.get("trade_date") or previous_meta_date
+        carried["metadata_status"] = "carried_forward_previous_valid"
+        carried["carried_forward_fields"] = list(risk_fields)
+        current_metadata[key] = carried
+    result.contract_metadata = sorted(
+        current_metadata.values(),
+        key=lambda record: (str(record.get("exchange")), str(record.get("contract"))),
+    )
 
 
 def run_pipeline(
@@ -410,6 +654,20 @@ def run_pipeline(
         scope_id=_scope_id(selected_exchanges),
         included_exchanges=list(selected_exchanges),
         excluded_exchanges=excluded_exchanges,
+    )
+    base_target = Path(data_dir)
+    publication_target = (
+        base_target
+        if selected_exchanges == COMMODITY_EXCHANGES
+        else base_target / "scoped" / result.scope_id
+    )
+    previous_snapshot = (
+        read_json(publication_target / "latest.json", default={}) if publish else {}
+    )
+    previous_contract_meta = (
+        read_json(publication_target / "contract_meta.json", default={})
+        if publish
+        else {}
     )
 
     for exchange in selected_exchanges:
@@ -695,6 +953,11 @@ def run_pipeline(
 
     curves = build_curve_features(result.futures_records, catalog)
     result.option_summaries = summarize_options(result.option_records)
+    _merge_previous_auxiliary(
+        result,
+        previous_snapshot,
+        previous_contract_meta,
+    )
     result.curves = enrich_and_score_curves(
         curves,
         result.warehouse_records,
@@ -752,14 +1015,14 @@ def run_pipeline(
     )
 
     if publish:
-        target = Path(data_dir)
+        target = base_target
         if result.verified or selected_exchanges == COMMODITY_EXCHANGES:
             publish_status(result, target)
             publish_raw_options(result, target)
             if result.verified:
                 publish_verified(result, target)
         else:
-            scoped_target = target / "scoped" / result.scope_id
+            scoped_target = publication_target
             publish_status(result, scoped_target)
             publish_raw_options(result, scoped_target)
             if result.scope_verified:

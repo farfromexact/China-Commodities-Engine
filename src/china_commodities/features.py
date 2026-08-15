@@ -212,12 +212,16 @@ def enrich_and_score_curves(
     rankings_by_contract = {
         (record.get("product"), record.get("contract")): record
         for record in ranking_records
-        if record.get("contract") and record.get("ranking_reconciled") is True
+        if record.get("contract")
+        and record.get("ranking_reconciled") is True
+        and record.get("is_stale") is not True
     }
     rankings_by_product = {
         record.get("product"): record
         for record in ranking_records
-        if not record.get("contract") and record.get("ranking_reconciled") is True
+        if not record.get("contract")
+        and record.get("ranking_reconciled") is True
+        and record.get("is_stale") is not True
     }
     rows: list[dict[str, Any]] = []
     for curve in curves:
@@ -243,24 +247,48 @@ def enrich_and_score_curves(
                 "quality": curve_signal.get("price_quality"),
             },
             "basis": {
-                "available": bool(row["basis"]),
+                "available": bool(
+                    row["basis"] and not (row["basis"] or {}).get("is_stale")
+                ),
                 "quality": (
-                    (row["basis"] or {}).get("basis_quality", "proxy_unmatched")
+                    "stale_carry_forward_not_counted"
+                    if (row["basis"] or {}).get("is_stale")
+                    else (row["basis"] or {}).get(
+                        "basis_quality", "proxy_unmatched"
+                    )
                     if row["basis"]
                     else None
                 ),
             },
             "warehouse": {
-                "available": bool(row["warehouse"]),
+                "available": bool(
+                    row["warehouse"]
+                    and not (row["warehouse"] or {}).get("is_stale")
+                ),
                 "quality": (
-                    "official_as_published_unit_unstandardized"
+                    "stale_carry_forward_not_counted"
+                    if (row["warehouse"] or {}).get("is_stale")
+                    else "same_trade_date_carry_forward_as_published"
+                    if (row["warehouse"] or {}).get("carried_forward")
+                    else "official_as_published_unit_unstandardized"
                     if row["warehouse"]
                     else None
                 ),
             },
             "options": {
-                "available": bool(row["commodity_options"]),
-                "quality": "product_aggregate_only" if row["commodity_options"] else None,
+                "available": bool(
+                    row["commodity_options"]
+                    and not (row["commodity_options"] or {}).get("is_stale")
+                ),
+                "quality": (
+                    "stale_carry_forward_not_counted"
+                    if (row["commodity_options"] or {}).get("is_stale")
+                    else "same_trade_date_carry_forward_product_aggregate_only"
+                    if (row["commodity_options"] or {}).get("carried_forward")
+                    else "product_aggregate_only"
+                    if row["commodity_options"]
+                    else None
+                ),
             },
         }
         row["evidence"] = evidence

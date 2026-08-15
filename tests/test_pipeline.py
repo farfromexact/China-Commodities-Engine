@@ -9,7 +9,8 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-from china_commodities.pipeline import run_pipeline
+from china_commodities.models import ModuleStatus, PipelineResult
+from china_commodities.pipeline import _merge_previous_auxiliary, run_pipeline
 
 
 class FakeAkshare:
@@ -64,6 +65,91 @@ class FakeAkshare:
 
 
 class PipelineTests(unittest.TestCase):
+    def test_failed_auxiliary_modules_carry_forward_previous_valid_records(self) -> None:
+        statuses = [
+            ModuleStatus(
+                dataset=dataset,
+                scope=scope,
+                state="error",
+                trade_date="2026-08-14",
+                source_function="test",
+            )
+            for dataset, scope in (
+                ("contract_info", "SHFE"),
+                ("warehouse", "SHFE"),
+                ("basis", "100PPI"),
+                ("member_rankings", "SHFE"),
+                ("options", "SHFE:CU"),
+            )
+        ]
+        result = PipelineResult(
+            trade_date="2026-08-14",
+            generated_at="2026-08-14T18:15:00+08:00",
+            akshare_version="test",
+            statuses=statuses,
+            futures_records=[
+                {"exchange": "SHFE", "product": "CU", "contract": "CU2610"}
+            ],
+        )
+        previous_snapshot = {
+            "trade_date": "2026-08-14",
+            "warehouse_inventory": [
+                {"trade_date": "2026-08-14", "exchange": "SHFE", "product": "CU"}
+            ],
+            "proxy_basis": [
+                {"trade_date": "2026-08-14", "product": "CU"}
+            ],
+            "member_rankings": [
+                {
+                    "trade_date": "2026-08-14",
+                    "exchange": "SHFE",
+                    "product": "CU",
+                    "contract": "CU2610",
+                    "ranking_scope": "contract",
+                    "ranking_reconciled": True,
+                }
+            ],
+            "commodity_options": [
+                {
+                    "trade_date": "2026-08-14",
+                    "exchange": "SHFE",
+                    "product": "CU",
+                    "source_symbol": "铜期权",
+                    "contract_count": 100,
+                }
+            ],
+        }
+        previous_contract_meta = {
+            "trade_date": "2026-08-14",
+            "contracts": [
+                {
+                    "exchange": "SHFE",
+                    "product": "CU",
+                    "contract": "CU2610",
+                    "multiplier": 5,
+                    "tick_size": 10,
+                    "tick_value": 50,
+                    "last_trading_day": "2026-10-15",
+                    "metadata_status": "official_partial",
+                }
+            ],
+        }
+
+        _merge_previous_auxiliary(
+            result, previous_snapshot, previous_contract_meta
+        )
+
+        self.assertTrue(result.warehouse_records[0]["carried_forward"])
+        self.assertFalse(result.warehouse_records[0]["is_stale"])
+        self.assertTrue(result.basis_records[0]["carried_forward"])
+        self.assertTrue(result.member_ranking_summaries[0]["carried_forward"])
+        self.assertTrue(result.option_summaries[0]["carried_forward"])
+        self.assertEqual(result.option_summaries[0]["contract_count"], 100)
+        self.assertEqual(
+            result.contract_metadata[0]["metadata_status"],
+            "carried_forward_previous_valid",
+        )
+
     def test_repeated_same_day_run_does_not_rewrite_timestamp_only_changes(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
             first_now = datetime(2026, 8, 14, 18, 15, tzinfo=ZoneInfo("Asia/Shanghai"))

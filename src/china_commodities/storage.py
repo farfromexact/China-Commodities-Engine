@@ -213,10 +213,24 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
             "last_trading_day": source.get("last_trading_day"),
             "last_delivery_day": source.get("last_delivery_day"),
             "metadata_status": source.get("metadata_status", "observed_contract_only"),
+            "carried_forward": source.get("carried_forward", False),
+            "carried_forward_fields": source.get("carried_forward_fields", []),
+            "carried_from_trade_date": source.get("carried_from_trade_date"),
+            "is_stale": source.get("is_stale", False),
         })
-    def coverage(field: str) -> float:
+    def coverage(field: str, *, current_only: bool) -> float:
+        def field_is_current(item: dict[str, Any]) -> bool:
+            if item.get("carried_forward") is not True:
+                return True
+            return field not in set(item.get("carried_forward_fields") or [])
+
         return (
-            sum(item.get(field) is not None for item in contracts) / len(contracts)
+            sum(
+                item.get(field) is not None
+                and (not current_only or field_is_current(item))
+                for item in contracts
+            )
+            / len(contracts)
             if contracts
             else 0.0
         )
@@ -232,12 +246,32 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
         "coverage_scope": _coverage_scope(result),
         "contracts": contracts,
         "contract_match_coverage": matched / len(contracts) if contracts else 0.0,
-        "multiplier_coverage": coverage("multiplier"),
-        "tick_size_coverage": coverage("tick_size"),
-        "tick_value_coverage": coverage("tick_value"),
-        "margin_rate_coverage": coverage("margin_rate_percent"),
-        "price_limit_coverage": coverage("price_limit_percent"),
-        "last_trading_day_coverage": coverage("last_trading_day"),
+        "effective_contract_match_coverage": sum(
+            item["metadata_status"]
+            in {"official_partial", "carried_forward_previous_valid"}
+            for item in contracts
+        ) / len(contracts) if contracts else 0.0,
+        "multiplier_coverage": coverage("multiplier", current_only=True),
+        "tick_size_coverage": coverage("tick_size", current_only=True),
+        "tick_value_coverage": coverage("tick_value", current_only=True),
+        "margin_rate_coverage": coverage("margin_rate_percent", current_only=True),
+        "price_limit_coverage": coverage("price_limit_percent", current_only=True),
+        "last_trading_day_coverage": coverage("last_trading_day", current_only=True),
+        "effective_multiplier_coverage": coverage("multiplier", current_only=False),
+        "effective_tick_size_coverage": coverage("tick_size", current_only=False),
+        "effective_tick_value_coverage": coverage("tick_value", current_only=False),
+        "effective_margin_rate_coverage": coverage(
+            "margin_rate_percent", current_only=False
+        ),
+        "effective_price_limit_coverage": coverage(
+            "price_limit_percent", current_only=False
+        ),
+        "effective_last_trading_day_coverage": coverage(
+            "last_trading_day", current_only=False
+        ),
+        "carried_forward_contract_count": sum(
+            item.get("carried_forward") is True for item in contracts
+        ),
         "warning": "Null trading parameters were not published by the verified exchange interface and must not be inferred.",
     }
 
