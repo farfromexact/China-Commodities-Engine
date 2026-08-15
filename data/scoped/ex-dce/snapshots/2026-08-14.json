@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "trade_date": "2026-08-14",
-  "generated_at": "2026-08-15T18:50:48.638642+08:00",
+  "generated_at": "2026-08-15T19:02:34.433708+08:00",
   "verified": false,
   "official_complete": false,
   "scope_verified": true,
@@ -9,7 +9,7 @@
   "scope_official_complete": false,
   "module_quality": {
     "futures": "verified_official",
-    "contract_meta": "partial",
+    "contract_meta": "partial_error",
     "warehouse": "partial_error",
     "basis": "proxy_unmatched",
     "member_rankings": "reconciled_published_distribution",
@@ -46,7 +46,7 @@
   },
   "source": {
     "provider": "akshare",
-    "akshare_version": "1.18.64",
+    "akshare_version": "1.18.91",
     "modules": [
       {
         "dataset": "futures",
@@ -63,7 +63,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": "2026-08-14",
         "source_date_match": true,
-        "fetched_at": "2026-08-15T18:50:50.833629+08:00",
+        "fetched_at": "2026-08-15T19:02:36.543082+08:00",
         "source_endpoint": "get_futures_daily",
         "raw_payload_sha256": "55ebd0d36ec83de307a9e1d1fe59d601b650ea21bc263bd1c8bc8b6cdcda18bf",
         "schema_signature": "3c4addbc3cf93b9616abf37880f645aa1a9428306c6b83a6d5ff94bdd9c9bf29"
@@ -83,7 +83,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": "2026-08-14",
         "source_date_match": true,
-        "fetched_at": "2026-08-15T18:50:52.579461+08:00",
+        "fetched_at": "2026-08-15T19:02:38.011884+08:00",
         "source_endpoint": "get_futures_daily",
         "raw_payload_sha256": "1b398fd463b5c96b213bfa3bd55d8c1bc39922d9b45f0db591a85be9b6c404e4",
         "schema_signature": "54ba2f44bd0906bc58140279584717fd866a372d52d03fe94a0042130a065c4d"
@@ -103,7 +103,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": "2026-08-14",
         "source_date_match": true,
-        "fetched_at": "2026-08-15T18:50:55.169400+08:00",
+        "fetched_at": "2026-08-15T19:02:40.301021+08:00",
         "source_endpoint": "get_futures_daily",
         "raw_payload_sha256": "daabfcd05420bb567c7f40f80d2572b33bdc73f42248c885d513a0ba303da61f",
         "schema_signature": "7b54e107ad8137c5969fec16cf4140953c8fc6c8a63acf5bc7c76379de0dda6b"
@@ -123,7 +123,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": "2026-08-14",
         "source_date_match": true,
-        "fetched_at": "2026-08-15T18:50:56.902151+08:00",
+        "fetched_at": "2026-08-15T19:02:43.348700+08:00",
         "source_endpoint": "get_futures_daily",
         "raw_payload_sha256": "e7c1f19e6964f3f031736c68435349519f2d09ec764c537a784f97d651ac44f9",
         "schema_signature": "145394772305fe02a60d17c19c8261cc30ff6c0b9cb1ce18e73d69ec24a00c67"
@@ -131,11 +131,11 @@
       {
         "dataset": "contract_info",
         "scope": "SHFE",
-        "state": "ok",
+        "state": "error",
         "trade_date": "2026-08-14",
         "source_function": "futures_contract_info_shfe",
-        "records": 302,
-        "error": null,
+        "records": 0,
+        "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
         "upstream_source": "SHFE",
         "is_fresh": false,
         "is_proxy": false,
@@ -143,10 +143,10 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:50:58.576304+08:00",
+        "fetched_at": "2026-08-15T19:02:47.764770+08:00",
         "source_endpoint": "futures_contract_info_shfe",
-        "raw_payload_sha256": "75d1de9ed25ef0a94520be7808f72b4f90d3aba4ddfd10cf5c2795d672679442",
-        "schema_signature": "16e32fdc8a53419141e48af17984ced61238dde5dc2974094389725bb932e004"
+        "raw_payload_sha256": null,
+        "schema_signature": null
       },
       {
         "dataset": "contract_info",
@@ -163,7 +163,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:00.021810+08:00",
+        "fetched_at": "2026-08-15T19:02:48.634474+08:00",
         "source_endpoint": "futures_contract_info_ine",
         "raw_payload_sha256": "c72e6f523ad7a022e07f512f554cd71c98ee82e1f101dfeab11e41c1b1edeebc",
         "schema_signature": "4d9f7ff45700b3258d3afdf4170eaae0867f67ec5667b17ffc9827bdb5034394"
@@ -183,7 +183,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:02.691451+08:00",
+        "fetched_at": "2026-08-15T19:02:50.663550+08:00",
         "source_endpoint": "futures_contract_info_czce",
         "raw_payload_sha256": "7bed08d5a633ee1a53625afa85ac635b7b405303cc2b78c95c6f7c113d996517",
         "schema_signature": "2d3de8eb6df57fb7689dd7f2a1a76e4d7a283e3817539b3cf492512a8d98a2a2"
@@ -203,7 +203,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:03.303509+08:00",
+        "fetched_at": "2026-08-15T19:02:52.182247+08:00",
         "source_endpoint": "futures_contract_info_gfex",
         "raw_payload_sha256": "5a75999d121a37633ae9408f482502ea93466b6b1aae26490007296acf26bf38",
         "schema_signature": "b48e14460e9a8d6afb5a3dbf5f6dfef80a1ae097a0ca8e225a845a25caf544e9"
@@ -223,7 +223,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:04.677401+08:00",
+        "fetched_at": "2026-08-15T19:02:53.021342+08:00",
         "source_endpoint": "futures_shfe_warehouse_receipt",
         "raw_payload_sha256": null,
         "schema_signature": null
@@ -243,7 +243,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:08.106515+08:00",
+        "fetched_at": "2026-08-15T19:02:55.777089+08:00",
         "source_endpoint": "futures_warehouse_receipt_czce",
         "raw_payload_sha256": "ac98d74eef8a94626bcd4a9634cec35177cc94f094bb08082594d49ad1fb417c",
         "schema_signature": "242b61ed6c8aa193512c2ed0ffc8c2fa985c3849133cf86ba20a669adca8400f"
@@ -263,7 +263,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:09.025589+08:00",
+        "fetched_at": "2026-08-15T19:02:58.241483+08:00",
         "source_endpoint": "futures_gfex_warehouse_receipt",
         "raw_payload_sha256": "e2fd69ab111a4a77f6a66b0c22b6dd97edb88c8f3e622ab5f79d83df9f1e899f",
         "schema_signature": "10f5a871e30d39e04f145ae9a1cf30127750b77e659744db0c6df198b3842bea"
@@ -283,7 +283,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:10.437447+08:00",
+        "fetched_at": "2026-08-15T19:02:59.612125+08:00",
         "source_endpoint": "futures_spot_price",
         "raw_payload_sha256": "921aede845526e725ad0124980177e3a80620c232c295bedf475f8e2366c83cf",
         "schema_signature": "56bd2f8b3dc42467cdb66e5ea7dcc4c5020a6dca920943332bd2c8371179e502"
@@ -303,7 +303,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:12.743556+08:00",
+        "fetched_at": "2026-08-15T19:03:33.268297+08:00",
         "source_endpoint": "get_shfe_rank_table",
         "raw_payload_sha256": "b2a3a54e882fb2112578f53993dc1d82621eeaf7c540f87dbd4a6eddee51c959",
         "schema_signature": "331358865d51460604d7217b6dfd46c8887f31f0a6357f3aa271d75ea08f848b"
@@ -323,7 +323,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:18.769172+08:00",
+        "fetched_at": "2026-08-15T19:04:51.494346+08:00",
         "source_endpoint": "get_shfe_rank_table",
         "raw_payload_sha256": "3e2791c88319d1c6f608352e928e362222b070860a196fb074936aff65ae4743",
         "schema_signature": "6b3cd49eee18a8a444af4b703e5e3f3b92ef07129d7c0d445bbb679df860da27"
@@ -343,7 +343,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:51:28.136054+08:00",
+        "fetched_at": "2026-08-15T19:04:56.079670+08:00",
         "source_endpoint": "get_rank_table_czce",
         "raw_payload_sha256": "d8c5575f55ee0596ef6f61a232a102efd9a03673840d1635ca6720325ff4111c",
         "schema_signature": "85f94572b8791c0ef03ef45930d9305a2af2668f5dd48b104f63de89694a852f"
@@ -363,7 +363,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:52:09.571093+08:00",
+        "fetched_at": "2026-08-15T19:05:50.447569+08:00",
         "source_endpoint": "futures_gfex_position_rank",
         "raw_payload_sha256": "aba9c79809677ad33436df73ad39b76b37b2d847fded4df021505c53b715d4bc",
         "schema_signature": "5f41d2e2af24a139ed4fdd14c000be9285b2e676967f9b90ed7a5331e8ef667c"
@@ -383,7 +383,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:52:23.695215+08:00",
+        "fetched_at": "2026-08-15T19:05:55.113478+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "bac1726ce2c1f85747b089d8e4796c76c5cbedf6b2dc4ab62463016ac3b7f398",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -403,7 +403,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:52:35.035620+08:00",
+        "fetched_at": "2026-08-15T19:05:57.927719+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "818e34e77c6f6dfe461f3bedc221e6962dc806f75bd865cedb149b06a5f53338",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -423,7 +423,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:52:46.108893+08:00",
+        "fetched_at": "2026-08-15T19:06:00.887347+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "e3f82bb0abe39df7c7a097b5f44158421a9d32ecd4b22b511aa4f338f1e5b6f6",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -443,7 +443,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:52:51.959479+08:00",
+        "fetched_at": "2026-08-15T19:06:03.787290+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "6531cd02106355d7ed1b36808b3f4d86009cd68dd36a9ebd161760ec5d769ccd",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -463,7 +463,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:53:09.519465+08:00",
+        "fetched_at": "2026-08-15T19:06:06.717743+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "3c0b98731baba67cc537cd3c7d5958443a1d00cd414e6235b3c44d05215fb51d",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -483,7 +483,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:53:41.772042+08:00",
+        "fetched_at": "2026-08-15T19:06:09.686403+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "53fb4c33571d6f6a0f4f664e807c4f9a32d3d0c1ca5e17c4b4a9af140c254703",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -503,7 +503,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:53:48.237216+08:00",
+        "fetched_at": "2026-08-15T19:06:12.455399+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "fad75221d03602265f552b63b3f79d728b80adda13d0f8792e1cb71f642371c6",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -523,7 +523,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:54:03.905996+08:00",
+        "fetched_at": "2026-08-15T19:06:16.654333+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "6b715d765a08ac6942acac82ff9599c97fc7ac4fdf3c1fd11a9465f981beecb8",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -543,7 +543,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:54:11.155411+08:00",
+        "fetched_at": "2026-08-15T19:06:19.626850+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "48ee8138d734e1219f2bba355bc940436039d375019e208ce6b97fb9b784f1c9",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -563,7 +563,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:54:17.824595+08:00",
+        "fetched_at": "2026-08-15T19:06:22.528143+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "62f340d0065c06f3d36890057948f920195ed1bb92cbc03b886351ebcd590c4d",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -583,7 +583,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:54:25.413195+08:00",
+        "fetched_at": "2026-08-15T19:06:26.650080+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "c4cc1940b45322e424d843f4e238b414e770bde25f25abaa51dee286a57767a1",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -603,7 +603,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:54:35.531153+08:00",
+        "fetched_at": "2026-08-15T19:06:31.973768+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "0bd504dee522dc7e34a34cc70f7d76f46614e35d9e40c38b0e0336ea9855c847",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -623,7 +623,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:54:42.183193+08:00",
+        "fetched_at": "2026-08-15T19:06:34.915443+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "15e1354a043716f8ed461fb74879c8e71ff012f10b6bb5e8bd67f3b45efd1876",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -643,7 +643,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:54:49.815576+08:00",
+        "fetched_at": "2026-08-15T19:06:38.753119+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "315619d8e718615a6722d5f882c094c13e2688d6bf5ad6cc578cfedd503d85ef",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -663,7 +663,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:54:59.396266+08:00",
+        "fetched_at": "2026-08-15T19:06:42.722077+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "84a3e0520126e558ed5b132d5c2931a1d8f8f01c3ca2a899d05a674f6b178807",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -683,7 +683,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:06.813954+08:00",
+        "fetched_at": "2026-08-15T19:06:45.678685+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "d0ef321a3f577ea4c24c0bb6989a5e476425241112570757a6026f960f5bc4ab",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -703,7 +703,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:10.468895+08:00",
+        "fetched_at": "2026-08-15T19:06:48.628330+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "d11ce2ceef2041cc5bc5c4414b2ac8fcf96b49977465a5dc94d361acde9a5381",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -723,7 +723,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:14.367755+08:00",
+        "fetched_at": "2026-08-15T19:06:52.801600+08:00",
         "source_endpoint": "option_hist_czce",
         "raw_payload_sha256": "98c0604213c69b71df6c703432f6708f9456412924812b8141062a9e0874de91",
         "schema_signature": "4e8594440f20b4b02ab36f912ac975dd60145f6d4263988150f26749338a2fcd"
@@ -743,7 +743,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:18.336789+08:00",
+        "fetched_at": "2026-08-15T19:06:58.119790+08:00",
         "source_endpoint": "option_hist_shfe",
         "raw_payload_sha256": "a61464e1443541a6eeccb2ccca39684c32b73b64748c215221edf4a66613e13a",
         "schema_signature": "684baaed427796694fabba72ccdbad662bc72fb7b9ea5973a970dbbc1e52415a"
@@ -763,7 +763,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:21.394559+08:00",
+        "fetched_at": "2026-08-15T19:07:04.942895+08:00",
         "source_endpoint": "option_vol_shfe",
         "raw_payload_sha256": "ba8a8a453380ffc2ce427aab5c3e3696fe393b195baef278eba881f186ad55a0",
         "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
@@ -783,7 +783,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:24.194230+08:00",
+        "fetched_at": "2026-08-15T19:07:10.477421+08:00",
         "source_endpoint": "option_hist_shfe",
         "raw_payload_sha256": "2373e98f38bbf62dcebd8dace4089b028534fbb875697c94a255da37a3b76fa3",
         "schema_signature": "684baaed427796694fabba72ccdbad662bc72fb7b9ea5973a970dbbc1e52415a"
@@ -791,10 +791,10 @@
       {
         "dataset": "option_volatility",
         "scope": "SHFE:AL",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_vol_shfe",
-        "records": 5,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -803,18 +803,18 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:26.445536+08:00",
+        "fetched_at": "2026-08-15T19:07:14.972064+08:00",
         "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "3a93c74183e39fa19a088b108ced14d46c39552339c6c9e486afac424c9a0fab",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
         "scope": "SHFE:ZN",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_hist_shfe",
-        "records": 246,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -823,38 +823,18 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:28.696644+08:00",
+        "fetched_at": "2026-08-15T19:07:19.408355+08:00",
         "source_endpoint": "option_hist_shfe",
-        "raw_payload_sha256": "dee85f76f489571ec2be5347d65114902e50c14dc3093d60ce2c756968101593",
-        "schema_signature": "50a8f420b14fdbf75bfb9858426f0fb93f7a753f6ecde6122df10ca035f460af"
-      },
-      {
-        "dataset": "option_volatility",
-        "scope": "SHFE:ZN",
-        "state": "ok",
-        "trade_date": "2026-08-14",
-        "source_function": "option_vol_shfe",
-        "records": 4,
-        "error": null,
-        "upstream_source": "SHFE",
-        "is_fresh": false,
-        "is_proxy": false,
-        "is_fallback": false,
-        "requested_trade_date": "2026-08-14",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:30.796483+08:00",
-        "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "7fa47e0ecbf1e23266de81ac8cf28cf58f762d6c136d214a8522614d6f8db614",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
         "scope": "SHFE:PB",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_hist_shfe",
-        "records": 166,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -863,30 +843,10 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:33.285121+08:00",
+        "fetched_at": "2026-08-15T19:07:23.832654+08:00",
         "source_endpoint": "option_hist_shfe",
-        "raw_payload_sha256": "09a4bc25ba00e0af6b02c70c0115b3770bafe270d9aa1e050c8e7204bf80d478",
-        "schema_signature": "50a8f420b14fdbf75bfb9858426f0fb93f7a753f6ecde6122df10ca035f460af"
-      },
-      {
-        "dataset": "option_volatility",
-        "scope": "SHFE:PB",
-        "state": "ok",
-        "trade_date": "2026-08-14",
-        "source_function": "option_vol_shfe",
-        "records": 3,
-        "error": null,
-        "upstream_source": "SHFE",
-        "is_fresh": false,
-        "is_proxy": false,
-        "is_fallback": false,
-        "requested_trade_date": "2026-08-14",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:35.456203+08:00",
-        "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "553b250fd52e58f1d51ae36ff6adeb64fea739b41fe9ab75381f2cdf7b2588f3",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
@@ -903,7 +863,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:37.777543+08:00",
+        "fetched_at": "2026-08-15T19:07:28.545951+08:00",
         "source_endpoint": "option_hist_shfe",
         "raw_payload_sha256": "aeed5f8d90e6df53e816701dd48932eceace3cc90fc620fa6016e292cba14a12",
         "schema_signature": "684baaed427796694fabba72ccdbad662bc72fb7b9ea5973a970dbbc1e52415a"
@@ -911,10 +871,10 @@
       {
         "dataset": "option_volatility",
         "scope": "SHFE:RB",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_vol_shfe",
-        "records": 4,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -923,18 +883,18 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:39.944675+08:00",
+        "fetched_at": "2026-08-15T19:07:32.989357+08:00",
         "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "0d385a4fc4b672e01399807441aab7ea9e647bc77d0e6128f5ab09b02251e57a",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
         "scope": "SHFE:NI",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_hist_shfe",
-        "records": 248,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -943,30 +903,10 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:42.384770+08:00",
+        "fetched_at": "2026-08-15T19:07:39.471835+08:00",
         "source_endpoint": "option_hist_shfe",
-        "raw_payload_sha256": "ccf21b3dade950134696dced6e89da16aada68e56f4189663e3bdad8771d5c6c",
-        "schema_signature": "684baaed427796694fabba72ccdbad662bc72fb7b9ea5973a970dbbc1e52415a"
-      },
-      {
-        "dataset": "option_volatility",
-        "scope": "SHFE:NI",
-        "state": "ok",
-        "trade_date": "2026-08-14",
-        "source_function": "option_vol_shfe",
-        "records": 4,
-        "error": null,
-        "upstream_source": "SHFE",
-        "is_fresh": false,
-        "is_proxy": false,
-        "is_fallback": false,
-        "requested_trade_date": "2026-08-14",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:44.700359+08:00",
-        "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "b114b7b31a62bd71f6ad6a82fe7f3f0511a6f71bfcfd8b495122c37bc892ba0a",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
@@ -983,7 +923,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:47.360382+08:00",
+        "fetched_at": "2026-08-15T19:07:45.692935+08:00",
         "source_endpoint": "option_hist_shfe",
         "raw_payload_sha256": "787d828855b33d8a2c0637c64b6e9d8a5f4a44e78dfb7c68e23a9d14145be4eb",
         "schema_signature": "50a8f420b14fdbf75bfb9858426f0fb93f7a753f6ecde6122df10ca035f460af"
@@ -991,10 +931,10 @@
       {
         "dataset": "option_volatility",
         "scope": "SHFE:SN",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_vol_shfe",
-        "records": 3,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -1003,18 +943,18 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:49.711266+08:00",
+        "fetched_at": "2026-08-15T19:07:50.124474+08:00",
         "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "7a80f29d70efb1a9fafac22c077d0d631e7a81e728327de90a435e0ed7d557c5",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
         "scope": "SHFE:AO",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_hist_shfe",
-        "records": 234,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -1023,38 +963,18 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:52.123545+08:00",
+        "fetched_at": "2026-08-15T19:07:54.499141+08:00",
         "source_endpoint": "option_hist_shfe",
-        "raw_payload_sha256": "93e2132c57c29cba23297bddfb531b3c65894d65500238e0423a9c870d35e48b",
-        "schema_signature": "36e3f18a55098eff1812b1cf08631e92b95e3f6b166b152eb6e11a746685354c"
-      },
-      {
-        "dataset": "option_volatility",
-        "scope": "SHFE:AO",
-        "state": "ok",
-        "trade_date": "2026-08-14",
-        "source_function": "option_vol_shfe",
-        "records": 5,
-        "error": null,
-        "upstream_source": "SHFE",
-        "is_fresh": false,
-        "is_proxy": false,
-        "is_fallback": false,
-        "requested_trade_date": "2026-08-14",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:54.524600+08:00",
-        "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "522b8535efebf543f7b92e69cb2c75dfe74e3e108c221685315222aee11ca5e6",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
         "scope": "SHFE:AU",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_hist_shfe",
-        "records": 644,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -1063,30 +983,10 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:56.897754+08:00",
+        "fetched_at": "2026-08-15T19:07:58.879873+08:00",
         "source_endpoint": "option_hist_shfe",
-        "raw_payload_sha256": "64eea42e5a962eb2d11be24b5bbc00de9dbdeead12db025ee4df36ae001242d0",
-        "schema_signature": "684baaed427796694fabba72ccdbad662bc72fb7b9ea5973a970dbbc1e52415a"
-      },
-      {
-        "dataset": "option_volatility",
-        "scope": "SHFE:AU",
-        "state": "ok",
-        "trade_date": "2026-08-14",
-        "source_function": "option_vol_shfe",
-        "records": 4,
-        "error": null,
-        "upstream_source": "SHFE",
-        "is_fresh": false,
-        "is_proxy": false,
-        "is_fallback": false,
-        "requested_trade_date": "2026-08-14",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": "2026-08-15T18:55:59.065787+08:00",
-        "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "6854fbd9233dcdb0b70cadfcdce6a4c637507e6c167b8b746ae6a57a15097092",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
@@ -1103,7 +1003,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:01.626177+08:00",
+        "fetched_at": "2026-08-15T19:08:06.178501+08:00",
         "source_endpoint": "option_hist_shfe",
         "raw_payload_sha256": "24976c99ffab27d25ba4908b1b07e921ae681a3369f8916310a6ca0c1f07e8a8",
         "schema_signature": "684baaed427796694fabba72ccdbad662bc72fb7b9ea5973a970dbbc1e52415a"
@@ -1111,10 +1011,10 @@
       {
         "dataset": "option_volatility",
         "scope": "SHFE:AG",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_vol_shfe",
-        "records": 4,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -1123,18 +1023,18 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:03.888580+08:00",
+        "fetched_at": "2026-08-15T19:08:10.777824+08:00",
         "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "cf848c42cd644f6eb147c52648f71f80f7e74001497bb8f7f867742e58e4530b",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
         "scope": "SHFE:BR",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_hist_shfe",
-        "records": 298,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -1143,38 +1043,18 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:06.081757+08:00",
+        "fetched_at": "2026-08-15T19:08:16.178831+08:00",
         "source_endpoint": "option_hist_shfe",
-        "raw_payload_sha256": "647ea39b35608c021307390ce6078b68f501e98718b1682929971887a6ded0af",
-        "schema_signature": "684baaed427796694fabba72ccdbad662bc72fb7b9ea5973a970dbbc1e52415a"
-      },
-      {
-        "dataset": "option_volatility",
-        "scope": "SHFE:BR",
-        "state": "ok",
-        "trade_date": "2026-08-14",
-        "source_function": "option_vol_shfe",
-        "records": 4,
-        "error": null,
-        "upstream_source": "SHFE",
-        "is_fresh": false,
-        "is_proxy": false,
-        "is_fallback": false,
-        "requested_trade_date": "2026-08-14",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:08.544626+08:00",
-        "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "fd959a3880db94f4057dc122048e846e7a0427c064ccff46e2579fc1b620c2fc",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
         "scope": "SHFE:RU",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_hist_shfe",
-        "records": 158,
+        "records": 0,
         "error": null,
         "upstream_source": "SHFE",
         "is_fresh": false,
@@ -1183,38 +1063,18 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:11.038458+08:00",
+        "fetched_at": "2026-08-15T19:08:20.574787+08:00",
         "source_endpoint": "option_hist_shfe",
-        "raw_payload_sha256": "d7d245951674fe3da399b0ad50cdf2f039bfe53277f51808526f3f9d3bbf3d20",
-        "schema_signature": "684baaed427796694fabba72ccdbad662bc72fb7b9ea5973a970dbbc1e52415a"
-      },
-      {
-        "dataset": "option_volatility",
-        "scope": "SHFE:RU",
-        "state": "ok",
-        "trade_date": "2026-08-14",
-        "source_function": "option_vol_shfe",
-        "records": 3,
-        "error": null,
-        "upstream_source": "SHFE",
-        "is_fresh": false,
-        "is_proxy": false,
-        "is_fallback": false,
-        "requested_trade_date": "2026-08-14",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:13.184510+08:00",
-        "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "72cd7c140372df8c0569e1a0551ea7319b69a2e705e9c95b0c7ec2add5451faf",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
         "scope": "INE:SC",
-        "state": "ok",
+        "state": "empty",
         "trade_date": "2026-08-14",
         "source_function": "option_hist_shfe",
-        "records": 322,
+        "records": 0,
         "error": null,
         "upstream_source": "INE",
         "is_fresh": false,
@@ -1223,30 +1083,10 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:15.836769+08:00",
+        "fetched_at": "2026-08-15T19:08:24.966514+08:00",
         "source_endpoint": "option_hist_shfe",
-        "raw_payload_sha256": "1cee8c06cc9485e8031899e5be28cf503708825bc1a5649fb7e9fc3dde4858df",
-        "schema_signature": "7ce00898691d4431f5e5bd32c65cf53e6a14b6ab4154bb4e4d26a56d008742ad"
-      },
-      {
-        "dataset": "option_volatility",
-        "scope": "INE:SC",
-        "state": "ok",
-        "trade_date": "2026-08-14",
-        "source_function": "option_vol_shfe",
-        "records": 3,
-        "error": null,
-        "upstream_source": "INE",
-        "is_fresh": false,
-        "is_proxy": false,
-        "is_fallback": false,
-        "requested_trade_date": "2026-08-14",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:18.159244+08:00",
-        "source_endpoint": "option_vol_shfe",
-        "raw_payload_sha256": "df695ab67d44250894f0ca5dc1452fd5ef3a9728747db368070e4e8002f6bb72",
-        "schema_signature": "bb7e632bef1e1240641e37ff1d85e9d35d753d6f2557b6b1000b95fbc0590523"
+        "raw_payload_sha256": "33ab1ea7f4b65a95fb93911b9314eec1abf95e1f37d1de72623ffa1b60b0246b",
+        "schema_signature": "471eedfc0fac643043c469301b945d4557723d0e5b0b7c9b250191a2977041d7"
       },
       {
         "dataset": "options",
@@ -1263,7 +1103,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:25.691855+08:00",
+        "fetched_at": "2026-08-15T19:08:36.758314+08:00",
         "source_endpoint": "option_hist_gfex",
         "raw_payload_sha256": "b559d6f003667bfec4f099e3bcff663c08e3e252f190b7ece7e0e4727848dd90",
         "schema_signature": "f20c1588b43938bcb524f0cd86aad72466c6ba66cb00c6a4067a849eb9ada1b2"
@@ -1283,7 +1123,7 @@
         "requested_trade_date": "2026-08-14",
         "source_trade_date": null,
         "source_date_match": null,
-        "fetched_at": "2026-08-15T18:56:33.728486+08:00",
+        "fetched_at": "2026-08-15T19:08:46.839742+08:00",
         "source_endpoint": "option_hist_gfex",
         "raw_payload_sha256": "86d96913cb962d4f6f190d0dddaead8f94b91d9d0d71d7433444398a55671eca",
         "schema_signature": "f20c1588b43938bcb524f0cd86aad72466c6ba66cb00c6a4067a849eb9ada1b2"
@@ -15133,9 +14973,9 @@
         "total_open_interest": 232501.0,
         "put_call_volume_ratio": 0.8356756514271798,
         "put_call_open_interest_ratio": 0.8506363773849227,
-        "median_iv_percent": 48.072900000000004,
-        "volume_weighted_iv_percent": 43.554479537428975,
-        "iv_coverage": 1.0,
+        "median_iv_percent": null,
+        "volume_weighted_iv_percent": null,
+        "iv_coverage": 0.0,
         "dealer_gamma_known": false
       },
       "member_ranking": {
@@ -15747,21 +15587,7 @@
         "basis_quality": "C_proxy_partial_definition",
         "directional_scoring_allowed": false
       },
-      "commodity_options": {
-        "trade_date": "2026-08-14",
-        "exchange": "SHFE",
-        "product": "AU",
-        "source_symbol": "黄金期权",
-        "contract_count": 644,
-        "total_volume": 205324.0,
-        "total_open_interest": 107461.0,
-        "put_call_volume_ratio": 0.7333355845208347,
-        "put_call_open_interest_ratio": 0.6111094452773613,
-        "median_iv_percent": 25.194899999999997,
-        "volume_weighted_iv_percent": 23.03487759833239,
-        "iv_coverage": 1.0,
-        "dealer_gamma_known": false
-      },
+      "commodity_options": null,
       "member_ranking": {
         "trade_date": "2026-08-14",
         "exchange": "SHFE",
@@ -15801,18 +15627,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 3,
+      "evidence_count": 2,
       "available_evidence_layers": [
         "curve",
-        "basis",
-        "options"
+        "basis"
       ],
       "missing_evidence_layers": [
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
@@ -17116,9 +16942,9 @@
         "total_open_interest": 413784.0,
         "put_call_volume_ratio": 0.7267059814658804,
         "put_call_open_interest_ratio": 0.6752253018194184,
-        "median_iv_percent": 12.6812,
-        "volume_weighted_iv_percent": 12.620542683938327,
-        "iv_coverage": 1.0,
+        "median_iv_percent": null,
+        "volume_weighted_iv_percent": null,
+        "iv_coverage": 0.0,
         "dealer_gamma_known": false
       },
       "member_ranking": {
@@ -18694,21 +18520,7 @@
         "basis_quality": "C_proxy_partial_definition",
         "directional_scoring_allowed": false
       },
-      "commodity_options": {
-        "trade_date": "2026-08-14",
-        "exchange": "SHFE",
-        "product": "NI",
-        "source_symbol": "镍期权",
-        "contract_count": 248,
-        "total_volume": 122542.0,
-        "total_open_interest": 75308.0,
-        "put_call_volume_ratio": 0.9107181838026632,
-        "put_call_open_interest_ratio": 0.5255342854248962,
-        "median_iv_percent": 22.225900000000003,
-        "volume_weighted_iv_percent": 23.65903791271564,
-        "iv_coverage": 1.0,
-        "dealer_gamma_known": false
-      },
+      "commodity_options": null,
       "member_ranking": {
         "trade_date": "2026-08-14",
         "exchange": "SHFE",
@@ -18748,18 +18560,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 3,
+      "evidence_count": 2,
       "available_evidence_layers": [
         "curve",
-        "basis",
-        "options"
+        "basis"
       ],
       "missing_evidence_layers": [
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
@@ -18860,21 +18672,7 @@
         "basis_quality": "C_proxy_partial_definition",
         "directional_scoring_allowed": false
       },
-      "commodity_options": {
-        "trade_date": "2026-08-14",
-        "exchange": "SHFE",
-        "product": "BR",
-        "source_symbol": "丁二烯橡胶期权",
-        "contract_count": 298,
-        "total_volume": 56158.0,
-        "total_open_interest": 31548.0,
-        "put_call_volume_ratio": 0.4552851848972505,
-        "put_call_open_interest_ratio": 0.9988595324082874,
-        "median_iv_percent": 32.3733,
-        "volume_weighted_iv_percent": 32.37410893728409,
-        "iv_coverage": 1.0,
-        "dealer_gamma_known": false
-      },
+      "commodity_options": null,
       "member_ranking": {
         "trade_date": "2026-08-14",
         "exchange": "SHFE",
@@ -18914,18 +18712,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 3,
+      "evidence_count": 2,
       "available_evidence_layers": [
         "curve",
-        "basis",
-        "options"
+        "basis"
       ],
       "missing_evidence_layers": [
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
@@ -19005,21 +18803,7 @@
       },
       "warehouse": null,
       "basis": null,
-      "commodity_options": {
-        "trade_date": "2026-08-14",
-        "exchange": "INE",
-        "product": "SC",
-        "source_symbol": "原油期权",
-        "contract_count": 322,
-        "total_volume": 85928.0,
-        "total_open_interest": 44634.0,
-        "put_call_volume_ratio": 0.5865876400967521,
-        "put_call_open_interest_ratio": 0.9726862901087244,
-        "median_iv_percent": 51.346599999999995,
-        "volume_weighted_iv_percent": 51.287622863327435,
-        "iv_coverage": 1.0,
-        "dealer_gamma_known": false
-      },
+      "commodity_options": null,
       "member_ranking": null,
       "liquidity_eligible": true,
       "evidence": {
@@ -19036,18 +18820,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 2,
+      "evidence_count": 1,
       "available_evidence_layers": [
-        "curve",
-        "options"
+        "curve"
       ],
       "missing_evidence_layers": [
         "basis",
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
@@ -19733,9 +19517,9 @@
         "total_open_interest": 126286.0,
         "put_call_volume_ratio": 1.2433420962395703,
         "put_call_open_interest_ratio": 1.068295718824724,
-        "median_iv_percent": 13.1154,
-        "volume_weighted_iv_percent": 11.588302078041181,
-        "iv_coverage": 1.0,
+        "median_iv_percent": null,
+        "volume_weighted_iv_percent": null,
+        "iv_coverage": 0.0,
         "dealer_gamma_known": false
       },
       "member_ranking": {
@@ -20938,21 +20722,7 @@
       },
       "warehouse": null,
       "basis": null,
-      "commodity_options": {
-        "trade_date": "2026-08-14",
-        "exchange": "SHFE",
-        "product": "AO",
-        "source_symbol": "氧化铝期权",
-        "contract_count": 234,
-        "total_volume": 79317.0,
-        "total_open_interest": 163463.0,
-        "put_call_volume_ratio": 0.37243264755247174,
-        "put_call_open_interest_ratio": 0.34887156001155256,
-        "median_iv_percent": 20.144000000000002,
-        "volume_weighted_iv_percent": 19.20978309820089,
-        "iv_coverage": 1.0,
-        "dealer_gamma_known": false
-      },
+      "commodity_options": null,
       "member_ranking": {
         "trade_date": "2026-08-14",
         "exchange": "SHFE",
@@ -20992,18 +20762,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 2,
+      "evidence_count": 1,
       "available_evidence_layers": [
-        "curve",
-        "options"
+        "curve"
       ],
       "missing_evidence_layers": [
         "basis",
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
@@ -21410,21 +21180,7 @@
         "basis_quality": "C_proxy_partial_definition",
         "directional_scoring_allowed": false
       },
-      "commodity_options": {
-        "trade_date": "2026-08-14",
-        "exchange": "SHFE",
-        "product": "PB",
-        "source_symbol": "铅期权",
-        "contract_count": 166,
-        "total_volume": 9908.0,
-        "total_open_interest": 16010.0,
-        "put_call_volume_ratio": 1.3356907119283357,
-        "put_call_open_interest_ratio": 0.7462914485165794,
-        "median_iv_percent": 15.6326,
-        "volume_weighted_iv_percent": 14.527202714977793,
-        "iv_coverage": 1.0,
-        "dealer_gamma_known": false
-      },
+      "commodity_options": null,
       "member_ranking": {
         "trade_date": "2026-08-14",
         "exchange": "SHFE",
@@ -21464,18 +21220,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 3,
+      "evidence_count": 2,
       "available_evidence_layers": [
         "curve",
-        "basis",
-        "options"
+        "basis"
       ],
       "missing_evidence_layers": [
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
@@ -21707,21 +21463,7 @@
         "basis_quality": "C_proxy_partial_definition",
         "directional_scoring_allowed": false
       },
-      "commodity_options": {
-        "trade_date": "2026-08-14",
-        "exchange": "SHFE",
-        "product": "RU",
-        "source_symbol": "天胶期权",
-        "contract_count": 158,
-        "total_volume": 36890.0,
-        "total_open_interest": 76474.0,
-        "put_call_volume_ratio": 0.8374259102455546,
-        "put_call_open_interest_ratio": 0.5991050331430483,
-        "median_iv_percent": 18.3705,
-        "volume_weighted_iv_percent": 18.46578883437246,
-        "iv_coverage": 1.0,
-        "dealer_gamma_known": false
-      },
+      "commodity_options": null,
       "member_ranking": {
         "trade_date": "2026-08-14",
         "exchange": "SHFE",
@@ -21761,18 +21503,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 3,
+      "evidence_count": 2,
       "available_evidence_layers": [
         "curve",
-        "basis",
-        "options"
+        "basis"
       ],
       "missing_evidence_layers": [
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
@@ -21873,21 +21615,7 @@
         "basis_quality": "C_proxy_partial_definition",
         "directional_scoring_allowed": false
       },
-      "commodity_options": {
-        "trade_date": "2026-08-14",
-        "exchange": "SHFE",
-        "product": "ZN",
-        "source_symbol": "锌期权",
-        "contract_count": 246,
-        "total_volume": 76930.0,
-        "total_open_interest": 55993.0,
-        "put_call_volume_ratio": 0.7440489684878713,
-        "put_call_open_interest_ratio": 0.8684263214095035,
-        "median_iv_percent": 15.511099999999999,
-        "volume_weighted_iv_percent": 16.046597300142984,
-        "iv_coverage": 1.0,
-        "dealer_gamma_known": false
-      },
+      "commodity_options": null,
       "member_ranking": {
         "trade_date": "2026-08-14",
         "exchange": "SHFE",
@@ -21927,18 +21655,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 3,
+      "evidence_count": 2,
       "available_evidence_layers": [
         "curve",
-        "basis",
-        "options"
+        "basis"
       ],
       "missing_evidence_layers": [
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
@@ -22353,9 +22081,9 @@
         "total_open_interest": 40339.0,
         "put_call_volume_ratio": 0.9227859319945526,
         "put_call_open_interest_ratio": 1.2942046294716487,
-        "median_iv_percent": 30.6995,
-        "volume_weighted_iv_percent": 29.889604944350754,
-        "iv_coverage": 1.0,
+        "median_iv_percent": null,
+        "volume_weighted_iv_percent": null,
+        "iv_coverage": 0.0,
         "dealer_gamma_known": false
       },
       "member_ranking": {
@@ -24240,21 +23968,6 @@
     },
     {
       "trade_date": "2026-08-14",
-      "exchange": "INE",
-      "product": "SC",
-      "source_symbol": "原油期权",
-      "contract_count": 322,
-      "total_volume": 85928.0,
-      "total_open_interest": 44634.0,
-      "put_call_volume_ratio": 0.5865876400967521,
-      "put_call_open_interest_ratio": 0.9726862901087244,
-      "median_iv_percent": 51.346599999999995,
-      "volume_weighted_iv_percent": 51.287622863327435,
-      "iv_coverage": 1.0,
-      "dealer_gamma_known": false
-    },
-    {
-      "trade_date": "2026-08-14",
       "exchange": "SHFE",
       "product": "AG",
       "source_symbol": "白银期权",
@@ -24263,9 +23976,9 @@
       "total_open_interest": 232501.0,
       "put_call_volume_ratio": 0.8356756514271798,
       "put_call_open_interest_ratio": 0.8506363773849227,
-      "median_iv_percent": 48.072900000000004,
-      "volume_weighted_iv_percent": 43.554479537428975,
-      "iv_coverage": 1.0,
+      "median_iv_percent": null,
+      "volume_weighted_iv_percent": null,
+      "iv_coverage": 0.0,
       "dealer_gamma_known": false
     },
     {
@@ -24278,54 +23991,9 @@
       "total_open_interest": 126286.0,
       "put_call_volume_ratio": 1.2433420962395703,
       "put_call_open_interest_ratio": 1.068295718824724,
-      "median_iv_percent": 13.1154,
-      "volume_weighted_iv_percent": 11.588302078041181,
-      "iv_coverage": 1.0,
-      "dealer_gamma_known": false
-    },
-    {
-      "trade_date": "2026-08-14",
-      "exchange": "SHFE",
-      "product": "AO",
-      "source_symbol": "氧化铝期权",
-      "contract_count": 234,
-      "total_volume": 79317.0,
-      "total_open_interest": 163463.0,
-      "put_call_volume_ratio": 0.37243264755247174,
-      "put_call_open_interest_ratio": 0.34887156001155256,
-      "median_iv_percent": 20.144000000000002,
-      "volume_weighted_iv_percent": 19.20978309820089,
-      "iv_coverage": 1.0,
-      "dealer_gamma_known": false
-    },
-    {
-      "trade_date": "2026-08-14",
-      "exchange": "SHFE",
-      "product": "AU",
-      "source_symbol": "黄金期权",
-      "contract_count": 644,
-      "total_volume": 205324.0,
-      "total_open_interest": 107461.0,
-      "put_call_volume_ratio": 0.7333355845208347,
-      "put_call_open_interest_ratio": 0.6111094452773613,
-      "median_iv_percent": 25.194899999999997,
-      "volume_weighted_iv_percent": 23.03487759833239,
-      "iv_coverage": 1.0,
-      "dealer_gamma_known": false
-    },
-    {
-      "trade_date": "2026-08-14",
-      "exchange": "SHFE",
-      "product": "BR",
-      "source_symbol": "丁二烯橡胶期权",
-      "contract_count": 298,
-      "total_volume": 56158.0,
-      "total_open_interest": 31548.0,
-      "put_call_volume_ratio": 0.4552851848972505,
-      "put_call_open_interest_ratio": 0.9988595324082874,
-      "median_iv_percent": 32.3733,
-      "volume_weighted_iv_percent": 32.37410893728409,
-      "iv_coverage": 1.0,
+      "median_iv_percent": null,
+      "volume_weighted_iv_percent": null,
+      "iv_coverage": 0.0,
       "dealer_gamma_known": false
     },
     {
@@ -24346,36 +24014,6 @@
     {
       "trade_date": "2026-08-14",
       "exchange": "SHFE",
-      "product": "NI",
-      "source_symbol": "镍期权",
-      "contract_count": 248,
-      "total_volume": 122542.0,
-      "total_open_interest": 75308.0,
-      "put_call_volume_ratio": 0.9107181838026632,
-      "put_call_open_interest_ratio": 0.5255342854248962,
-      "median_iv_percent": 22.225900000000003,
-      "volume_weighted_iv_percent": 23.65903791271564,
-      "iv_coverage": 1.0,
-      "dealer_gamma_known": false
-    },
-    {
-      "trade_date": "2026-08-14",
-      "exchange": "SHFE",
-      "product": "PB",
-      "source_symbol": "铅期权",
-      "contract_count": 166,
-      "total_volume": 9908.0,
-      "total_open_interest": 16010.0,
-      "put_call_volume_ratio": 1.3356907119283357,
-      "put_call_open_interest_ratio": 0.7462914485165794,
-      "median_iv_percent": 15.6326,
-      "volume_weighted_iv_percent": 14.527202714977793,
-      "iv_coverage": 1.0,
-      "dealer_gamma_known": false
-    },
-    {
-      "trade_date": "2026-08-14",
-      "exchange": "SHFE",
       "product": "RB",
       "source_symbol": "螺纹钢期权",
       "contract_count": 146,
@@ -24383,24 +24021,9 @@
       "total_open_interest": 413784.0,
       "put_call_volume_ratio": 0.7267059814658804,
       "put_call_open_interest_ratio": 0.6752253018194184,
-      "median_iv_percent": 12.6812,
-      "volume_weighted_iv_percent": 12.620542683938327,
-      "iv_coverage": 1.0,
-      "dealer_gamma_known": false
-    },
-    {
-      "trade_date": "2026-08-14",
-      "exchange": "SHFE",
-      "product": "RU",
-      "source_symbol": "天胶期权",
-      "contract_count": 158,
-      "total_volume": 36890.0,
-      "total_open_interest": 76474.0,
-      "put_call_volume_ratio": 0.8374259102455546,
-      "put_call_open_interest_ratio": 0.5991050331430483,
-      "median_iv_percent": 18.3705,
-      "volume_weighted_iv_percent": 18.46578883437246,
-      "iv_coverage": 1.0,
+      "median_iv_percent": null,
+      "volume_weighted_iv_percent": null,
+      "iv_coverage": 0.0,
       "dealer_gamma_known": false
     },
     {
@@ -24413,24 +24036,9 @@
       "total_open_interest": 40339.0,
       "put_call_volume_ratio": 0.9227859319945526,
       "put_call_open_interest_ratio": 1.2942046294716487,
-      "median_iv_percent": 30.6995,
-      "volume_weighted_iv_percent": 29.889604944350754,
-      "iv_coverage": 1.0,
-      "dealer_gamma_known": false
-    },
-    {
-      "trade_date": "2026-08-14",
-      "exchange": "SHFE",
-      "product": "ZN",
-      "source_symbol": "锌期权",
-      "contract_count": 246,
-      "total_volume": 76930.0,
-      "total_open_interest": 55993.0,
-      "put_call_volume_ratio": 0.7440489684878713,
-      "put_call_open_interest_ratio": 0.8684263214095035,
-      "median_iv_percent": 15.511099999999999,
-      "volume_weighted_iv_percent": 16.046597300142984,
-      "iv_coverage": 1.0,
+      "median_iv_percent": null,
+      "volume_weighted_iv_percent": null,
+      "iv_coverage": 0.0,
       "dealer_gamma_known": false
     }
   ],
@@ -30278,18 +29886,18 @@
           "quality": null
         },
         "options": {
-          "available": true,
-          "quality": "product_aggregate_only"
+          "available": false,
+          "quality": null
         }
       },
-      "evidence_count": 3,
+      "evidence_count": 2,
       "available_evidence_layers": [
         "curve",
-        "basis",
-        "options"
+        "basis"
       ],
       "missing_evidence_layers": [
         "warehouse",
+        "options",
         "physical_supply_demand",
         "onshore_offshore_parity"
       ],
