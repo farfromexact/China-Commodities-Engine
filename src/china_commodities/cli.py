@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from .collectors.akshare_adapter import COMMODITY_EXCHANGES
 from .pipeline import run_pipeline
 from .quality import validate_snapshot
 from .storage import read_json
@@ -28,13 +29,29 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--skip-options", action="store_true")
     run.add_argument("--option-limit", type=int, default=None)
     run.add_argument("--dry-run", action="store_true")
+    run.add_argument(
+        "--exclude-exchange",
+        action="append",
+        choices=COMMODITY_EXCHANGES,
+        default=[],
+        help="exclude an exchange; may be repeated",
+    )
 
     validate = subparsers.add_parser("validate", help="validate latest promoted snapshot")
     validate.add_argument("--data-dir", default="data")
+    validate.add_argument("--scope", default=None)
     return parser
 
 
 def _run(args: argparse.Namespace) -> int:
+    excluded_exchanges = tuple(dict.fromkeys(args.exclude_exchange))
+    included_exchanges = tuple(
+        exchange for exchange in COMMODITY_EXCHANGES
+        if exchange not in excluded_exchanges
+    )
+    if not included_exchanges:
+        raise ValueError("at least one exchange must remain included")
+
     result = run_pipeline(
         args.date,
         data_dir=args.data_dir,
@@ -42,11 +59,15 @@ def _run(args: argparse.Namespace) -> int:
         include_options=not args.skip_options,
         option_limit=args.option_limit,
         publish=not args.dry_run,
+        exchanges=included_exchanges,
     )
     summary = {
         "trade_date": result.trade_date,
         "verified": result.verified,
         "official_complete": result.official_complete,
+        "included_exchanges": result.included_exchanges,
+        "excluded_exchanges": result.excluded_exchanges,
+        "scope_verified": result.scope_verified,
         "futures_contracts": len(result.futures_records),
         "contract_metadata": len(result.contract_metadata),
         "warehouse_products": len(result.warehouse_records),
@@ -62,36 +83,50 @@ def _run(args: argparse.Namespace) -> int:
 
 def _validate(args: argparse.Namespace) -> int:
     data_dir = Path(args.data_dir)
-    payload = read_json(data_dir / "latest.json")
+    scope = getattr(args, "scope", None)
+    snapshot_path = data_dir / "scoped" / scope / "latest.json" if scope else data_dir / "latest.json"
+    payload = read_json(snapshot_path)
     if payload is None:
-        status = read_json(data_dir / "last_run_status.json")
+        status_path = (
+            data_dir / "scoped" / scope / "last_run_status.json"
+            if scope
+            else data_dir / "last_run_status.json"
+        )
+        status = read_json(status_path)
         if (
             isinstance(status, dict)
-            and status.get("data_fresh") is False
+            and (
+                status.get("scope_data_fresh") is False
+                if scope
+                else status.get("data_fresh") is False
+            )
             and status.get("validation_errors")
         ):
             print(
                 "No verified latest snapshot was promoted; the failed/partial "
-                "run is explicitly recorded in last_run_status.json."
+                f"run is explicitly recorded in {status_path}."
             )
             return 0
         print("No verified data/latest.json or valid partial-run status exists.")
         return 1
-    errors = validate_snapshot(payload)
+    errors = validate_snapshot(payload, allow_scoped=bool(scope))
     if errors:
         for error in errors:
             print(f"ERROR: {error}")
         return 1
     print(
-        f"Validated {data_dir / 'latest.json'} for {payload['trade_date']} "
+        f"Validated {snapshot_path} for {payload['trade_date']} "
         f"with {len(payload['futures_contracts'])} futures contracts."
     )
     return 0
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = _parser().parse_args(argv)
+    parser = _parser()
+    args = parser.parse_args(argv)
     if args.command == "run":
+        if set(args.exclude_exchange) == set(COMMODITY_EXCHANGES):
+            parser.error("at least one exchange must remain included")
         return _run(args)
     return _validate(args)
 

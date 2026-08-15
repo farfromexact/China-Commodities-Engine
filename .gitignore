@@ -35,7 +35,9 @@ htmlcov/
 *.swo
 tmp/
 temp/
+/tmp*/
 *.log
 
 # Keep formal JSON snapshots under data/ trackable.
 data/raw/
+data/scoped/*/raw/

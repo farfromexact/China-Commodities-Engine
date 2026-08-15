@@ -40,6 +40,42 @@ class NormalizeTests(unittest.TestCase):
         self.assertAlmostEqual(item["close_return_pct"], 2.6666667)
         self.assertAlmostEqual(item["settle_return_pct"], 2.0)
 
+    def test_futures_separates_shfe_and_ine_products(self) -> None:
+        raw = pd.DataFrame(
+            [
+                {
+                    "symbol": "CU2610",
+                    "variety": "CU",
+                    "close": 100,
+                    "settle": 100,
+                    "pre_settle": 99,
+                },
+                {
+                    "symbol": "SC2610",
+                    "variety": "SC",
+                    "close": 500,
+                    "settle": 500,
+                    "pre_settle": 490,
+                },
+                {
+                    "symbol": "EC2610",
+                    "variety": "EC",
+                    "close": 1200,
+                    "settle": 1200,
+                    "pre_settle": 1180,
+                },
+            ]
+        )
+
+        shfe = normalize_futures(raw, "SHFE", "20260814")
+        ine = normalize_futures(raw, "INE", "20260814")
+
+        self.assertEqual([item["product"] for item in shfe], ["CU"])
+        self.assertEqual(
+            [item["product"] for item in ine],
+            ["EC", "SC"],
+        )
+
     def test_proxy_basis_is_explicit(self) -> None:
         raw = pd.DataFrame(
             [{"symbol": "I", "spot_price": 700, "near_contract": "i2609", "near_contract_price": 710, "near_basis": 10}]

@@ -92,6 +92,43 @@ class PipelineTests(unittest.TestCase):
             self.assertTrue((Path(directory) / "last_run_status.json").exists())
             self.assertFalse((Path(directory) / "latest.json").exists())
 
+    def test_scoped_run_excludes_dce_without_claiming_full_market(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            result = run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                exchanges=("SHFE", "INE", "CZCE", "GFEX"),
+                ak_module=FakeAkshare(fail_dce=True),
+            )
+
+            self.assertTrue(result.scope_verified, result.validation_errors)
+            self.assertFalse(result.verified)
+            self.assertTrue(result.scope_official_complete)
+            self.assertFalse(result.official_complete)
+            self.assertEqual(result.scope_id, "ex-dce")
+            self.assertFalse(
+                any(status.scope == "DCE" for status in result.statuses)
+            )
+
+            scoped = Path(directory) / "scoped" / "ex-dce"
+            self.assertTrue((scoped / "latest.json").exists())
+            self.assertTrue((scoped / "radar_latest.json").exists())
+            self.assertFalse((Path(directory) / "latest.json").exists())
+
+            payload = json.loads(
+                (scoped / "latest.json").read_text(encoding="utf-8")
+            )
+            self.assertFalse(payload["verified"])
+            self.assertTrue(payload["scope_verified"])
+            self.assertEqual(payload["coverage_scope"]["excluded_exchanges"], ["DCE"])
+
+            status = json.loads(
+                (scoped / "last_run_status.json").read_text(encoding="utf-8")
+            )
+            self.assertFalse(status["data_fresh"])
+            self.assertTrue(status["scope_data_fresh"])
+
 
 if __name__ == "__main__":
     unittest.main()

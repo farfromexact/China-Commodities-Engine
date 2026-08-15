@@ -12,6 +12,15 @@ from .features import contract_month
 from .models import PipelineResult
 
 
+def _coverage_scope(result: PipelineResult) -> dict[str, Any]:
+    return {
+        "scope_id": result.scope_id,
+        "included_exchanges": result.included_exchanges,
+        "excluded_exchanges": result.excluded_exchanges,
+        "is_full_market": not result.excluded_exchanges,
+    }
+
+
 def json_safe(value: Any) -> Any:
     if isinstance(value, dict):
         return {str(key): json_safe(item) for key, item in value.items()}
@@ -47,6 +56,9 @@ def _snapshot_payload(result: PipelineResult) -> dict[str, Any]:
         "generated_at": result.generated_at,
         "verified": result.verified,
         "official_complete": result.official_complete,
+        "scope_verified": result.scope_verified,
+        "scope_official_complete": result.scope_official_complete,
+        "coverage_scope": _coverage_scope(result),
         "source": {
             "provider": "akshare",
             "akshare_version": result.akshare_version,
@@ -76,6 +88,9 @@ def _radar_payload(result: PipelineResult) -> dict[str, Any]:
         "generated_at": result.generated_at,
         "verified": result.verified,
         "official_complete": result.official_complete,
+        "scope_verified": result.scope_verified,
+        "scope_official_complete": result.scope_official_complete,
+        "coverage_scope": _coverage_scope(result),
         "commodity_regime": None,
         "heatmap": result.candidates,
         "curve_basis": [
@@ -103,6 +118,7 @@ def _history_record(result: PipelineResult) -> dict[str, Any]:
     return {
         "trade_date": result.trade_date,
         "generated_at": result.generated_at,
+        "coverage_scope": _coverage_scope(result),
         "products": [
             {
                 "exchange": curve["exchange"],
@@ -162,6 +178,8 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
         "schema_version": 1,
         "trade_date": result.trade_date,
         "generated_at": result.generated_at,
+        "scope_verified": result.scope_verified,
+        "coverage_scope": _coverage_scope(result),
         "contracts": contracts,
         "official_contract_coverage": covered / len(contracts) if contracts else 0.0,
         "warning": "Null trading parameters were not published by the verified exchange interface and must not be inferred.",
@@ -188,9 +206,9 @@ def publish_raw_options(result: PipelineResult, data_dir: Path) -> Path | None:
     return path
 
 
-def publish_verified(result: PipelineResult, data_dir: Path, history_limit: int = 252) -> None:
-    if not result.verified:
-        raise ValueError("refusing to publish an unverified commodity snapshot")
+def _publish_artifacts(
+    result: PipelineResult, data_dir: Path, history_limit: int = 252
+) -> None:
     snapshot = _snapshot_payload(result)
     write_json_atomic(data_dir / "latest.json", snapshot)
     write_json_atomic(data_dir / "radar_latest.json", _radar_payload(result))
@@ -210,3 +228,19 @@ def publish_verified(result: PipelineResult, data_dir: Path, history_limit: int 
         history_path,
         {"schema_version": 1, "records": records[-history_limit:]},
     )
+
+
+def publish_verified(result: PipelineResult, data_dir: Path, history_limit: int = 252) -> None:
+    if not result.verified:
+        raise ValueError("refusing to publish an unverified commodity snapshot")
+    _publish_artifacts(result, data_dir, history_limit)
+
+
+def publish_scope_verified(
+    result: PipelineResult, data_dir: Path, history_limit: int = 252
+) -> None:
+    if not result.scope_verified:
+        raise ValueError("refusing to publish an unverified scoped commodity snapshot")
+    if result.verified:
+        raise ValueError("full-market snapshots must use publish_verified")
+    _publish_artifacts(result, data_dir, history_limit)

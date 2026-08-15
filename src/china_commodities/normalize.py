@@ -23,6 +23,10 @@ FUTURES_NUMERIC_COLUMNS = (
     "pre_settle",
 )
 
+# AKShare's SHFE daily route currently returns both SHFE and INE rows. Keep the
+# exchange boundary explicit so the same INE contract cannot be published twice.
+INE_FUTURES_PRODUCTS = frozenset({"BC", "EC", "LU", "NR", "SC"})
+
 
 def iso_date(value: str | date | datetime) -> str:
     if isinstance(value, datetime):
@@ -77,6 +81,10 @@ def normalize_futures(
         frame["product"].ne("")
         & frame["contract"].str.contains(r"\d", regex=True, na=False)
     ].copy()
+    if exchange.upper() == "SHFE":
+        frame = frame[~frame["product"].isin(INE_FUTURES_PRODUCTS)].copy()
+    elif exchange.upper() == "INE":
+        frame = frame[frame["product"].isin(INE_FUTURES_PRODUCTS)].copy()
     frame["close_return_pct"] = (
         frame["close"] / frame["pre_settle"] - 1.0
     ) * 100.0

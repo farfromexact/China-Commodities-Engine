@@ -16,6 +16,7 @@ def validate_run(
     trade_date: str,
     statuses: list[ModuleStatus],
     futures_records: list[dict[str, Any]],
+    expected_exchanges: tuple[str, ...] = MANDATORY_FUTURES_EXCHANGES,
 ) -> list[str]:
     errors: list[str] = []
     futures_status = {
@@ -23,7 +24,7 @@ def validate_run(
         for status in statuses
         if status.dataset == "futures"
     }
-    for exchange in MANDATORY_FUTURES_EXCHANGES:
+    for exchange in expected_exchanges:
         status = futures_status.get(exchange)
         if status is None:
             errors.append(f"missing futures status for {exchange}")
@@ -33,7 +34,7 @@ def validate_run(
             )
 
     counts = Counter(record.get("exchange") for record in futures_records)
-    for exchange in MANDATORY_FUTURES_EXCHANGES:
+    for exchange in expected_exchanges:
         if counts.get(exchange, 0) <= 0:
             errors.append(f"no normalized futures contracts for {exchange}")
 
@@ -55,18 +56,25 @@ def validate_run(
         for record in futures_records
         if (record.get("volume") or 0) > 0 and (record.get("open_interest") or 0) > 0
     )
-    for exchange in MANDATORY_FUTURES_EXCHANGES:
+    for exchange in expected_exchanges:
         if liquid_by_exchange.get(exchange, 0) <= 0:
             errors.append(f"no liquid concrete contracts for {exchange}")
     return sorted(set(errors))
 
 
-def validate_snapshot(payload: dict[str, Any]) -> list[str]:
+def validate_snapshot(
+    payload: dict[str, Any], *, allow_scoped: bool = False
+) -> list[str]:
     errors: list[str] = []
     if payload.get("schema_version") != 1:
         errors.append("unsupported or missing schema_version")
-    if not payload.get("verified"):
+    scope_verified = bool(payload.get("scope_verified"))
+    if not payload.get("verified") and not (allow_scoped and scope_verified):
         errors.append("snapshot is not verified")
+    if allow_scoped and scope_verified:
+        coverage = payload.get("coverage_scope")
+        if not isinstance(coverage, dict) or not coverage.get("included_exchanges"):
+            errors.append("scoped snapshot coverage metadata missing")
     trade_date = payload.get("trade_date")
     if not isinstance(trade_date, str):
         errors.append("snapshot trade_date missing")

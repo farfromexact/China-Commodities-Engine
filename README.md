@@ -18,6 +18,8 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 `validate` 会校验已提升的 `latest.json`；首次运行若因单一交易所失败而没有可提升快照，只要 `last_run_status.json` 已完整记录非新鲜状态和阻断原因，结构校验仍通过，便于 Actions 提交可观察的失败状态。它不会把部分运行改写成成功数据。
 
+也可以显式排除故障交易所进行范围化采集。例如排除大商所后，产物写入 `data/scoped/ex-dce/`，不会覆盖全市场文件。范围化快照使用 `scope_verified=true` 表示所选交易所通过验证，同时保留 `verified=false` 和 `data_fresh=false`，避免被误读为五所完整数据。
+
 ## 主要产物
 
 约定的正式 JSON 产物包括：
@@ -52,4 +54,11 @@ python -m china_commodities.cli run
 python -m china_commodities.cli validate
 ```
 
-GitHub Actions 通过 `workflow_dispatch` 或工作日北京时间 18:15（UTC 10:15）运行同一组测试、采集和校验命令；只有 `data/` 下经过校验且确有变化的文件才会被提交和推送。
+仅采集上期所、上期能源、郑商所和广期所：
+
+```powershell
+python -m china_commodities.cli run --date 2026-08-14 --exclude-exchange DCE
+python -m china_commodities.cli validate --scope ex-dce
+```
+
+GitHub Actions 通过 `workflow_dispatch` 或工作日北京时间 18:15（UTC 10:15）运行测试，并默认执行排除 DCE 的四交易所范围化采集与校验。产物更新在 `data/scoped/ex-dce/`；只有 `data/` 下经过校验且确有变化的文件才会被提交和推送。DCE 恢复稳定后，可以移除工作流中的 `--exclude-exchange DCE` 并恢复全市场发布。

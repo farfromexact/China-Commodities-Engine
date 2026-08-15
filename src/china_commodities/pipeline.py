@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
@@ -40,10 +41,39 @@ from .normalize import (
     normalize_warehouse,
 )
 from .quality import validate_run
-from .storage import publish_raw_options, publish_status, publish_verified
+from .storage import (
+    publish_raw_options,
+    publish_scope_verified,
+    publish_status,
+    publish_verified,
+)
 
 
 WAREHOUSE_EXCHANGES = ("SHFE", "DCE", "CZCE", "GFEX")
+
+
+def _normalize_exchanges(exchanges: Sequence[str] | None) -> tuple[str, ...]:
+    if exchanges is None:
+        return COMMODITY_EXCHANGES
+    requested = {str(exchange).upper() for exchange in exchanges}
+    invalid = sorted(requested.difference(COMMODITY_EXCHANGES))
+    if invalid:
+        raise ValueError(f"unsupported exchanges: {', '.join(invalid)}")
+    selected = tuple(
+        exchange for exchange in COMMODITY_EXCHANGES if exchange in requested
+    )
+    if not selected:
+        raise ValueError("at least one commodity exchange must be selected")
+    return selected
+
+
+def _scope_id(exchanges: tuple[str, ...]) -> str:
+    excluded = [
+        exchange.lower()
+        for exchange in COMMODITY_EXCHANGES
+        if exchange not in exchanges
+    ]
+    return "full-market" if not excluded else "ex-" + "-".join(excluded)
 
 
 def _payload_count(payload: Any) -> int:
@@ -103,10 +133,14 @@ def _options_to_collect(
     catalog: ProductCatalog,
     include_options: bool,
     option_limit: int | None,
+    exchanges: tuple[str, ...],
 ) -> tuple[OptionProduct, ...]:
     if not include_options:
         return ()
-    return catalog.options if option_limit is None else catalog.options[:option_limit]
+    selected = tuple(
+        option for option in catalog.options if option.exchange in exchanges
+    )
+    return selected if option_limit is None else selected[:option_limit]
 
 
 def run_pipeline(
@@ -116,20 +150,30 @@ def run_pipeline(
     catalog_path: str | Path | None = None,
     include_options: bool = True,
     option_limit: int | None = None,
+    exchanges: Sequence[str] | None = None,
     publish: bool = True,
     ak_module: Any | None = None,
     now: datetime | None = None,
 ) -> PipelineResult:
     normalized_date = iso_date(trade_date)
+    selected_exchanges = _normalize_exchanges(exchanges)
+    excluded_exchanges = [
+        exchange
+        for exchange in COMMODITY_EXCHANGES
+        if exchange not in selected_exchanges
+    ]
     generated = now or datetime.now(ZoneInfo("Asia/Shanghai"))
     catalog = load_catalog(catalog_path)
     result = PipelineResult(
         trade_date=normalized_date,
         generated_at=generated.isoformat(),
         akshare_version=akshare_version(ak_module),
+        scope_id=_scope_id(selected_exchanges),
+        included_exchanges=list(selected_exchanges),
+        excluded_exchanges=excluded_exchanges,
     )
 
-    for exchange in COMMODITY_EXCHANGES:
+    for exchange in selected_exchanges:
         raw, status = _collect(
             dataset="futures",
             scope=exchange,
@@ -187,7 +231,7 @@ def run_pipeline(
                 status.records = 0
                 status.error = f"normalization {type(exc).__name__}: {exc}"
 
-    for exchange in COMMODITY_EXCHANGES:
+    for exchange in selected_exchanges:
         function_name = {
             "SHFE": "futures_contract_info_shfe",
             "INE": "futures_contract_info_ine",
@@ -221,7 +265,9 @@ def run_pipeline(
                 meta_status.records = 0
                 meta_status.error = f"normalization {type(exc).__name__}: {exc}"
 
-    for exchange in WAREHOUSE_EXCHANGES:
+    for exchange in (
+        exchange for exchange in WAREHOUSE_EXCHANGES if exchange in selected_exchanges
+    ):
         function_name = {
             "SHFE": "futures_shfe_warehouse_receipt",
             "DCE": "futures_warehouse_receipt_dce",
@@ -254,7 +300,7 @@ def run_pipeline(
                 status.records = 0
                 status.error = f"normalization {type(exc).__name__}: {exc}"
 
-    products = sorted(catalog.product_to_sector)
+    products = sorted({record["product"] for record in result.futures_records})
     raw_basis, basis_status = _collect(
         dataset="basis",
         scope="100PPI",
@@ -278,7 +324,7 @@ def run_pipeline(
     products_by_exchange: dict[str, list[str]] = {}
     for record in result.futures_records:
         products_by_exchange.setdefault(record["exchange"], []).append(record["product"])
-    for exchange in COMMODITY_EXCHANGES:
+    for exchange in selected_exchanges:
         products_for_exchange = sorted(set(products_by_exchange.get(exchange, [])))
         if not products_for_exchange:
             products_for_exchange = sorted(
@@ -326,7 +372,9 @@ def run_pipeline(
                 ranking_status.records = 0
                 ranking_status.error = f"normalization {type(exc).__name__}: {exc}"
 
-    for option in _options_to_collect(catalog, include_options, option_limit):
+    for option in _options_to_collect(
+        catalog, include_options, option_limit, selected_exchanges
+    ):
         source_function = {
             "DCE": "option_hist_dce",
             "CZCE": "option_hist_czce",
@@ -415,23 +463,37 @@ def run_pipeline(
     )
     result.candidates = select_candidates(result.curves)
     result.validation_errors = validate_run(
-        normalized_date, result.statuses, result.futures_records
+        normalized_date,
+        result.statuses,
+        result.futures_records,
+        expected_exchanges=selected_exchanges,
     )
-    result.verified = not result.validation_errors
+    result.scope_verified = not result.validation_errors
+    result.verified = (
+        result.scope_verified and selected_exchanges == COMMODITY_EXCHANGES
+    )
     futures_statuses = {
         status.scope: status
         for status in result.statuses
         if status.dataset == "futures"
     }
-    result.official_complete = result.verified and all(
+    result.scope_official_complete = result.scope_verified and all(
         not futures_statuses[exchange].is_fallback
-        for exchange in COMMODITY_EXCHANGES
+        for exchange in selected_exchanges
     )
+    result.official_complete = result.verified and result.scope_official_complete
 
     if publish:
         target = Path(data_dir)
-        publish_status(result, target)
-        publish_raw_options(result, target)
-        if result.verified:
-            publish_verified(result, target)
+        if result.verified or selected_exchanges == COMMODITY_EXCHANGES:
+            publish_status(result, target)
+            publish_raw_options(result, target)
+            if result.verified:
+                publish_verified(result, target)
+        else:
+            scoped_target = target / "scoped" / result.scope_id
+            publish_status(result, scoped_target)
+            publish_raw_options(result, scoped_target)
+            if result.scope_verified:
+                publish_scope_verified(result, scoped_target)
     return result
