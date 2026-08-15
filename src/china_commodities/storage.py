@@ -49,6 +49,31 @@ def read_json(path: Path, default: Any = None) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+VOLATILE_AUDIT_KEYS = frozenset({"generated_at", "fetched_at"})
+
+
+def _stable_payload(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {
+            str(key): _stable_payload(item)
+            for key, item in value.items()
+            if key not in VOLATILE_AUDIT_KEYS
+        }
+    if isinstance(value, list):
+        return [_stable_payload(item) for item in value]
+    return value
+
+
+def write_json_if_changed(path: Path, payload: Any) -> bool:
+    """Avoid Git churn when only collection timestamps changed."""
+    safe_payload = json_safe(payload)
+    existing = read_json(path, default=None)
+    if existing is not None and _stable_payload(existing) == _stable_payload(safe_payload):
+        return False
+    write_json_atomic(path, safe_payload)
+    return True
+
+
 def _snapshot_payload(result: PipelineResult) -> dict[str, Any]:
     return {
         "schema_version": 1,
@@ -57,7 +82,10 @@ def _snapshot_payload(result: PipelineResult) -> dict[str, Any]:
         "verified": result.verified,
         "official_complete": result.official_complete,
         "scope_verified": result.scope_verified,
+        "core_futures_official_complete": result.core_futures_official_complete,
         "scope_official_complete": result.scope_official_complete,
+        "module_quality": result.module_quality,
+        "quality_metrics": result.quality_metrics,
         "coverage_scope": _coverage_scope(result),
         "source": {
             "provider": "akshare",
@@ -77,6 +105,9 @@ def _snapshot_payload(result: PipelineResult) -> dict[str, Any]:
             "warehouse_is_not_social_inventory": True,
             "dealer_gamma_direction_known": False,
             "seasonality_is_standalone_signal": False,
+            "cross_sectional_activity_is_historical_anomaly": False,
+            "product_option_summary_is_atm_iv": False,
+            "member_rankings_are_participant_direction": False,
         },
     }
 
@@ -89,7 +120,10 @@ def _radar_payload(result: PipelineResult) -> dict[str, Any]:
         "verified": result.verified,
         "official_complete": result.official_complete,
         "scope_verified": result.scope_verified,
+        "core_futures_official_complete": result.core_futures_official_complete,
         "scope_official_complete": result.scope_official_complete,
+        "module_quality": result.module_quality,
+        "quality_metrics": result.quality_metrics,
         "coverage_scope": _coverage_scope(result),
         "commodity_regime": None,
         "heatmap": result.candidates,
@@ -102,7 +136,12 @@ def _radar_payload(result: PipelineResult) -> dict[str, Any]:
                 "main_contract": curve["main_contract"],
                 "near_next_curve": curve["near_next_curve"],
                 "basis": curve.get("basis"),
-                "anomaly_score": curve.get("anomaly_score"),
+                "cross_sectional_activity_score": curve.get(
+                    "cross_sectional_activity_score"
+                ),
+                "score_rank": curve.get("score_rank"),
+                "evidence": curve.get("evidence"),
+                "evidence_count": curve.get("evidence_count"),
             }
             for curve in result.curves
         ],
@@ -142,7 +181,9 @@ def _history_record(result: PipelineResult) -> dict[str, Any]:
                 "near_minus_next_pct": (curve.get("near_next_curve") or {}).get(
                     "near_minus_deferred_pct"
                 ),
-                "anomaly_score": curve.get("anomaly_score"),
+                "cross_sectional_activity_score": curve.get(
+                    "cross_sectional_activity_score"
+                ),
             }
             for curve in result.curves
         ],
@@ -173,7 +214,16 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
             "last_delivery_day": source.get("last_delivery_day"),
             "metadata_status": source.get("metadata_status", "observed_contract_only"),
         })
-    covered = sum(item["metadata_status"] == "official_partial" for item in contracts)
+    def coverage(field: str) -> float:
+        return (
+            sum(item.get(field) is not None for item in contracts) / len(contracts)
+            if contracts
+            else 0.0
+        )
+
+    matched = sum(
+        item["metadata_status"] == "official_partial" for item in contracts
+    )
     return {
         "schema_version": 1,
         "trade_date": result.trade_date,
@@ -181,13 +231,19 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
         "scope_verified": result.scope_verified,
         "coverage_scope": _coverage_scope(result),
         "contracts": contracts,
-        "official_contract_coverage": covered / len(contracts) if contracts else 0.0,
+        "contract_match_coverage": matched / len(contracts) if contracts else 0.0,
+        "multiplier_coverage": coverage("multiplier"),
+        "tick_size_coverage": coverage("tick_size"),
+        "tick_value_coverage": coverage("tick_value"),
+        "margin_rate_coverage": coverage("margin_rate_percent"),
+        "price_limit_coverage": coverage("price_limit_percent"),
+        "last_trading_day_coverage": coverage("last_trading_day"),
         "warning": "Null trading parameters were not published by the verified exchange interface and must not be inferred.",
     }
 
 
 def publish_status(result: PipelineResult, data_dir: Path) -> None:
-    write_json_atomic(data_dir / "last_run_status.json", result.status_dict())
+    write_json_if_changed(data_dir / "last_run_status.json", result.status_dict())
 
 
 def publish_raw_options(result: PipelineResult, data_dir: Path) -> Path | None:
@@ -210,10 +266,12 @@ def _publish_artifacts(
     result: PipelineResult, data_dir: Path, history_limit: int = 252
 ) -> None:
     snapshot = _snapshot_payload(result)
-    write_json_atomic(data_dir / "latest.json", snapshot)
-    write_json_atomic(data_dir / "radar_latest.json", _radar_payload(result))
-    write_json_atomic(data_dir / "contract_meta.json", _contract_meta(result))
-    write_json_atomic(data_dir / "snapshots" / f"{result.trade_date}.json", snapshot)
+    write_json_if_changed(data_dir / "latest.json", snapshot)
+    write_json_if_changed(data_dir / "radar_latest.json", _radar_payload(result))
+    write_json_if_changed(data_dir / "contract_meta.json", _contract_meta(result))
+    write_json_if_changed(
+        data_dir / "snapshots" / f"{result.trade_date}.json", snapshot
+    )
 
     history_path = data_dir / "radar_history.json"
     current = read_json(history_path, default={"schema_version": 1, "records": []})
@@ -224,7 +282,7 @@ def _publish_artifacts(
     ]
     records.append(_history_record(result))
     records.sort(key=lambda record: record["trade_date"])
-    write_json_atomic(
+    write_json_if_changed(
         history_path,
         {"schema_version": 1, "records": records[-history_limit:]},
     )

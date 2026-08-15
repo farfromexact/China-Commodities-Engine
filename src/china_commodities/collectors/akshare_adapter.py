@@ -149,11 +149,11 @@ def collect_dce_realtime_fallback(
     if missing:
         raise ValueError(f"DCE fallback response missing columns: {', '.join(missing)}")
     raw["tradedate"] = pd.to_datetime(raw["tradedate"], errors="coerce").dt.strftime("%Y%m%d")
+    symbols = raw["symbol"].astype(str)
     raw = raw[
         raw["exchange"].astype(str).str.lower().eq("dce")
         & raw["tradedate"].eq(requested)
-        & raw["symbol"].astype(str).str.match(r"^[A-Za-z]+\d{3,4}$")
-        & ~raw["symbol"].astype(str).str.endswith("0")
+        & symbols.str.fullmatch(r"[A-Za-z]+\d{3,4}")
     ].copy()
     if raw.empty:
         return pd.DataFrame()

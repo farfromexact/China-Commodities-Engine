@@ -23,6 +23,7 @@ class NormalizeTests(unittest.TestCase):
                 {
                     "symbol": "rb2610",
                     "variety": "RB",
+                    "date": "2026-08-14",
                     "open": "3,000",
                     "high": 3100,
                     "low": 2990,
@@ -46,6 +47,7 @@ class NormalizeTests(unittest.TestCase):
                 {
                     "symbol": "CU2610",
                     "variety": "CU",
+                    "date": "2026-08-14",
                     "close": 100,
                     "settle": 100,
                     "pre_settle": 99,
@@ -53,6 +55,7 @@ class NormalizeTests(unittest.TestCase):
                 {
                     "symbol": "SC2610",
                     "variety": "SC",
+                    "date": "2026-08-14",
                     "close": 500,
                     "settle": 500,
                     "pre_settle": 490,
@@ -60,6 +63,7 @@ class NormalizeTests(unittest.TestCase):
                 {
                     "symbol": "EC2610",
                     "variety": "EC",
+                    "date": "2026-08-14",
                     "close": 1200,
                     "settle": 1200,
                     "pre_settle": 1180,
@@ -74,6 +78,67 @@ class NormalizeTests(unittest.TestCase):
         self.assertEqual(
             [item["product"] for item in ine],
             ["EC", "SC"],
+        )
+
+    def test_futures_rejects_missing_or_mismatched_source_date(self) -> None:
+        base = {
+            "symbol": "RB2610",
+            "variety": "RB",
+            "close": 3000,
+            "settle": 3000,
+            "pre_settle": 2990,
+        }
+        with self.assertRaisesRegex(ValueError, "missing source trade date"):
+            normalize_futures(pd.DataFrame([base]), "SHFE", "2026-08-14")
+
+        stale = dict(base, date="2026-08-13")
+        with self.assertRaisesRegex(ValueError, "source trade date mismatch"):
+            normalize_futures(pd.DataFrame([stale]), "SHFE", "2026-08-14")
+
+    def test_futures_preserves_verified_source_date_audit_fields(self) -> None:
+        raw = pd.DataFrame(
+            [
+                {
+                    "symbol": "RB2610",
+                    "variety": "RB",
+                    "date": "20260814",
+                    "close": 3000,
+                    "settle": 3000,
+                    "pre_settle": 2990,
+                }
+            ]
+        )
+        item = normalize_futures(raw, "SHFE", "2026-08-14")[0]
+        self.assertEqual(item["requested_trade_date"], "2026-08-14")
+        self.assertEqual(item["source_trade_date"], "2026-08-14")
+        self.assertTrue(item["source_date_match"])
+        self.assertEqual(item["source_date_column"], "date")
+
+    def test_futures_normalizes_exchange_zero_ohlc_placeholder(self) -> None:
+        raw = pd.DataFrame(
+            [
+                {
+                    "symbol": "PD2608",
+                    "variety": "PD",
+                    "date": "2026-08-14",
+                    "open": 0,
+                    "high": 0,
+                    "low": 0,
+                    "close": 310.95,
+                    "settle": 310.95,
+                    "pre_settle": 323,
+                    "volume": 0,
+                    "open_interest": 0,
+                }
+            ]
+        )
+        item = normalize_futures(raw, "GFEX", "2026-08-14")[0]
+        self.assertIsNone(item["open"])
+        self.assertIsNone(item["high"])
+        self.assertIsNone(item["low"])
+        self.assertEqual(
+            item["ohlc_quality"],
+            "exchange_zero_placeholder_normalized_to_null",
         )
 
     def test_proxy_basis_is_explicit(self) -> None:
@@ -115,18 +180,47 @@ class NormalizeTests(unittest.TestCase):
         )
 
     def test_member_ranking_is_reported_distribution_not_client_direction(self) -> None:
+        members = [
+            {
+                "symbol": "CU2609",
+                "variety": "CU",
+                "rank": rank,
+                "member_name": f"会员{rank}",
+                "vol": rank * 10,
+                "vol_chg": rank,
+                "long_open_interest": rank * 5,
+                "long_open_interest_chg": rank,
+                "short_open_interest": rank * 4,
+                "short_open_interest_chg": rank - 1,
+            }
+            for rank in range(1, 21)
+        ]
+        total = {
+            "symbol": "CU2609",
+            "variety": "CU",
+            "rank": 999,
+            "member_name": "总计",
+            "vol": sum(row["vol"] for row in members),
+            "long_open_interest": sum(row["long_open_interest"] for row in members),
+            "short_open_interest": sum(row["short_open_interest"] for row in members),
+        }
         raw = {
-            "cu2609": pd.DataFrame(
-                [
-                    {"symbol": "CU2609", "variety": "CU", "rank": 1, "vol": "1,000", "vol_chg": 2, "long_open_interest": 100, "long_open_interest_chg": 10, "short_open_interest": 80, "short_open_interest_chg": 5},
-                    {"symbol": "CU2609", "variety": "CU", "rank": 2, "vol": 500, "vol_chg": -1, "long_open_interest": 50, "long_open_interest_chg": -2, "short_open_interest": 60, "short_open_interest_chg": 3},
-                ]
-            )
+            "cu2609": pd.DataFrame(members + [total])
         }
         item = normalize_member_rankings(raw, "SHFE", "2026-08-14")[0]
-        self.assertEqual(item["reported_long_open_interest"], 150.0)
-        self.assertEqual(item["reported_short_open_interest"], 140.0)
-        self.assertEqual(item["reported_net_long_minus_short"], 10.0)
+        self.assertEqual(item["source_row_count"], 21)
+        self.assertEqual(item["published_top_n"], 20)
+        self.assertEqual(item["member_row_count"], 20)
+        self.assertEqual(item["total_row_removed"], 1)
+        self.assertTrue(item["ranking_reconciled"])
+        self.assertEqual(
+            item["reported_long_open_interest"],
+            float(sum(row["long_open_interest"] for row in members)),
+        )
+        self.assertEqual(
+            item["reported_short_open_interest"],
+            float(sum(row["short_open_interest"] for row in members)),
+        )
         self.assertFalse(item["participant_direction_inferred"])
 
     def test_contract_info_parses_only_published_risk_parameters(self) -> None:

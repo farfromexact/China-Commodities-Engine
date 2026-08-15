@@ -76,6 +76,64 @@ class FeatureTests(unittest.TestCase):
         candidate = select_candidates(scored)[0]
         self.assertFalse(candidate["is_trade_recommendation"])
         self.assertEqual(candidate["concrete_contract"], "RB2610")
+        self.assertEqual(candidate["display_order"], 1)
+        self.assertEqual(candidate["score_rank"], 1)
+        self.assertIn("cross_sectional_activity_score", candidate)
+        self.assertNotIn("anomaly_score", candidate)
+        self.assertNotIn("rank", candidate)
+        self.assertTrue(candidate["evidence"]["curve"]["available"])
+        self.assertFalse(candidate["evidence"]["basis"]["available"])
+        self.assertFalse(candidate["evidence"]["warehouse"]["available"])
+        self.assertEqual(candidate["evidence_count"], 1)
+
+    def test_close_only_prices_do_not_form_settlement_curve_evidence(self) -> None:
+        records = [dict(item, settle=None) for item in self.records]
+        curves = build_curve_features(records, self.catalog)
+        scored = enrich_and_score_curves(curves, [], [], [])
+        self.assertIsNone(scored[0]["near_next_curve"]["curve_shape"])
+        self.assertEqual(
+            scored[0]["near_next_curve"]["price_quality"],
+            "settlement_unavailable",
+        )
+        self.assertFalse(scored[0]["evidence"]["curve"]["available"])
+
+    def test_display_order_is_distinct_from_score_rank(self) -> None:
+        base = {
+            "trade_date": "2026-08-14",
+            "exchange": "SHFE",
+            "product_name": "测试",
+            "main_contract": {
+                "contract": "X2610",
+                "close_return_pct": 1.0,
+                "volume": 100.0,
+                "open_interest": 100.0,
+            },
+            "near_next_curve": {"curve_shape": None},
+            "available_evidence_layers": [],
+            "missing_evidence_layers": [],
+            "evidence": {},
+            "evidence_count": 0,
+            "liquidity_eligible": True,
+        }
+        highest = dict(
+            base,
+            product="CU",
+            sector="有色与贵金属",
+            score_rank=1,
+            cross_sectional_activity_score=95.0,
+        )
+        sector_first = dict(
+            base,
+            product="RB",
+            sector="黑色与建材",
+            score_rank=2,
+            cross_sectional_activity_score=80.0,
+        )
+        selected = select_candidates([highest, sector_first])
+        self.assertEqual(selected[0]["product"], "RB")
+        self.assertEqual(selected[0]["display_order"], 1)
+        self.assertEqual(selected[0]["score_rank"], 2)
+        self.assertEqual(selected[1]["score_rank"], 1)
 
 
 if __name__ == "__main__":

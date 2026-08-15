@@ -2,6 +2,11 @@ name: Daily China Commodities Data
 
 on:
   workflow_dispatch:
+    inputs:
+      trade_date:
+        description: "Optional trade date (YYYY-MM-DD); defaults to runner date"
+        required: false
+        type: string
   schedule:
     # 18:15 Asia/Shanghai, Monday through Friday.
     - cron: "15 10 * * 1-5"
@@ -39,7 +44,15 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Collect verified four-exchange scope
-        run: python -m china_commodities.cli run --exclude-exchange DCE
+        env:
+          TRADE_DATE: ${{ inputs.trade_date }}
+        shell: bash
+        run: |
+          if [[ -n "${TRADE_DATE}" ]]; then
+            python -m china_commodities.cli run --date "${TRADE_DATE}" --exclude-exchange DCE
+          else
+            python -m china_commodities.cli run --exclude-exchange DCE
+          fi
 
       - name: Upload raw option chains
         if: always()

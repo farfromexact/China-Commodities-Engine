@@ -22,6 +22,13 @@ class ModuleStatus:
     is_fresh: bool = False
     is_proxy: bool = False
     is_fallback: bool = False
+    requested_trade_date: str | None = None
+    source_trade_date: str | None = None
+    source_date_match: bool | None = None
+    fetched_at: str | None = None
+    source_endpoint: str | None = None
+    raw_payload_sha256: str | None = None
+    schema_signature: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -46,9 +53,12 @@ class PipelineResult:
     option_summaries: list[dict[str, Any]] = field(default_factory=list)
     candidates: list[dict[str, Any]] = field(default_factory=list)
     scope_verified: bool = False
+    core_futures_official_complete: bool = False
     scope_official_complete: bool = False
     verified: bool = False
     official_complete: bool = False
+    module_quality: dict[str, str] = field(default_factory=dict)
+    quality_metrics: dict[str, Any] = field(default_factory=dict)
     validation_errors: list[str] = field(default_factory=list)
 
     def status_dict(self) -> dict[str, Any]:
@@ -60,7 +70,10 @@ class PipelineResult:
             "data_fresh": self.verified,
             "official_complete": self.official_complete,
             "scope_data_fresh": self.scope_verified,
+            "core_futures_official_complete": self.core_futures_official_complete,
             "scope_official_complete": self.scope_official_complete,
+            "module_quality": self.module_quality,
+            "quality_metrics": self.quality_metrics,
             "coverage_scope": {
                 "scope_id": self.scope_id,
                 "included_exchanges": self.included_exchanges,

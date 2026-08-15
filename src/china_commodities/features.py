@@ -56,10 +56,6 @@ def _contract_view(row: pd.Series, trade_date: str) -> dict[str, Any]:
     }
 
 
-def _choose_price(item: dict[str, Any]) -> float | None:
-    return item.get("settle") or item.get("close")
-
-
 def _curve_pair(
     near: dict[str, Any] | None, deferred: dict[str, Any] | None
 ) -> dict[str, Any]:
@@ -68,13 +64,19 @@ def _curve_pair(
         "near_minus_deferred_pct": None,
         "annualized_near_deferred_pct": None,
         "curve_shape": None,
+        "price_quality": None,
+        "calendar_days": None,
     }
     if not near or not deferred:
         return output
-    near_price = _choose_price(near)
-    deferred_price = _choose_price(deferred)
+    # A close-only fallback is useful as a quote, but it is not an official
+    # settlement curve and must not enter curve evidence or scoring.
+    near_price = near.get("settle")
+    deferred_price = deferred.get("settle")
     if not near_price or not deferred_price:
+        output["price_quality"] = "settlement_unavailable"
         return output
+    output["price_quality"] = "official_settlement"
     spread = near_price - deferred_price
     output["near_minus_deferred"] = spread
     output["near_minus_deferred_pct"] = spread / deferred_price * 100.0
@@ -84,6 +86,7 @@ def _curve_pair(
     if near_month and deferred_month:
         days = (date.fromisoformat(deferred_month) - date.fromisoformat(near_month)).days
         if days > 0:
+            output["calendar_days"] = days
             output["annualized_near_deferred_pct"] = spread / deferred_price * 365.0 / days * 100.0
     return output
 
@@ -209,12 +212,12 @@ def enrich_and_score_curves(
     rankings_by_contract = {
         (record.get("product"), record.get("contract")): record
         for record in ranking_records
-        if record.get("contract")
+        if record.get("contract") and record.get("ranking_reconciled") is True
     }
     rankings_by_product = {
         record.get("product"): record
         for record in ranking_records
-        if not record.get("contract")
+        if not record.get("contract") and record.get("ranking_reconciled") is True
     }
     rows: list[dict[str, Any]] = []
     for curve in curves:
@@ -234,19 +237,50 @@ def enrich_and_score_curves(
         row["_oi"] = main.get("open_interest") or 0.0
         row["_abs_curve"] = abs(curve_signal.get("near_minus_deferred_pct") or 0.0)
         row["liquidity_eligible"] = bool(row["_volume"] > 0 and row["_oi"] > 0)
-        layers = ["price_volume_open_interest"]
-        if row["basis"] or row["warehouse"] or curve_signal.get("curve_shape"):
-            layers.append("curve_basis_warehouse")
-        if row["commodity_options"]:
-            layers.append("commodity_options")
-        row["available_evidence_layers"] = layers
+        evidence = {
+            "curve": {
+                "available": bool(curve_signal.get("curve_shape")),
+                "quality": curve_signal.get("price_quality"),
+            },
+            "basis": {
+                "available": bool(row["basis"]),
+                "quality": (
+                    (row["basis"] or {}).get("basis_quality", "proxy_unmatched")
+                    if row["basis"]
+                    else None
+                ),
+            },
+            "warehouse": {
+                "available": bool(row["warehouse"]),
+                "quality": (
+                    "official_as_published_unit_unstandardized"
+                    if row["warehouse"]
+                    else None
+                ),
+            },
+            "options": {
+                "available": bool(row["commodity_options"]),
+                "quality": "product_aggregate_only" if row["commodity_options"] else None,
+            },
+        }
+        row["evidence"] = evidence
+        row["evidence_count"] = sum(
+            item["available"] for item in evidence.values()
+        )
+        row["available_evidence_layers"] = [
+            name for name, item in evidence.items() if item["available"]
+        ]
         row["missing_evidence_layers"] = [
             name
             for name in (
+                "curve",
+                "basis",
+                "warehouse",
+                "options",
                 "physical_supply_demand",
                 "onshore_offshore_parity",
             )
-            if name not in layers
+            if name not in row["available_evidence_layers"]
         ]
         rows.append(row)
 
@@ -271,10 +305,16 @@ def enrich_and_score_curves(
             + ranks.loc[index, "_oi"] * 15.0
             + ranks.loc[index, "_abs_curve"] * 25.0
         )
-        row["anomaly_score"] = round(float(score), 2)
+        row["cross_sectional_activity_score"] = round(float(score), 2)
         for internal in ("_abs_return", "_volume", "_oi", "_abs_curve"):
             row.pop(internal, None)
-    return sorted(rows, key=lambda row: (-row["anomaly_score"], row["product"]))
+    sorted_rows = sorted(
+        rows,
+        key=lambda row: (-row["cross_sectional_activity_score"], row["product"]),
+    )
+    for score_rank, row in enumerate(sorted_rows, start=1):
+        row["score_rank"] = score_rank
+    return sorted_rows
 
 
 def select_candidates(
@@ -284,6 +324,7 @@ def select_candidates(
     eligible = [row for row in scored_curves if row.get("liquidity_eligible")]
     selected: list[dict[str, Any]] = []
     seen: set[tuple[str, str]] = set()
+    sector_representatives: set[tuple[str, str]] = set()
     sectors = [
         "黑色与建材",
         "有色与贵金属",
@@ -296,7 +337,9 @@ def select_candidates(
         match = next((row for row in eligible if row.get("sector") == sector), None)
         if match:
             selected.append(match)
-            seen.add((match["exchange"], match["product"]))
+            key = (match["exchange"], match["product"])
+            seen.add(key)
+            sector_representatives.add(key)
     for row in eligible:
         key = (row["exchange"], row["product"])
         if key not in seen:
@@ -305,11 +348,14 @@ def select_candidates(
         if len(selected) >= limit:
             break
     output: list[dict[str, Any]] = []
-    for rank, row in enumerate(selected[:limit], start=1):
+    for display_order, row in enumerate(selected[:limit], start=1):
         main = row.get("main_contract") or {}
+        key = (row["exchange"], row["product"])
         output.append(
             {
-                "rank": rank,
+                "display_order": display_order,
+                "score_rank": row["score_rank"],
+                "sector_representative": key in sector_representatives,
                 "trade_date": row["trade_date"],
                 "exchange": row["exchange"],
                 "product": row["product"],
@@ -320,7 +366,11 @@ def select_candidates(
                 "volume": main.get("volume"),
                 "open_interest": main.get("open_interest"),
                 "curve_shape": (row.get("near_next_curve") or {}).get("curve_shape"),
-                "anomaly_score": row["anomaly_score"],
+                "cross_sectional_activity_score": row[
+                    "cross_sectional_activity_score"
+                ],
+                "evidence": row["evidence"],
+                "evidence_count": row["evidence_count"],
                 "available_evidence_layers": row["available_evidence_layers"],
                 "missing_evidence_layers": row["missing_evidence_layers"],
                 "is_trade_recommendation": False,

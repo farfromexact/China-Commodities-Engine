@@ -55,6 +55,54 @@ def _records(frame: pd.DataFrame) -> list[dict[str, Any]]:
     return clean.to_dict(orient="records")
 
 
+FUTURES_SOURCE_DATE_COLUMNS = (
+    "trade_date",
+    "date",
+    "tradedate",
+    "TRADEDATE",
+    "交易日期",
+    "交易日",
+    "日期",
+)
+
+
+def _source_dates(raw: pd.DataFrame) -> tuple[str, list[str]]:
+    """Return the published date column and its distinct valid ISO dates."""
+    columns_by_text = {str(column): column for column in raw.columns}
+    source_column = next(
+        (
+            columns_by_text[candidate]
+            for candidate in FUTURES_SOURCE_DATE_COLUMNS
+            if candidate in columns_by_text
+        ),
+        None,
+    )
+    if source_column is None:
+        raise ValueError("futures frame missing source trade date column")
+
+    dates: set[str] = set()
+    invalid_values: list[str] = []
+    for value in raw[source_column].dropna().tolist():
+        text = str(value).strip()
+        if not text or text.lower() in {"nan", "nat", "none"}:
+            continue
+        try:
+            if re.fullmatch(r"\d{8}(?:\.0)?", text):
+                parsed = iso_date(text[:8])
+            else:
+                timestamp = pd.to_datetime(value, errors="raise")
+                parsed = timestamp.date().isoformat()
+            dates.add(parsed)
+        except (TypeError, ValueError, OverflowError):
+            invalid_values.append(text)
+    if invalid_values:
+        examples = ", ".join(sorted(set(invalid_values))[:3])
+        raise ValueError(f"unparseable futures source trade date: {examples}")
+    if not dates:
+        raise ValueError("futures source trade date column is empty")
+    return str(source_column), sorted(dates)
+
+
 def normalize_futures(
     raw: pd.DataFrame, exchange: str, trade_date: str
 ) -> list[dict[str, Any]]:
@@ -66,8 +114,20 @@ def normalize_futures(
     if raw.empty:
         return []
 
+    requested_date = iso_date(trade_date)
+    source_date_column, source_dates = _source_dates(raw)
+    if source_dates != [requested_date]:
+        raise ValueError(
+            "futures source trade date mismatch: "
+            f"requested={requested_date}, observed={','.join(source_dates)}"
+        )
+
     frame = pd.DataFrame(index=raw.index)
-    frame["trade_date"] = iso_date(trade_date)
+    frame["trade_date"] = requested_date
+    frame["requested_trade_date"] = requested_date
+    frame["source_trade_date"] = source_dates[0]
+    frame["source_date_match"] = True
+    frame["source_date_column"] = source_date_column
     frame["exchange"] = exchange.upper()
     frame["product"] = raw["variety"].map(_canonical_product)
     frame["contract"] = raw["symbol"].astype(str).str.strip().str.upper()
@@ -76,6 +136,22 @@ def normalize_futures(
             frame[column] = _numeric(raw[column])
         else:
             frame[column] = None
+
+    zero_ohlc_placeholder = (
+        frame["open"].eq(0)
+        & frame["high"].eq(0)
+        & frame["low"].eq(0)
+        & frame["close"].gt(0)
+    )
+    frame["ohlc_quality"] = "complete"
+    frame.loc[zero_ohlc_placeholder, ["open", "high", "low"]] = None
+    frame.loc[
+        zero_ohlc_placeholder, "ohlc_quality"
+    ] = "exchange_zero_placeholder_normalized_to_null"
+    partial_ohlc = frame[["open", "high", "low", "close"]].isna().any(axis=1)
+    frame.loc[
+        partial_ohlc & ~zero_ohlc_placeholder, "ohlc_quality"
+    ] = "partial_missing_fields"
 
     frame = frame[
         frame["product"].ne("")
@@ -251,6 +327,17 @@ def normalize_basis(raw: pd.DataFrame, trade_date: str) -> list[dict[str, Any]]:
         for column in numeric_columns:
             value = pd.to_numeric(row.get(column), errors="coerce")
             item[column] = float(value) if pd.notna(value) else None
+        published_rates = [
+            abs(float(item[column]))
+            for column in ("near_basis_rate", "dom_basis_rate")
+            if item.get(column) is not None
+        ]
+        item["basis_quality"] = (
+            "D_display_only_not_comparable"
+            if published_rates and max(published_rates) > 20.0
+            else "C_proxy_partial_definition"
+        )
+        item["directional_scoring_allowed"] = False
         output.append(item)
     return sorted(output, key=lambda item: item["product"])
 
@@ -373,7 +460,7 @@ def normalize_option_series_volatility(raw: pd.DataFrame) -> dict[str, float]:
 def normalize_member_rankings(
     raw: Any, exchange: str, trade_date: str
 ) -> list[dict[str, Any]]:
-    """Summarize published ranking rows while avoiding participant-type claims."""
+    """Summarize reconciled top-20 rows without treating totals as members."""
     if not isinstance(raw, dict):
         raise TypeError(f"unsupported member ranking payload: {type(raw).__name__}")
     output: list[dict[str, Any]] = []
@@ -399,16 +486,43 @@ def normalize_member_rankings(
             if "variety" in frame.columns and not frame["variety"].dropna().empty
             else _canonical_product(contract)
         )
+        source_row_count = int(len(frame))
+        text = frame.astype(str)
+        total_mask = text.apply(
+            lambda column: column.str.contains(
+                r"总计|合计|小计|\bTOTAL\b",
+                case=False,
+                regex=True,
+                na=False,
+            )
+        ).any(axis=1)
+        ranks = (
+            _numeric(frame["rank"])
+            if "rank" in frame.columns
+            else pd.Series(float("nan"), index=frame.index)
+        )
+        invalid_rank_mask = ranks.isna() | ranks.lt(1) | ranks.gt(20)
+        removed_mask = total_mask | invalid_rank_mask
+        member_rows = frame.loc[~removed_mask].copy()
+        member_ranks = ranks.loc[member_rows.index].astype(int)
+        published_top_n = int(member_ranks.max()) if not member_ranks.empty else 0
+        expected_ranks = set(range(1, published_top_n + 1))
+        observed_ranks = set(member_ranks.tolist())
+        ranking_reconciled = bool(
+            published_top_n > 0
+            and published_top_n <= 20
+            and observed_ranks == expected_ranks
+            and not member_ranks.duplicated().any()
+            and len(member_rows) == published_top_n
+        )
+
         sums: dict[str, float | None] = {}
         for column in numeric_columns:
             sums[column] = (
-                float(_numeric(frame[column]).fillna(0).sum())
-                if column in frame.columns
+                float(_numeric(member_rows[column]).fillna(0).sum())
+                if column in member_rows.columns and not member_rows.empty
                 else None
             )
-        rank_values = (
-            _numeric(frame["rank"]).dropna() if "rank" in frame.columns else pd.Series(dtype=float)
-        )
         long_oi = sums["long_open_interest"]
         short_oi = sums["short_open_interest"]
         long_change = sums["long_open_interest_chg"]
@@ -420,8 +534,13 @@ def normalize_member_rankings(
                 "product": product,
                 "ranking_scope": "contract" if re.search(r"\d", contract) else "product",
                 "contract": contract if re.search(r"\d", contract) else None,
-                "reported_rows": int(len(frame)),
-                "reported_top_n": int(rank_values.max()) if not rank_values.empty else int(len(frame)),
+                "source_row_count": source_row_count,
+                "published_top_n": published_top_n,
+                "member_row_count": int(len(member_rows)),
+                "total_row_removed": int(removed_mask.sum()),
+                "ranking_reconciled": ranking_reconciled,
+                "reported_rows": int(len(member_rows)),
+                "reported_top_n": published_top_n,
                 "reported_volume": sums["vol"],
                 "reported_volume_change": sums["vol_chg"],
                 "reported_long_open_interest": long_oi,
@@ -439,6 +558,11 @@ def normalize_member_rankings(
                     else None
                 ),
                 "participant_direction_inferred": False,
+                "ranking_use": (
+                    "published_top_n_distribution_only"
+                    if ranking_reconciled
+                    else "invalid_do_not_use"
+                ),
             }
         )
     return sorted(

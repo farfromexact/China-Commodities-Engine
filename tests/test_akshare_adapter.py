@@ -94,6 +94,7 @@ class FakeAkShare:
             [
                 {"symbol": "I0", "exchange": "dce", "trade": 700, "settlement": 0, "presettlement": 690, "prevsettlement": 690, "open": 695, "high": 705, "low": 690, "volume": 100, "position": 200, "tradedate": "2026-08-14"},
                 {"symbol": "I2609", "exchange": "dce", "trade": 701, "settlement": 0, "presettlement": 690, "prevsettlement": 690, "open": 695, "high": 705, "low": 690, "volume": 100, "position": 200, "tradedate": "2026-08-14"},
+                {"symbol": "I2610", "exchange": "dce", "trade": 702, "settlement": 0, "presettlement": 691, "prevsettlement": 691, "open": 696, "high": 706, "low": 691, "volume": 101, "position": 201, "tradedate": "2026-08-14"},
             ]
         )
 
@@ -232,14 +233,15 @@ class AkShareAdapterTests(unittest.TestCase):
     def test_supported_exchange_constant_is_fixed(self) -> None:
         self.assertEqual(COMMODITY_EXCHANGES, ("SHFE", "INE", "DCE", "CZCE", "GFEX"))
 
-    def test_dce_fallback_requires_same_date_and_drops_continuous_contract(self) -> None:
+    def test_dce_fallback_drops_i0_but_keeps_concrete_september_and_october(self) -> None:
         result = collect_dce_realtime_fallback(
             "2026-08-14", ak_module=FakeAkShare(), max_workers=1
         )
-        self.assertEqual(result["symbol"].tolist(), ["I2609"])
-        self.assertEqual(result["variety"].tolist(), ["I"])
-        self.assertEqual(result["close"].tolist(), [701])
-        self.assertTrue(pd.isna(result["settle"].iloc[0]))
+        self.assertEqual(result["symbol"].tolist(), ["I2609", "I2610"])
+        self.assertEqual(result["variety"].tolist(), ["I", "I"])
+        self.assertEqual(result["close"].tolist(), [701, 702])
+        self.assertTrue(result["symbol"].ne("I0").all())
+        self.assertTrue(result["settle"].isna().all())
         self.assertEqual(result.attrs["product_coverage"], 1.0)
 
     def test_dce_fallback_rejects_other_trade_date(self) -> None:

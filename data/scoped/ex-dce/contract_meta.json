@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "trade_date": "2026-08-14",
-  "generated_at": "2026-08-15T14:13:37.239859+08:00",
+  "generated_at": "2026-08-15T18:50:48.638642+08:00",
   "scope_verified": true,
   "coverage_scope": {
     "scope_id": "ex-dce",
@@ -8928,6 +8928,12 @@
       "metadata_status": "official_partial"
     }
   ],
-  "official_contract_coverage": 0.9932659932659933,
+  "contract_match_coverage": 0.9932659932659933,
+  "multiplier_coverage": 0.48484848484848486,
+  "tick_size_coverage": 0.48484848484848486,
+  "tick_value_coverage": 0.48484848484848486,
+  "margin_rate_coverage": 0.40404040404040403,
+  "price_limit_coverage": 0.40404040404040403,
+  "last_trading_day_coverage": 0.9932659932659933,
   "warning": "Null trading parameters were not published by the verified exchange interface and must not be inferred."
 }

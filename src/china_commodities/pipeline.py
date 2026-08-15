@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from collections.abc import Sequence
 from datetime import datetime
 from pathlib import Path
@@ -86,6 +88,69 @@ def _payload_count(payload: Any) -> int:
     return 0
 
 
+def _audit_payload(value: Any) -> Any:
+    if isinstance(value, pd.DataFrame):
+        clean = value.astype(object).where(pd.notna(value), None)
+        return {
+            "columns": [str(column) for column in value.columns],
+            "records": clean.to_dict(orient="records"),
+        }
+    if isinstance(value, dict):
+        return {
+            str(key): _audit_payload(item)
+            for key, item in sorted(value.items(), key=lambda pair: str(pair[0]))
+        }
+    if isinstance(value, (list, tuple)):
+        return [_audit_payload(item) for item in value]
+    if hasattr(value, "item"):
+        return value.item()
+    return value
+
+
+def _payload_audit(payload: Any) -> tuple[str, str]:
+    normalized = _audit_payload(payload)
+    raw = json.dumps(
+        normalized,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        default=str,
+    ).encode("utf-8")
+    raw_hash = hashlib.sha256(raw).hexdigest()
+
+    def schema(value: Any) -> Any:
+        if isinstance(value, dict):
+            return {key: schema(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return schema(value[0]) if value else []
+        return type(value).__name__
+
+    schema_raw = json.dumps(
+        schema(normalized), ensure_ascii=False, sort_keys=True, default=str
+    ).encode("utf-8")
+    return raw_hash, hashlib.sha256(schema_raw).hexdigest()
+
+
+def _confirm_futures_source_date(
+    status: ModuleStatus, records: list[dict[str, Any]]
+) -> None:
+    source_dates = sorted(
+        {
+            str(record["source_trade_date"])
+            for record in records
+            if record.get("source_trade_date")
+        }
+    )
+    status.source_trade_date = source_dates[0] if len(source_dates) == 1 else None
+    status.source_date_match = bool(
+        source_dates == [status.requested_trade_date or status.trade_date]
+        and all(record.get("source_date_match") is True for record in records)
+    )
+    status.is_fresh = bool(
+        status.state == "ok" and status.records > 0 and status.source_date_match
+    )
+
+
 def _collect(
     *,
     dataset: str,
@@ -101,6 +166,7 @@ def _collect(
         payload = call()
         records = _payload_count(payload)
         state = "ok" if records > 0 else "empty"
+        raw_hash, schema_signature = _payload_audit(payload)
         return payload, ModuleStatus(
             dataset=dataset,
             scope=scope,
@@ -109,9 +175,14 @@ def _collect(
             source_function=source_function,
             records=records,
             upstream_source=upstream_source,
-            is_fresh=state == "ok",
+            is_fresh=False,
             is_proxy=is_proxy,
             is_fallback=is_fallback,
+            requested_trade_date=trade_date,
+            fetched_at=datetime.now(ZoneInfo("Asia/Shanghai")).isoformat(),
+            source_endpoint=source_function,
+            raw_payload_sha256=raw_hash,
+            schema_signature=schema_signature,
         )
     except Exception as exc:  # data-source failures must remain scoped
         return None, ModuleStatus(
@@ -126,6 +197,9 @@ def _collect(
             is_fresh=False,
             is_proxy=is_proxy,
             is_fallback=is_fallback,
+            requested_trade_date=trade_date,
+            fetched_at=datetime.now(ZoneInfo("Asia/Shanghai")).isoformat(),
+            source_endpoint=source_function,
         )
 
 
@@ -141,6 +215,171 @@ def _options_to_collect(
         option for option in catalog.options if option.exchange in exchanges
     )
     return selected if option_limit is None else selected[:option_limit]
+
+
+def _build_module_quality(
+    result: PipelineResult,
+    selected_exchanges: tuple[str, ...],
+    include_options: bool,
+) -> dict[str, str]:
+    def statuses(dataset: str) -> list[ModuleStatus]:
+        return [status for status in result.statuses if status.dataset == dataset]
+
+    futures_quality = (
+        "verified_official"
+        if result.core_futures_official_complete
+        else "partial_or_fallback"
+    )
+
+    metadata_by_contract = {
+        (record.get("exchange"), record.get("contract")): record
+        for record in result.contract_metadata
+    }
+    required_meta = (
+        "multiplier",
+        "tick_size",
+        "tick_value",
+        "margin_rate_percent",
+        "price_limit_percent",
+        "last_trading_day",
+    )
+    metadata_complete = bool(result.futures_records) and all(
+        all(metadata_by_contract.get((record["exchange"], record["contract"]), {}).get(field) is not None for field in required_meta)
+        for record in result.futures_records
+    )
+    contract_statuses = statuses("contract_info")
+    if any(status.state == "error" for status in contract_statuses):
+        contract_quality = "partial_error"
+    elif metadata_complete:
+        contract_quality = "complete"
+    elif result.contract_metadata:
+        contract_quality = "partial"
+    else:
+        contract_quality = "unavailable"
+
+    expected_warehouse = {
+        exchange for exchange in selected_exchanges if exchange in WAREHOUSE_EXCHANGES
+    }
+    warehouse_statuses = [
+        status
+        for status in statuses("warehouse")
+        if status.scope in expected_warehouse
+    ]
+    if any(status.state == "error" for status in warehouse_statuses):
+        warehouse_quality = "partial_error"
+    elif warehouse_statuses and all(status.is_fresh for status in warehouse_statuses):
+        warehouse_quality = "verified_official"
+    elif result.warehouse_records:
+        warehouse_quality = "available_source_date_unverified"
+    else:
+        warehouse_quality = "unavailable"
+
+    ranking_statuses = statuses("member_rankings")
+    rankings_reconciled = bool(result.member_ranking_summaries) and all(
+        record.get("ranking_reconciled") is True
+        for record in result.member_ranking_summaries
+    )
+    if any(status.state == "error" for status in ranking_statuses):
+        ranking_quality = "partial_error"
+    elif rankings_reconciled:
+        ranking_quality = "reconciled_published_distribution"
+    elif result.member_ranking_summaries:
+        ranking_quality = "invalid"
+    else:
+        ranking_quality = "unavailable"
+
+    option_statuses = statuses("options")
+    if not include_options:
+        options_quality = "not_collected"
+    elif any(status.state == "error" for status in option_statuses):
+        options_quality = "partial_error_product_aggregate_only"
+    elif result.option_records:
+        options_quality = "available_product_aggregate_only"
+    else:
+        options_quality = "unavailable"
+
+    return {
+        "futures": futures_quality,
+        "contract_meta": contract_quality,
+        "warehouse": warehouse_quality,
+        "basis": "proxy_unmatched" if result.basis_records else "unavailable",
+        "member_rankings": ranking_quality,
+        "options_chain": options_quality,
+        "options_surface": "not_ready",
+    }
+
+
+def _build_quality_metrics(
+    result: PipelineResult,
+    catalog: ProductCatalog,
+    selected_exchanges: tuple[str, ...],
+) -> dict[str, Any]:
+    futures_statuses = [
+        status for status in result.statuses if status.dataset == "futures"
+    ]
+    source_matches = sum(status.source_date_match is True for status in futures_statuses)
+    unknown_products = sorted(
+        {
+            str(record.get("product", ""))
+            for record in result.futures_records
+            if record.get("product")
+            and catalog.sector_for(str(record["product"])) == "未分类"
+        }
+    )
+    contract_keys = [
+        (record.get("exchange"), record.get("contract"))
+        for record in result.futures_records
+    ]
+    duplicate_contract_count = len(contract_keys) - len(set(contract_keys))
+
+    invalid_ohlc_count = 0
+    ohlc_placeholder_count = 0
+    negative_volume_or_oi_count = 0
+    for record in result.futures_records:
+        if record.get("ohlc_quality") == "exchange_zero_placeholder_normalized_to_null":
+            ohlc_placeholder_count += 1
+        open_price = pd.to_numeric(record.get("open"), errors="coerce")
+        high = pd.to_numeric(record.get("high"), errors="coerce")
+        low = pd.to_numeric(record.get("low"), errors="coerce")
+        close = pd.to_numeric(record.get("close"), errors="coerce")
+        prices = [value for value in (open_price, close) if pd.notna(value)]
+        if pd.notna(high) and pd.notna(low) and high < low:
+            invalid_ohlc_count += 1
+        elif prices and (
+            (pd.notna(high) and high < max(prices))
+            or (pd.notna(low) and low > min(prices))
+        ):
+            invalid_ohlc_count += 1
+        volume = pd.to_numeric(record.get("volume"), errors="coerce")
+        open_interest = pd.to_numeric(record.get("open_interest"), errors="coerce")
+        if (pd.notna(volume) and volume < 0) or (
+            pd.notna(open_interest) and open_interest < 0
+        ):
+            negative_volume_or_oi_count += 1
+
+    ranking_reconciled = bool(result.member_ranking_summaries) and all(
+        record.get("ranking_reconciled") is True
+        for record in result.member_ranking_summaries
+    )
+    return {
+        "source_date_match_pct": (
+            round(source_matches / len(futures_statuses) * 100.0, 2)
+            if futures_statuses
+            else 0.0
+        ),
+        "unknown_product_count": len(unknown_products),
+        "unknown_products": unknown_products,
+        "duplicate_contract_count": duplicate_contract_count,
+        "invalid_ohlc_count": invalid_ohlc_count,
+        "ohlc_placeholder_count": ohlc_placeholder_count,
+        "negative_volume_or_oi_count": negative_volume_or_oi_count,
+        "member_rankings_reconciled": ranking_reconciled,
+        "critical_module_errors": len(result.validation_errors),
+        "full_market_ready": bool(result.verified),
+        "excluded_exchange_count": len(result.excluded_exchanges),
+        "coverage_penalty": bool(result.excluded_exchanges),
+        "included_exchange_count": len(selected_exchanges),
+    }
 
 
 def run_pipeline(
@@ -225,6 +464,8 @@ def run_pipeline(
                 if not records:
                     status.state = "empty"
                     status.is_fresh = False
+                else:
+                    _confirm_futures_source_date(status, records)
             except Exception as exc:
                 status.state = "error"
                 status.is_fresh = False
@@ -468,6 +709,18 @@ def run_pipeline(
         result.futures_records,
         expected_exchanges=selected_exchanges,
     )
+    unknown_products = sorted(
+        {
+            record["product"]
+            for record in result.futures_records
+            if catalog.sector_for(record["product"]) == "未分类"
+        }
+    )
+    if unknown_products:
+        result.validation_errors.append(
+            "unknown catalog products: " + ", ".join(unknown_products)
+        )
+        result.validation_errors = sorted(set(result.validation_errors))
     result.scope_verified = not result.validation_errors
     result.verified = (
         result.scope_verified and selected_exchanges == COMMODITY_EXCHANGES
@@ -477,11 +730,26 @@ def run_pipeline(
         for status in result.statuses
         if status.dataset == "futures"
     }
-    result.scope_official_complete = result.scope_verified and all(
+    result.core_futures_official_complete = result.scope_verified and all(
         not futures_statuses[exchange].is_fallback
         for exchange in selected_exchanges
     )
+    result.module_quality = _build_module_quality(
+        result, selected_exchanges, include_options
+    )
+    result.scope_official_complete = bool(
+        result.core_futures_official_complete
+        and result.module_quality["contract_meta"] == "complete"
+        and result.module_quality["warehouse"] == "verified_official"
+        and result.module_quality["member_rankings"]
+        == "reconciled_published_distribution"
+        and result.module_quality["options_chain"]
+        == "verified_official_contract_chain"
+    )
     result.official_complete = result.verified and result.scope_official_complete
+    result.quality_metrics = _build_quality_metrics(
+        result, catalog, selected_exchanges
+    )
 
     if publish:
         target = Path(data_dir)

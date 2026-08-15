@@ -3,7 +3,9 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 
@@ -62,6 +64,38 @@ class FakeAkshare:
 
 
 class PipelineTests(unittest.TestCase):
+    def test_repeated_same_day_run_does_not_rewrite_timestamp_only_changes(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            first_now = datetime(2026, 8, 14, 18, 15, tzinfo=ZoneInfo("Asia/Shanghai"))
+            second_now = datetime(2026, 8, 14, 19, 15, tzinfo=ZoneInfo("Asia/Shanghai"))
+            run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                ak_module=FakeAkshare(),
+                now=first_now,
+            )
+            root = Path(directory)
+            paths = (
+                root / "last_run_status.json",
+                root / "latest.json",
+                root / "radar_latest.json",
+                root / "contract_meta.json",
+                root / "radar_history.json",
+                root / "snapshots" / "2026-08-14.json",
+            )
+            before = {path: path.read_bytes() for path in paths}
+
+            run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                ak_module=FakeAkshare(),
+                now=second_now,
+            )
+
+            self.assertEqual(before, {path: path.read_bytes() for path in paths})
+
     def test_verified_run_publishes_expected_artifacts(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
             result = run_pipeline(
@@ -72,6 +106,17 @@ class PipelineTests(unittest.TestCase):
             )
             self.assertTrue(result.verified, result.validation_errors)
             self.assertEqual(len(result.futures_records), 10)
+            self.assertTrue(result.core_futures_official_complete)
+            self.assertFalse(result.scope_official_complete)
+            self.assertEqual(result.quality_metrics["source_date_match_pct"], 100.0)
+            futures_status = next(
+                status
+                for status in result.statuses
+                if status.dataset == "futures" and status.scope == "SHFE"
+            )
+            self.assertTrue(futures_status.source_date_match)
+            self.assertEqual(futures_status.source_trade_date, "2026-08-14")
+            self.assertEqual(len(futures_status.raw_payload_sha256 or ""), 64)
             self.assertTrue((Path(directory) / "latest.json").exists())
             self.assertTrue((Path(directory) / "radar_history.json").exists())
             self.assertTrue((Path(directory) / "raw" / "2026-08-14" / "commodity_options.json").exists())
@@ -104,7 +149,8 @@ class PipelineTests(unittest.TestCase):
 
             self.assertTrue(result.scope_verified, result.validation_errors)
             self.assertFalse(result.verified)
-            self.assertTrue(result.scope_official_complete)
+            self.assertTrue(result.core_futures_official_complete)
+            self.assertFalse(result.scope_official_complete)
             self.assertFalse(result.official_complete)
             self.assertEqual(result.scope_id, "ex-dce")
             self.assertFalse(
@@ -121,7 +167,10 @@ class PipelineTests(unittest.TestCase):
             )
             self.assertFalse(payload["verified"])
             self.assertTrue(payload["scope_verified"])
+            self.assertTrue(payload["core_futures_official_complete"])
+            self.assertFalse(payload["scope_official_complete"])
             self.assertEqual(payload["coverage_scope"]["excluded_exchanges"], ["DCE"])
+            self.assertTrue(payload["quality_metrics"]["coverage_penalty"])
 
             status = json.loads(
                 (scoped / "last_run_status.json").read_text(encoding="utf-8")
