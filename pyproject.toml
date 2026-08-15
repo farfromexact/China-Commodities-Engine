@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "china-commodities-engine"
+version = "0.1.0"
+description = "AKShare-first daily data engine for Chinese commodity futures."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "akshare>=1.18.64,<1.19",
+    "pandas>=2.1,<4",
+]
+
+[project.scripts]
+china-commodities = "china_commodities.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

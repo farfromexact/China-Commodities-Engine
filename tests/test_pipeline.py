@@ -1,0 +1,97 @@
+from __future__ import annotations
+
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+import pandas as pd
+
+from china_commodities.pipeline import run_pipeline
+
+
+class FakeAkshare:
+    __version__ = "test"
+
+    PRODUCTS = {
+        "SHFE": ("RB", "RB2610", "RB2701"),
+        "INE": ("SC", "SC2610", "SC2612"),
+        "DCE": ("I", "I2609", "I2701"),
+        "CZCE": ("SR", "SR609", "SR701"),
+        "GFEX": ("LC", "LC2609", "LC2611"),
+    }
+
+    def __init__(self, fail_dce: bool = False) -> None:
+        self.fail_dce = fail_dce
+
+    def get_futures_daily(self, start_date: str, end_date: str, market: str) -> pd.DataFrame:
+        if market == "DCE" and self.fail_dce:
+            raise RuntimeError("DCE unavailable")
+        product, near, deferred = self.PRODUCTS[market]
+        return pd.DataFrame(
+            [
+                {"symbol": near, "date": start_date, "variety": product, "open": 100, "high": 110, "low": 99, "close": 108, "settle": 107, "pre_settle": 100, "volume": 1000, "open_interest": 2000, "turnover": 10000},
+                {"symbol": deferred, "date": start_date, "variety": product, "open": 99, "high": 105, "low": 98, "close": 102, "settle": 101, "pre_settle": 99, "volume": 500, "open_interest": 1000, "turnover": 5000},
+            ]
+        )
+
+    def futures_shfe_warehouse_receipt(self, date: str):
+        return {"RB": pd.DataFrame([{"WRTWGHTS": 100, "WRTCHANGE": -1, "ROWSTATUS": 1}])}
+
+    def futures_warehouse_receipt_dce(self, date: str):
+        return pd.DataFrame([{"品种代码": "I", "今日仓单量（手）": 10, "增减（手）": 1}])
+
+    def futures_warehouse_receipt_czce(self, date: str):
+        return {"SR": pd.DataFrame([{"仓库编号": "总计", "仓单数量": 20, "当日增减": 2}])}
+
+    def futures_gfex_warehouse_receipt(self, date: str):
+        return {"LC": pd.DataFrame([{"今日仓单量": 30, "增减": 3}])}
+
+    def futures_spot_price(self, date: str, vars_list: list[str]) -> pd.DataFrame:
+        return pd.DataFrame(
+            [{"symbol": "I", "spot_price": 100, "near_contract": "I2609", "near_contract_price": 108, "dominant_contract": "I2609", "dominant_contract_price": 108, "near_basis": 8, "dom_basis": 8}]
+        )
+
+    def option_hist_dce(self, symbol: str, trade_date: str) -> pd.DataFrame:
+        return pd.DataFrame(
+            [
+                {"合约": "C2609-C-100", "成交量": 10, "持仓量": 20, "隐含波动率(%)": 20},
+                {"合约": "C2609-P-100", "成交量": 20, "持仓量": 30, "隐含波动率(%)": 22},
+            ]
+        )
+
+
+class PipelineTests(unittest.TestCase):
+    def test_verified_run_publishes_expected_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            result = run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                option_limit=1,
+                ak_module=FakeAkshare(),
+            )
+            self.assertTrue(result.verified, result.validation_errors)
+            self.assertEqual(len(result.futures_records), 10)
+            self.assertTrue((Path(directory) / "latest.json").exists())
+            self.assertTrue((Path(directory) / "radar_history.json").exists())
+            self.assertTrue((Path(directory) / "raw" / "2026-08-14" / "commodity_options.json").exists())
+            payload = json.loads((Path(directory) / "latest.json").read_text(encoding="utf-8"))
+            self.assertTrue(payload["verified"])
+            self.assertEqual(payload["trade_date"], "2026-08-14")
+
+    def test_partial_failure_preserves_no_false_snapshot(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            result = run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                ak_module=FakeAkshare(fail_dce=True),
+            )
+            self.assertFalse(result.verified)
+            self.assertTrue(any("DCE futures not fresh" in error for error in result.validation_errors))
+            self.assertTrue((Path(directory) / "last_run_status.json").exists())
+            self.assertFalse((Path(directory) / "latest.json").exists())
+
+
+if __name__ == "__main__":
+    unittest.main()
