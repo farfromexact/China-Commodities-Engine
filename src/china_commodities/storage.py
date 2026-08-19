@@ -11,6 +11,7 @@ import time
 from typing import Any
 
 from .features import contract_month
+from .historical_features import build_market_state
 from .models import PipelineResult
 
 
@@ -332,6 +333,17 @@ def _publish_artifacts(
     )
     for obsolete in snapshot_files[:-snapshot_limit]:
         obsolete.unlink()
+
+    retained_snapshot_files = sorted(
+        path
+        for path in (data_dir / "snapshots").glob("*.json")
+        if SNAPSHOT_NAME.fullmatch(path.name)
+    )
+    retained_snapshots = [read_json(path) for path in retained_snapshot_files]
+    market_state = build_market_state(
+        [payload for payload in retained_snapshots if isinstance(payload, dict)]
+    )
+    write_json_if_changed(data_dir / "market_state_latest.json", market_state)
 
     history_path = data_dir / "radar_history.json"
     current = read_json(history_path, default={"schema_version": 1, "records": []})

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import unittest
+from unittest.mock import patch
 
 from china_commodities.collectors.ifind_http_adapter import (
     IFindHTTPClient,
@@ -78,6 +79,21 @@ class SplitOnLargeRangeTransport(FakeTransport):
 
 
 class IFindHTTPAdapterTests(unittest.TestCase):
+    def test_client_applies_configured_request_interval(self) -> None:
+        client = IFindHTTPClient(
+            refresh_token="refresh",
+            transport=FakeTransport(),
+            minimum_request_interval_seconds=0.55,
+        )
+        with patch("china_commodities.collectors.ifind_http_adapter.time.monotonic") as clock, patch(
+            "china_commodities.collectors.ifind_http_adapter.time.sleep"
+        ) as sleep:
+            clock.side_effect = [1.0, 1.0, 1.1, 1.55]
+            client.request("real_time_quotation", {"codes": "CU2609.SHF"})
+            client.request("real_time_quotation", {"codes": "AL2609.SHF"})
+        sleep.assert_called_once()
+        self.assertAlmostEqual(sleep.call_args.args[0], 0.45)
+
     def test_candidate_generation_uses_exchange_contract_conventions(self) -> None:
         shfe = generate_contract_candidates(
             "2026-08-18", "SHFE", ["RB"], history_years=0, forward_years=0

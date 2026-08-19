@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 import unittest
+from unittest.mock import Mock, patch
 from pathlib import Path
 from typing import Any
 
@@ -211,6 +212,59 @@ class AkShareAdapterTests(unittest.TestCase):
                         {"symbol": "m2601", "trade_date": "20260814"},
                     ),
                 )
+
+    def test_pure_benzene_option_uses_dce_endpoint_missing_from_akshare_map(self) -> None:
+        response = Mock()
+        response.json.return_value = {
+            "data": [
+                {
+                    "variety": "纯苯",
+                    "contractId": "BZ2609-C-6000",
+                    "open": "12.5",
+                    "high": "13.0",
+                    "low": "12.0",
+                    "close": "12.8",
+                    "lastClear": "12.3",
+                    "clearPrice": "12.7",
+                    "diff": "0.5",
+                    "diff1": "0.4",
+                    "delta": "0.45",
+                    "impliedVolatility": "21.3",
+                    "volumn": "1,000",
+                    "openInterest": "2,000",
+                    "diffI": "50",
+                    "turnover": "12,800",
+                    "matchQtySum": "0",
+                }
+            ]
+        }
+
+        with patch(
+            "china_commodities.collectors.akshare_adapter.requests.post",
+            return_value=response,
+        ) as post:
+            result = collect_option_daily(
+                "2026-08-19", "DCE", "纯苯期权", ak_module=FakeAkShare()
+            )
+
+        response.raise_for_status.assert_called_once_with()
+        self.assertEqual(post.call_args.kwargs["json"]["varietyId"], "bz")
+        self.assertEqual(post.call_args.kwargs["json"]["tradeDate"], "20260819")
+        self.assertEqual(result.loc[0, "合约"], "BZ2609-C-6000")
+        self.assertEqual(result.loc[0, "成交量"], 1000)
+
+    def test_pure_benzene_empty_response_stays_empty(self) -> None:
+        response = Mock()
+        response.json.return_value = {"data": []}
+        with patch(
+            "china_commodities.collectors.akshare_adapter.requests.post",
+            return_value=response,
+        ):
+            result = collect_option_daily(
+                "2026-08-19", "DCE", "纯苯期权", ak_module=FakeAkShare()
+            )
+
+        self.assertTrue(result.empty)
 
     def test_unsupported_exchange_raises_value_error(self) -> None:
         fake = FakeAkShare()

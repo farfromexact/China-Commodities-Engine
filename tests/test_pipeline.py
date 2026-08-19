@@ -349,6 +349,7 @@ class PipelineTests(unittest.TestCase):
                 root / "last_run_status.json",
                 root / "latest.json",
                 root / "radar_latest.json",
+                root / "market_state_latest.json",
                 root / "contract_meta.json",
                 root / "radar_history.json",
                 root / "snapshots" / "2026-08-14.json",
@@ -388,10 +389,16 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(len(futures_status.raw_payload_sha256 or ""), 64)
             self.assertTrue((Path(directory) / "latest.json").exists())
             self.assertTrue((Path(directory) / "radar_history.json").exists())
+            self.assertTrue((Path(directory) / "market_state_latest.json").exists())
             self.assertTrue((Path(directory) / "raw" / "2026-08-14" / "commodity_options.json").exists())
             payload = json.loads((Path(directory) / "latest.json").read_text(encoding="utf-8"))
             self.assertTrue(payload["verified"])
             self.assertEqual(payload["trade_date"], "2026-08-14")
+            market_state = json.loads(
+                (Path(directory) / "market_state_latest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(market_state["trade_date"], "2026-08-14")
+            self.assertTrue(market_state["quality"]["exact_contract_only"])
 
     def test_partial_failure_preserves_no_false_snapshot(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:

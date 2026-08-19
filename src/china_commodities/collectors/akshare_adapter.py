@@ -9,6 +9,7 @@ import re
 from typing import Any
 
 import pandas as pd
+import requests
 
 
 COMMODITY_EXCHANGES: tuple[str, ...] = ("SHFE", "INE", "DCE", "CZCE", "GFEX")
@@ -27,6 +28,12 @@ _OPTION_FUNCTIONS: dict[str, str] = {
     "SHFE": "option_hist_shfe",
     "INE": "option_hist_shfe",
     "GFEX": "option_hist_gfex",
+}
+
+_DCE_OPTION_PRODUCT_CODES: dict[str, str] = {
+    # AKShare 1.18.64 predates the July 2025 pure-benzene option mapping even
+    # though the exchange endpoint already accepts the product code.
+    "纯苯期权": "bz",
 }
 
 _MEMBER_RANKING_FUNCTIONS: dict[str, str] = {
@@ -226,6 +233,59 @@ def collect_option_daily(
 
     date = _normalize_trade_date(trade_date)
     exchange = _validate_exchange(exchange)
+    if exchange == "DCE" and symbol in _DCE_OPTION_PRODUCT_CODES:
+        response = requests.post(
+            "https://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes",
+            json={
+                "contractId": "",
+                "lang": "zh",
+                "optionSeries": "",
+                "statisticsType": 0,
+                "tradeDate": date,
+                "tradeType": "2",
+                "varietyId": _DCE_OPTION_PRODUCT_CODES[symbol],
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        frame = pd.DataFrame(payload.get("data") or [])
+        if frame.empty:
+            return frame
+        frame.rename(
+            columns={
+                "variety": "品种名称",
+                "contractId": "合约",
+                "open": "开盘价",
+                "high": "最高价",
+                "low": "最低价",
+                "close": "收盘价",
+                "lastClear": "前结算价",
+                "clearPrice": "结算价",
+                "diff": "涨跌",
+                "diff1": "涨跌1",
+                "delta": "Delta",
+                "impliedVolatility": "隐含波动率(%)",
+                "volumn": "成交量",
+                "openInterest": "持仓量",
+                "diffI": "持仓量变化",
+                "turnover": "成交额",
+                "matchQtySum": "行权量",
+            },
+            inplace=True,
+        )
+        columns = [
+            "品种名称", "合约", "开盘价", "最高价", "最低价", "收盘价",
+            "前结算价", "结算价", "涨跌", "涨跌1", "Delta",
+            "隐含波动率(%)", "成交量", "持仓量", "持仓量变化", "成交额", "行权量",
+        ]
+        frame = frame.reindex(columns=columns)
+        for column in columns[2:]:
+            frame[column] = pd.to_numeric(
+                frame[column].astype(str).str.replace(",", "", regex=False),
+                errors="coerce",
+            )
+        return frame
     function_name = _OPTION_FUNCTIONS[exchange]
     function = getattr(_load_akshare(ak_module), function_name)
     return function(symbol=symbol, trade_date=date)

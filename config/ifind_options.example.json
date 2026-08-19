@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "notes": [
+    "Copy this file to an untracked local config after verifying report IDs and fields in iFinD SuperCommand.",
+    "Do not guess report names, output fields, or exercise styles.",
+    "No credentials or refresh tokens belong in this file."
+  ],
+  "reports": [
+    {
+      "report_name": "REPLACE_WITH_VERIFIED_REPORT_ID",
+      "function_parameters": {
+        "date": "{trade_date_compact}"
+      },
+      "output_parameters": {},
+      "exchange": "SHFE",
+      "product": "CU",
+      "exercise_style": null,
+      "risk_free_rate": null,
+      "risk_free_rate_source": null,
+      "iv_input_unit": "decimal",
+      "quote_mode": "real_time_enrich",
+      "quote_batch_size": 100,
+      "field_map": {
+        "contract": "REPLACE_WITH_CONTRACT_FIELD",
+        "trade_date": "REPLACE_WITH_DATE_FIELD",
+        "underlying_contract": "REPLACE_WITH_UNDERLYING_FIELD",
+        "option_type": "REPLACE_WITH_CALL_PUT_FIELD",
+        "strike": "REPLACE_WITH_STRIKE_FIELD",
+        "expiry_date": "REPLACE_WITH_EXPIRY_FIELD",
+        "close": "latest",
+        "settle": "settlement",
+        "pre_settle": "preSettlement",
+        "volume": "volume",
+        "turnover": "amount",
+        "open_interest": "openInterest",
+        "underlying_settle": "REPLACE_WITH_UNDERLYING_SETTLEMENT_FIELD",
+        "iv_percent": "impliedVolatility",
+        "delta": "delta",
+        "gamma": "gamma",
+        "vega": "vega",
+        "theta": "theta",
+        "rho": "rho"
+      }
+    }
+  ]
+}

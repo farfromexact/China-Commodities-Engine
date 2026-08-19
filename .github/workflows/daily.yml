@@ -21,7 +21,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 55
 
     steps:
       - name: Check out repository
@@ -59,7 +59,20 @@ jobs:
             python -m china_commodities.cli run --provider ifind --skip-options
           fi
 
-      - name: Upload raw option chains
+      - name: Collect all catalog commodity option chains
+        continue-on-error: true
+        env:
+          TRADE_DATE: ${{ inputs.trade_date }}
+          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -n "${TRADE_DATE}" ]]; then
+            python scripts/collect_ifind_options.py --all-products --date "${TRADE_DATE}"
+          else
+            python scripts/collect_ifind_options.py --all-products
+          fi
+
+      - name: Upload raw diagnostic data
         if: always()
         uses: actions/upload-artifact@v4
         with:

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import json
 import os
 import time
@@ -149,9 +149,20 @@ class IFindHTTPClient:
     access_token: str | None = None
     base_url: str = DEFAULT_BASE_URL
     timeout: int = 45
+    minimum_request_interval_seconds: float = 0.0
     transport: Callable[
         [str, dict[str, str], dict[str, Any] | None, int], dict[str, Any]
     ] = _default_transport
+    _last_request_started_at: float = field(default=0.0, init=False, repr=False)
+
+    def _wait_for_rate_limit(self) -> None:
+        interval = max(0.0, float(self.minimum_request_interval_seconds))
+        if interval <= 0:
+            return
+        remaining = interval - (time.monotonic() - self._last_request_started_at)
+        if remaining > 0:
+            time.sleep(remaining)
+        self._last_request_started_at = time.monotonic()
 
     def get_access_token(self) -> str:
         if self.access_token:
@@ -176,9 +187,11 @@ class IFindHTTPClient:
         return self.access_token
 
     def request(self, endpoint: str, payload: dict[str, Any]) -> dict[str, Any]:
+        access_token = self.get_access_token()
+        self._wait_for_rate_limit()
         response = self.transport(
             f"{self.base_url}/{endpoint}",
-            {"access_token": self.get_access_token(), "ifindlang": "cn"},
+            {"access_token": access_token, "ifindlang": "cn"},
             payload,
             self.timeout,
         )
