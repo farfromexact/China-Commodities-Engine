@@ -1,17 +1,20 @@
 {
   "schema_version": 1,
   "trade_date": "2026-08-19",
-  "generated_at": "2026-08-19T12:30:13+00:00",
+  "generated_at": "2026-08-19T12:56:32+00:00",
   "source_provider": "ifind_http",
   "universe_source": "exchange_eod_via_akshare",
+  "universe_sources": [
+    "exchange_eod_via_akshare"
+  ],
   "data_fresh": false,
   "coverage": {
     "expected_product_count": 64,
-    "attempted_product_count": 64,
-    "successful_product_count": 26,
-    "failed_product_count": 38,
-    "skipped_product_count": 0,
-    "product_coverage": 0.40625,
+    "attempted_product_count": 21,
+    "successful_product_count": 20,
+    "failed_product_count": 1,
+    "skipped_product_count": 43,
+    "product_coverage": 0.3125,
     "minimum_product_coverage": 0.75,
     "scope_complete": false,
     "publish_eligible": false,
@@ -32,20 +35,15 @@
       "CZCE:SF",
       "CZCE:SH",
       "CZCE:SM",
+      "CZCE:SR",
       "CZCE:TA",
       "CZCE:UR",
-      "CZCE:ZC",
-      "INE:SC",
-      "SHFE:AG",
-      "SHFE:AO",
-      "SHFE:AU",
-      "SHFE:CU",
-      "SHFE:FU",
-      "SHFE:PB"
+      "CZCE:ZC"
     ],
     "failed_products": [
-      "CZCE:SR",
-      "DCE:A",
+      "DCE:A"
+    ],
+    "skipped_products": [
       "DCE:B",
       "DCE:BZ",
       "DCE:C",
@@ -54,6 +52,7 @@
       "DCE:EG",
       "DCE:I",
       "DCE:JD",
+      "DCE:JM",
       "DCE:L",
       "DCE:LG",
       "DCE:LH",
@@ -69,26 +68,31 @@
       "GFEX:PT",
       "GFEX:SI",
       "INE:BC",
-      "INE:LU",
       "INE:NR",
+      "INE:SC",
       "SHFE:AD",
+      "SHFE:AG",
       "SHFE:AL",
+      "SHFE:AO",
+      "SHFE:AU",
       "SHFE:BR",
       "SHFE:BU",
+      "SHFE:CU",
+      "SHFE:FU",
       "SHFE:NI",
       "SHFE:OP",
+      "SHFE:PB",
       "SHFE:RB",
       "SHFE:RU",
       "SHFE:SN",
       "SHFE:SP",
       "SHFE:ZN"
-    ],
-    "skipped_products": []
+    ]
   },
-  "universe_contract_count": 8046,
-  "quote_contract_count": 8046,
+  "universe_contract_count": 4580,
+  "quote_contract_count": 4580,
   "duplicate_contract_count": 0,
-  "global_error": null,
+  "global_error": "IFindHTTPError: iFinD real_time_quotation failed with code -4210: error happen with input parameters, please have a check.",
   "product_statuses": [
     {
       "exchange": "CZCE",
@@ -98,6 +102,8 @@
       "contract_count": 278,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -108,6 +114,8 @@
       "contract_count": 194,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -118,6 +126,8 @@
       "contract_count": 244,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -128,6 +138,8 @@
       "contract_count": 408,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -138,6 +150,8 @@
       "contract_count": 344,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -148,6 +162,8 @@
       "contract_count": 168,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -158,6 +174,8 @@
       "contract_count": 146,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -168,6 +186,8 @@
       "contract_count": 174,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -178,6 +198,8 @@
       "contract_count": 142,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -188,6 +210,8 @@
       "contract_count": 142,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -198,6 +222,8 @@
       "contract_count": 238,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -208,6 +234,8 @@
       "contract_count": 240,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -218,6 +246,8 @@
       "contract_count": 414,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -228,6 +258,8 @@
       "contract_count": 134,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -238,6 +270,8 @@
       "contract_count": 248,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -248,17 +282,21 @@
       "contract_count": 176,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
       "exchange": "CZCE",
       "product": "SR",
       "symbol": "白糖期权",
-      "status": "failed",
-      "contract_count": 0,
-      "source_trade_date": null,
-      "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option contract could not be converted to iFinD: SR611MSC4700"
+      "status": "success",
+      "contract_count": 142,
+      "source_trade_date": "2026-08-19",
+      "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
+      "detail": null
     },
     {
       "exchange": "CZCE",
@@ -268,6 +306,8 @@
       "contract_count": 278,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -278,6 +318,8 @@
       "contract_count": 270,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -288,6 +330,8 @@
       "contract_count": 200,
       "source_trade_date": "2026-08-19",
       "quote_coverage_complete": true,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
       "detail": null
     },
     {
@@ -298,437 +342,525 @@
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0); fallback quote failed: IFindHTTPError: iFinD real_time_quotation failed with code -4210: error happen with input parameters, please have a check."
     },
     {
       "exchange": "DCE",
       "product": "B",
       "symbol": "黄大豆2号期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "BZ",
       "symbol": "纯苯期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "C",
       "symbol": "玉米期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "CS",
       "symbol": "玉米淀粉期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "EB",
       "symbol": "苯乙烯期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "EG",
       "symbol": "乙二醇期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "I",
       "symbol": "铁矿石期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "JD",
       "symbol": "鸡蛋期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
+    },
+    {
+      "exchange": "DCE",
+      "product": "JM",
+      "symbol": "焦煤期权",
+      "status": "skipped_global_ifind_error",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "L",
       "symbol": "聚乙烯期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "LG",
       "symbol": "原木期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "LH",
       "symbol": "生猪期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "M",
       "symbol": "豆粕期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "P",
       "symbol": "棕榈油期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "PG",
       "symbol": "液化石油气期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "PP",
       "symbol": "聚丙烯期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "V",
       "symbol": "聚氯乙烯期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "DCE",
       "product": "Y",
       "symbol": "豆油期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "GFEX",
       "product": "LC",
       "symbol": "碳酸锂",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "GFEX",
       "product": "PD",
       "symbol": "钯",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "GFEX",
       "product": "PS",
       "symbol": "多晶硅",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "GFEX",
       "product": "PT",
       "symbol": "铂",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "ChunkedEncodingError: (\"Connection broken: ConnectionResetError(104, 'Connection reset by peer')\", ConnectionResetError(104, 'Connection reset by peer'))"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "GFEX",
       "product": "SI",
       "symbol": "工业硅",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "ChunkedEncodingError: (\"Connection broken: ConnectionResetError(104, 'Connection reset by peer')\", ConnectionResetError(104, 'Connection reset by peer'))"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "INE",
       "product": "BC",
       "symbol": "国际铜期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for INE:BC"
-    },
-    {
-      "exchange": "INE",
-      "product": "LU",
-      "symbol": "低硫燃料油期权",
-      "status": "failed",
-      "contract_count": 0,
-      "source_trade_date": null,
-      "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for INE:LU"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "INE",
       "product": "NR",
       "symbol": "20号胶期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for INE:NR"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "INE",
       "product": "SC",
       "symbol": "原油期权",
-      "status": "success",
-      "contract_count": 322,
-      "source_trade_date": "2026-08-19",
-      "quote_coverage_complete": true,
-      "detail": null
+      "status": "skipped_global_ifind_error",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "AD",
       "symbol": "铸造铝合金期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AD"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "AG",
       "symbol": "白银期权",
-      "status": "success",
-      "contract_count": 1516,
-      "source_trade_date": "2026-08-19",
-      "quote_coverage_complete": true,
-      "detail": null
+      "status": "skipped_global_ifind_error",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "AL",
       "symbol": "铝期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AL"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "AO",
       "symbol": "氧化铝期权",
-      "status": "success",
-      "contract_count": 234,
-      "source_trade_date": "2026-08-19",
-      "quote_coverage_complete": true,
-      "detail": null
+      "status": "skipped_global_ifind_error",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "AU",
       "symbol": "黄金期权",
-      "status": "success",
-      "contract_count": 644,
-      "source_trade_date": "2026-08-19",
-      "quote_coverage_complete": true,
-      "detail": null
+      "status": "skipped_global_ifind_error",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "BR",
       "symbol": "丁二烯橡胶期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BR"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "BU",
       "symbol": "石油沥青期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BU"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "CU",
       "symbol": "铜期权",
-      "status": "success",
-      "contract_count": 364,
-      "source_trade_date": "2026-08-19",
-      "quote_coverage_complete": true,
-      "detail": null
+      "status": "skipped_global_ifind_error",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "FU",
       "symbol": "燃料油期权",
-      "status": "success",
-      "contract_count": 362,
-      "source_trade_date": "2026-08-19",
-      "quote_coverage_complete": true,
-      "detail": null
+      "status": "skipped_global_ifind_error",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "NI",
       "symbol": "镍期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:NI"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "OP",
       "symbol": "胶版印刷纸期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:OP"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "PB",
       "symbol": "铅期权",
-      "status": "success",
-      "contract_count": 166,
-      "source_trade_date": "2026-08-19",
-      "quote_coverage_complete": true,
-      "detail": null
+      "status": "skipped_global_ifind_error",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "RB",
       "symbol": "螺纹钢期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RB"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "RU",
       "symbol": "天胶期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RU"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "SN",
       "symbol": "锡期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SN"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "SP",
       "symbol": "纸浆期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SP"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     },
     {
       "exchange": "SHFE",
       "product": "ZN",
       "symbol": "锌期权",
-      "status": "failed",
+      "status": "skipped_global_ifind_error",
       "contract_count": 0,
       "source_trade_date": null,
       "quote_coverage_complete": false,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:ZN"
+      "universe_source": null,
+      "fallback_used": false,
+      "detail": "not attempted after a global iFinD HTTP failure"
     }
   ],
   "published": false
