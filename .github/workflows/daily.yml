@@ -43,6 +43,11 @@ jobs:
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
+      - name: Acquire one shared iFinD access token
+        env:
+          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
+        run: python scripts/export_ifind_access_token.py
+
       - name: Collect verified full-market iFinD futures
         env:
           TRADE_DATE: ${{ inputs.trade_date }}

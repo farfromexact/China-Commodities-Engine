@@ -179,6 +179,10 @@ class IFindHTTPClient:
     def get_access_token(self) -> str:
         if self.access_token:
             return self.access_token
+        environment_access_token = os.environ.get("IFIND_ACCESS_TOKEN")
+        if environment_access_token:
+            self.access_token = environment_access_token
+            return self.access_token
         refresh_token = self.refresh_token or os.environ.get("IFIND_REFRESH_TOKEN")
         if not refresh_token:
             raise IFindHTTPError(

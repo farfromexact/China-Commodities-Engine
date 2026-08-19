@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import unittest
 from unittest.mock import patch
 
@@ -110,6 +111,14 @@ class IFindHTTPAdapterTests(unittest.TestCase):
         self.assertEqual(response["errorcode"], 0)
         self.assertEqual(len(transport.calls), 3)
         sleep.assert_called_once_with(0.01)
+
+    def test_environment_access_token_avoids_refresh_device_session(self) -> None:
+        transport = FakeTransport()
+        client = IFindHTTPClient(transport=transport)
+        with patch.dict(os.environ, {"IFIND_ACCESS_TOKEN": "shared-access"}):
+            token = client.get_access_token()
+        self.assertEqual(token, "shared-access")
+        self.assertEqual(transport.calls, [])
 
     def test_client_applies_configured_request_interval(self) -> None:
         client = IFindHTTPClient(
