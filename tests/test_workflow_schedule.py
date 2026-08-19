@@ -16,6 +16,12 @@ class WorkflowScheduleTests(unittest.TestCase):
         self.assertEqual(workflow.count("python -m china_commodities.cli run"), 2)
         self.assertEqual(workflow.count("python scripts/collect_ifind_options.py"), 2)
         self.assertEqual(workflow.count("--surface-shadow-days 1"), 2)
+        self.assertIn("python scripts/plan_ifind_collection.py", workflow)
+        self.assertIn("steps.collection_plan.outputs.needs_ifind == 'true'", workflow)
+        self.assertIn("steps.collection_plan.outputs.needs_futures == 'true'", workflow)
+        self.assertIn("steps.collection_plan.outputs.needs_options == 'true'", workflow)
+        self.assertIn("steps.collection_plan.outputs.needs_physical == 'true'", workflow)
+        self.assertIn("steps.collection_plan.outputs.needs_external == 'true'", workflow)
         self.assertEqual(
             workflow.count("python -m china_commodities.cli foundation --scope physical"),
             2,
@@ -24,8 +30,6 @@ class WorkflowScheduleTests(unittest.TestCase):
             workflow.count("python -m china_commodities.cli foundation --scope external"),
             2,
         )
-        self.assertIn("github.event.schedule == '15 10 * * 1-5'", workflow)
-        self.assertIn("github.event.schedule == '0 22 * * 0-4'", workflow)
 
 
 if __name__ == "__main__":

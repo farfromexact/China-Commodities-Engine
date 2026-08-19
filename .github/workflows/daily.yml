@@ -45,13 +45,22 @@ jobs:
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
+      - name: Plan idempotent iFinD collection
+        id: collection_plan
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
+          TRADE_DATE: ${{ inputs.trade_date }}
+        run: python scripts/plan_ifind_collection.py
+
       - name: Acquire one shared iFinD access token
+        if: ${{ steps.collection_plan.outputs.needs_ifind == 'true' }}
         env:
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         run: python scripts/export_ifind_access_token.py
 
       - name: Collect verified full-market iFinD futures
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '15 10 * * 1-5' }}
+        if: ${{ steps.collection_plan.outputs.needs_futures == 'true' }}
         env:
           TRADE_DATE: ${{ inputs.trade_date }}
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
@@ -68,7 +77,7 @@ jobs:
           fi
 
       - name: Collect all catalog commodity option chains
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '15 10 * * 1-5' }}
+        if: ${{ steps.collection_plan.outputs.needs_options == 'true' }}
         continue-on-error: true
         env:
           TRADE_DATE: ${{ inputs.trade_date }}
@@ -82,7 +91,7 @@ jobs:
           fi
 
       - name: Collect pinned Physical EDB series
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '15 10 * * 1-5' }}
+        if: ${{ steps.collection_plan.outputs.needs_physical == 'true' }}
         continue-on-error: true
         env:
           TRADE_DATE: ${{ inputs.trade_date }}
@@ -96,7 +105,7 @@ jobs:
           fi
 
       - name: Collect completed overseas daily series
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '0 22 * * 0-4' }}
+        if: ${{ steps.collection_plan.outputs.needs_external == 'true' }}
         continue-on-error: true
         env:
           TRADE_DATE: ${{ inputs.trade_date }}

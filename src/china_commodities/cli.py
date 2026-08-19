@@ -10,6 +10,10 @@ from zoneinfo import ZoneInfo
 
 from .backfill import run_ifind_backfill
 from .collectors.akshare_adapter import COMMODITY_EXCHANGES
+from .collection_cache import (
+    verified_foundation_available,
+    verified_futures_available,
+)
 from .foundation import run_foundation
 from .pipeline import run_pipeline
 from .quality import validate_snapshot
@@ -32,6 +36,11 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--skip-options", action="store_true")
     run.add_argument("--option-limit", type=int, default=None)
     run.add_argument("--dry-run", action="store_true")
+    run.add_argument(
+        "--force-refresh",
+        action="store_true",
+        help="request the provider even when a verified same-date snapshot exists",
+    )
     run.add_argument(
         "--provider",
         choices=("ifind", "akshare"),
@@ -96,6 +105,11 @@ def _parser() -> argparse.ArgumentParser:
         help="validate the fixed source/permission matrix without using a token",
     )
     foundation.add_argument("--dry-run", action="store_true")
+    foundation.add_argument(
+        "--force-refresh",
+        action="store_true",
+        help="request iFinD even when a verified same-date module snapshot exists",
+    )
     return parser
 
 
@@ -108,6 +122,44 @@ def _run(args: argparse.Namespace) -> int:
     if not included_exchanges:
         raise ValueError("at least one exchange must remain included")
 
+    provider = getattr(args, "provider", "akshare")
+    scope_id = (
+        "full-market"
+        if not excluded_exchanges
+        else "ex-" + "-".join(exchange.lower() for exchange in excluded_exchanges)
+    )
+    target = (
+        Path(args.data_dir)
+        if scope_id == "full-market"
+        else Path(args.data_dir) / "scoped" / scope_id
+    )
+    if (
+        provider == "ifind"
+        and not getattr(args, "force_refresh", False)
+        and verified_futures_available(
+            target,
+            args.date,
+            allow_scoped=scope_id != "full-market",
+        )
+    ):
+        snapshot = read_json(target / "latest.json", default={}) or {}
+        print(
+            json.dumps(
+                {
+                    "trade_date": args.date,
+                    "primary_provider": "ifind",
+                    "included_exchanges": list(included_exchanges),
+                    "excluded_exchanges": list(excluded_exchanges),
+                    "futures_contracts": len(snapshot.get("futures_contracts") or []),
+                    "skipped_existing": True,
+                    "reason": "verified same-date iFinD futures snapshot already exists",
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 0
+
     result = run_pipeline(
         args.date,
         data_dir=args.data_dir,
@@ -116,7 +168,7 @@ def _run(args: argparse.Namespace) -> int:
         option_limit=args.option_limit,
         publish=not args.dry_run,
         exchanges=included_exchanges,
-        provider=getattr(args, "provider", "akshare"),
+        provider=provider,
         ifind_dce_fallback=args.ifind_dce_fallback,
         include_official_auxiliary=not args.skip_official_auxiliary,
     )
@@ -200,15 +252,27 @@ def _foundation(args: argparse.Namespace) -> int:
         audit = load_source_registry(args.registry).audit()
         print(json.dumps(audit, ensure_ascii=False, indent=2))
         return 0
-    results = run_foundation(
-        args.date,
-        scope=args.scope,
-        data_dir=args.data_dir,
-        registry_path=args.registry,
-        lookback_days=args.lookback_days,
-        publish=not args.dry_run,
-        shadow_days=args.shadow_days,
-    )
+    domains = ("physical", "external") if args.scope == "all" else (args.scope,)
+    skipped = {
+        domain
+        for domain in domains
+        if not args.force_refresh
+        and not args.dry_run
+        and verified_foundation_available(args.data_dir, domain, args.date)
+    }
+    pending = tuple(domain for domain in domains if domain not in skipped)
+    results = {}
+    if pending:
+        pending_scope = "all" if len(pending) == 2 else pending[0]
+        results = run_foundation(
+            args.date,
+            scope=pending_scope,
+            data_dir=args.data_dir,
+            registry_path=args.registry,
+            lookback_days=args.lookback_days,
+            publish=not args.dry_run,
+            shadow_days=args.shadow_days,
+        )
     summary = {
         domain: {
             "requested_date": result["payload"]["requested_date"],
@@ -220,6 +284,19 @@ def _foundation(args: argparse.Namespace) -> int:
         }
         for domain, result in results.items()
     }
+    for domain in skipped:
+        status = read_json(
+            Path(args.data_dir) / domain / "last_run_status.json", default={}
+        ) or {}
+        summary[domain] = {
+            "requested_date": args.date,
+            "coverage": status.get("coverage"),
+            "data_fresh": status.get("data_fresh"),
+            "validation_passed": True,
+            "published": True,
+            "skipped_existing": True,
+            "reason": "verified same-date module snapshot already exists",
+        }
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0
 

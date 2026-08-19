@@ -10,6 +10,7 @@ import sys
 from zoneinfo import ZoneInfo
 
 from china_commodities.catalog import load_catalog
+from china_commodities.collection_cache import verified_option_chain_available
 from china_commodities.collectors.ifind_http_adapter import (
     IFindHTTPClient,
     IFindHTTPError,
@@ -30,7 +31,7 @@ from china_commodities.option_storage import (
 from china_commodities.option_quality import assess_option_snapshot_quality
 from china_commodities.option_batch import collect_option_market_snapshot
 from china_commodities.option_rules import load_option_rules, option_rule_for
-from china_commodities.storage import write_json_if_changed
+from china_commodities.storage import read_json, write_json_if_changed
 
 
 def load_reports(path: Path) -> list[IFindOptionReportConfig]:
@@ -116,12 +117,39 @@ def _arguments() -> argparse.Namespace:
         action="store_true",
         help="Validate collection and print counts without writing files.",
     )
+    parser.add_argument(
+        "--force-refresh",
+        action="store_true",
+        help="request iFinD even when a verified same-date full chain exists",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     arguments = _arguments()
     trade_date = arguments.date or datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
+    if (
+        arguments.all_products
+        and not arguments.force_refresh
+        and not arguments.dry_run
+        and verified_option_chain_available(arguments.data_dir, trade_date)
+    ):
+        status = read_json(
+            arguments.data_dir / "options" / "last_run_status.json", default={}
+        ) or {}
+        print(
+            json.dumps(
+                {
+                    "trade_date": trade_date,
+                    "contracts": status.get("quote_contract_count"),
+                    "skipped_existing": True,
+                    "reason": "verified same-date iFinD option chain already exists",
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 0
     run_status: dict | None = None
     status_path = arguments.data_dir / "options" / "last_run_status.json"
     try:
