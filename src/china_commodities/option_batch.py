@@ -13,9 +13,11 @@ from .collectors.ifind_option_adapter import (
     IFindOptionDataError,
     collect_option_eod_from_exchange_universe,
 )
+from .option_universe import collect_openctp_option_directories
 
 
 OptionCollector = Callable[..., dict[str, Any]]
+DirectoryLoader = Callable[..., dict[tuple[str, str], list[dict[str, Any]]]]
 
 
 def _product_key(product: OptionProduct) -> str:
@@ -33,6 +35,8 @@ def _status_entry(
     contract_count: int = 0,
     source_trade_date: str | None = None,
     quote_coverage_complete: bool = False,
+    universe_source: str | None = None,
+    fallback_used: bool = False,
     detail: str | None = None,
 ) -> dict[str, Any]:
     return {
@@ -43,6 +47,8 @@ def _status_entry(
         "contract_count": contract_count,
         "source_trade_date": source_trade_date,
         "quote_coverage_complete": quote_coverage_complete,
+        "universe_source": universe_source,
+        "fallback_used": fallback_used,
         "detail": detail,
     }
 
@@ -55,6 +61,7 @@ def collect_option_market_snapshot(
     minimum_product_coverage: float = 0.75,
     ak_module: Any | None = None,
     collect_one: OptionCollector = collect_option_eod_from_exchange_universe,
+    fallback_directory_loader: DirectoryLoader | None = collect_openctp_option_directories,
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     """Attempt every catalog product and return a promotable snapshot plus status.
 
@@ -83,6 +90,8 @@ def collect_option_market_snapshot(
     universe_contract_count = 0
     successful_products: list[OptionProduct] = []
     global_error: str | None = None
+    fallback_directories: dict[tuple[str, str], list[dict[str, Any]]] | None = None
+    fallback_directory_error: str | None = None
 
     for index, product in enumerate(products):
         universe = ExchangeOptionUniverseConfig(
@@ -90,6 +99,8 @@ def collect_option_market_snapshot(
             product=product.product,
             symbol=product.symbol,
         )
+        fallback_used = False
+        primary_error: str | None = None
         try:
             product_snapshot = collect_one(
                 requested_date,
@@ -97,6 +108,94 @@ def collect_option_market_snapshot(
                 universes=[universe],
                 ak_module=ak_module,
             )
+        except IFindHTTPError as exc:
+            global_error = _error_detail(exc)
+            statuses.append(_status_entry(product, "failed", detail=global_error))
+            for remaining in products[index + 1 :]:
+                statuses.append(
+                    _status_entry(
+                        remaining,
+                        "skipped_global_ifind_error",
+                        detail="not attempted after a global iFinD HTTP failure",
+                    )
+                )
+            break
+        except Exception as exc:
+            primary_error = _error_detail(exc)
+            if fallback_directory_loader is None:
+                statuses.append(
+                    _status_entry(product, "failed", detail=primary_error)
+                )
+                continue
+            if fallback_directories is None and fallback_directory_error is None:
+                try:
+                    fallback_directories = fallback_directory_loader(
+                        requested_date,
+                        products,
+                    )
+                except Exception as fallback_exc:
+                    fallback_directory_error = _error_detail(fallback_exc)
+            fallback_records = (
+                fallback_directories.get(
+                    (product.exchange.upper(), product.product.upper())
+                )
+                if fallback_directories is not None
+                else None
+            )
+            if not fallback_records:
+                detail = primary_error
+                if fallback_directory_error:
+                    detail += f"; fallback directory failed: {fallback_directory_error}"
+                else:
+                    detail += "; fallback directory has no active catalog contracts"
+                statuses.append(_status_entry(product, "failed", detail=detail))
+                continue
+            try:
+                product_snapshot = collect_one(
+                    requested_date,
+                    client=client,
+                    universes=[universe],
+                    ak_module=ak_module,
+                    directory_records_by_product={
+                        (
+                            product.exchange.upper(),
+                            product.product.upper(),
+                        ): fallback_records
+                    },
+                )
+                fallback_used = True
+            except IFindHTTPError as fallback_exc:
+                global_error = _error_detail(fallback_exc)
+                statuses.append(
+                    _status_entry(
+                        product,
+                        "failed",
+                        detail=f"{primary_error}; fallback quote failed: {global_error}",
+                    )
+                )
+                for remaining in products[index + 1 :]:
+                    statuses.append(
+                        _status_entry(
+                            remaining,
+                            "skipped_global_ifind_error",
+                            detail="not attempted after a global iFinD HTTP failure",
+                        )
+                    )
+                break
+            except Exception as fallback_exc:
+                statuses.append(
+                    _status_entry(
+                        product,
+                        "failed",
+                        detail=(
+                            f"{primary_error}; fallback collection failed: "
+                            f"{_error_detail(fallback_exc)}"
+                        ),
+                    )
+                )
+                continue
+
+        try:
             product_records = product_snapshot.get("records")
             if not isinstance(product_records, list) or not product_records:
                 raise IFindOptionDataError(
@@ -125,7 +224,8 @@ def collect_option_market_snapshot(
                     f"option collector returned inconsistent quote counts for {_product_key(product)}"
                 )
             if any(
-                record.get("trade_date") != requested_date
+                not isinstance(record, dict)
+                or record.get("trade_date") != requested_date
                 or str(record.get("exchange") or "").upper()
                 != product.exchange.upper()
                 or str(record.get("product") or "").upper()
@@ -135,21 +235,17 @@ def collect_option_market_snapshot(
                 raise IFindOptionDataError(
                     f"option collector returned out-of-scope records for {_product_key(product)}"
                 )
-        except IFindHTTPError as exc:
-            global_error = _error_detail(exc)
-            statuses.append(_status_entry(product, "failed", detail=global_error))
-            for remaining in products[index + 1 :]:
-                statuses.append(
-                    _status_entry(
-                        remaining,
-                        "skipped_global_ifind_error",
-                        detail="not attempted after a global iFinD HTTP failure",
-                    )
-                )
-            break
-        except Exception as exc:  # isolate one exchange/product adapter failure
+        except Exception as exc:
             statuses.append(
-                _status_entry(product, "failed", detail=_error_detail(exc))
+                _status_entry(
+                    product,
+                    "failed",
+                    detail=(
+                        f"{primary_error}; fallback validation failed: {_error_detail(exc)}"
+                        if fallback_used and primary_error
+                        else _error_detail(exc)
+                    ),
+                )
             )
             continue
 
@@ -163,6 +259,13 @@ def collect_option_market_snapshot(
                 contract_count=len(product_records),
                 source_trade_date=requested_date,
                 quote_coverage_complete=True,
+                universe_source=product_snapshot.get("universe_source"),
+                fallback_used=fallback_used,
+                detail=(
+                    f"primary directory failed; fallback used: {primary_error}"
+                    if fallback_used and primary_error
+                    else None
+                ),
             )
         )
 
@@ -184,6 +287,18 @@ def collect_option_market_snapshot(
         records
         and duplicate_contract_count == 0
         and product_coverage >= minimum_product_coverage
+    )
+    universe_sources = sorted(
+        {
+            str(item["universe_source"])
+            for item in statuses
+            if item["status"] == "success" and item.get("universe_source")
+        }
+    )
+    aggregate_universe_source = (
+        universe_sources[0]
+        if len(universe_sources) == 1
+        else "mixed_contract_directories"
     )
     coverage = {
         "expected_product_count": expected_count,
@@ -214,7 +329,8 @@ def collect_option_market_snapshot(
         "trade_date": requested_date,
         "generated_at": generated_at,
         "source_provider": "ifind_http",
-        "universe_source": "exchange_eod_via_akshare",
+        "universe_source": aggregate_universe_source,
+        "universe_sources": universe_sources,
         "data_fresh": publish_eligible,
         "coverage": coverage,
         "universe_contract_count": universe_contract_count,
@@ -231,7 +347,8 @@ def collect_option_market_snapshot(
         "trade_date": requested_date,
         "generated_at": generated_at,
         "source_provider": "ifind_http",
-        "universe_source": "exchange_eod_via_akshare",
+        "universe_source": aggregate_universe_source,
+        "universe_sources": universe_sources,
         "universe_contract_count": universe_contract_count,
         "quote_contract_count": len(records),
         "quote_coverage_complete": len(records) == universe_contract_count,

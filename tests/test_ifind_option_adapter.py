@@ -73,6 +73,14 @@ class IFindOptionAdapterTests(unittest.TestCase):
             option_contract_to_ifind_code("m2609-p-2500", "DCE"),
             "M2609P2500.DCE",
         )
+        self.assertEqual(
+            option_contract_to_ifind_code("A2611-MS-C-4250", "DCE"),
+            "A2611MSC4250.DCE",
+        )
+        self.assertEqual(
+            option_contract_to_ifind_code("SR611MSC4700", "CZCE"),
+            "SR611MSC4700.CZC",
+        )
 
     def test_normalizes_vendor_and_model_greeks_separately(self) -> None:
         rows = [

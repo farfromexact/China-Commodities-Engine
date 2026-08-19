@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gzip
 import json
 import math
 import os
@@ -58,9 +59,30 @@ def write_json_atomic(path: Path, payload: Any) -> None:
             time.sleep(0.2 * (attempt + 1))
 
 
+def write_json_gzip_atomic(path: Path, payload: Any) -> None:
+    """Write deterministic gzip JSON so snapshots remain Git-friendly."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    content = (
+        json.dumps(json_safe(payload), ensure_ascii=False, indent=2) + "\n"
+    ).encode("utf-8")
+    temporary.write_bytes(gzip.compress(content, compresslevel=9, mtime=0))
+    for attempt in range(5):
+        try:
+            os.replace(temporary, path)
+            break
+        except PermissionError:
+            if attempt == 4:
+                raise
+            time.sleep(0.2 * (attempt + 1))
+
+
 def read_json(path: Path, default: Any = None) -> Any:
     if not path.exists():
         return default
+    if path.suffix == ".gz":
+        return json.loads(gzip.decompress(path.read_bytes()).decode("utf-8"))
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -86,6 +108,17 @@ def write_json_if_changed(path: Path, payload: Any) -> bool:
     if existing is not None and _stable_payload(existing) == _stable_payload(safe_payload):
         return False
     write_json_atomic(path, safe_payload)
+    return True
+
+
+def write_json_gzip_if_changed(path: Path, payload: Any) -> bool:
+    """Write compressed JSON only when stable content changes."""
+
+    safe_payload = json_safe(payload)
+    existing = read_json(path, default=None)
+    if existing is not None and _stable_payload(existing) == _stable_payload(safe_payload):
+        return False
+    write_json_gzip_atomic(path, safe_payload)
     return True
 
 

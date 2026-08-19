@@ -76,7 +76,11 @@ class OptionStorageTests(unittest.TestCase):
             latest = read_json(data_dir / "options" / "latest.json")
             history = read_json(data_dir / "options" / "history.json")
             quality = read_json(data_dir / "options" / "quality_latest.json")
+            archived = read_json(
+                data_dir / "options" / "snapshots" / "2026-08-18.json.gz"
+            )
             self.assertEqual(len(latest["records"]), 2)
+            self.assertEqual(len(archived["records"]), 2)
             self.assertTrue(latest["quality"]["full_chain_verified"])
             self.assertEqual(quality["quality"]["status"], "surface_ready")
             series = history["records"][0]["series"][0]
@@ -94,9 +98,12 @@ class OptionStorageTests(unittest.TestCase):
                     chain_limit=2,
                     summary_limit=3,
                 )
-            snapshots = sorted((data_dir / "options" / "snapshots").glob("*.json"))
+            snapshots = sorted((data_dir / "options" / "snapshots").glob("*.json.gz"))
             history = read_json(data_dir / "options" / "history.json")
-            self.assertEqual([item.name for item in snapshots], ["2026-08-03.json", "2026-08-04.json"])
+            self.assertEqual(
+                [item.name for item in snapshots],
+                ["2026-08-03.json.gz", "2026-08-04.json.gz"],
+            )
             self.assertEqual(
                 [item["trade_date"] for item in history["records"]],
                 ["2026-08-02", "2026-08-03", "2026-08-04"],

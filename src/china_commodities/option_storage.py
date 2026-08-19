@@ -9,12 +9,12 @@ import re
 from typing import Any
 
 from .option_quality import assess_option_snapshot_quality
-from .storage import read_json, write_json_if_changed
+from .storage import read_json, write_json_gzip_if_changed, write_json_if_changed
 
 
 DEFAULT_CHAIN_LIMIT = 20
 DEFAULT_SUMMARY_LIMIT = 20
-SNAPSHOT_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}\.json$")
+SNAPSHOT_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}\.json(?:\.gz)?$")
 
 
 class OptionSnapshotValidationError(ValueError):
@@ -187,13 +187,16 @@ def publish_option_eod(
             "quality": quality,
         },
     )
-    write_json_if_changed(
-        root / "snapshots" / f"{trade_date}.json", promoted_snapshot
-    )
+    snapshot_root = root / "snapshots"
+    compressed_snapshot = snapshot_root / f"{trade_date}.json.gz"
+    write_json_gzip_if_changed(compressed_snapshot, promoted_snapshot)
+    legacy_snapshot = snapshot_root / f"{trade_date}.json"
+    if legacy_snapshot.exists():
+        legacy_snapshot.unlink()
 
     snapshot_files = sorted(
         path
-        for path in (root / "snapshots").glob("*.json")
+        for path in snapshot_root.iterdir()
         if SNAPSHOT_NAME.fullmatch(path.name)
     )
     for obsolete in snapshot_files[:-chain_limit]:

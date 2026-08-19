@@ -30,6 +30,59 @@ class FakeClient:
 
 
 class OptionBatchTests(unittest.TestCase):
+    def test_failed_primary_directory_uses_one_verified_fallback(self) -> None:
+        product = OptionProduct("DCE", "I", "铁矿石期权")
+        fallback_calls = []
+
+        def fallback_loader(trade_date, products):
+            fallback_calls.append((trade_date, len(products)))
+            return {
+                ("DCE", "I"): [
+                    {
+                        "trade_date": trade_date,
+                        "exchange": "DCE",
+                        "product": "I",
+                        "contract": "I2609-C-700",
+                        "universe_source": "openctp_contract_directory",
+                    }
+                ]
+            }
+
+        def collect_one(
+            trade_date,
+            *,
+            universes,
+            directory_records_by_product=None,
+            **kwargs,
+        ):
+            if directory_records_by_product is None:
+                raise ValueError("exchange blocked")
+            record = _record(universes[0], trade_date)
+            return {
+                "records": [record],
+                "universe_contract_count": 1,
+                "quote_contract_count": 1,
+                "quote_coverage_complete": True,
+                "universe_source": "openctp_contract_directory",
+            }
+
+        snapshot, status = collect_option_market_snapshot(
+            "2026-08-19",
+            client=FakeClient(),
+            option_products=(product,),
+            minimum_product_coverage=1.0,
+            collect_one=collect_one,
+            fallback_directory_loader=fallback_loader,
+        )
+
+        self.assertIsNotNone(snapshot)
+        self.assertEqual(fallback_calls, [("2026-08-19", 1)])
+        self.assertTrue(status["product_statuses"][0]["fallback_used"])
+        self.assertEqual(
+            status["product_statuses"][0]["universe_source"],
+            "openctp_contract_directory",
+        )
+
     def test_full_market_combines_every_product(self) -> None:
         def collect_one(trade_date, *, universes, **kwargs):
             record = _record(universes[0], trade_date)
@@ -72,6 +125,7 @@ class OptionBatchTests(unittest.TestCase):
             option_products=PRODUCTS,
             minimum_product_coverage=0.6,
             collect_one=collect_one,
+            fallback_directory_loader=None,
         )
 
         self.assertIsNotNone(snapshot)
@@ -98,6 +152,7 @@ class OptionBatchTests(unittest.TestCase):
             option_products=PRODUCTS,
             minimum_product_coverage=0.75,
             collect_one=collect_one,
+            fallback_directory_loader=None,
         )
 
         self.assertIsNotNone(snapshot)

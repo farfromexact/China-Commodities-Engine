@@ -9,6 +9,7 @@ EXCHANGE_ORDER = ("DCE", "CZCE", "SHFE", "INE", "GFEX")
 
 EXPECTED_NEW_OPTIONS = {
     ("DCE", "BZ"): "纯苯期权",
+    ("DCE", "JM"): "焦煤期权",
     ("CZCE", "ZC"): "动力煤期权",
     ("CZCE", "PL"): "丙烯期权",
     ("SHFE", "AD"): "铸造铝合金期权",
@@ -18,7 +19,6 @@ EXPECTED_NEW_OPTIONS = {
     ("SHFE", "OP"): "胶版印刷纸期权",
     ("INE", "BC"): "国际铜期权",
     ("INE", "NR"): "20号胶期权",
-    ("INE", "LU"): "低硫燃料油期权",
     ("GFEX", "PS"): "多晶硅",
     ("GFEX", "PT"): "铂",
     ("GFEX", "PD"): "钯",

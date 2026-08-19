@@ -10,12 +10,13 @@ not collected or retained.
 
 ## Sources, coverage and promotion
 
-The concrete option-contract directory comes from exchange end-of-day data,
-adapted through AKShare. Per-contract close/settlement, volume, open interest,
-underlying settlement, IV and vendor-reported Greeks come from iFinD. These
-sources must remain separately identified in the output: AKShare supplies the
-contract-universe adapter, while iFinD supplies the per-contract market and
-vendor analytics fields.
+The concrete option-contract directory comes first from exchange end-of-day
+data adapted through AKShare. If an exchange website is blocked on a GitHub
+runner, the batch downloads the OpenCTP active-instrument dictionary once and
+uses it only as an explicitly labelled fallback for contract discovery and
+expiry metadata. Per-contract close/settlement, source date, volume, open
+interest, underlying settlement, IV and vendor-reported Greeks still come from
+iFinD; one missing iFinD quote blocks that product.
 
 Each product gets its own status, source date, contract count, quote coverage
 and error record. A product failure does not discard successful products or
@@ -39,8 +40,8 @@ coverage.
 - `data/options/latest.json`: latest batch that met the promotion threshold;
   it may be a `partial_chain` batch and is not automatically full-market
   complete.
-- `data/options/snapshots/YYYY-MM-DD.json`: full chains for the latest 20
-  successfully published trading days.
+- `data/options/snapshots/YYYY-MM-DD.json.gz`: compressed full chains for the
+  latest 20 successfully published trading days.
 - `data/options/history.json`: compact series summaries for the latest 20
   successfully published trading days.
 - `data/options/quality_latest.json`: machine-readable readiness gates for the
@@ -95,11 +96,12 @@ gamma.
 
 The default route does not require finding option contract codes in
 SuperCommand. For each target product, it reads the exchange-published EOD
-product directory through AKShare, converts every concrete contract to iFinD
-syntax, and requests the standard iFinD end-of-day quote, IV and vendor Greek
-fields in batches. An empty directory, missing iFinD contracts or a quote
-without the requested trade date marks that product as failed; other products
-continue to be attempted.
+product directory through AKShare and falls back to the single OpenCTP batch
+directory only when the primary directory fails. It converts every concrete
+contract to iFinD syntax and requests the standard iFinD end-of-day quote, IV
+and vendor Greek fields in batches. An empty directory, missing iFinD contract
+or a quote without the requested trade date marks that product as failed;
+other products continue to be attempted.
 
 Commodity-option iFinD codes preserve the exchange contract without the
 CFFEX-style separators (for example, `CU2609C110000.SHF`).

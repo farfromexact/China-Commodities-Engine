@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import date, datetime
 import re
-from typing import Any
+from typing import Any, Mapping
 
 from .akshare_adapter import collect_option_daily
 from .ifind_http_adapter import IFindHTTPClient
@@ -251,7 +251,7 @@ def option_contract_to_ifind_code(contract: str, exchange: str) -> str:
         )
     symbol = contract.upper().split(".", 1)[0].replace(" ", "")
     match = re.fullmatch(
-        r"(?P<underlying>[A-Z]+\d{3,4})[-]?(?P<type>[CP])[-]?(?P<strike>\d+(?:\.\d+)?)",
+        r"(?P<underlying>[A-Z]+\d{3,4})(?P<series>-?MS)?[-]?(?P<type>[CP])[-]?(?P<strike>\d+(?:\.\d+)?)",
         symbol,
     )
     if match is None:
@@ -261,7 +261,10 @@ def option_contract_to_ifind_code(contract: str, exchange: str) -> str:
     strike = match.group("strike")
     if "." in strike:
         strike = strike.rstrip("0").rstrip(".")
-    return f"{match.group('underlying')}{match.group('type')}{strike}.{suffix}"
+    series = "MS" if match.group("series") else ""
+    return (
+        f"{match.group('underlying')}{series}{match.group('type')}{strike}.{suffix}"
+    )
 
 
 def _quote_code(row: dict[str, Any]) -> str:
@@ -404,7 +407,7 @@ def _iso_date(value: Any) -> str | None:
 def _contract_parts(contract: str) -> tuple[str | None, str | None, float | None]:
     symbol = contract.upper().split(".", 1)[0].replace(" ", "")
     match = re.match(
-        r"^(?P<underlying>[A-Z]+\d{3,4})[-]? (?P<type>[CP])[-]? (?P<strike>\d+(?:\.\d+)?)$".replace(
+        r"^(?P<underlying>[A-Z]+\d{3,4})(?:-?MS)?[-]? (?P<type>[CP])[-]? (?P<strike>\d+(?:\.\d+)?)$".replace(
             " ", ""
         ),
         symbol,
@@ -574,6 +577,9 @@ def collect_option_eod_from_exchange_universe(
     client: IFindHTTPClient,
     universes: list[ExchangeOptionUniverseConfig],
     ak_module: Any | None = None,
+    directory_records_by_product: Mapping[
+        tuple[str, str], list[dict[str, Any]]
+    ] | None = None,
 ) -> dict[str, Any]:
     """Use exchange EOD directories for codes and iFinD for quotes and Greeks."""
 
@@ -584,22 +590,39 @@ def collect_option_eod_from_exchange_universe(
         )
     records: list[dict[str, Any]] = []
     universe_contract_count = 0
+    universe_sources: set[str] = set()
     for universe in universes:
         exchange = universe.exchange.upper()
         product = universe.product.upper()
-        raw = collect_option_daily(
-            requested_date,
-            exchange,
-            universe.symbol,
-            ak_module=ak_module,
-        )
-        directory_records = normalize_options(
-            raw,
-            exchange,
-            product,
-            universe.symbol,
-            requested_date,
-        )
+        directory_key = (exchange, product)
+        if directory_records_by_product is not None and directory_key in directory_records_by_product:
+            directory_records = [
+                dict(record) for record in directory_records_by_product[directory_key]
+            ]
+            source_values = {
+                str(record.get("universe_source") or "").strip()
+                for record in directory_records
+            }
+            if len(source_values) != 1 or not next(iter(source_values), ""):
+                raise IFindOptionDataError(
+                    f"provided option directory has ambiguous source for {exchange}:{product}"
+                )
+            universe_source = next(iter(source_values))
+        else:
+            raw = collect_option_daily(
+                requested_date,
+                exchange,
+                universe.symbol,
+                ak_module=ak_module,
+            )
+            directory_records = normalize_options(
+                raw,
+                exchange,
+                product,
+                universe.symbol,
+                requested_date,
+            )
+            universe_source = "exchange_eod_via_akshare"
         if not directory_records:
             raise IFindOptionDataError(
                 f"exchange option directory was empty for {exchange}:{product}"
@@ -701,14 +724,28 @@ def collect_option_eod_from_exchange_universe(
                 )
             underlying_settles[code.split(".", 1)[0]] = settlement
         for record in normalized:
+            directory_record = directory_by_code[record["ifind_code"]]
             record["underlying_settle"] = underlying_settles[
                 record["underlying_contract"]
             ]
-            record["universe_source"] = "exchange_eod_via_akshare"
+            record["expiry_date"] = directory_record.get("expiry_date")
+            record["exercise_style"] = (
+                directory_record.get("exercise_style") or record["exercise_style"]
+            )
+            record["universe_source"] = universe_source
+            record["universe_source_provider"] = directory_record.get(
+                "universe_source_provider",
+                "exchange_via_akshare",
+            )
+            record["universe_source_date"] = directory_record.get(
+                "universe_source_date",
+                requested_date,
+            )
             record["universe_symbol"] = universe.symbol
             record["universe_trade_date"] = requested_date
         universe_contract_count += len(directory_records)
         records.extend(normalized)
+        universe_sources.add(universe_source)
 
     contracts = [record["contract"] for record in records]
     if len(contracts) != len(set(contracts)):
@@ -720,7 +757,11 @@ def collect_option_eod_from_exchange_universe(
         "trade_date": requested_date,
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "source_provider": "ifind_http",
-        "universe_source": "exchange_eod_via_akshare",
+        "universe_source": (
+            next(iter(universe_sources))
+            if len(universe_sources) == 1
+            else "mixed_contract_directories"
+        ),
         "universe_contract_count": universe_contract_count,
         "quote_contract_count": len(records),
         "quote_coverage_complete": len(records) == universe_contract_count,
