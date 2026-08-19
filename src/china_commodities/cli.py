@@ -30,6 +30,20 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--option-limit", type=int, default=None)
     run.add_argument("--dry-run", action="store_true")
     run.add_argument(
+        "--provider",
+        choices=("ifind", "akshare"),
+        default="ifind",
+        help="primary futures data provider; iFinD reads IFIND_REFRESH_TOKEN",
+    )
+    run.add_argument(
+        "--ifind-dce-fallback",
+        action="store_true",
+        help=(
+            "after an official DCE failure, use same-date public contract discovery "
+            "and iFinD HTTP EOD history; reads IFIND_REFRESH_TOKEN"
+        ),
+    )
+    run.add_argument(
         "--exclude-exchange",
         action="append",
         choices=COMMODITY_EXCHANGES,
@@ -60,9 +74,12 @@ def _run(args: argparse.Namespace) -> int:
         option_limit=args.option_limit,
         publish=not args.dry_run,
         exchanges=included_exchanges,
+        provider=getattr(args, "provider", "akshare"),
+        ifind_dce_fallback=args.ifind_dce_fallback,
     )
     summary = {
         "trade_date": result.trade_date,
+        "primary_provider": getattr(result, "primary_provider", None),
         "verified": result.verified,
         "official_complete": result.official_complete,
         "included_exchanges": result.included_exchanges,

@@ -17,6 +17,11 @@ venv/
 env/
 ENV/
 
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+
 # Test and tool caches
 .pytest_cache/
 .tox/

@@ -64,7 +64,190 @@ class FakeAkshare:
         )
 
 
+class FakeAkshareWithDCEUniverse(FakeAkshare):
+    def futures_symbol_mark(self) -> pd.DataFrame:
+        return pd.DataFrame(
+            [{"exchange": "大连商品交易所", "symbol": "铁矿石"}]
+        )
+
+    def futures_zh_realtime(self, symbol: str) -> pd.DataFrame:
+        return pd.DataFrame(
+            [
+                {
+                    "symbol": "I2609",
+                    "exchange": "dce",
+                    "trade": 108,
+                    "open": 100,
+                    "high": 110,
+                    "low": 99,
+                    "volume": 1000,
+                    "position": 2000,
+                    "tradedate": "2026-08-14",
+                    "prevsettlement": 100,
+                    "settlement": 0,
+                },
+                {
+                    "symbol": "I2701",
+                    "exchange": "dce",
+                    "trade": 102,
+                    "open": 99,
+                    "high": 105,
+                    "low": 98,
+                    "volume": 500,
+                    "position": 1000,
+                    "tradedate": "2026-08-14",
+                    "prevsettlement": 99,
+                    "settlement": 0,
+                },
+            ]
+        )
+
+
+class FakeIFindHTTPClient:
+    def history_quotes(self, codes, fields, trade_date):
+        rows = []
+        for code in codes:
+            near = str(code).startswith("I2609")
+            rows.append(
+                {
+                    "thscode": code,
+                    "time": trade_date,
+                    "open": 100 if near else 99,
+                    "high": 110 if near else 105,
+                    "low": 99 if near else 98,
+                    "close": 108 if near else 102,
+                    "settlement": 107 if near else 101,
+                    "preSettlement": 100 if near else 99,
+                    "volume": 1000 if near else 500,
+                    "amount": 10000 if near else 5000,
+                    "openInterest": 2000 if near else 1000,
+                }
+            )
+        return pd.DataFrame(rows)
+
+
+class FailingIFindHTTPClient:
+    def history_quotes(self, codes, fields, trade_date):
+        raise RuntimeError("iFinD unavailable")
+
+
+class PrimaryIFindHTTPClient:
+    TARGETS = {
+        "SHF": "RB2610.SHF",
+        "INE": "SC2610.INE",
+        "DCE": "I2609.DCE",
+        "CZC": "SR609.CZC",
+        "GFE": "LC2609.GFE",
+    }
+
+    def history_quotes(self, codes, fields, trade_date):
+        rows = []
+        for suffix, target in self.TARGETS.items():
+            if target in codes:
+                rows.append(
+                    {
+                        "thscode": target,
+                        "time": trade_date,
+                        "open": 100,
+                        "high": 110,
+                        "low": 99,
+                        "close": 108,
+                        "settlement": 107,
+                        "preSettlement": 100,
+                        "volume": 1000,
+                        "amount": 10000,
+                        "openInterest": 2000,
+                    }
+                )
+        return pd.DataFrame(rows)
+
+
 class PipelineTests(unittest.TestCase):
+    def test_ifind_primary_collects_all_exchanges_without_akshare_modules(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            result = run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                provider="ifind",
+                ifind_http_client=PrimaryIFindHTTPClient(),
+            )
+
+            self.assertTrue(result.verified, result.validation_errors)
+            self.assertEqual(result.primary_provider, "ifind")
+            self.assertEqual(result.akshare_version, "not_used")
+            self.assertEqual(len(result.futures_records), 5)
+            self.assertFalse(result.core_futures_official_complete)
+            self.assertEqual(
+                result.module_quality["futures"], "verified_vendor_primary"
+            )
+            self.assertEqual(result.module_quality["warehouse"], "unavailable")
+            self.assertTrue(
+                all(
+                    status.upstream_source == "iFinD Quant API"
+                    for status in result.statuses
+                )
+            )
+            payload = json.loads(
+                (Path(directory) / "latest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(payload["source"]["provider"], "ifind")
+
+    def test_explicit_ifind_dce_failure_does_not_promote_sina_quotes(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            result = run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                ak_module=FakeAkshareWithDCEUniverse(fail_dce=True),
+                ifind_dce_fallback=True,
+                ifind_http_client=FailingIFindHTTPClient(),
+            )
+
+            self.assertFalse(result.verified)
+            dce_status = next(
+                status
+                for status in result.statuses
+                if status.dataset == "futures" and status.scope == "DCE"
+            )
+            self.assertEqual(dce_status.state, "error")
+            self.assertIn("iFinD fallback failed", dce_status.error or "")
+            self.assertFalse((Path(directory) / "latest.json").exists())
+
+    def test_ifind_dce_eod_fallback_restores_fresh_full_market(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            result = run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                ak_module=FakeAkshareWithDCEUniverse(fail_dce=True),
+                ifind_dce_fallback=True,
+                ifind_http_client=FakeIFindHTTPClient(),
+            )
+
+            self.assertTrue(result.verified, result.validation_errors)
+            dce_status = next(
+                status
+                for status in result.statuses
+                if status.dataset == "futures" and status.scope == "DCE"
+            )
+            self.assertEqual(dce_status.upstream_source, "iFinD Quant API")
+            self.assertEqual(dce_status.source_function, "cmd_history_quotation")
+            self.assertTrue(dce_status.is_fallback)
+            self.assertTrue(dce_status.is_fresh)
+            self.assertTrue(dce_status.source_date_match)
+            self.assertFalse(result.core_futures_official_complete)
+            self.assertEqual(
+                len(
+                    [
+                        record
+                        for record in result.futures_records
+                        if record["exchange"] == "DCE"
+                    ]
+                ),
+                2,
+            )
+
     def test_failed_auxiliary_modules_carry_forward_previous_valid_records(self) -> None:
         statuses = [
             ModuleStatus(

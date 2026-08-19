@@ -21,7 +21,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
 
     steps:
       - name: Check out repository
@@ -43,15 +43,20 @@ jobs:
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
-      - name: Collect verified four-exchange scope
+      - name: Collect verified full-market iFinD futures
         env:
           TRADE_DATE: ${{ inputs.trade_date }}
+          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
+          if [[ -z "${IFIND_REFRESH_TOKEN}" ]]; then
+            echo "IFIND_REFRESH_TOKEN secret is required." >&2
+            exit 1
+          fi
           if [[ -n "${TRADE_DATE}" ]]; then
-            python -m china_commodities.cli run --date "${TRADE_DATE}" --exclude-exchange DCE
+            python -m china_commodities.cli run --date "${TRADE_DATE}" --provider ifind --skip-options
           else
-            python -m china_commodities.cli run --exclude-exchange DCE
+            python -m china_commodities.cli run --provider ifind --skip-options
           fi
 
       - name: Upload raw option chains
@@ -65,8 +70,8 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-      - name: Validate four-exchange scope
-        run: python -m china_commodities.cli validate --scope ex-dce
+      - name: Validate full-market snapshot
+        run: python -m china_commodities.cli validate
 
       - name: Commit and push data changes
         shell: bash

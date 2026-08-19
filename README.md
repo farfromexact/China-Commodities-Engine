@@ -41,7 +41,28 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 ## 数据源原则
 
-本项目采用 **AKShare-first but not AKShare-only** 原则：AKShare 是默认采集入口，但不是唯一数据源。不同交易所或数据模块失败时，可以使用有明确来源、时间和口径标记的官方直连或其他适配器；回退数据不得静默覆盖主数据，也不得在来源不一致时伪装成同一口径。
+本项目的自动发布采用 **iFinD-primary** 原则：上期所、上期能源、大商所、郑商所和广期所的具体商品期货日终行情统一从 iFinD Quant API 提取。AKShare 适配器仅保留用于本地兼容、对账和后续故障研究，不参与当前 GitHub Action 的正式产物。任何来源切换都必须保留来源、时间和口径标记，不得静默混合。
+
+### iFinD 主源接入
+
+正式工作流使用只读的 iFinD HTTP 适配器。系统根据静态品种—交易所目录生成宽范围具体合约候选，通过官方 `cmd_history_quotation` 批量查询，并删除没有任何日终行情字段的未上市或无效代码。这样可以同时保留具体合约和期限结构，又不需要由 AKShare 提供合约列表。refresh token 和换取的 access token 均只保留在内存中。
+
+本机安装官方 `iFinDPy` 后，可以用隐藏输入运行窄范围权限探针：
+
+```powershell
+python -X utf8 scripts\probe_ifind_commodities.py --provider http --date YYYY-MM-DD
+python -X utf8 scripts\probe_ifind_full_universe.py --date YYYY-MM-DD
+python -X utf8 scripts\probe_ifind_dce_universe.py --date YYYY-MM-DD --universe-date YYYY-MM-DD
+python -X utf8 scripts\shadow_compare_ifind_futures.py
+```
+
+HTTP 探针从隐藏输入或当前进程的 `IFIND_REFRESH_TOKEN` 读取 refresh token；SDK 探针使用 `--provider sdk` 并读取 `IFIND_USERNAME`、`IFIND_PASSWORD`。不要把凭据写入仓库、命令行参数或日志；`.env` 和 `.env.*` 已被忽略。探针只输出登录状态、错误码、返回列、行数和源日期，不保存原始商业数据。
+
+`src/china_commodities/collectors/ifind_http_adapter.py` 将 iFinD 返回值映射到现有期货字段，再经过具体合约、源日期、OHLC、成交量、持仓量和全交易所覆盖校验。iFinD 是当前核心期货行情的主源，但不被标记为交易所官方直连，因此 `core_futures_official_complete` 保持为 `false`，`module_quality.futures` 使用 `verified_vendor_primary`。
+
+仓单、现货基差、会员排名、合约交易参数、期权链和 IV 曲面尚未取得已验证的 iFinD 报表 ID、指标 ID 与权限映射。iFinD 模式会把这些模块明确写成 `skipped/unavailable`，不会再调用 AKShare，也不会把旧来源数据携带进当日快照。后续逐项接入时仍需通过字段、日期和权限 canary。
+
+GitHub Action 从仓库 Secret `IFIND_REFRESH_TOKEN` 注入凭据。token、换取的 access token 和原始 iFinD 响应都不会写入仓库或日志；公开仓库的使用者仍需自行确认商业数据的再分发许可。
 
 ## 本地运行
 
@@ -58,15 +79,15 @@ python -m pip install --no-deps -e .
 
 ```powershell
 python -m unittest discover -s tests -v
-python -m china_commodities.cli run
+python -m china_commodities.cli run --provider ifind --skip-options
 python -m china_commodities.cli validate
 ```
 
 仅采集上期所、上期能源、郑商所和广期所：
 
 ```powershell
-python -m china_commodities.cli run --date 2026-08-14 --exclude-exchange DCE
+python -m china_commodities.cli run --provider akshare --date 2026-08-14 --exclude-exchange DCE
 python -m china_commodities.cli validate --scope ex-dce
 ```
 
-GitHub Actions 通过 `workflow_dispatch` 或工作日北京时间 18:15（UTC 10:15）运行测试，并默认执行排除 DCE 的四交易所范围化采集与校验。产物更新在 `data/scoped/ex-dce/`；只有 `data/` 下经过校验且确有变化的文件才会被提交和推送。DCE 恢复稳定后，可以移除工作流中的 `--exclude-exchange DCE` 并恢复全市场发布。
+GitHub Actions 通过 `workflow_dispatch` 或工作日北京时间 18:15（UTC 10:15）运行测试和全市场 iFinD 采集。当前正式产物只发布五所具体期货合约的日终价量仓、期限结构和由此计算的异常候选；未映射的辅助模块保持空值与显式状态。只有 `data/` 下通过全市场校验且确有变化的文件才会提交和推送；任一核心市场失败时保留上一份已验证快照，并把本次失败写入 `data/last_run_status.json`。

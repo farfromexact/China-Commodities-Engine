@@ -88,7 +88,7 @@ def _snapshot_payload(result: PipelineResult) -> dict[str, Any]:
         "quality_metrics": result.quality_metrics,
         "coverage_scope": _coverage_scope(result),
         "source": {
-            "provider": "akshare",
+            "provider": result.primary_provider,
             "akshare_version": result.akshare_version,
             "modules": [status.to_dict() for status in result.statuses],
         },

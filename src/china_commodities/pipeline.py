@@ -25,6 +25,11 @@ from .collectors.akshare_adapter import (
     collect_option_volatility_daily,
     collect_warehouse_receipt,
 )
+from .collectors.ifind_http_adapter import (
+    IFindHTTPClient,
+    collect_futures_daily as collect_ifind_futures_daily,
+    collect_futures_universe_daily as collect_ifind_futures_universe_daily,
+)
 from .features import (
     build_curve_features,
     enrich_and_score_curves,
@@ -226,11 +231,12 @@ def _build_module_quality(
     def statuses(dataset: str) -> list[ModuleStatus]:
         return [status for status in result.statuses if status.dataset == dataset]
 
-    futures_quality = (
-        "verified_official"
-        if result.core_futures_official_complete
-        else "partial_or_fallback"
-    )
+    if result.core_futures_official_complete:
+        futures_quality = "verified_official"
+    elif result.scope_verified and result.primary_provider == "ifind":
+        futures_quality = "verified_vendor_primary"
+    else:
+        futures_quality = "partial_or_fallback"
 
     metadata_by_contract = {
         (record.get("exchange"), record.get("contract")): record
@@ -636,9 +642,15 @@ def run_pipeline(
     exchanges: Sequence[str] | None = None,
     publish: bool = True,
     ak_module: Any | None = None,
+    provider: str = "akshare",
+    ifind_dce_fallback: bool = False,
+    ifind_http_client: IFindHTTPClient | None = None,
     now: datetime | None = None,
 ) -> PipelineResult:
     normalized_date = iso_date(trade_date)
+    normalized_provider = str(provider).strip().lower()
+    if normalized_provider not in {"akshare", "ifind"}:
+        raise ValueError(f"unsupported data provider: {provider}")
     selected_exchanges = _normalize_exchanges(exchanges)
     excluded_exchanges = [
         exchange
@@ -650,7 +662,12 @@ def run_pipeline(
     result = PipelineResult(
         trade_date=normalized_date,
         generated_at=generated.isoformat(),
-        akshare_version=akshare_version(ak_module),
+        akshare_version=(
+            akshare_version(ak_module)
+            if normalized_provider == "akshare"
+            else "not_used"
+        ),
+        primary_provider=normalized_provider,
         scope_id=_scope_id(selected_exchanges),
         included_exchanges=list(selected_exchanges),
         excluded_exchanges=excluded_exchanges,
@@ -670,19 +687,43 @@ def run_pipeline(
         else {}
     )
 
+    primary_ifind_client: IFindHTTPClient | None = None
+    if normalized_provider == "ifind":
+        primary_ifind_client = ifind_http_client or IFindHTTPClient()
     for exchange in selected_exchanges:
-        raw, status = _collect(
-            dataset="futures",
-            scope=exchange,
-            trade_date=normalized_date,
-            source_function="get_futures_daily",
-            upstream_source=exchange,
-            is_proxy=False,
-            call=lambda exchange=exchange: collect_futures_daily(
-                normalized_date, exchange, ak_module
-            ),
-        )
-        if exchange == "DCE" and status.state != "ok":
+        if normalized_provider == "ifind":
+            products = catalog.products_for_exchange(exchange)
+            raw, status = _collect(
+                dataset="futures",
+                scope=exchange,
+                trade_date=normalized_date,
+                source_function="cmd_history_quotation",
+                upstream_source="iFinD Quant API",
+                is_proxy=False,
+                call=lambda exchange=exchange, products=products: collect_ifind_futures_universe_daily(
+                    normalized_date,
+                    exchange,
+                    products,
+                    client=primary_ifind_client,
+                ),
+            )
+        else:
+            raw, status = _collect(
+                dataset="futures",
+                scope=exchange,
+                trade_date=normalized_date,
+                source_function="get_futures_daily",
+                upstream_source=exchange,
+                is_proxy=False,
+                call=lambda exchange=exchange: collect_futures_daily(
+                    normalized_date, exchange, ak_module
+                ),
+            )
+        if (
+            normalized_provider == "akshare"
+            and exchange == "DCE"
+            and status.state != "ok"
+        ):
             official_error = status.error or f"official state={status.state}"
             fallback_raw, fallback_status = _collect(
                 dataset="futures",
@@ -713,6 +754,68 @@ def run_pipeline(
                             failed_products
                         )
                     raw, status = fallback_raw, fallback_status
+                    if ifind_dce_fallback:
+                        contracts = sorted(
+                            fallback_raw["symbol"]
+                            .dropna()
+                            .astype(str)
+                            .str.upper()
+                            .unique()
+                            .tolist()
+                        )
+                        client = ifind_http_client or IFindHTTPClient()
+                        ifind_raw, ifind_status = _collect(
+                            dataset="futures",
+                            scope="DCE",
+                            trade_date=normalized_date,
+                            source_function="cmd_history_quotation",
+                            upstream_source="iFinD Quant API",
+                            is_proxy=False,
+                            is_fallback=True,
+                            call=lambda: collect_ifind_futures_daily(
+                                normalized_date,
+                                "DCE",
+                                contracts,
+                                client=client,
+                            ),
+                        )
+                        returned_contracts = (
+                            set(
+                                ifind_raw["symbol"]
+                                .dropna()
+                                .astype(str)
+                                .str.upper()
+                                .tolist()
+                            )
+                            if isinstance(ifind_raw, pd.DataFrame)
+                            else set()
+                        )
+                        contract_coverage = (
+                            len(returned_contracts.intersection(contracts))
+                            / len(contracts)
+                            if contracts
+                            else 0.0
+                        )
+                        if ifind_status.state == "ok" and contract_coverage >= 0.95:
+                            ifind_status.error = (
+                                f"official DCE failed: {official_error}; "
+                                "contract universe discovered from same-date Sina quotes; "
+                                f"iFinD EOD contract coverage={contract_coverage:.1%}"
+                            )
+                            raw, status = ifind_raw, ifind_status
+                        else:
+                            ifind_error = ifind_status.error or (
+                                f"contract coverage {contract_coverage:.1%} below 95%"
+                            )
+                            ifind_status.state = "error"
+                            ifind_status.is_fresh = False
+                            ifind_status.records = 0
+                            ifind_status.error = (
+                                f"official DCE failed: {official_error}; "
+                                f"iFinD fallback failed: {ifind_error}; "
+                                "Sina quote data retained only for contract discovery"
+                            )
+                            raw, status = None, ifind_status
         result.statuses.append(status)
         if raw is not None and status.state == "ok":
             try:
@@ -730,7 +833,36 @@ def run_pipeline(
                 status.records = 0
                 status.error = f"normalization {type(exc).__name__}: {exc}"
 
-    for exchange in selected_exchanges:
+    if normalized_provider == "ifind":
+        for dataset in (
+            "contract_info",
+            "warehouse",
+            "basis",
+            "member_rankings",
+            "options",
+            "option_volatility",
+        ):
+            result.statuses.append(
+                ModuleStatus(
+                    dataset=dataset,
+                    scope="full-market",
+                    state="skipped",
+                    trade_date=normalized_date,
+                    source_function="not_yet_mapped",
+                    records=0,
+                    error=(
+                        "iFinD report/indicator mapping and entitlement are not yet "
+                        "verified for this module"
+                    ),
+                    upstream_source="iFinD Quant API",
+                    is_fresh=False,
+                    requested_trade_date=normalized_date,
+                )
+            )
+
+    for exchange in (
+        selected_exchanges if normalized_provider == "akshare" else ()
+    ):
         function_name = {
             "SHFE": "futures_contract_info_shfe",
             "INE": "futures_contract_info_ine",
@@ -765,7 +897,9 @@ def run_pipeline(
                 meta_status.error = f"normalization {type(exc).__name__}: {exc}"
 
     for exchange in (
-        exchange for exchange in WAREHOUSE_EXCHANGES if exchange in selected_exchanges
+        exchange
+        for exchange in WAREHOUSE_EXCHANGES
+        if exchange in selected_exchanges and normalized_provider == "akshare"
     ):
         function_name = {
             "SHFE": "futures_shfe_warehouse_receipt",
@@ -800,30 +934,33 @@ def run_pipeline(
                 status.error = f"normalization {type(exc).__name__}: {exc}"
 
     products = sorted({record["product"] for record in result.futures_records})
-    raw_basis, basis_status = _collect(
-        dataset="basis",
-        scope="100PPI",
-        trade_date=normalized_date,
-        source_function="futures_spot_price",
-        upstream_source="100ppi",
-        is_proxy=True,
-        call=lambda: collect_basis_daily(normalized_date, products, ak_module),
-    )
-    result.statuses.append(basis_status)
-    if raw_basis is not None and basis_status.state == "ok":
-        try:
-            result.basis_records = normalize_basis(raw_basis, normalized_date)
-            basis_status.records = len(result.basis_records)
-        except Exception as exc:
-            basis_status.state = "error"
-            basis_status.is_fresh = False
-            basis_status.records = 0
-            basis_status.error = f"normalization {type(exc).__name__}: {exc}"
+    if normalized_provider == "akshare":
+        raw_basis, basis_status = _collect(
+            dataset="basis",
+            scope="100PPI",
+            trade_date=normalized_date,
+            source_function="futures_spot_price",
+            upstream_source="100ppi",
+            is_proxy=True,
+            call=lambda: collect_basis_daily(normalized_date, products, ak_module),
+        )
+        result.statuses.append(basis_status)
+        if raw_basis is not None and basis_status.state == "ok":
+            try:
+                result.basis_records = normalize_basis(raw_basis, normalized_date)
+                basis_status.records = len(result.basis_records)
+            except Exception as exc:
+                basis_status.state = "error"
+                basis_status.is_fresh = False
+                basis_status.records = 0
+                basis_status.error = f"normalization {type(exc).__name__}: {exc}"
 
     products_by_exchange: dict[str, list[str]] = {}
     for record in result.futures_records:
         products_by_exchange.setdefault(record["exchange"], []).append(record["product"])
-    for exchange in selected_exchanges:
+    for exchange in (
+        selected_exchanges if normalized_provider == "akshare" else ()
+    ):
         products_for_exchange = sorted(set(products_by_exchange.get(exchange, [])))
         if not products_for_exchange:
             products_for_exchange = sorted(
@@ -872,7 +1009,10 @@ def run_pipeline(
                 ranking_status.error = f"normalization {type(exc).__name__}: {exc}"
 
     for option in _options_to_collect(
-        catalog, include_options, option_limit, selected_exchanges
+        catalog,
+        include_options and normalized_provider == "akshare",
+        option_limit,
+        selected_exchanges,
     ):
         source_function = {
             "DCE": "option_hist_dce",
@@ -953,11 +1093,12 @@ def run_pipeline(
 
     curves = build_curve_features(result.futures_records, catalog)
     result.option_summaries = summarize_options(result.option_records)
-    _merge_previous_auxiliary(
-        result,
-        previous_snapshot,
-        previous_contract_meta,
-    )
+    if normalized_provider == "akshare":
+        _merge_previous_auxiliary(
+            result,
+            previous_snapshot,
+            previous_contract_meta,
+        )
     result.curves = enrich_and_score_curves(
         curves,
         result.warehouse_records,
@@ -995,6 +1136,7 @@ def run_pipeline(
     }
     result.core_futures_official_complete = result.scope_verified and all(
         not futures_statuses[exchange].is_fallback
+        and futures_statuses[exchange].upstream_source == exchange
         for exchange in selected_exchanges
     )
     result.module_quality = _build_module_quality(

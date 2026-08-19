@@ -22,6 +22,7 @@ class OptionProduct:
 class ProductCatalog:
     sectors: dict[str, tuple[str, ...]]
     names: dict[str, str]
+    exchanges: dict[str, tuple[str, ...]]
     options: tuple[OptionProduct, ...]
 
     @property
@@ -38,6 +39,9 @@ class ProductCatalog:
     def name_for(self, product: str) -> str:
         return self.names.get(product.upper(), product.upper())
 
+    def products_for_exchange(self, exchange: str) -> tuple[str, ...]:
+        return self.exchanges.get(exchange.upper(), ())
+
 
 def default_catalog_path() -> Path:
     return Path(__file__).resolve().parents[2] / "config" / "products.json"
@@ -51,6 +55,10 @@ def load_catalog(path: str | Path | None = None) -> ProductCatalog:
         for sector, products in payload["sectors"].items()
     }
     names = {str(key).upper(): str(value) for key, value in payload["names"].items()}
+    exchanges = {
+        str(exchange).upper(): tuple(str(product).upper() for product in products)
+        for exchange, products in payload["exchanges"].items()
+    }
     options = tuple(
         OptionProduct(
             exchange=str(item["exchange"]).upper(),
@@ -59,4 +67,9 @@ def load_catalog(path: str | Path | None = None) -> ProductCatalog:
         )
         for item in payload["options"]
     )
-    return ProductCatalog(sectors=sectors, names=names, options=options)
+    return ProductCatalog(
+        sectors=sectors,
+        names=names,
+        exchanges=exchanges,
+        options=options,
+    )

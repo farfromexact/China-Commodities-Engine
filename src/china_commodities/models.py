@@ -39,6 +39,7 @@ class PipelineResult:
     trade_date: str
     generated_at: str
     akshare_version: str
+    primary_provider: str = "akshare"
     scope_id: str = "full-market"
     included_exchanges: list[str] = field(default_factory=list)
     excluded_exchanges: list[str] = field(default_factory=list)
@@ -66,6 +67,7 @@ class PipelineResult:
             "schema_version": 1,
             "run_date": self.trade_date,
             "generated_at": self.generated_at,
+            "primary_provider": self.primary_provider,
             "akshare_version": self.akshare_version,
             "data_fresh": self.verified,
             "official_complete": self.official_complete,
