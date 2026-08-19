@@ -6,6 +6,7 @@ from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
 import json
 import os
+import re
 import time
 from typing import Any
 import urllib.error
@@ -23,6 +24,15 @@ DEFAULT_RANGE_BATCH_SIZE = 20
 
 class IFindHTTPError(RuntimeError):
     """Raised for Quant API authentication, entitlement, or schema errors."""
+
+
+def _is_transient_transport_error(exc: IFindHTTPError) -> bool:
+    message = str(exc)
+    return bool(
+        "iFinD transport failed:" in message
+        or "iFinD response was not valid JSON" in message
+        or re.search(r"iFinD HTTP (?:429|5\d\d):", message)
+    )
 
 
 def _chunks(values: Sequence[str], size: int) -> Iterable[list[str]]:
@@ -150,6 +160,8 @@ class IFindHTTPClient:
     base_url: str = DEFAULT_BASE_URL
     timeout: int = 45
     minimum_request_interval_seconds: float = 0.0
+    max_transport_attempts: int = 3
+    retry_backoff_seconds: float = 1.0
     transport: Callable[
         [str, dict[str, str], dict[str, Any] | None, int], dict[str, Any]
     ] = _default_transport
@@ -188,15 +200,24 @@ class IFindHTTPClient:
 
     def request(self, endpoint: str, payload: dict[str, Any]) -> dict[str, Any]:
         access_token = self.get_access_token()
-        self._wait_for_rate_limit()
-        response = self.transport(
-            f"{self.base_url}/{endpoint}",
-            {"access_token": access_token, "ifindlang": "cn"},
-            payload,
-            self.timeout,
-        )
-        _raise_api_error(endpoint, response)
-        return response
+        attempts = max(1, int(self.max_transport_attempts))
+        for attempt in range(attempts):
+            self._wait_for_rate_limit()
+            try:
+                response = self.transport(
+                    f"{self.base_url}/{endpoint}",
+                    {"access_token": access_token, "ifindlang": "cn"},
+                    payload,
+                    self.timeout,
+                )
+            except IFindHTTPError as exc:
+                if not _is_transient_transport_error(exc) or attempt + 1 >= attempts:
+                    raise
+                time.sleep(max(0.0, self.retry_backoff_seconds) * (2**attempt))
+                continue
+            _raise_api_error(endpoint, response)
+            return response
+        raise AssertionError("unreachable iFinD retry state")
 
     def history_quotes(
         self,

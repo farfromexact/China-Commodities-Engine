@@ -78,7 +78,39 @@ class SplitOnLargeRangeTransport(FakeTransport):
         }
 
 
+class FlakyTransport(FakeTransport):
+    def __init__(self):
+        super().__init__()
+        self.remaining_failures = 1
+
+    def __call__(self, url, headers, payload, timeout):
+        if not url.endswith("get_access_token") and self.remaining_failures:
+            self.calls.append((url, headers, payload, timeout))
+            self.remaining_failures -= 1
+            raise IFindHTTPError(
+                "iFinD transport failed: URLError: SSL handshake timed out"
+            )
+        return super().__call__(url, headers, payload, timeout)
+
+
 class IFindHTTPAdapterTests(unittest.TestCase):
+    def test_client_retries_transient_transport_failure(self) -> None:
+        transport = FlakyTransport()
+        client = IFindHTTPClient(
+            refresh_token="refresh",
+            transport=transport,
+            retry_backoff_seconds=0.01,
+        )
+        with patch(
+            "china_commodities.collectors.ifind_http_adapter.time.sleep"
+        ) as sleep:
+            response = client.request(
+                "real_time_quotation", {"codes": "CU2609.SHF"}
+            )
+        self.assertEqual(response["errorcode"], 0)
+        self.assertEqual(len(transport.calls), 3)
+        sleep.assert_called_once_with(0.01)
+
     def test_client_applies_configured_request_interval(self) -> None:
         client = IFindHTTPClient(
             refresh_token="refresh",
