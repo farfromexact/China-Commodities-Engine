@@ -6,6 +6,7 @@ from china_commodities.collectors.ifind_http_adapter import (
     IFindHTTPClient,
     IFindHTTPError,
     collect_futures_daily,
+    collect_futures_history,
     generate_contract_candidates,
 )
 
@@ -26,6 +27,39 @@ class FakeTransport:
             "tables": [
                 {
                     "thscode": "I2609.DCE",
+                    "time": ["2026-08-18"],
+                    "table": {
+                        "open": [780.0],
+                        "high": [790.0],
+                        "low": [775.0],
+                        "close": [788.0],
+                        "settlement": [785.0],
+                        "preSettlement": [782.0],
+                        "volume": [1000],
+                        "amount": [123456.0],
+                        "openInterest": [2000],
+                    },
+                }
+            ],
+        }
+
+
+class SplitOnLargeRangeTransport(FakeTransport):
+    def __call__(self, url, headers, payload, timeout):
+        if url.endswith("get_access_token"):
+            return super().__call__(url, headers, payload, timeout)
+        self.calls.append((url, headers, payload, timeout))
+        codes = payload["codes"].split(",")
+        if len(codes) > 1:
+            return {
+                "errorcode": -4210,
+                "errmsg": "error happen with input parameters",
+            }
+        return {
+            "errorcode": 0,
+            "tables": [
+                {
+                    "thscode": codes[0],
                     "time": ["2026-08-18"],
                     "table": {
                         "open": [780.0],
@@ -85,6 +119,21 @@ class IFindHTTPAdapterTests(unittest.TestCase):
         self.assertEqual(len(frame), 1)
         self.assertEqual(transport.calls[1][2]["startdate"], "2026-08-01")
         self.assertEqual(transport.calls[1][2]["enddate"], "2026-08-18")
+
+    def test_range_collection_splits_only_parameter_size_errors(self) -> None:
+        transport = SplitOnLargeRangeTransport()
+        client = IFindHTTPClient(refresh_token="refresh", transport=transport)
+        frame = collect_futures_history(
+            "2026-08-01",
+            "2026-08-18",
+            "DCE",
+            ["I2609", "I2610"],
+            client=client,
+            batch_size=2,
+        )
+        self.assertEqual(sorted(frame["symbol"].tolist()), ["I2609", "I2610"])
+        history_calls = [call for call in transport.calls if not call[0].endswith("get_access_token")]
+        self.assertEqual(len(history_calls), 3)
 
     def test_entitlement_error_is_explicit(self) -> None:
         client = IFindHTTPClient(

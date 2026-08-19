@@ -18,7 +18,7 @@ from .ifind_adapter import IFIND_FUTURES_FIELDS, contract_to_ifind_code
 
 DEFAULT_BASE_URL = "https://quantapi.51ifind.com/api/v1"
 DEFAULT_HISTORY_BATCH_SIZE = 400
-DEFAULT_RANGE_BATCH_SIZE = 100
+DEFAULT_RANGE_BATCH_SIZE = 20
 
 
 class IFindHTTPError(RuntimeError):
@@ -250,20 +250,35 @@ def collect_futures_history(
         raise ValueError("batch_size must be positive")
     if request_interval_seconds < 0:
         raise ValueError("request interval cannot be negative")
+    last_request_at = 0.0
+
+    def query(batch: Sequence[str]) -> list[pd.DataFrame]:
+        nonlocal last_request_at
+        if request_interval_seconds and last_request_at:
+            remaining = request_interval_seconds - (time.monotonic() - last_request_at)
+            if remaining > 0:
+                time.sleep(remaining)
+        last_request_at = time.monotonic()
+        try:
+            if start_date == end_date:
+                frame = client.history_quotes(batch, fields, start_date)
+            else:
+                frame = client.history_quotes_range(
+                    batch,
+                    fields,
+                    start_date=start_date,
+                    end_date=end_date,
+                )
+            return [frame]
+        except IFindHTTPError as exc:
+            if "code -4210" not in str(exc) or len(batch) <= 1:
+                raise
+            midpoint = len(batch) // 2
+            return query(batch[:midpoint]) + query(batch[midpoint:])
+
     frames: list[pd.DataFrame] = []
-    for index, batch in enumerate(_chunks(codes, batch_size)):
-        if index and request_interval_seconds:
-            time.sleep(request_interval_seconds)
-        if start_date == end_date:
-            frame = client.history_quotes(batch, fields, start_date)
-        else:
-            frame = client.history_quotes_range(
-                batch,
-                fields,
-                start_date=start_date,
-                end_date=end_date,
-            )
-        frames.append(frame)
+    for batch in _chunks(codes, batch_size):
+        frames.extend(query(batch))
     frames = [frame for frame in frames if not frame.empty]
     raw = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
     if raw.empty:
