@@ -57,7 +57,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 ### iFinD 主源接入
 
-正式工作流使用只读的 iFinD HTTP 适配器。系统根据静态品种—交易所目录生成宽范围具体合约候选，通过官方 `cmd_history_quotation` 批量查询，并删除没有任何日终行情字段的未上市或无效代码。这样可以同时保留具体合约和期限结构，又不需要由 AKShare 提供合约列表。refresh token 和换取的 access token 均只保留在内存中。
+正式工作流使用只读的 iFinD HTTP 适配器。系统根据静态品种—交易所目录生成宽范围具体合约候选，通过官方 `cmd_history_quotation` 批量查询，并删除没有任何日终行情字段的未上市或无效代码。这样可以同时保留具体合约和期限结构，又不需要由 AKShare 提供合约列表。refresh token 只从 Secret 读取；每次 Action 只换取一个 access token，并通过 Runner 的临时环境文件在期货和期权步骤间共享，任务结束后随 Runner 销毁。
 
 本机安装官方 `iFinDPy` 后，可以用隐藏输入运行窄范围权限探针：
 
@@ -82,7 +82,7 @@ HTTP 探针从隐藏输入或当前进程的 `IFIND_REFRESH_TOKEN` 读取 refres
 
 默认只有成功品种覆盖率 `>=75%` 才允许更新 `data/options/latest.json`；低于门槛时保留上一份有效 `latest`，但仍记录本次尝试和失败原因。达到门槛但未覆盖全部目标品种时，质量状态必须为 `partial_chain`，不能声称全市场完整。只有到期日、行权方式和 bid-ask 等执行所需字段齐全并通过校验，才允许生成曲面或执行建议；否则最多保留 `chain_only` 的逐合约数据和 vendor Greeks 原值。
 
-GitHub Action 从仓库 Secret `IFIND_REFRESH_TOKEN` 注入凭据。token、换取的 access token 和原始 iFinD 响应都不会写入仓库或日志；公开仓库发布前必须确认 iFinD 商业数据的再分发许可，未确认时不得把原始商业数据当作可公开分发资产。
+GitHub Action 从仓库 Secret `IFIND_REFRESH_TOKEN` 注入凭据。换取的 access token 会先加入 GitHub 日志脱敏规则，再写入当次 Runner 的临时 `GITHUB_ENV`，供期货和期权共用；token 和原始 iFinD 响应都不会写入仓库。公开仓库发布前必须确认 iFinD 商业数据的再分发许可，未确认时不得把原始商业数据当作可公开分发资产。
 
 ## 本地运行
 
