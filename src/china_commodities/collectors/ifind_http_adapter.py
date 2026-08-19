@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 import json
 import os
@@ -151,6 +151,142 @@ def _tables_frame(response: dict[str, Any]) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def _edb_frame(
+    response: dict[str, Any], indicator_ids: Sequence[str]
+) -> pd.DataFrame:
+    """Normalize common Quant API EDB response shapes to a narrow contract."""
+
+    requested = tuple(dict.fromkeys(str(value).strip() for value in indicator_ids))
+    normalized: list[dict[str, Any]] = []
+
+    # The live ``edb_service`` response is column-oriented, but unlike quote
+    # endpoints the columns live directly on each table instead of under a
+    # nested ``table`` mapping.  A single indicator ID is commonly returned
+    # once while its time/value arrays contain the full observation history.
+    tables = response.get("tables") or []
+    if isinstance(tables, Mapping):
+        tables = [tables]
+    if isinstance(tables, list):
+        for table in tables:
+            if not isinstance(table, Mapping):
+                continue
+            if "time" not in table or "value" not in table:
+                continue
+            raw_times = table.get("time")
+            raw_values = table.get("value")
+            raw_ids = (
+                table.get("id")
+                or table.get("indicator_id")
+                or table.get("index_id")
+                or []
+            )
+            times = raw_times if isinstance(raw_times, list) else [raw_times]
+            values = raw_values if isinstance(raw_values, list) else [raw_values]
+            ids = raw_ids if isinstance(raw_ids, list) else [raw_ids]
+            row_count = max(len(times), len(values))
+            for index in range(row_count):
+                indicator_id = ""
+                if len(ids) == 1:
+                    indicator_id = str(ids[0] or "").strip()
+                elif index < len(ids):
+                    indicator_id = str(ids[index] or "").strip()
+                if not indicator_id and len(requested) == 1:
+                    indicator_id = requested[0]
+                if indicator_id not in requested:
+                    continue
+                normalized.append(
+                    {
+                        "indicator_id": indicator_id,
+                        "observation_date": (
+                            times[index] if index < len(times) else None
+                        ),
+                        "value": values[index] if index < len(values) else None,
+                    }
+                )
+
+    frame = _tables_frame(response)
+    if not frame.empty:
+        excluded = {"thscode", "time", "date", "indicator_id"}
+        for _, row in frame.iterrows():
+            row_indicator = str(
+                row.get("indicator_id") or row.get("thscode") or ""
+            ).strip()
+            observation = row.get("time", row.get("date"))
+            candidate_ids = (
+                [row_indicator]
+                if row_indicator in requested
+                else [value for value in requested if value in frame.columns]
+            )
+            if not candidate_ids and len(requested) == 1:
+                candidate_ids = [requested[0]]
+            for indicator_id in candidate_ids:
+                value = row.get(indicator_id)
+                if value is None or (isinstance(value, float) and pd.isna(value)):
+                    value = row.get("value")
+                if value is None or (isinstance(value, float) and pd.isna(value)):
+                    candidates = [
+                        row[column]
+                        for column in frame.columns
+                        if column not in excluded
+                        and column not in requested
+                        and pd.notna(row[column])
+                    ]
+                    value = candidates[0] if len(candidates) == 1 else None
+                normalized.append(
+                    {
+                        "indicator_id": indicator_id,
+                        "observation_date": observation,
+                        "value": value,
+                    }
+                )
+
+    if not normalized:
+        rows = response.get("data") or []
+        if isinstance(rows, dict):
+            rows = rows.get("records") or rows.get("data") or []
+        if isinstance(rows, list):
+            for row in rows:
+                if not isinstance(row, Mapping):
+                    continue
+                indicator_id = str(
+                    row.get("indicator_id")
+                    or row.get("index_id")
+                    or row.get("id")
+                    or (requested[0] if len(requested) == 1 else "")
+                ).strip()
+                if indicator_id not in requested:
+                    continue
+                normalized.append(
+                    {
+                        "indicator_id": indicator_id,
+                        "observation_date": row.get("observation_date")
+                        or row.get("time")
+                        or row.get("date"),
+                        "value": row.get("value"),
+                    }
+                )
+
+    output = pd.DataFrame(
+        normalized,
+        columns=("indicator_id", "observation_date", "value"),
+    )
+    if output.empty:
+        return output
+    output["observation_date"] = pd.to_datetime(
+        output["observation_date"], errors="coerce"
+    ).dt.strftime("%Y-%m-%d")
+    output["value"] = pd.to_numeric(output["value"], errors="coerce")
+    output = output.dropna(subset=["observation_date", "value"])
+    output = output[output["indicator_id"].isin(requested)]
+    return (
+        output.drop_duplicates(
+            subset=["indicator_id", "observation_date"], keep="last"
+        )
+        .sort_values(["indicator_id", "observation_date"])
+        .reset_index(drop=True)
+    )
+
+
 @dataclass
 class IFindHTTPClient:
     """Short-lived Quant API client; tokens remain in memory only."""
@@ -264,6 +400,81 @@ class IFindHTTPClient:
         response = self.request(
             "real_time_quotation",
             {"codes": ",".join(codes), "indicators": ",".join(fields)},
+        )
+        return _tables_frame(response)
+
+    def edb_series(
+        self,
+        indicator_ids: Sequence[str],
+        *,
+        start_date: str,
+        end_date: str,
+    ) -> pd.DataFrame:
+        """Fetch pinned EDB indicator IDs; production callers never search by text."""
+
+        indicators = tuple(
+            dict.fromkeys(str(value).strip() for value in indicator_ids if value)
+        )
+        if not indicators:
+            raise ValueError("at least one EDB indicator ID is required")
+        response = self.request(
+            "edb_service",
+            {
+                "indicators": ",".join(indicators),
+                "startdate": start_date,
+                "enddate": end_date,
+            },
+        )
+        return _edb_frame(response, indicators)
+
+    def basic_data(
+        self,
+        codes: Sequence[str],
+        indicator_params: Sequence[Mapping[str, Any]],
+    ) -> pd.DataFrame:
+        """Fetch verified security metadata indicators through basic_data_service."""
+
+        normalized_codes = tuple(
+            dict.fromkeys(str(value).strip() for value in codes if value)
+        )
+        normalized_indicators = [dict(value) for value in indicator_params]
+        if not normalized_codes or not normalized_indicators:
+            raise ValueError("basic_data requires codes and indicator parameters")
+        for item in normalized_indicators:
+            if not str(item.get("indicator") or "").strip():
+                raise ValueError("basic_data indicator name is required")
+        response = self.request(
+            "basic_data_service",
+            {
+                "codes": ",".join(normalized_codes),
+                "indipara": normalized_indicators,
+            },
+        )
+        return _tables_frame(response)
+
+    def data_pool(
+        self,
+        report_name: str,
+        *,
+        function_parameters: Mapping[str, Any],
+        output_parameters: Any,
+    ) -> pd.DataFrame:
+        """Fetch a pinned, account-verified iFinD report without guessing IDs."""
+
+        name = str(report_name or "").strip()
+        if not name:
+            raise ValueError("data_pool report_name is required")
+        if not isinstance(function_parameters, Mapping):
+            raise TypeError("data_pool function_parameters must be a mapping")
+        if output_parameters in (None, "", {}):
+            raise ValueError("data_pool output_parameters are required")
+        response = self.request(
+            "data_pool",
+            {
+                "reportname": name,
+                "functionpara": dict(function_parameters),
+                "outputpara": output_parameters,
+            },
         )
         return _tables_frame(response)
 

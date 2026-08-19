@@ -749,9 +749,14 @@ def collect_option_eod_from_exchange_universe(
                 record["underlying_contract"]
             ]
             record["expiry_date"] = directory_record.get("expiry_date")
-            record["exercise_style"] = (
-                directory_record.get("exercise_style") or record["exercise_style"]
-            )
+            directory_style = str(
+                directory_record.get("exercise_style") or ""
+            ).lower()
+            if directory_style in {"american", "european"}:
+                record["exercise_style"] = directory_style
+                record["exercise_style_source"] = "exchange_directory"
+            else:
+                record["exercise_style_source"] = "official_rule_registry"
             record["universe_source"] = universe_source
             record["universe_source_provider"] = directory_record.get(
                 "universe_source_provider",

@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "domain": "external",
+  "requested_date": "2026-08-19",
+  "generated_at": "2026-08-20T01:34:31.085318+08:00",
+  "data_fresh": false,
+  "coverage": {
+    "target_count": 22,
+    "verified_mapping_count": 6,
+    "unavailable_mapping_count": 16,
+    "fresh_target_count": 5,
+    "stale_target_count": 1,
+    "carried_forward_target_count": 0,
+    "failed_target_count": 0
+  },
+  "series": [
+    {
+      "series_key": "external.BRENT.continuous_settlement",
+      "indicator_id": "S004111385",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-18",
+      "carried_forward": false,
+      "detail": null
+    },
+    {
+      "series_key": "external.LME_CU.three_month_close",
+      "indicator_id": "S005808359",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-18",
+      "carried_forward": false,
+      "detail": null
+    },
+    {
+      "series_key": "external.SGX_IRON_ORE.twenty_two_month_settlement",
+      "indicator_id": "S009067320",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-18",
+      "carried_forward": false,
+      "detail": null
+    },
+    {
+      "series_key": "external.BMD_PALM.bmd_plus_3",
+      "indicator_id": "S024923811",
+      "state": "ok",
+      "quality_state": "stale",
+      "source_date": "2026-04-26",
+      "carried_forward": false,
+      "detail": "observation exceeds allowed lag of 3 day(s)"
+    },
+    {
+      "series_key": "external.USDCNH.close",
+      "indicator_id": "G019711418",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-18",
+      "carried_forward": false,
+      "detail": null
+    },
+    {
+      "series_key": "external.DXY.close",
+      "indicator_id": "G002600885",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-18",
+      "carried_forward": false,
+      "detail": null
+    }
+  ],
+  "validation_passed": true,
+  "validation_errors": [],
+  "published": true,
+  "shadow_state": {
+    "schema_version": 1,
+    "required_pass_days": 5,
+    "activated": true,
+    "activation_date": "2026-08-19",
+    "consecutive_pass_dates": [
+      "2026-08-13",
+      "2026-08-14",
+      "2026-08-17",
+      "2026-08-18",
+      "2026-08-19"
+    ],
+    "consecutive_pass_count": 5,
+    "last_attempt_date": "2026-08-19",
+    "last_attempt_validation_passed": true,
+    "out_of_order_attempt": false,
+    "promotion_allowed": true
+  },
+  "previous_valid_snapshot_retained": false
+}

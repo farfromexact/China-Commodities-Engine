@@ -90,8 +90,6 @@ def run_ifind_backfill(
     normalized_end = iso_date(end_date)
     if days < 1:
         raise ValueError("backfill days must be positive")
-    if history_limit < days:
-        raise ValueError("history limit cannot be smaller than backfill days")
     if snapshot_limit < 1:
         raise ValueError("snapshot limit must be positive")
     if daily_attempts < 1 or daily_retry_seconds < 0:
@@ -157,6 +155,7 @@ def run_ifind_backfill(
                 include_options=False,
                 publish=False,
                 provider="ifind",
+                include_official_auxiliary=False,
                 ifind_prefetched=history_by_exchange,
                 now=generated_at,
             )
@@ -182,6 +181,7 @@ def run_ifind_backfill(
                         include_options=False,
                         publish=False,
                         provider="ifind",
+                        include_official_auxiliary=False,
                         ifind_http_client=http_client,
                         ifind_request_interval_seconds=request_interval_seconds,
                         now=generated_at,

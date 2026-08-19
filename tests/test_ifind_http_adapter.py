@@ -94,6 +94,23 @@ class FlakyTransport(FakeTransport):
         return super().__call__(url, headers, payload, timeout)
 
 
+class EDBTransport(FakeTransport):
+    def __call__(self, url, headers, payload, timeout):
+        self.calls.append((url, headers, payload, timeout))
+        return {
+            "errorcode": 0,
+            "tables": [
+                {
+                    "id": ["S011038838"],
+                    "time": ["2026-08-08", "2026-08-15"],
+                    "value": [15000.0, 15200.0],
+                    "rtime": ["2026-08-08", "2026-08-15"],
+                    "index_name": ["inventory", "inventory"],
+                }
+            ],
+        }
+
+
 class IFindHTTPAdapterTests(unittest.TestCase):
     def test_client_retries_transient_transport_failure(self) -> None:
         transport = FlakyTransport()
@@ -176,6 +193,22 @@ class IFindHTTPAdapterTests(unittest.TestCase):
         self.assertEqual(len(frame), 1)
         self.assertEqual(transport.calls[1][2]["startdate"], "2026-08-01")
         self.assertEqual(transport.calls[1][2]["enddate"], "2026-08-18")
+
+    def test_edb_uses_pinned_ids_and_normalizes_observation_dates(self) -> None:
+        transport = EDBTransport()
+        client = IFindHTTPClient(access_token="access", transport=transport)
+        frame = client.edb_series(
+            ["S011038838"],
+            start_date="2026-08-01",
+            end_date="2026-08-19",
+        )
+
+        self.assertEqual(frame["indicator_id"].unique().tolist(), ["S011038838"])
+        self.assertEqual(frame["observation_date"].tolist(), ["2026-08-08", "2026-08-15"])
+        self.assertEqual(frame["value"].tolist(), [15000.0, 15200.0])
+        self.assertTrue(transport.calls[0][0].endswith("edb_service"))
+        self.assertEqual(transport.calls[0][2]["indicators"], "S011038838")
+        self.assertNotIn("search", transport.calls[0][2])
 
     def test_range_collection_splits_only_parameter_size_errors(self) -> None:
         transport = SplitOnLargeRangeTransport()

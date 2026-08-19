@@ -167,6 +167,25 @@ def _confirm_futures_source_date(
     )
 
 
+def _confirm_auxiliary_source_date(
+    status: ModuleStatus,
+    records: list[dict[str, Any]],
+    *,
+    date_field: str,
+) -> None:
+    """Mark official exchange metadata fresh only for the requested date."""
+
+    source_dates = sorted(
+        {str(record.get(date_field)) for record in records if record.get(date_field)}
+    )
+    expected = status.requested_trade_date or status.trade_date
+    status.source_trade_date = source_dates[0] if len(source_dates) == 1 else None
+    status.source_date_match = source_dates == [expected]
+    status.is_fresh = bool(
+        status.state == "ok" and status.records > 0 and status.source_date_match
+    )
+
+
 def _collect(
     *,
     dataset: str,
@@ -255,14 +274,40 @@ def _build_module_quality(
     required_meta = (
         "multiplier",
         "tick_size",
-        "tick_value",
+        "night_session",
+        "delivery_unit",
+    )
+    required_dynamic_meta = (
         "margin_rate_percent",
         "price_limit_percent",
         "last_trading_day",
     )
-    metadata_complete = bool(result.futures_records) and all(
-        all(metadata_by_contract.get((record["exchange"], record["contract"]), {}).get(field) is not None for field in required_meta)
-        for record in result.futures_records
+    contract_count = len(result.futures_records)
+
+    def metadata_coverage(fields: tuple[str, ...]) -> float:
+        if not contract_count:
+            return 0.0
+        return min(
+            sum(
+                (
+                    metadata_by_contract.get(
+                        (record["exchange"], record["contract"]), {}
+                    ).get(field)
+                    is not None
+                    and metadata_by_contract.get(
+                        (record["exchange"], record["contract"]), {}
+                    ).get("source_date")
+                    == result.trade_date
+                )
+                for record in result.futures_records
+            )
+            / contract_count
+            for field in fields
+        )
+
+    metadata_complete = bool(result.futures_records) and (
+        metadata_coverage(required_meta) >= 0.99
+        and metadata_coverage(required_dynamic_meta) >= 0.95
     )
     contract_statuses = statuses("contract_info")
     metadata_carried = any(
@@ -590,6 +635,10 @@ def _merge_previous_auxiliary(
         "multiplier",
         "tick_size",
         "tick_value",
+        "night_session",
+        "delivery_unit",
+        "delivery_grade",
+        "delivery_location",
         "margin_rate_percent",
         "price_limit_percent",
         "list_date",
@@ -653,6 +702,7 @@ def run_pipeline(
     publish: bool = True,
     ak_module: Any | None = None,
     provider: str = "akshare",
+    include_official_auxiliary: bool = True,
     ifind_dce_fallback: bool = False,
     ifind_http_client: IFindHTTPClient | None = None,
     ifind_prefetched: Mapping[str, pd.DataFrame] | None = None,
@@ -676,7 +726,7 @@ def run_pipeline(
         generated_at=generated.isoformat(),
         akshare_version=(
             akshare_version(ak_module)
-            if normalized_provider == "akshare"
+            if normalized_provider == "akshare" or include_official_auxiliary
             else "not_used"
         ),
         primary_provider=normalized_provider,
@@ -854,14 +904,15 @@ def run_pipeline(
                 status.error = f"normalization {type(exc).__name__}: {exc}"
 
     if normalized_provider == "ifind":
-        for dataset in (
-            "contract_info",
-            "warehouse",
+        skipped_datasets = [
             "basis",
             "member_rankings",
             "options",
             "option_volatility",
-        ):
+        ]
+        if not include_official_auxiliary:
+            skipped_datasets[:0] = ["contract_info", "warehouse"]
+        for dataset in skipped_datasets:
             result.statuses.append(
                 ModuleStatus(
                     dataset=dataset,
@@ -881,7 +932,9 @@ def run_pipeline(
             )
 
     for exchange in (
-        selected_exchanges if normalized_provider == "akshare" else ()
+        selected_exchanges
+        if normalized_provider == "akshare" or include_official_auxiliary
+        else ()
     ):
         function_name = {
             "SHFE": "futures_contract_info_shfe",
@@ -910,6 +963,10 @@ def run_pipeline(
                 if not records:
                     meta_status.state = "empty"
                     meta_status.is_fresh = False
+                else:
+                    _confirm_auxiliary_source_date(
+                        meta_status, records, date_field="source_date"
+                    )
             except Exception as exc:
                 meta_status.state = "error"
                 meta_status.is_fresh = False
@@ -919,7 +976,8 @@ def run_pipeline(
     for exchange in (
         exchange
         for exchange in WAREHOUSE_EXCHANGES
-        if exchange in selected_exchanges and normalized_provider == "akshare"
+        if exchange in selected_exchanges
+        and (normalized_provider == "akshare" or include_official_auxiliary)
     ):
         function_name = {
             "SHFE": "futures_shfe_warehouse_receipt",
@@ -947,6 +1005,10 @@ def run_pipeline(
                 if not records:
                     status.state = "empty"
                     status.is_fresh = False
+                else:
+                    _confirm_auxiliary_source_date(
+                        status, records, date_field="trade_date"
+                    )
             except Exception as exc:
                 status.state = "error"
                 status.is_fresh = False
@@ -1113,7 +1175,7 @@ def run_pipeline(
 
     curves = build_curve_features(result.futures_records, catalog)
     result.option_summaries = summarize_options(result.option_records)
-    if normalized_provider == "akshare":
+    if normalized_provider == "akshare" or include_official_auxiliary:
         _merge_previous_auxiliary(
             result,
             previous_snapshot,

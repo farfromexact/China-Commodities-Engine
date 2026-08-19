@@ -70,13 +70,24 @@ def snapshot(trade_date: str, contract_suffix: str = "") -> dict:
 
 
 class OptionStorageTests(unittest.TestCase):
-    def test_publishes_chain_and_compact_summary(self) -> None:
+    def test_surface_defaults_to_five_day_shadow_gate(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             data_dir = Path(temporary)
             publish_option_eod(snapshot("2026-08-18"), data_dir)
+            self.assertTrue((data_dir / "options" / "latest.json").exists())
+            self.assertFalse((data_dir / "options" / "surface_latest.json").exists())
+            state = read_json(data_dir / "options" / "surface_shadow_state.json")
+            self.assertEqual(state["consecutive_pass_count"], 1)
+            self.assertFalse(state["activated"])
+
+    def test_publishes_chain_and_compact_summary(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            data_dir = Path(temporary)
+            publish_option_eod(snapshot("2026-08-18"), data_dir, surface_shadow_days=1)
             latest = read_json(data_dir / "options" / "latest.json")
             history = read_json(data_dir / "options" / "history.json")
             quality = read_json(data_dir / "options" / "quality_latest.json")
+            surface = read_json(data_dir / "options" / "surface_latest.json")
             archived = read_json(
                 data_dir / "options" / "snapshots" / "2026-08-18.json.gz"
             )
@@ -88,6 +99,9 @@ class OptionStorageTests(unittest.TestCase):
             self.assertEqual(series["put_call_volume_ratio"], 2.0)
             self.assertEqual(series["atm_iv_percent"], 23.0)
             self.assertFalse(series["dealer_gamma_known"])
+            self.assertEqual(surface["surface_ready_count"], 1)
+            self.assertEqual(surface["positioning_ready_count"], 1)
+            self.assertEqual(surface["execution_ready_count"], 0)
 
     def test_enforces_full_chain_and_summary_retention(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -98,6 +112,7 @@ class OptionStorageTests(unittest.TestCase):
                     data_dir,
                     chain_limit=2,
                     summary_limit=3,
+                    surface_shadow_days=1,
                 )
             snapshots = sorted((data_dir / "options" / "snapshots").glob("*.json.gz"))
             history = read_json(data_dir / "options" / "history.json")
@@ -120,7 +135,7 @@ class OptionStorageTests(unittest.TestCase):
     def test_partial_attempt_does_not_replace_promoted_latest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             data_dir = Path(temporary)
-            publish_option_eod(snapshot("2026-08-18"), data_dir)
+            publish_option_eod(snapshot("2026-08-18"), data_dir, surface_shadow_days=1)
             attempt = snapshot("2026-08-19", "attempt")
             attempt["coverage"] = {
                 "expected_product_count": 64,
@@ -130,17 +145,25 @@ class OptionStorageTests(unittest.TestCase):
                 "publish_eligible": False,
             }
 
-            publish_option_attempt(attempt, data_dir)
+            publish_option_attempt(attempt, data_dir, surface_shadow_days=1)
 
             promoted = read_json(data_dir / "options" / "latest.json")
             stored_attempt = read_json(
                 data_dir / "options" / "attempt_latest.json.gz"
+            )
+            promoted_surface = read_json(
+                data_dir / "options" / "surface_latest.json"
+            )
+            attempted_surface = read_json(
+                data_dir / "options" / "surface_attempt_latest.json.gz"
             )
             self.assertEqual(promoted["trade_date"], "2026-08-18")
             self.assertEqual(stored_attempt["trade_date"], "2026-08-19")
             self.assertTrue(stored_attempt["attempt_only"])
             self.assertFalse(stored_attempt["promotion_eligible"])
             self.assertEqual(stored_attempt["quality"]["status"], "partial_chain")
+            self.assertEqual(promoted_surface["trade_date"], "2026-08-18")
+            self.assertEqual(attempted_surface["trade_date"], "2026-08-19")
 
 
 if __name__ == "__main__":

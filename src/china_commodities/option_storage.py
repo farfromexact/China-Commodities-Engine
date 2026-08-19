@@ -8,7 +8,10 @@ from pathlib import Path
 import re
 from typing import Any
 
+from .history_storage import append_option_history
 from .option_quality import assess_option_snapshot_quality
+from .option_surface import build_option_surface
+from .promotion import update_shadow_state
 from .storage import read_json, write_json_gzip_if_changed, write_json_if_changed
 
 
@@ -160,6 +163,7 @@ def publish_option_eod(
     *,
     chain_limit: int = DEFAULT_CHAIN_LIMIT,
     summary_limit: int = DEFAULT_SUMMARY_LIMIT,
+    surface_shadow_days: int = 5,
 ) -> None:
     """Publish one verified EOD chain and enforce 20-day rolling retention."""
     if chain_limit < 1 or summary_limit < 1:
@@ -167,6 +171,7 @@ def publish_option_eod(
     validate_option_snapshot(snapshot)
     trade_date = snapshot["trade_date"]
     quality = assess_option_snapshot_quality(snapshot)
+    surface = build_option_surface(snapshot)
     promoted_snapshot = dict(snapshot)
     promoted_snapshot["quality"] = quality
     summary = {
@@ -177,6 +182,8 @@ def publish_option_eod(
         "series": build_option_summary(snapshot),
     }
     root = data_dir / "options"
+    had_previous_surface = (root / "surface_latest.json").exists()
+    append_option_history(snapshot, data_dir)
     write_json_if_changed(root / "latest.json", promoted_snapshot)
     write_json_if_changed(
         root / "quality_latest.json",
@@ -185,6 +192,36 @@ def publish_option_eod(
             "trade_date": trade_date,
             "generated_at": snapshot.get("generated_at"),
             "quality": quality,
+        },
+    )
+    previous_shadow = read_json(root / "surface_shadow_state.json", default={}) or {}
+    surface_shadow = update_shadow_state(
+        previous_shadow,
+        requested_date=trade_date,
+        validation_passed=bool(surface["promotion_eligible"]),
+        required_pass_days=surface_shadow_days,
+    )
+    write_json_gzip_if_changed(root / "surface_attempt_latest.json.gz", surface)
+    write_json_if_changed(root / "surface_shadow_state.json", surface_shadow)
+    surface_published = bool(surface_shadow["promotion_allowed"])
+    if surface_published:
+        write_json_if_changed(root / "surface_latest.json", surface)
+    write_json_if_changed(
+        root / "surface_last_run_status.json",
+        {
+            "schema_version": 1,
+            "trade_date": trade_date,
+            "generated_at": snapshot.get("generated_at"),
+            "status": surface["status"],
+            "series_count": surface["series_count"],
+            "surface_ready_count": surface["surface_ready_count"],
+            "positioning_ready_count": surface["positioning_ready_count"],
+            "execution_ready_count": surface["execution_ready_count"],
+            "published": surface_published,
+            "previous_valid_surface_retained": bool(
+                had_previous_surface and not surface_published
+            ),
+            "shadow_state": surface_shadow,
         },
     )
     snapshot_root = root / "snapshots"
@@ -217,11 +254,17 @@ def publish_option_eod(
     )
 
 
-def publish_option_attempt(snapshot: dict[str, Any], data_dir: Path) -> None:
+def publish_option_attempt(
+    snapshot: dict[str, Any],
+    data_dir: Path,
+    *,
+    surface_shadow_days: int = 5,
+) -> None:
     """Persist a validated partial attempt without promoting global latest."""
 
     validate_option_snapshot(snapshot)
     quality = assess_option_snapshot_quality(snapshot)
+    surface = build_option_surface(snapshot)
     attempt = dict(snapshot)
     attempt["quality"] = quality
     attempt["attempt_only"] = True
@@ -231,4 +274,32 @@ def publish_option_attempt(snapshot: dict[str, Any], data_dir: Path) -> None:
     write_json_gzip_if_changed(
         data_dir / "options" / "attempt_latest.json.gz",
         attempt,
+    )
+    root = data_dir / "options"
+    had_previous_surface = (root / "surface_latest.json").exists()
+    write_json_gzip_if_changed(root / "surface_attempt_latest.json.gz", surface)
+    previous_shadow = read_json(root / "surface_shadow_state.json", default={}) or {}
+    surface_shadow = update_shadow_state(
+        previous_shadow,
+        requested_date=str(snapshot.get("trade_date")),
+        validation_passed=bool(surface["promotion_eligible"]),
+        required_pass_days=surface_shadow_days,
+    )
+    write_json_if_changed(root / "surface_shadow_state.json", surface_shadow)
+    write_json_if_changed(
+        root / "surface_last_run_status.json",
+        {
+            "schema_version": 1,
+            "trade_date": snapshot.get("trade_date"),
+            "generated_at": snapshot.get("generated_at"),
+            "status": surface["status"],
+            "series_count": surface["series_count"],
+            "surface_ready_count": surface["surface_ready_count"],
+            "positioning_ready_count": surface["positioning_ready_count"],
+            "execution_ready_count": surface["execution_ready_count"],
+            "published": False,
+            "attempt_only": True,
+            "previous_valid_surface_retained": had_previous_surface,
+            "shadow_state": surface_shadow,
+        },
     )

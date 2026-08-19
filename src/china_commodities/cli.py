@@ -10,8 +10,10 @@ from zoneinfo import ZoneInfo
 
 from .backfill import run_ifind_backfill
 from .collectors.akshare_adapter import COMMODITY_EXCHANGES
+from .foundation import run_foundation
 from .pipeline import run_pipeline
 from .quality import validate_snapshot
+from .source_registry import load_source_registry
 from .storage import read_json
 
 
@@ -51,6 +53,11 @@ def _parser() -> argparse.ArgumentParser:
         default=[],
         help="exclude an exchange; may be repeated",
     )
+    run.add_argument(
+        "--skip-official-auxiliary",
+        action="store_true",
+        help="skip official exchange contract/warehouse auxiliary collection",
+    )
 
     backfill = subparsers.add_parser(
         "backfill", help="backfill verified common trading days through iFinD"
@@ -66,6 +73,29 @@ def _parser() -> argparse.ArgumentParser:
     validate = subparsers.add_parser("validate", help="validate latest promoted snapshot")
     validate.add_argument("--data-dir", default="data")
     validate.add_argument("--scope", default=None)
+
+    foundation = subparsers.add_parser(
+        "foundation", help="collect pinned-ID Physical and External EOD series"
+    )
+    foundation.add_argument("--date", default=_today_shanghai())
+    foundation.add_argument("--data-dir", default="data")
+    foundation.add_argument("--registry", default=None)
+    foundation.add_argument(
+        "--scope", choices=("physical", "external", "all"), default="all"
+    )
+    foundation.add_argument(
+        "--lookback-days",
+        type=int,
+        default=400,
+        help="calendar-day EDB window; 400 days normally covers 252 trading observations",
+    )
+    foundation.add_argument("--shadow-days", type=int, default=5)
+    foundation.add_argument(
+        "--audit-only",
+        action="store_true",
+        help="validate the fixed source/permission matrix without using a token",
+    )
+    foundation.add_argument("--dry-run", action="store_true")
     return parser
 
 
@@ -88,6 +118,7 @@ def _run(args: argparse.Namespace) -> int:
         exchanges=included_exchanges,
         provider=getattr(args, "provider", "akshare"),
         ifind_dce_fallback=args.ifind_dce_fallback,
+        include_official_auxiliary=not args.skip_official_auxiliary,
     )
     summary = {
         "trade_date": result.trade_date,
@@ -164,6 +195,35 @@ def _backfill(args: argparse.Namespace) -> int:
     return 0
 
 
+def _foundation(args: argparse.Namespace) -> int:
+    if args.audit_only:
+        audit = load_source_registry(args.registry).audit()
+        print(json.dumps(audit, ensure_ascii=False, indent=2))
+        return 0
+    results = run_foundation(
+        args.date,
+        scope=args.scope,
+        data_dir=args.data_dir,
+        registry_path=args.registry,
+        lookback_days=args.lookback_days,
+        publish=not args.dry_run,
+        shadow_days=args.shadow_days,
+    )
+    summary = {
+        domain: {
+            "requested_date": result["payload"]["requested_date"],
+            "coverage": result["payload"]["coverage"],
+            "data_fresh": result["status"]["data_fresh"],
+            "validation_passed": result["status"]["validation_passed"],
+            "published": result["status"].get("published", False),
+            "shadow_state": result["status"].get("shadow_state"),
+        }
+        for domain, result in results.items()
+    }
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
@@ -173,6 +233,8 @@ def main(argv: list[str] | None = None) -> int:
         return _run(args)
     if args.command == "backfill":
         return _backfill(args)
+    if args.command == "foundation":
+        return _foundation(args)
     return _validate(args)
 
 

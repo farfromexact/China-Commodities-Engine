@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "as_of_date": "2026-08-20",
+  "exchange_defaults": {
+    "SHFE": {
+      "exercise_style": "american",
+      "source_url": "https://www.shfe.com.cn/products/option/nonferrousmetal/cu_o/standard_cu_o/202401/t20240103_331329.html"
+    },
+    "INE": {
+      "exercise_style": "american",
+      "source_url": "https://www.shfe.com.cn/products/option/energyandchemical/"
+    },
+    "DCE": {
+      "exercise_style": "american",
+      "source_url": "https://www.dce.com.cn/dalianshangpin/resource/cms/article/8536039/489773/240219%E7%8E%89%E7%B1%B3%E6%9C%9F%E8%B4%A7%E5%92%8C%E6%9C%9F%E6%9D%83%E5%AE%A3%E4%BC%A0%E9%A1%B5.pdf"
+    },
+    "CZCE": {
+      "exercise_style": "american",
+      "source_url": "https://www.czce.com.cn/cn/rootfiles/2019/12/11/1572880035906132-1572880035929081.pdf"
+    },
+    "GFEX": {
+      "exercise_style": "american",
+      "source_url": "https://www.gfex.com.cn/gfex/sspzb/sspz.shtml"
+    }
+  },
+  "product_overrides": {}
+}

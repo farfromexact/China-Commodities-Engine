@@ -15,6 +15,7 @@ from .collectors.ifind_option_adapter import (
     collect_option_eod_from_exchange_universe,
 )
 from .option_universe import collect_openctp_option_directories
+from .option_rules import load_option_rules, option_rule_for
 
 
 OptionCollector = Callable[..., dict[str, Any]]
@@ -63,6 +64,8 @@ def _status_entry(
     quote_coverage_complete: bool = False,
     universe_source: str | None = None,
     fallback_used: bool = False,
+    metadata_enrichment_used: bool = False,
+    metadata_enrichment_error: str | None = None,
     detail: str | None = None,
 ) -> dict[str, Any]:
     return {
@@ -75,6 +78,8 @@ def _status_entry(
         "quote_coverage_complete": quote_coverage_complete,
         "universe_source": universe_source,
         "fallback_used": fallback_used,
+        "metadata_enrichment_used": metadata_enrichment_used,
+        "metadata_enrichment_error": metadata_enrichment_error,
         "detail": detail,
     }
 
@@ -88,6 +93,8 @@ def collect_option_market_snapshot(
     ak_module: Any | None = None,
     collect_one: OptionCollector = collect_option_eod_from_exchange_universe,
     fallback_directory_loader: DirectoryLoader | None = collect_openctp_option_directories,
+    option_rules: dict[str, Any] | None = None,
+    enrich_missing_metadata: bool | None = None,
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     """Attempt every catalog product and return a promotable snapshot plus status.
 
@@ -109,6 +116,12 @@ def collect_option_market_snapshot(
     keys = [_product_key(product) for product in products]
     if len(keys) != len(set(keys)):
         raise IFindOptionDataError("option product catalog contains duplicates")
+    rules = option_rules or load_option_rules()
+    should_enrich_metadata = (
+        collect_one is collect_option_eod_from_exchange_universe
+        if enrich_missing_metadata is None
+        else bool(enrich_missing_metadata)
+    )
 
     generated_at = datetime.now().astimezone().isoformat(timespec="seconds")
     statuses: list[dict[str, Any]] = []
@@ -134,12 +147,20 @@ def collect_option_market_snapshot(
                 )
             )
             continue
+        rule = option_rule_for(
+            product.exchange,
+            product.product,
+            rules=rules,
+        )
         universe = ExchangeOptionUniverseConfig(
             exchange=product.exchange,
             product=product.product,
             symbol=product.symbol,
+            exercise_style=rule["exercise_style"],
         )
         fallback_used = False
+        metadata_enrichment_used = False
+        metadata_enrichment_error: str | None = None
         primary_error: str | None = None
         try:
             product_snapshot = collect_one(
@@ -254,6 +275,55 @@ def collect_option_market_snapshot(
                 raise IFindOptionDataError(
                     f"option collector returned no records for {_product_key(product)}"
                 )
+            missing_expiry = [
+                record
+                for record in product_records
+                if not isinstance(record, dict)
+                or not record.get("expiry_date")
+            ]
+            if (
+                missing_expiry
+                and fallback_directory_loader is not None
+                and should_enrich_metadata
+            ):
+                if fallback_directories is None and fallback_directory_error is None:
+                    try:
+                        fallback_directories = fallback_directory_loader(
+                            requested_date,
+                            products,
+                        )
+                    except Exception as enrichment_exc:
+                        fallback_directory_error = _error_detail(enrichment_exc)
+                enrichment_records = (
+                    fallback_directories.get(
+                        (product.exchange.upper(), product.product.upper())
+                    )
+                    if fallback_directories is not None
+                    else None
+                )
+                enrichment_by_contract = {
+                    str(record.get("contract") or "").upper(): record
+                    for record in (enrichment_records or [])
+                }
+                for record in missing_expiry:
+                    if not isinstance(record, dict):
+                        continue
+                    match = enrichment_by_contract.get(
+                        str(record.get("contract") or "").upper()
+                    )
+                    if match and match.get("expiry_date"):
+                        record["expiry_date"] = match["expiry_date"]
+                        record["expiry_source"] = "openctp_contract_directory"
+                        metadata_enrichment_used = True
+                unresolved = sum(
+                    not isinstance(record, dict) or not record.get("expiry_date")
+                    for record in product_records
+                )
+                if unresolved:
+                    metadata_enrichment_error = (
+                        fallback_directory_error
+                        or f"OpenCTP did not resolve expiry for {unresolved} contract(s)"
+                    )
             if product_snapshot.get("quote_coverage_complete") is not True:
                 raise IFindOptionDataError(
                     f"option collector returned incomplete quotes for {_product_key(product)}"
@@ -288,6 +358,14 @@ def collect_option_market_snapshot(
                 raise IFindOptionDataError(
                     f"option collector returned out-of-scope records for {_product_key(product)}"
                 )
+            for record in product_records:
+                if str(record.get("exercise_style") or "").lower() not in {
+                    "american",
+                    "european",
+                }:
+                    record["exercise_style"] = rule["exercise_style"]
+                record["exercise_style_rule_source_url"] = rule["source_url"]
+                record["exercise_style_rules_as_of_date"] = rule["rules_as_of_date"]
         except Exception as exc:
             statuses.append(
                 _status_entry(
@@ -314,6 +392,8 @@ def collect_option_market_snapshot(
                 quote_coverage_complete=True,
                 universe_source=product_snapshot.get("universe_source"),
                 fallback_used=fallback_used,
+                metadata_enrichment_used=metadata_enrichment_used,
+                metadata_enrichment_error=metadata_enrichment_error,
                 detail=(
                     f"primary directory failed; fallback used: {primary_error}"
                     if fallback_used and primary_error

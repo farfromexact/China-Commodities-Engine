@@ -75,6 +75,26 @@ class DailyFallbackIFindHTTPClient(RangeIFindHTTPClient):
 
 
 class BackfillTests(unittest.TestCase):
+    def test_parquet_backfill_can_exceed_twenty_day_json_window(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            summary = run_ifind_backfill(
+                end_date="2026-08-19",
+                days=2,
+                data_dir=directory,
+                history_limit=1,
+                snapshot_limit=1,
+                calendar_days=10,
+                client=RangeIFindHTTPClient(),
+                request_interval_seconds=0,
+            )
+            frame = pd.read_parquet(Path(directory) / "history" / "futures.parquet")
+            history = json.loads(
+                (Path(directory) / "radar_history.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(summary.published_days, 2)
+            self.assertEqual(len(frame), 10)
+            self.assertEqual(len(history["records"]), 1)
+
     def test_backfill_publishes_only_latest_requested_common_days(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
             summary = run_ifind_backfill(

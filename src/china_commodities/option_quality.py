@@ -299,6 +299,9 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
         and full_product_scope_verified
         and bid_ask_coverage >= _THRESHOLD
     )
+    positioning_ready = bool(
+        surface_ready and open_interest_coverage >= 0.90
+    )
     model_greeks_ready = bool(
         full_chain_verified
         and full_product_scope_verified
@@ -398,6 +401,11 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
         limitations.append(
             f"open_interest_coverage={open_interest_coverage:.4f}; some open interest is missing"
         )
+    if open_interest_coverage < 0.90:
+        limitations.append(
+            "positioning_ready blocked: "
+            f"open_interest_coverage={open_interest_coverage:.4f} < 0.9000"
+        )
     if universe_source and not all_inputs_ifind:
         limitations.append(
             f"contract universe source is {universe_source}; quotes are iFinD but not all inputs are iFinD"
@@ -467,6 +475,7 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
         "all_inputs_ifind": all_inputs_ifind,
         "full_chain_verified": full_chain_verified,
         "surface_ready": surface_ready,
+        "positioning_ready": positioning_ready,
         "execution_ready": execution_ready,
         "model_greeks_ready": model_greeks_ready,
         "vendor_risk_available": vendor_risk_available,

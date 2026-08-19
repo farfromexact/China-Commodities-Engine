@@ -238,6 +238,10 @@ class NormalizeTests(unittest.TestCase):
                     "最后交割日": "2026-10-26",
                     "交易保证金率": "9.00%",
                     "涨跌停板": "±8%",
+                    "夜盘交易时间": "21:00-23:00",
+                    "交割单位": "20吨",
+                    "交割品级": "符合交易所标准",
+                    "交割地点": "指定交割仓库",
                 }
             ]
         )
@@ -248,6 +252,19 @@ class NormalizeTests(unittest.TestCase):
         self.assertEqual(item["margin_rate_percent"], 9.0)
         self.assertEqual(item["price_limit_percent"], 8.0)
         self.assertEqual(item["last_trading_day"], "2026-10-21")
+        self.assertEqual(item["night_session"], "21:00-23:00")
+        self.assertEqual(item["delivery_unit"], "20吨")
+        self.assertEqual(item["delivery_grade"], "符合交易所标准")
+        self.assertEqual(item["delivery_location"], "指定交割仓库")
+        self.assertEqual(item["original_source"], "CZCE")
+        self.assertEqual(item["source_date"], "2026-08-14")
+
+        current_only = normalize_contract_info(raw, "DCE", "2026-08-14")[0]
+        self.assertIsNone(current_only["source_date"])
+        self.assertEqual(
+            current_only["metadata_status"],
+            "official_partial_source_date_unverified",
+        )
 
 
 if __name__ == "__main__":

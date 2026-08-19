@@ -1,4 +1,4 @@
-name: Twice-Daily China Commodities Data
+name: Split EOD China Commodities Data
 
 on:
   workflow_dispatch:
@@ -51,6 +51,7 @@ jobs:
         run: python scripts/export_ifind_access_token.py
 
       - name: Collect verified full-market iFinD futures
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '15 10 * * 1-5' }}
         env:
           TRADE_DATE: ${{ inputs.trade_date }}
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
@@ -67,6 +68,7 @@ jobs:
           fi
 
       - name: Collect all catalog commodity option chains
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '15 10 * * 1-5' }}
         continue-on-error: true
         env:
           TRADE_DATE: ${{ inputs.trade_date }}
@@ -74,9 +76,37 @@ jobs:
         shell: bash
         run: |
           if [[ -n "${TRADE_DATE}" ]]; then
-            python scripts/collect_ifind_options.py --all-products --date "${TRADE_DATE}"
+            python scripts/collect_ifind_options.py --all-products --date "${TRADE_DATE}" --surface-shadow-days 1
           else
-            python scripts/collect_ifind_options.py --all-products
+            python scripts/collect_ifind_options.py --all-products --surface-shadow-days 1
+          fi
+
+      - name: Collect pinned Physical EDB series
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '15 10 * * 1-5' }}
+        continue-on-error: true
+        env:
+          TRADE_DATE: ${{ inputs.trade_date }}
+          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -n "${TRADE_DATE}" ]]; then
+            python -m china_commodities.cli foundation --scope physical --date "${TRADE_DATE}"
+          else
+            python -m china_commodities.cli foundation --scope physical
+          fi
+
+      - name: Collect completed overseas daily series
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '0 22 * * 0-4' }}
+        continue-on-error: true
+        env:
+          TRADE_DATE: ${{ inputs.trade_date }}
+          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -n "${TRADE_DATE}" ]]; then
+            python -m china_commodities.cli foundation --scope external --date "${TRADE_DATE}"
+          else
+            python -m china_commodities.cli foundation --scope external
           fi
 
       - name: Upload raw diagnostic data
@@ -91,6 +121,7 @@ jobs:
           retention-days: 14
 
       - name: Validate full-market snapshot
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '15 10 * * 1-5' }}
         run: python -m china_commodities.cli validate
 
       - name: Commit and push data changes

@@ -13,6 +13,7 @@ from typing import Any
 
 from .features import contract_month
 from .historical_features import build_market_state
+from .history_storage import append_futures_history
 from .models import PipelineResult
 
 
@@ -126,7 +127,10 @@ def _snapshot_payload(result: PipelineResult) -> dict[str, Any]:
     return {
         "schema_version": 1,
         "trade_date": result.trade_date,
+        "requested_date": result.trade_date,
         "generated_at": result.generated_at,
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
         "verified": result.verified,
         "official_complete": result.official_complete,
         "scope_verified": result.scope_verified,
@@ -251,16 +255,32 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
             "exchange": record["exchange"],
             "product": record["product"],
             "contract": record["contract"],
+            "requested_date": result.trade_date,
+            "source_date": source.get("source_date"),
+            "observation_date": source.get("source_date"),
+            "timezone": "Asia/Shanghai",
+            "frequency": "EOD",
+            "vendor": source.get("metadata_vendor"),
+            "original_source": source.get("original_source"),
+            "quality_state": source.get("metadata_status", "observed_contract_only"),
+            "missing_reason": (
+                None if source else "official contract metadata unavailable"
+            ),
             "contract_month": expiry.isoformat() if expiry else None,
             "multiplier": source.get("multiplier"),
             "tick_size": source.get("tick_size"),
             "tick_value": source.get("tick_value"),
+            "night_session": source.get("night_session"),
+            "delivery_unit": source.get("delivery_unit"),
+            "delivery_grade": source.get("delivery_grade"),
+            "delivery_location": source.get("delivery_location"),
             "margin_rate_percent": source.get("margin_rate_percent"),
             "price_limit_percent": source.get("price_limit_percent"),
             "list_date": source.get("list_date"),
             "last_trading_day": source.get("last_trading_day"),
             "last_delivery_day": source.get("last_delivery_day"),
             "metadata_status": source.get("metadata_status", "observed_contract_only"),
+            "metadata_vendor": source.get("metadata_vendor"),
             "carried_forward": source.get("carried_forward", False),
             "carried_forward_fields": source.get("carried_forward_fields", []),
             "carried_from_trade_date": source.get("carried_from_trade_date"),
@@ -268,6 +288,8 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
         })
     def coverage(field: str, *, current_only: bool) -> float:
         def field_is_current(item: dict[str, Any]) -> bool:
+            if item.get("source_date") != result.trade_date:
+                return False
             if item.get("carried_forward") is not True:
                 return True
             return field not in set(item.get("carried_forward_fields") or [])
@@ -286,28 +308,62 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
     matched = sum(
         item["metadata_status"] == "official_partial" for item in contracts
     )
+    coverage_values = {
+        "multiplier": coverage("multiplier", current_only=True),
+        "tick_size": coverage("tick_size", current_only=True),
+        "night_session": coverage("night_session", current_only=True),
+        "delivery_unit": coverage("delivery_unit", current_only=True),
+        "margin_rate_percent": coverage("margin_rate_percent", current_only=True),
+        "price_limit_percent": coverage("price_limit_percent", current_only=True),
+        "last_trading_day": coverage("last_trading_day", current_only=True),
+    }
+    static_gate = min(
+        coverage_values[field]
+        for field in ("multiplier", "tick_size", "night_session", "delivery_unit")
+    )
+    dynamic_gate = min(
+        coverage_values[field]
+        for field in ("margin_rate_percent", "price_limit_percent", "last_trading_day")
+    )
     return {
         "schema_version": 1,
         "trade_date": result.trade_date,
         "generated_at": result.generated_at,
         "scope_verified": result.scope_verified,
+        "requested_date": result.trade_date,
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
         "coverage_scope": _coverage_scope(result),
         "contracts": contracts,
         "contract_match_coverage": matched / len(contracts) if contracts else 0.0,
         "effective_contract_match_coverage": sum(
             item["metadata_status"]
-            in {"official_partial", "carried_forward_previous_valid"}
+            in {
+                "official_partial",
+                "official_partial_source_date_unverified",
+                "carried_forward_previous_valid",
+            }
             for item in contracts
         ) / len(contracts) if contracts else 0.0,
         "multiplier_coverage": coverage("multiplier", current_only=True),
         "tick_size_coverage": coverage("tick_size", current_only=True),
         "tick_value_coverage": coverage("tick_value", current_only=True),
+        "night_session_coverage": coverage_values["night_session"],
+        "delivery_unit_coverage": coverage_values["delivery_unit"],
+        "delivery_grade_coverage": coverage("delivery_grade", current_only=True),
+        "delivery_location_coverage": coverage("delivery_location", current_only=True),
         "margin_rate_coverage": coverage("margin_rate_percent", current_only=True),
         "price_limit_coverage": coverage("price_limit_percent", current_only=True),
         "last_trading_day_coverage": coverage("last_trading_day", current_only=True),
         "effective_multiplier_coverage": coverage("multiplier", current_only=False),
         "effective_tick_size_coverage": coverage("tick_size", current_only=False),
         "effective_tick_value_coverage": coverage("tick_value", current_only=False),
+        "effective_night_session_coverage": coverage(
+            "night_session", current_only=False
+        ),
+        "effective_delivery_unit_coverage": coverage(
+            "delivery_unit", current_only=False
+        ),
         "effective_margin_rate_coverage": coverage(
             "margin_rate_percent", current_only=False
         ),
@@ -319,6 +375,15 @@ def _contract_meta(result: PipelineResult) -> dict[str, Any]:
         ),
         "carried_forward_contract_count": sum(
             item.get("carried_forward") is True for item in contracts
+        ),
+        "coverage_targets": {
+            "static_fields_minimum": 0.99,
+            "dynamic_fields_minimum": 0.95,
+        },
+        "static_fields_min_coverage": static_gate,
+        "dynamic_fields_min_coverage": dynamic_gate,
+        "quality_state": (
+            "complete" if static_gate >= 0.99 and dynamic_gate >= 0.95 else "partial"
         ),
         "warning": "Null trading parameters were not published by the verified exchange interface and must not be inferred.",
     }
@@ -353,6 +418,7 @@ def _publish_artifacts(
     if history_limit < 1 or snapshot_limit < 1:
         raise ValueError("history and snapshot limits must be positive")
     snapshot = _snapshot_payload(result)
+    append_futures_history(result, data_dir)
     write_json_if_changed(data_dir / "latest.json", snapshot)
     write_json_if_changed(data_dir / "radar_latest.json", _radar_payload(result))
     write_json_if_changed(data_dir / "contract_meta.json", _contract_meta(result))

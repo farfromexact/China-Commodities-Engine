@@ -29,6 +29,7 @@ from china_commodities.option_storage import (
 )
 from china_commodities.option_quality import assess_option_snapshot_quality
 from china_commodities.option_batch import collect_option_market_snapshot
+from china_commodities.option_rules import load_option_rules, option_rule_for
 from china_commodities.storage import write_json_if_changed
 
 
@@ -86,6 +87,12 @@ def _arguments() -> argparse.Namespace:
         help="Product catalog used by --all-products.",
     )
     parser.add_argument(
+        "--option-rules",
+        type=Path,
+        default=Path("config/option_rules.json"),
+        help="Versioned official exchange exercise-rule registry.",
+    )
+    parser.add_argument(
         "--minimum-product-coverage",
         type=float,
         default=0.75,
@@ -98,6 +105,12 @@ def _arguments() -> argparse.Namespace:
         help="Minimum delay between iFinD API calls; default stays below 2 requests/second.",
     )
     parser.add_argument("--data-dir", type=Path, default=Path("data"))
+    parser.add_argument(
+        "--surface-shadow-days",
+        type=int,
+        default=5,
+        help="Validated EOD dates required before surface_latest is promoted.",
+    )
     parser.add_argument(
         "--dry-run",
         action="store_true",
@@ -128,16 +141,22 @@ def main() -> int:
             )
         elif arguments.all_products:
             catalog = load_catalog(arguments.catalog)
+            rules = load_option_rules(arguments.option_rules)
             snapshot, run_status = collect_option_market_snapshot(
                 trade_date,
                 client=client,
                 option_products=catalog.options,
                 minimum_product_coverage=arguments.minimum_product_coverage,
+                option_rules=rules,
             )
             if snapshot is None or not run_status["coverage"]["publish_eligible"]:
                 if not arguments.dry_run:
                     if snapshot is not None:
-                        publish_option_attempt(snapshot, arguments.data_dir)
+                        publish_option_attempt(
+                            snapshot,
+                            arguments.data_dir,
+                            surface_shadow_days=arguments.surface_shadow_days,
+                        )
                         run_status["attempt_published"] = True
                         run_status["attempt_path"] = (
                             "data/options/attempt_latest.json.gz"
@@ -159,6 +178,12 @@ def main() -> int:
                 )
                 return 2
         else:
+            rules = load_option_rules(arguments.option_rules)
+            rule = option_rule_for(
+                arguments.exchange,
+                arguments.product,
+                rules=rules,
+            )
             snapshot = collect_option_eod_from_exchange_universe(
                 trade_date,
                 client=client,
@@ -167,14 +192,22 @@ def main() -> int:
                         exchange=arguments.exchange,
                         product=arguments.product,
                         symbol=arguments.symbol,
+                        exercise_style=rule["exercise_style"],
                     )
                 ],
             )
+            for record in snapshot["records"]:
+                record["exercise_style_rule_source_url"] = rule["source_url"]
+                record["exercise_style_rules_as_of_date"] = rule["rules_as_of_date"]
         validate_option_snapshot(snapshot)
         quality = assess_option_snapshot_quality(snapshot)
         summaries = build_option_summary(snapshot)
         if not arguments.dry_run:
-            publish_option_eod(snapshot, arguments.data_dir)
+            publish_option_eod(
+                snapshot,
+                arguments.data_dir,
+                surface_shadow_days=arguments.surface_shadow_days,
+            )
             if run_status is not None:
                 run_status["quality_status"] = quality["status"]
                 run_status["published"] = True
@@ -216,6 +249,7 @@ def main() -> int:
                     else None
                 ),
                 "surface_ready": quality["surface_ready"],
+                "positioning_ready": quality["positioning_ready"],
                 "execution_ready": quality["execution_ready"],
                 "published": not arguments.dry_run,
                 "chain_retention_trading_days": 20,

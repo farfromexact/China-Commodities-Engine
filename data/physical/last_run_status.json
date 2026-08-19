@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "domain": "physical",
+  "requested_date": "2026-08-19",
+  "generated_at": "2026-08-20T01:34:21.799946+08:00",
+  "data_fresh": true,
+  "coverage": {
+    "target_count": 20,
+    "verified_mapping_count": 4,
+    "unavailable_mapping_count": 16,
+    "fresh_target_count": 4,
+    "stale_target_count": 0,
+    "carried_forward_target_count": 0,
+    "failed_target_count": 0
+  },
+  "series": [
+    {
+      "series_key": "physical.I.port_inventory",
+      "indicator_id": "S011038838",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-19",
+      "carried_forward": false,
+      "detail": null
+    },
+    {
+      "series_key": "physical.JM.nbs_coking_coal_spot",
+      "indicator_id": "S005948590",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-10",
+      "carried_forward": false,
+      "detail": null
+    },
+    {
+      "series_key": "physical.FG.float_glass_inventory",
+      "indicator_id": "S005696248",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-14",
+      "carried_forward": false,
+      "detail": null
+    },
+    {
+      "series_key": "physical.TA.processing_margin",
+      "indicator_id": "S011318489",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-08-14",
+      "carried_forward": false,
+      "detail": null
+    }
+  ],
+  "validation_passed": true,
+  "validation_errors": [],
+  "published": true,
+  "shadow_state": {
+    "schema_version": 1,
+    "required_pass_days": 5,
+    "activated": true,
+    "activation_date": "2026-08-19",
+    "consecutive_pass_dates": [
+      "2026-08-13",
+      "2026-08-14",
+      "2026-08-17",
+      "2026-08-18",
+      "2026-08-19"
+    ],
+    "consecutive_pass_count": 5,
+    "last_attempt_date": "2026-08-19",
+    "last_attempt_validation_passed": true,
+    "out_of_order_attempt": false,
+    "promotion_allowed": true
+  },
+  "previous_valid_snapshot_retained": false
+}

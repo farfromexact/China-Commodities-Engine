@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "timezone": "Asia/Shanghai",
+  "vendor": "iFinD",
+  "mapping_verified_on": "2026-08-19",
+  "mapping_evidence": "live iFinD EDB canary plus explicit unavailable conclusions",
+  "physical_products": [
+    {
+      "product": "I",
+      "exchange": "DCE",
+      "mapping_status": "verified",
+      "series": [
+        {
+          "series_key": "physical.I.port_inventory",
+          "metric": "inventory",
+          "indicator_id": "S011038838",
+          "name": "港口库存:铁矿石",
+          "unit": "吨",
+          "frequency": "W",
+          "max_lag_days": 10,
+          "original_source": "同花顺金融",
+          "usage": "physical_evidence"
+        }
+      ]
+    },
+    {
+      "product": "JM",
+      "exchange": "DCE",
+      "mapping_status": "verified",
+      "series": [
+        {
+          "series_key": "physical.JM.nbs_coking_coal_spot",
+          "metric": "spot",
+          "indicator_id": "S005948590",
+          "name": "市场价:焦煤(主焦煤):当旬值",
+          "unit": "元/吨",
+          "frequency": "10D",
+          "max_lag_days": 15,
+          "original_source": "国家统计局",
+          "usage": "physical_evidence",
+          "region": "中国",
+          "grade": "主焦煤统计口径",
+          "delivery_location": null,
+          "tax_included": null,
+          "basis_quality": "C"
+        }
+      ]
+    },
+    {
+      "product": "J",
+      "exchange": "DCE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "RB",
+      "exchange": "SHFE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "HC",
+      "exchange": "SHFE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "FG",
+      "exchange": "CZCE",
+      "mapping_status": "verified",
+      "series": [
+        {
+          "series_key": "physical.FG.float_glass_inventory",
+          "metric": "inventory",
+          "indicator_id": "S005696248",
+          "name": "企业库存:浮法玻璃:合计:当周值",
+          "unit": "重量箱",
+          "frequency": "W",
+          "max_lag_days": 10,
+          "original_source": "同花顺金融",
+          "usage": "physical_evidence"
+        }
+      ]
+    },
+    {
+      "product": "SA",
+      "exchange": "CZCE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "SC",
+      "exchange": "INE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "FU",
+      "exchange": "SHFE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "LU",
+      "exchange": "INE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "MA",
+      "exchange": "CZCE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "TA",
+      "exchange": "CZCE",
+      "mapping_status": "verified",
+      "series": [
+        {
+          "series_key": "physical.TA.processing_margin",
+          "metric": "margin",
+          "indicator_id": "S011318489",
+          "name": "周度加工费:PTA:中国",
+          "unit": "元/吨",
+          "frequency": "W",
+          "max_lag_days": 10,
+          "original_source": "同花顺金融",
+          "usage": "physical_evidence"
+        }
+      ]
+    },
+    {
+      "product": "PX",
+      "exchange": "CZCE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "CU",
+      "exchange": "SHFE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "AL",
+      "exchange": "SHFE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "LC",
+      "exchange": "GFEX",
+      "mapping_status": "unavailable",
+      "missing_reason": "The live iFinD EDB query returned no verified lithium-inventory series.",
+      "series": []
+    },
+    {
+      "product": "SI",
+      "exchange": "GFEX",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "M",
+      "exchange": "DCE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "Y",
+      "exchange": "DCE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    },
+    {
+      "product": "P",
+      "exchange": "DCE",
+      "mapping_status": "unavailable",
+      "missing_reason": "No pinned iFinD EDB indicator ID has been verified for this product.",
+      "series": []
+    }
+  ],
+  "external_series": [
+    {"target": "WTI", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "BRENT", "mapping_status": "verified", "series_key": "external.BRENT.continuous_settlement", "indicator_id": "S004111385", "name": "期货结算价(连续):布伦特原油:ICE", "unit": "美元/桶", "frequency": "D", "max_lag_days": 3, "original_source": "洲际交易所(ICE)", "usage": "context_only", "contract_kind": "continuous"},
+    {"target": "DUBAI_OMAN", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "SINGAPORE_HSFO", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "SINGAPORE_VLSFO", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "LME_CU", "mapping_status": "verified", "series_key": "external.LME_CU.three_month_close", "indicator_id": "S005808359", "name": "最后收盘价:LME铜(3个月)", "unit": "美元/吨", "frequency": "D", "max_lag_days": 3, "original_source": "LME", "usage": "context_only", "contract_kind": "three_month"},
+    {"target": "LME_AL", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "LME_ZN", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "LME_NI", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "COMEX_AU", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "COMEX_AG", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "SGX_IRON_ORE", "mapping_status": "verified", "series_key": "external.SGX_IRON_ORE.twenty_two_month_settlement", "indicator_id": "S009067320", "name": "期货结算价:铁矿石掉期:新交所:22个月", "unit": "美元/公吨", "frequency": "D", "max_lag_days": 3, "original_source": "新加坡交易所", "usage": "context_only", "contract_kind": "twenty_two_month"},
+    {"target": "CBOT_SOYBEAN", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "CBOT_SOYMEAL", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "CBOT_SOYBEAN_OIL", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "CBOT_CORN", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "CBOT_WHEAT", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "BMD_PALM", "mapping_status": "verified", "series_key": "external.BMD_PALM.bmd_plus_3", "indicator_id": "S024923811", "name": "马来西亚:国际市场价:毛棕榈油:BMD+3", "unit": "美元/吨", "frequency": "D", "max_lag_days": 3, "original_source": "马来西亚棕榈油委员会", "usage": "context_only", "contract_kind": "bmd_plus_3", "current_canary_date": "2026-08-19", "current_canary_status": "no usable current observation; runtime staleness gate required"},
+    {"target": "ICE_SUGAR", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "ICE_COTTON", "mapping_status": "unavailable", "missing_reason": "No pinned exact-contract iFinD mapping has been verified."},
+    {"target": "USDCNH", "mapping_status": "verified", "series_key": "external.USDCNH.close", "indicator_id": "G019711418", "name": "美元兑离岸人民币", "unit": "人民币/美元", "frequency": "D", "max_lag_days": 3, "original_source": "XE", "usage": "context_only", "contract_kind": "spot_fx"},
+    {"target": "DXY", "mapping_status": "verified", "series_key": "external.DXY.close", "indicator_id": "G002600885", "name": "美国:美元指数", "unit": "1973年3月=100", "frequency": "D", "max_lag_days": 3, "original_source": "同花顺金融", "usage": "context_only", "contract_kind": "index"}
+  ],
+  "parities": [
+    {"parity_key": "SC_BRENT", "status": "unavailable", "missing_reason": "Only a continuous Brent context series is pinned; no aligned exact-contract leg is verified."},
+    {"parity_key": "I_SGX", "status": "unavailable", "missing_reason": "The pinned SGX series is a 22-month context series and cannot be used as an executable parity leg."},
+    {"parity_key": "SOY_IMPORT", "status": "unavailable", "missing_reason": "Exact CBOT, freight, duty, tax and quality legs are not all verified."},
+    {"parity_key": "PALM_IMPORT", "status": "unavailable", "missing_reason": "The BMD series is not an aligned exact contract and the full landed-cost legs are not verified."},
+    {"parity_key": "COTTON_IMPORT", "status": "unavailable", "missing_reason": "Exact ICE, freight, duty, tax and quality legs are not all verified."}
+  ]
+}

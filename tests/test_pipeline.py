@@ -170,6 +170,7 @@ class PipelineTests(unittest.TestCase):
                 data_dir=directory,
                 include_options=False,
                 provider="ifind",
+                include_official_auxiliary=False,
                 ifind_http_client=PrimaryIFindHTTPClient(),
             )
 

@@ -30,6 +30,73 @@ class FakeClient:
 
 
 class OptionBatchTests(unittest.TestCase):
+    def test_official_rule_registry_supplies_exercise_style(self) -> None:
+        observed_styles = []
+
+        def collect_one(trade_date, *, universes, **kwargs):
+            observed_styles.append(universes[0].exercise_style)
+            item = _record(universes[0], trade_date)
+            item["expiry_date"] = "2026-09-24"
+            return {
+                "records": [item],
+                "universe_contract_count": 1,
+                "quote_contract_count": 1,
+                "quote_coverage_complete": True,
+            }
+
+        snapshot, _ = collect_option_market_snapshot(
+            "2026-08-19",
+            client=FakeClient(),
+            option_products=(PRODUCTS[0],),
+            minimum_product_coverage=1.0,
+            collect_one=collect_one,
+            fallback_directory_loader=None,
+        )
+        self.assertEqual(observed_styles, ["american"])
+        self.assertEqual(snapshot["records"][0]["exercise_style"], "american")
+        self.assertTrue(
+            snapshot["records"][0]["exercise_style_rule_source_url"].startswith(
+                "https://"
+            )
+        )
+
+    def test_openctp_enriches_missing_expiry_without_replacing_quotes(self) -> None:
+        def collect_one(trade_date, *, universes, **kwargs):
+            return {
+                "records": [_record(universes[0], trade_date)],
+                "universe_contract_count": 1,
+                "quote_contract_count": 1,
+                "quote_coverage_complete": True,
+                "universe_source": "exchange_eod_via_akshare",
+            }
+
+        def fallback_loader(trade_date, products):
+            return {
+                ("SHFE", "CU"): [
+                    {
+                        "contract": "CU2609C100",
+                        "expiry_date": "2026-09-24",
+                        "universe_source": "openctp_contract_directory",
+                    }
+                ]
+            }
+
+        snapshot, status = collect_option_market_snapshot(
+            "2026-08-19",
+            client=FakeClient(),
+            option_products=(PRODUCTS[0],),
+            minimum_product_coverage=1.0,
+            collect_one=collect_one,
+            fallback_directory_loader=fallback_loader,
+            enrich_missing_metadata=True,
+        )
+        self.assertEqual(snapshot["records"][0]["expiry_date"], "2026-09-24")
+        self.assertEqual(
+            snapshot["records"][0]["expiry_source"],
+            "openctp_contract_directory",
+        )
+        self.assertTrue(status["product_statuses"][0]["metadata_enrichment_used"])
+
     def test_failed_primary_directory_uses_one_verified_fallback(self) -> None:
         product = OptionProduct("DCE", "I", "铁矿石期权")
         fallback_calls = []

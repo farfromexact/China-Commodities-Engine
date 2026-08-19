@@ -585,6 +585,17 @@ def _first_date(value: Any) -> str | None:
     return match.group(0) if match else None
 
 
+def _first_text(row: pd.Series, *names: str) -> str | None:
+    for name in names:
+        value = row.get(name)
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            continue
+        text = str(value).strip()
+        if text and text.lower() not in {"nan", "none", "-", "--"}:
+            return text
+    return None
+
+
 def normalize_contract_info(
     raw: pd.DataFrame, exchange: str, trade_date: str
 ) -> list[dict[str, Any]]:
@@ -595,6 +606,7 @@ def normalize_contract_info(
     if not contract_column:
         raise ValueError("contract info frame missing contract code")
     output: list[dict[str, Any]] = []
+    source_date_verified = exchange.upper() not in {"DCE", "GFEX"}
     for _, row in raw.iterrows():
         contract = str(row.get(contract_column, "")).strip().upper()
         if not re.search(r"\d", contract):
@@ -609,6 +621,15 @@ def normalize_contract_info(
             tick_value = multiplier * tick_size
         margin_percent = _first_number(row.get("交易保证金率"))
         price_limit_percent = _first_number(row.get("涨跌停板"))
+        night_session = _first_text(
+            row,
+            "夜盘交易时间",
+            "夜盘时间",
+            "交易时间",
+        )
+        delivery_unit = _first_text(row, "交割单位", "交割手数")
+        delivery_grade = _first_text(row, "交割品级", "标准品", "交割质量标准")
+        delivery_location = _first_text(row, "交割地点", "交割区域")
         output.append(
             {
                 "as_of_date": iso_date(trade_date),
@@ -634,7 +655,20 @@ def normalize_contract_info(
                 "last_delivery_day": _first_date(row.get("最后交割日")),
                 "margin_rate_percent": margin_percent,
                 "price_limit_percent": price_limit_percent,
-                "metadata_status": "official_partial",
+                "night_session": night_session,
+                "delivery_unit": delivery_unit,
+                "delivery_grade": delivery_grade,
+                "delivery_location": delivery_location,
+                "metadata_vendor": "official_exchange_via_akshare",
+                "original_source": exchange.upper(),
+                "source_date": (
+                    iso_date(trade_date) if source_date_verified else None
+                ),
+                "metadata_status": (
+                    "official_partial"
+                    if source_date_verified
+                    else "official_partial_source_date_unverified"
+                ),
             }
         )
     return sorted(output, key=lambda item: (item["exchange"], item["contract"]))
