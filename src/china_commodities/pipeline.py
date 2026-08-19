@@ -656,6 +656,7 @@ def run_pipeline(
     ifind_dce_fallback: bool = False,
     ifind_http_client: IFindHTTPClient | None = None,
     ifind_prefetched: Mapping[str, pd.DataFrame] | None = None,
+    ifind_request_interval_seconds: float = 0.0,
     now: datetime | None = None,
 ) -> PipelineResult:
     normalized_date = iso_date(trade_date)
@@ -715,6 +716,7 @@ def run_pipeline(
                     exchange,
                     products,
                     client=primary_ifind_client,
+                    request_interval_seconds=ifind_request_interval_seconds,
                 )
             raw, status = _collect(
                 dataset="futures",

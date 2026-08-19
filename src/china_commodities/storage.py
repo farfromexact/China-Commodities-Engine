@@ -7,14 +7,15 @@ import math
 import os
 from pathlib import Path
 import re
+import time
 from typing import Any
 
 from .features import contract_month
 from .models import PipelineResult
 
 
-DEFAULT_HISTORY_LIMIT = 252
-DEFAULT_SNAPSHOT_LIMIT = 60
+DEFAULT_HISTORY_LIMIT = 20
+DEFAULT_SNAPSHOT_LIMIT = 20
 SNAPSHOT_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}\.json$")
 
 
@@ -46,7 +47,14 @@ def write_json_atomic(path: Path, payload: Any) -> None:
         json.dumps(json_safe(payload), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    os.replace(temporary, path)
+    for attempt in range(5):
+        try:
+            os.replace(temporary, path)
+            break
+        except PermissionError:
+            if attempt == 4:
+                raise
+            time.sleep(0.2 * (attempt + 1))
 
 
 def read_json(path: Path, default: Any = None) -> Any:

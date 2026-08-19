@@ -39,7 +39,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/last_run_status.json`：各数据模块的状态、错误和新鲜度。
 - `data/snapshots/YYYY-MM-DD.json`：通过校验的日级快照。
 
-历史采用分层保留：`radar_history.json` 是紧凑比较层，按交易日去重并滚动保留最近252个交易日；`data/snapshots/` 是包含具体合约的完整层，滚动保留最近60个交易日。该组合提供约一年的轻量比较窗口，同时把 Git 仓库中的完整快照体积控制在约三个月范围内。`latest.json` 始终指向最近一个已验证交易日。
+正式历史统一滚动保留最近20个交易日：`radar_history.json` 按交易日去重保存紧凑比较记录，`data/snapshots/` 保存同一窗口内包含具体合约的完整快照。`latest.json` 始终指向最近一个已验证交易日。旧文件在新快照发布成功后才会按日期清理，失败运行不会缩短有效历史窗口。
 
 ## 数据源原则
 
@@ -82,11 +82,11 @@ python -m pip install --no-deps -e .
 ```powershell
 python -m unittest discover -s tests -v
 python -m china_commodities.cli run --provider ifind --skip-options
-python -m china_commodities.cli backfill --end-date YYYY-MM-DD --days 60 --history-limit 252 --snapshot-limit 60
+python -m china_commodities.cli backfill --end-date YYYY-MM-DD --days 20 --history-limit 20 --snapshot-limit 20
 python -m china_commodities.cli validate
 ```
 
-历史回填使用 iFinD 区间查询，而不是逐日重复请求；系统取五个交易所共同存在的最近60个交易日，在内存中逐日执行与每日任务相同的校验。只有选中的全部日期均通过时才发布，节假日和空返回不会伪装成交易日。GitHub 手工运行工作流时可将 `backfill_days` 设为 `60`，并把 `trade_date` 设为希望回填到的最后交易日。
+历史回填优先使用 iFinD 区间查询；若账户对多日合约区间返回参数规模错误，则自动改用共享 access token 的逐日查询。系统取五个交易所共同存在或逐日验证通过的最近20个交易日，在内存中执行与每日任务相同的校验。只有选中的全部日期均通过时才发布，节假日和空返回不会伪装成交易日。历史回填建议在本地一次性执行；GitHub Action 只运行正常的单日更新。
 
 仅采集上期所、上期能源、郑商所和广期所：
 

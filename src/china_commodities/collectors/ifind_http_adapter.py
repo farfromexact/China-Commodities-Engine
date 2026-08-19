@@ -350,6 +350,7 @@ def collect_futures_universe_daily(
     client: IFindHTTPClient,
     fields: Sequence[str] = IFIND_FUTURES_FIELDS,
     batch_size: int = DEFAULT_HISTORY_BATCH_SIZE,
+    request_interval_seconds: float = 0.0,
 ) -> pd.DataFrame:
     """Discover listed concrete contracts and collect their EOD fields via iFinD."""
 
@@ -361,6 +362,7 @@ def collect_futures_universe_daily(
         client=client,
         fields=fields,
         batch_size=batch_size,
+        request_interval_seconds=request_interval_seconds,
     )
     output.attrs["candidate_contracts"] = len(contracts)
     output.attrs["returned_contracts"] = len(output)

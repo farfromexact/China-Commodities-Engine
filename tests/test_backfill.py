@@ -8,6 +8,7 @@ import unittest
 import pandas as pd
 
 from china_commodities.backfill import run_ifind_backfill
+from china_commodities.collectors.ifind_http_adapter import IFindHTTPError
 
 
 class RangeIFindHTTPClient:
@@ -45,6 +46,34 @@ class RangeIFindHTTPClient:
         return pd.DataFrame(rows)
 
 
+class DailyFallbackIFindHTTPClient(RangeIFindHTTPClient):
+    def history_quotes_range(self, codes, fields, *, start_date, end_date):
+        raise IFindHTTPError(
+            "iFinD cmd_history_quotation failed with code -4210: bad range"
+        )
+
+    def history_quotes(self, codes, fields, trade_date):
+        rows = []
+        for target in self.targets.values():
+            if target in codes and trade_date in self.dates:
+                rows.append(
+                    {
+                        "thscode": target,
+                        "time": trade_date,
+                        "open": 100,
+                        "high": 110,
+                        "low": 99,
+                        "close": 108,
+                        "settlement": 107,
+                        "preSettlement": 100,
+                        "volume": 1000,
+                        "amount": 10000,
+                        "openInterest": 2000,
+                    }
+                )
+        return pd.DataFrame(rows)
+
+
 class BackfillTests(unittest.TestCase):
     def test_backfill_publishes_only_latest_requested_common_days(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
@@ -75,6 +104,22 @@ class BackfillTests(unittest.TestCase):
                 ["2026-08-18", "2026-08-19"],
             )
             self.assertEqual(latest["source"]["provider"], "ifind")
+            self.assertEqual(summary.collection_mode, "range")
+
+    def test_parameter_error_falls_back_to_verified_daily_queries(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            summary = run_ifind_backfill(
+                end_date="2026-08-19",
+                days=2,
+                data_dir=directory,
+                history_limit=3,
+                snapshot_limit=2,
+                calendar_days=10,
+                client=DailyFallbackIFindHTTPClient(),
+                request_interval_seconds=0,
+            )
+            self.assertEqual(summary.collection_mode, "daily_fallback")
+            self.assertEqual(summary.published_dates, ("2026-08-18", "2026-08-19"))
 
     def test_backfill_is_all_or_nothing_when_common_dates_are_insufficient(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:

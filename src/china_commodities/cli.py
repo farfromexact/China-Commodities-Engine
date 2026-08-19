@@ -56,11 +56,11 @@ def _parser() -> argparse.ArgumentParser:
         "backfill", help="backfill verified common trading days through iFinD"
     )
     backfill.add_argument("--end-date", default=_today_shanghai())
-    backfill.add_argument("--days", type=int, default=60)
+    backfill.add_argument("--days", type=int, default=20)
     backfill.add_argument("--data-dir", default="data")
     backfill.add_argument("--catalog", default=None)
-    backfill.add_argument("--history-limit", type=int, default=252)
-    backfill.add_argument("--snapshot-limit", type=int, default=60)
+    backfill.add_argument("--history-limit", type=int, default=20)
+    backfill.add_argument("--snapshot-limit", type=int, default=20)
     backfill.add_argument("--calendar-days", type=int, default=None)
 
     validate = subparsers.add_parser("validate", help="validate latest promoted snapshot")
