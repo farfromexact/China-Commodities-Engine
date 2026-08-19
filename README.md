@@ -117,7 +117,7 @@ python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD --dry-r
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD
 ```
 
-GitHub Actions 通过 `workflow_dispatch` 或工作日北京时间 18:15（UTC 10:15）运行测试、全市场 iFinD 期货采集和商品期权逐品种尝试。期权模块单品种失败写入 `data/options/last_run_status.json`；期货和期权的提升规则彼此隔离。只有达到各自发布门槛且确有变化的文件才会提交和推送；期权覆盖率不足时保留上一份 `data/options/latest.json`。
+GitHub Actions 通过 `workflow_dispatch`，或在工作日北京时间 06:00（前一 UTC 日 22:00）和 18:15（UTC 10:15）运行同一套测试、全市场 iFinD 期货采集和商品期权逐品种尝试。两次运行不拆分晨间/晚间目录：通过质量门槛的数据都直接更新同一套 `data/latest.json`、`data/radar_latest.json` 和期权 latest 产物；同一交易日的第二次成功运行覆盖最新值，快照与历史仍按交易日去重，因此不会把一天记成两个交易日。若某次运行没有拿到同交易日新鲜数据，则保留上一份已验证 latest，并只更新明确的运行状态。期权模块单品种失败写入 `data/options/last_run_status.json`；期货和期权的提升规则彼此隔离。只有达到各自发布门槛且确有变化的文件才会提交和推送；期权覆盖率不足时保留上一份 `data/options/latest.json`。
 
 历史回填优先使用 iFinD 区间查询；若账户对多日合约区间返回参数规模错误，则自动改用共享 access token 的逐日查询。系统取五个交易所共同存在或逐日验证通过的最近20个交易日，在内存中执行与每日任务相同的校验。只有选中的全部日期均通过时才发布，节假日和空返回不会伪装成交易日。历史回填建议在本地一次性执行；GitHub Action 只运行正常的单日更新。
 

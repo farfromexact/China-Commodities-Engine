@@ -1,4 +1,4 @@
-name: Daily China Commodities Data
+name: Twice-Daily China Commodities Data
 
 on:
   workflow_dispatch:
@@ -8,6 +8,8 @@ on:
         required: false
         type: string
   schedule:
+    # 06:00 Asia/Shanghai, Monday through Friday (previous UTC day).
+    - cron: "0 22 * * 0-4"
     # 18:15 Asia/Shanghai, Monday through Friday.
     - cron: "15 10 * * 1-5"
 

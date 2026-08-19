@@ -366,6 +366,54 @@ class PipelineTests(unittest.TestCase):
 
             self.assertEqual(before, {path: path.read_bytes() for path in paths})
 
+    def test_repeated_same_day_run_updates_latest_without_duplicating_history(self) -> None:
+        class RevisedSameDayAkshare(FakeAkshare):
+            def get_futures_daily(
+                self, start_date: str, end_date: str, market: str
+            ) -> pd.DataFrame:
+                frame = super().get_futures_daily(start_date, end_date, market)
+                frame["close"] = frame["close"] + 1
+                frame["settle"] = frame["settle"] + 1
+                return frame
+
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            first_now = datetime(2026, 8, 14, 6, 0, tzinfo=ZoneInfo("Asia/Shanghai"))
+            second_now = datetime(2026, 8, 14, 18, 15, tzinfo=ZoneInfo("Asia/Shanghai"))
+            run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                ak_module=FakeAkshare(),
+                now=first_now,
+            )
+            run_pipeline(
+                "2026-08-14",
+                data_dir=directory,
+                include_options=False,
+                ak_module=RevisedSameDayAkshare(),
+                now=second_now,
+            )
+
+            root = Path(directory)
+            latest = json.loads((root / "latest.json").read_text(encoding="utf-8"))
+            snapshot = json.loads(
+                (root / "snapshots" / "2026-08-14.json").read_text(encoding="utf-8")
+            )
+            history = json.loads(
+                (root / "radar_history.json").read_text(encoding="utf-8")
+            )
+
+            latest_rb = next(
+                record
+                for record in latest["futures_contracts"]
+                if record["contract"] == "RB2610"
+            )
+            self.assertEqual(latest["generated_at"], second_now.isoformat())
+            self.assertEqual(latest_rb["close"], 109)
+            self.assertEqual(snapshot, latest)
+            self.assertEqual(len(history["records"]), 1)
+            self.assertEqual(history["records"][0]["trade_date"], "2026-08-14")
+
     def test_verified_run_publishes_expected_artifacts(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
             result = run_pipeline(
