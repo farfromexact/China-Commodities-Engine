@@ -4,6 +4,7 @@ import unittest
 
 import pandas as pd
 
+from china_commodities.collectors.ifind_http_adapter import IFindHTTPError
 from china_commodities.collectors.ifind_option_adapter import (
     ExchangeOptionUniverseConfig,
     IFindOptionDataError,
@@ -375,6 +376,109 @@ class IFindOptionAdapterTests(unittest.TestCase):
                     )
                 ],
                 ak_module=FakeAkshare(),
+            )
+
+    def test_exchange_directory_splits_parameter_error_batches(self) -> None:
+        directory = {
+            ("SHFE", "CU"): [
+                {
+                    "trade_date": "2026-08-19",
+                    "exchange": "SHFE",
+                    "product": "CU",
+                    "contract": "CU2609C80000",
+                    "underlying_contract": "CU2609",
+                    "expiry_date": "2026-08-26",
+                    "option_type": "C",
+                    "strike": 80000.0,
+                    "universe_source": "test_directory",
+                },
+                {
+                    "trade_date": "2026-08-19",
+                    "exchange": "SHFE",
+                    "product": "CU",
+                    "contract": "CU2609P80000",
+                    "underlying_contract": "CU2609",
+                    "expiry_date": "2026-08-26",
+                    "option_type": "P",
+                    "strike": 80000.0,
+                    "universe_source": "test_directory",
+                },
+            ]
+        }
+
+        class SplitClient:
+            def __init__(self):
+                self.calls = []
+
+            def request(self, endpoint, payload):
+                codes = payload["codes"].split(",")
+                self.calls.append(codes)
+                if len(codes) > 1:
+                    raise IFindHTTPError(
+                        "iFinD real_time_quotation failed with code -4210"
+                    )
+                code = codes[0]
+                settlement = 80500 if code == "CU2609.SHF" else 1750
+                return {
+                    "errorcode": 0,
+                    "tables": [
+                        {
+                            "thscode": code,
+                            "time": "2026-08-19 15:00:00",
+                            "table": {"settlement": [settlement]},
+                        }
+                    ],
+                }
+
+        client = SplitClient()
+        result = collect_option_eod_from_exchange_universe(
+            "2026-08-19",
+            client=client,
+            universes=[
+                ExchangeOptionUniverseConfig(
+                    exchange="SHFE", product="CU", symbol="铜期权"
+                )
+            ],
+            directory_records_by_product=directory,
+        )
+
+        self.assertEqual(result["quote_contract_count"], 2)
+        self.assertEqual(len(client.calls), 4)
+
+    def test_single_parameter_error_identifies_rejected_contract(self) -> None:
+        class RejectClient:
+            def request(self, endpoint, payload):
+                raise IFindHTTPError(
+                    "iFinD real_time_quotation failed with code -4210"
+                )
+
+        directory = {
+            ("DCE", "A"): [
+                {
+                    "trade_date": "2026-08-19",
+                    "exchange": "DCE",
+                    "product": "A",
+                    "contract": "A2611-MS-C-4250",
+                    "underlying_contract": "A2611",
+                    "expiry_date": "2026-09-10",
+                    "option_type": "C",
+                    "strike": 4250.0,
+                    "universe_source": "test_directory",
+                }
+            ]
+        }
+        with self.assertRaisesRegex(
+            IFindOptionDataError, "A2611MSC4250.DCE"
+        ):
+            collect_option_eod_from_exchange_universe(
+                "2026-08-19",
+                client=RejectClient(),
+                universes=[
+                    ExchangeOptionUniverseConfig(
+                        exchange="DCE", product="A", symbol="豆一期权"
+                    )
+                ],
+                directory_records_by_product=directory,
             )
 
     def test_exchange_directory_rejects_stale_ifind_quote(self) -> None:

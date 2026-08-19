@@ -14,7 +14,7 @@ import re
 from typing import Any, Mapping
 
 from .akshare_adapter import collect_option_daily
-from .ifind_http_adapter import IFindHTTPClient
+from .ifind_http_adapter import IFindHTTPError, IFindHTTPClient
 from ..normalize import normalize_options
 from ..option_greeks import OptionValuationInput, calculate_greeks
 
@@ -278,13 +278,27 @@ def _realtime_quote_map(
     indicators: tuple[str, ...],
     batch_size: int,
 ) -> dict[str, dict[str, Any]]:
+    def query(batch: list[str]) -> list[dict[str, Any]]:
+        try:
+            response = client.request(
+                "real_time_quotation",
+                {"codes": ",".join(batch), "indicators": ",".join(indicators)},
+            )
+            return _response_rows(response)
+        except IFindHTTPError as exc:
+            parameter_error = "code -4210" in str(exc)
+            if not parameter_error:
+                raise
+            if len(batch) == 1:
+                raise IFindOptionDataError(
+                    f"iFinD rejected option quote code {batch[0]} with parameter error"
+                ) from exc
+            midpoint = len(batch) // 2
+            return query(batch[:midpoint]) + query(batch[midpoint:])
+
     rows: list[dict[str, Any]] = []
     for batch in _chunks(codes, batch_size):
-        response = client.request(
-            "real_time_quotation",
-            {"codes": ",".join(batch), "indicators": ",".join(indicators)},
-        )
-        rows.extend(_response_rows(response))
+        rows.extend(query(batch))
     quotes: dict[str, dict[str, Any]] = {}
     for row in rows:
         code = _quote_code(row)
