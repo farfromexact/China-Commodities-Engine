@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
@@ -58,6 +58,16 @@ from .storage import (
 
 
 WAREHOUSE_EXCHANGES = ("SHFE", "DCE", "CZCE", "GFEX")
+
+
+def _prefetched_ifind_daily(frame: pd.DataFrame, trade_date: str) -> pd.DataFrame:
+    if frame.empty or "date" not in frame.columns:
+        return pd.DataFrame()
+    source_date = pd.Timestamp(trade_date).strftime("%Y%m%d")
+    output = frame.loc[frame["date"].astype(str) == source_date].copy()
+    output.attrs["prefetched_range"] = True
+    output.attrs["returned_contracts"] = len(output)
+    return output
 
 
 def _normalize_exchanges(exchanges: Sequence[str] | None) -> tuple[str, ...]:
@@ -645,6 +655,7 @@ def run_pipeline(
     provider: str = "akshare",
     ifind_dce_fallback: bool = False,
     ifind_http_client: IFindHTTPClient | None = None,
+    ifind_prefetched: Mapping[str, pd.DataFrame] | None = None,
     now: datetime | None = None,
 ) -> PipelineResult:
     normalized_date = iso_date(trade_date)
@@ -688,11 +699,23 @@ def run_pipeline(
     )
 
     primary_ifind_client: IFindHTTPClient | None = None
-    if normalized_provider == "ifind":
+    if normalized_provider == "ifind" and ifind_prefetched is None:
         primary_ifind_client = ifind_http_client or IFindHTTPClient()
     for exchange in selected_exchanges:
         if normalized_provider == "ifind":
             products = catalog.products_for_exchange(exchange)
+            if ifind_prefetched is not None:
+                source_frame = ifind_prefetched.get(exchange, pd.DataFrame())
+                collector = lambda source_frame=source_frame: _prefetched_ifind_daily(
+                    source_frame, normalized_date
+                )
+            else:
+                collector = lambda exchange=exchange, products=products: collect_ifind_futures_universe_daily(
+                    normalized_date,
+                    exchange,
+                    products,
+                    client=primary_ifind_client,
+                )
             raw, status = _collect(
                 dataset="futures",
                 scope=exchange,
@@ -700,12 +723,7 @@ def run_pipeline(
                 source_function="cmd_history_quotation",
                 upstream_source="iFinD Quant API",
                 is_proxy=False,
-                call=lambda exchange=exchange, products=products: collect_ifind_futures_universe_daily(
-                    normalized_date,
-                    exchange,
-                    products,
-                    client=primary_ifind_client,
-                ),
+                call=collector,
             )
         else:
             raw, status = _collect(

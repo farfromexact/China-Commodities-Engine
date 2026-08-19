@@ -73,6 +73,19 @@ class IFindHTTPAdapterTests(unittest.TestCase):
         self.assertEqual(transport.calls[1][2]["startdate"], "2026-08-18")
         self.assertEqual(transport.calls[1][2]["functionpara"], {"Fill": "Omit"})
 
+    def test_range_query_uses_distinct_start_and_end_dates(self) -> None:
+        transport = FakeTransport()
+        client = IFindHTTPClient(refresh_token="refresh", transport=transport)
+        frame = client.history_quotes_range(
+            ["I2609.DCE"],
+            ["close"],
+            start_date="2026-08-01",
+            end_date="2026-08-18",
+        )
+        self.assertEqual(len(frame), 1)
+        self.assertEqual(transport.calls[1][2]["startdate"], "2026-08-01")
+        self.assertEqual(transport.calls[1][2]["enddate"], "2026-08-18")
+
     def test_entitlement_error_is_explicit(self) -> None:
         client = IFindHTTPClient(
             refresh_token="refresh", transport=FakeTransport(history_error=-430)

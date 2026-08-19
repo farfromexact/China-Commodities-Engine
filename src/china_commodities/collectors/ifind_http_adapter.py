@@ -6,6 +6,7 @@ from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
 import json
 import os
+import time
 from typing import Any
 import urllib.error
 import urllib.request
@@ -17,6 +18,7 @@ from .ifind_adapter import IFIND_FUTURES_FIELDS, contract_to_ifind_code
 
 DEFAULT_BASE_URL = "https://quantapi.51ifind.com/api/v1"
 DEFAULT_HISTORY_BATCH_SIZE = 400
+DEFAULT_RANGE_BATCH_SIZE = 100
 
 
 class IFindHTTPError(RuntimeError):
@@ -189,13 +191,28 @@ class IFindHTTPClient:
         fields: Sequence[str],
         trade_date: str,
     ) -> pd.DataFrame:
+        return self.history_quotes_range(
+            codes,
+            fields,
+            start_date=trade_date,
+            end_date=trade_date,
+        )
+
+    def history_quotes_range(
+        self,
+        codes: Sequence[str],
+        fields: Sequence[str],
+        *,
+        start_date: str,
+        end_date: str,
+    ) -> pd.DataFrame:
         response = self.request(
             "cmd_history_quotation",
             {
                 "codes": ",".join(codes),
                 "indicators": ",".join(fields),
-                "startdate": trade_date,
-                "enddate": trade_date,
+                "startdate": start_date,
+                "enddate": end_date,
                 "functionpara": {"Fill": "Omit"},
             },
         )
@@ -213,26 +230,40 @@ class IFindHTTPClient:
         return _tables_frame(response)
 
 
-def collect_futures_daily(
-    trade_date: str,
+def collect_futures_history(
+    start_date: str,
+    end_date: str,
     exchange: str,
     contracts: Sequence[str],
     *,
     client: IFindHTTPClient,
     fields: Sequence[str] = IFIND_FUTURES_FIELDS,
     batch_size: int = DEFAULT_HISTORY_BATCH_SIZE,
+    request_interval_seconds: float = 0.0,
 ) -> pd.DataFrame:
-    """Collect one-day Quant API history and map to the existing raw schema."""
+    """Collect a Quant API date range and map it to the existing raw schema."""
 
     codes = [contract_to_ifind_code(contract, exchange) for contract in contracts]
     if not codes:
         return pd.DataFrame()
     if batch_size < 1:
         raise ValueError("batch_size must be positive")
-    frames = [
-        client.history_quotes(batch, fields, trade_date)
-        for batch in _chunks(codes, batch_size)
-    ]
+    if request_interval_seconds < 0:
+        raise ValueError("request interval cannot be negative")
+    frames: list[pd.DataFrame] = []
+    for index, batch in enumerate(_chunks(codes, batch_size)):
+        if index and request_interval_seconds:
+            time.sleep(request_interval_seconds)
+        if start_date == end_date:
+            frame = client.history_quotes(batch, fields, start_date)
+        else:
+            frame = client.history_quotes_range(
+                batch,
+                fields,
+                start_date=start_date,
+                end_date=end_date,
+            )
+        frames.append(frame)
     frames = [frame for frame in frames if not frame.empty]
     raw = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
     if raw.empty:
@@ -272,6 +303,30 @@ def collect_futures_daily(
     return output
 
 
+def collect_futures_daily(
+    trade_date: str,
+    exchange: str,
+    contracts: Sequence[str],
+    *,
+    client: IFindHTTPClient,
+    fields: Sequence[str] = IFIND_FUTURES_FIELDS,
+    batch_size: int = DEFAULT_HISTORY_BATCH_SIZE,
+    request_interval_seconds: float = 0.0,
+) -> pd.DataFrame:
+    """Collect one-day Quant API history and map to the existing raw schema."""
+
+    return collect_futures_history(
+        trade_date,
+        trade_date,
+        exchange,
+        contracts,
+        client=client,
+        fields=fields,
+        batch_size=batch_size,
+        request_interval_seconds=request_interval_seconds,
+    )
+
+
 def collect_futures_universe_daily(
     trade_date: str,
     exchange: str,
@@ -297,12 +352,44 @@ def collect_futures_universe_daily(
     return output
 
 
+def collect_futures_universe_history(
+    start_date: str,
+    end_date: str,
+    exchange: str,
+    products: Sequence[str],
+    *,
+    client: IFindHTTPClient,
+    fields: Sequence[str] = IFIND_FUTURES_FIELDS,
+    batch_size: int = DEFAULT_RANGE_BATCH_SIZE,
+    request_interval_seconds: float = 0.55,
+) -> pd.DataFrame:
+    """Collect a broad concrete-contract universe for a historical date range."""
+
+    contracts = generate_contract_candidates(end_date, exchange, products)
+    output = collect_futures_history(
+        start_date,
+        end_date,
+        exchange,
+        contracts,
+        client=client,
+        fields=fields,
+        batch_size=batch_size,
+        request_interval_seconds=request_interval_seconds,
+    )
+    output.attrs["candidate_contracts"] = len(contracts)
+    output.attrs["returned_rows"] = len(output)
+    return output
+
+
 __all__ = [
     "DEFAULT_BASE_URL",
     "DEFAULT_HISTORY_BATCH_SIZE",
+    "DEFAULT_RANGE_BATCH_SIZE",
     "IFindHTTPClient",
     "IFindHTTPError",
     "collect_futures_daily",
+    "collect_futures_history",
     "collect_futures_universe_daily",
+    "collect_futures_universe_history",
     "generate_contract_candidates",
 ]

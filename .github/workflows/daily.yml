@@ -7,6 +7,11 @@ on:
         description: "Optional trade date (YYYY-MM-DD); defaults to runner date"
         required: false
         type: string
+      backfill_days:
+        description: "Optional iFinD history backfill count; 0 runs one day"
+        required: false
+        default: "0"
+        type: string
   schedule:
     # 18:15 Asia/Shanghai, Monday through Friday.
     - cron: "15 10 * * 1-5"
@@ -21,7 +26,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 120
 
     steps:
       - name: Check out repository
@@ -46,6 +51,7 @@ jobs:
       - name: Collect verified full-market iFinD futures
         env:
           TRADE_DATE: ${{ inputs.trade_date }}
+          BACKFILL_DAYS: ${{ inputs.backfill_days }}
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
@@ -53,7 +59,16 @@ jobs:
             echo "IFIND_REFRESH_TOKEN secret is required." >&2
             exit 1
           fi
-          if [[ -n "${TRADE_DATE}" ]]; then
+          BACKFILL_DAYS="${BACKFILL_DAYS:-0}"
+          if ! [[ "${BACKFILL_DAYS}" =~ ^[0-9]+$ ]]; then
+            echo "backfill_days must be a non-negative integer." >&2
+            exit 1
+          fi
+          if [[ "${BACKFILL_DAYS}" -gt 0 && -n "${TRADE_DATE}" ]]; then
+            python -m china_commodities.cli backfill --end-date "${TRADE_DATE}" --days "${BACKFILL_DAYS}" --history-limit 252 --snapshot-limit 60
+          elif [[ "${BACKFILL_DAYS}" -gt 0 ]]; then
+            python -m china_commodities.cli backfill --days "${BACKFILL_DAYS}" --history-limit 252 --snapshot-limit 60
+          elif [[ -n "${TRADE_DATE}" ]]; then
             python -m china_commodities.cli run --date "${TRADE_DATE}" --provider ifind --skip-options
           else
             python -m china_commodities.cli run --provider ifind --skip-options

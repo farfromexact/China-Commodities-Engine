@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from .backfill import run_ifind_backfill
 from .collectors.akshare_adapter import COMMODITY_EXCHANGES
 from .pipeline import run_pipeline
 from .quality import validate_snapshot
@@ -50,6 +51,17 @@ def _parser() -> argparse.ArgumentParser:
         default=[],
         help="exclude an exchange; may be repeated",
     )
+
+    backfill = subparsers.add_parser(
+        "backfill", help="backfill verified common trading days through iFinD"
+    )
+    backfill.add_argument("--end-date", default=_today_shanghai())
+    backfill.add_argument("--days", type=int, default=60)
+    backfill.add_argument("--data-dir", default="data")
+    backfill.add_argument("--catalog", default=None)
+    backfill.add_argument("--history-limit", type=int, default=252)
+    backfill.add_argument("--snapshot-limit", type=int, default=60)
+    backfill.add_argument("--calendar-days", type=int, default=None)
 
     validate = subparsers.add_parser("validate", help="validate latest promoted snapshot")
     validate.add_argument("--data-dir", default="data")
@@ -138,6 +150,20 @@ def _validate(args: argparse.Namespace) -> int:
     return 0
 
 
+def _backfill(args: argparse.Namespace) -> int:
+    summary = run_ifind_backfill(
+        end_date=args.end_date,
+        days=args.days,
+        data_dir=args.data_dir,
+        catalog_path=args.catalog,
+        history_limit=args.history_limit,
+        snapshot_limit=args.snapshot_limit,
+        calendar_days=args.calendar_days,
+    )
+    print(json.dumps(summary.as_dict(), ensure_ascii=False, indent=2))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
@@ -145,6 +171,8 @@ def main(argv: list[str] | None = None) -> int:
         if set(args.exclude_exchange) == set(COMMODITY_EXCHANGES):
             parser.error("at least one exchange must remain included")
         return _run(args)
+    if args.command == "backfill":
+        return _backfill(args)
     return _validate(args)
 
 

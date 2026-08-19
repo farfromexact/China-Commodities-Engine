@@ -6,10 +6,16 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 from typing import Any
 
 from .features import contract_month
 from .models import PipelineResult
+
+
+DEFAULT_HISTORY_LIMIT = 252
+DEFAULT_SNAPSHOT_LIMIT = 60
+SNAPSHOT_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}\.json$")
 
 
 def _coverage_scope(result: PipelineResult) -> dict[str, Any]:
@@ -297,8 +303,13 @@ def publish_raw_options(result: PipelineResult, data_dir: Path) -> Path | None:
 
 
 def _publish_artifacts(
-    result: PipelineResult, data_dir: Path, history_limit: int = 252
+    result: PipelineResult,
+    data_dir: Path,
+    history_limit: int = DEFAULT_HISTORY_LIMIT,
+    snapshot_limit: int = DEFAULT_SNAPSHOT_LIMIT,
 ) -> None:
+    if history_limit < 1 or snapshot_limit < 1:
+        raise ValueError("history and snapshot limits must be positive")
     snapshot = _snapshot_payload(result)
     write_json_if_changed(data_dir / "latest.json", snapshot)
     write_json_if_changed(data_dir / "radar_latest.json", _radar_payload(result))
@@ -306,6 +317,13 @@ def _publish_artifacts(
     write_json_if_changed(
         data_dir / "snapshots" / f"{result.trade_date}.json", snapshot
     )
+    snapshot_files = sorted(
+        path
+        for path in (data_dir / "snapshots").glob("*.json")
+        if SNAPSHOT_NAME.fullmatch(path.name)
+    )
+    for obsolete in snapshot_files[:-snapshot_limit]:
+        obsolete.unlink()
 
     history_path = data_dir / "radar_history.json"
     current = read_json(history_path, default={"schema_version": 1, "records": []})
@@ -322,17 +340,25 @@ def _publish_artifacts(
     )
 
 
-def publish_verified(result: PipelineResult, data_dir: Path, history_limit: int = 252) -> None:
+def publish_verified(
+    result: PipelineResult,
+    data_dir: Path,
+    history_limit: int = DEFAULT_HISTORY_LIMIT,
+    snapshot_limit: int = DEFAULT_SNAPSHOT_LIMIT,
+) -> None:
     if not result.verified:
         raise ValueError("refusing to publish an unverified commodity snapshot")
-    _publish_artifacts(result, data_dir, history_limit)
+    _publish_artifacts(result, data_dir, history_limit, snapshot_limit)
 
 
 def publish_scope_verified(
-    result: PipelineResult, data_dir: Path, history_limit: int = 252
+    result: PipelineResult,
+    data_dir: Path,
+    history_limit: int = DEFAULT_HISTORY_LIMIT,
+    snapshot_limit: int = DEFAULT_SNAPSHOT_LIMIT,
 ) -> None:
     if not result.scope_verified:
         raise ValueError("refusing to publish an unverified scoped commodity snapshot")
     if result.verified:
         raise ValueError("full-market snapshots must use publish_verified")
-    _publish_artifacts(result, data_dir, history_limit)
+    _publish_artifacts(result, data_dir, history_limit, snapshot_limit)
