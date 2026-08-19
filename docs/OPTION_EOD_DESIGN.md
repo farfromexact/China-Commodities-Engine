@@ -28,7 +28,9 @@ The default promotion rule is:
 - if successful-product coverage is at least 75% of the 64-product target,
   update `data/options/latest.json` with the validated batch;
 - otherwise, keep the previous `latest` and retain the failed attempt only in
-  `data/options/last_run_status.json`;
+  `data/options/last_run_status.json`; if the partial chain itself passes
+  per-contract validation, also store it as the explicitly non-promoted
+  `data/options/attempt_latest.json.gz`;
 - if the published batch does not cover every target product, its quality
   status is `partial_chain`, and it must not be described as full-market
   complete.
@@ -43,6 +45,10 @@ coverage.
 - `data/options/latest.json`: latest batch that met the promotion threshold;
   it may be a `partial_chain` batch and is not automatically full-market
   complete.
+- `data/options/attempt_latest.json.gz`: latest validated attempt, including a
+  below-threshold partial chain; consumers must inspect `coverage`,
+  `attempt_only` and `promotion_eligible` and must not treat it as global
+  `latest`.
 - `data/options/snapshots/YYYY-MM-DD.json.gz`: compressed full chains for the
   latest 20 successfully published trading days.
 - `data/options/history.json`: compact series summaries for the latest 20

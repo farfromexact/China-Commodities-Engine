@@ -215,3 +215,20 @@ def publish_option_eod(
         history_path,
         {"schema_version": 1, "records": records[-summary_limit:]},
     )
+
+
+def publish_option_attempt(snapshot: dict[str, Any], data_dir: Path) -> None:
+    """Persist a validated partial attempt without promoting global latest."""
+
+    validate_option_snapshot(snapshot)
+    quality = assess_option_snapshot_quality(snapshot)
+    attempt = dict(snapshot)
+    attempt["quality"] = quality
+    attempt["attempt_only"] = True
+    attempt["promotion_eligible"] = bool(
+        (snapshot.get("coverage") or {}).get("publish_eligible")
+    )
+    write_json_gzip_if_changed(
+        data_dir / "options" / "attempt_latest.json.gz",
+        attempt,
+    )

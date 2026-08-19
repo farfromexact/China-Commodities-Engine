@@ -6,6 +6,7 @@ from pathlib import Path
 
 from china_commodities.option_storage import (
     OptionSnapshotValidationError,
+    publish_option_attempt,
     publish_option_eod,
 )
 from china_commodities.storage import read_json
@@ -115,6 +116,31 @@ class OptionStorageTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             with self.assertRaisesRegex(OptionSnapshotValidationError, "iFinD"):
                 publish_option_eod(invalid, Path(temporary))
+
+    def test_partial_attempt_does_not_replace_promoted_latest(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            data_dir = Path(temporary)
+            publish_option_eod(snapshot("2026-08-18"), data_dir)
+            attempt = snapshot("2026-08-19", "attempt")
+            attempt["coverage"] = {
+                "expected_product_count": 64,
+                "successful_product_count": 45,
+                "product_coverage": 45 / 64,
+                "scope_complete": False,
+                "publish_eligible": False,
+            }
+
+            publish_option_attempt(attempt, data_dir)
+
+            promoted = read_json(data_dir / "options" / "latest.json")
+            stored_attempt = read_json(
+                data_dir / "options" / "attempt_latest.json.gz"
+            )
+            self.assertEqual(promoted["trade_date"], "2026-08-18")
+            self.assertEqual(stored_attempt["trade_date"], "2026-08-19")
+            self.assertTrue(stored_attempt["attempt_only"])
+            self.assertFalse(stored_attempt["promotion_eligible"])
+            self.assertEqual(stored_attempt["quality"]["status"], "partial_chain")
 
 
 if __name__ == "__main__":

@@ -23,6 +23,7 @@ from china_commodities.collectors.ifind_option_adapter import (
 )
 from china_commodities.option_storage import (
     build_option_summary,
+    publish_option_attempt,
     publish_option_eod,
     validate_option_snapshot,
 )
@@ -135,6 +136,17 @@ def main() -> int:
             )
             if snapshot is None or not run_status["coverage"]["publish_eligible"]:
                 if not arguments.dry_run:
+                    if snapshot is not None:
+                        publish_option_attempt(snapshot, arguments.data_dir)
+                        run_status["attempt_published"] = True
+                        run_status["attempt_path"] = (
+                            "data/options/attempt_latest.json.gz"
+                        )
+                        run_status["attempt_record_count"] = len(
+                            snapshot["records"]
+                        )
+                    else:
+                        run_status["attempt_published"] = False
                     run_status["published"] = False
                     write_json_if_changed(status_path, run_status)
                 coverage = run_status["coverage"]

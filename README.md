@@ -40,6 +40,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/last_run_status.json`：各数据模块的状态、错误和新鲜度。
 - `data/snapshots/YYYY-MM-DD.json`：通过校验的日级快照。
 - `data/options/latest.json`：最近一次达到发布门槛的商品期权批次；可能是部分覆盖，是否完整必须读取质量和覆盖字段。
+- `data/options/attempt_latest.json.gz`：最近一次通过逐合约校验、但可能未达到75%提升门槛的压缩部分链；必须同时读取其中的 `coverage`、`attempt_only` 和 `promotion_eligible`，不得当作全市场 `latest`。
 - `data/options/quality_latest.json`：期权链、覆盖范围、曲面、模型 Greeks 和执行价格的独立就绪状态。
 - `data/options/last_run_status.json`：每个目标品种的尝试结果、错误、源日期、成功覆盖率和是否允许提升 `latest`。
 - `data/options/snapshots/YYYY-MM-DD.json.gz`：达到发布门槛后保存的压缩逐合约期权快照。
@@ -80,7 +81,7 @@ HTTP 探针从隐藏输入或当前进程的 `IFIND_REFRESH_TOKEN` 读取 refres
 
 具体期权合约目录优先来自交易所 EOD，经 AKShare 适配；若交易所网页在 GitHub Runner 被阻断，则整批只下载一次 OpenCTP 当前有效合约字典，并仅把它用于合约发现和到期日元数据。逐合约的收盘/结算、成交量、持仓量、标的结算价、源日期、IV 和 vendor Greeks 仍来自 iFinD，缺一合约即阻断该品种。目录来源和行情来源必须分别标记，不能把 OpenCTP 或 AKShare 的目录写成 iFinD 行情。
 
-默认只有成功品种覆盖率 `>=75%` 才允许更新 `data/options/latest.json`；低于门槛时保留上一份有效 `latest`，但仍记录本次尝试和失败原因。达到门槛但未覆盖全部目标品种时，质量状态必须为 `partial_chain`，不能声称全市场完整。只有到期日、行权方式和 bid-ask 等执行所需字段齐全并通过校验，才允许生成曲面或执行建议；否则最多保留 `chain_only` 的逐合约数据和 vendor Greeks 原值。
+默认只有成功品种覆盖率 `>=75%` 才允许更新 `data/options/latest.json`；低于门槛时保留上一份有效 `latest`，但把已经通过逐合约校验的当次部分链压缩保存为 `data/options/attempt_latest.json.gz`，并记录本次尝试和失败原因。达到门槛但未覆盖全部目标品种时，质量状态必须为 `partial_chain`，不能声称全市场完整。只有到期日、行权方式和 bid-ask 等执行所需字段齐全并通过校验，才允许生成曲面或执行建议；否则最多保留 `chain_only` 的逐合约数据和 vendor Greeks 原值。
 
 GitHub Action 从仓库 Secret `IFIND_REFRESH_TOKEN` 注入凭据。换取的 access token 会先加入 GitHub 日志脱敏规则，再写入当次 Runner 的临时 `GITHUB_ENV`，供期货和期权共用；token 和原始 iFinD 响应都不会写入仓库。公开仓库发布前必须确认 iFinD 商业数据的再分发许可，未确认时不得把原始商业数据当作可公开分发资产。
 
