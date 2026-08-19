@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Sequence
 from datetime import date, datetime
+import re
 from typing import Any
 
 from .catalog import OptionProduct
@@ -20,12 +21,37 @@ OptionCollector = Callable[..., dict[str, Any]]
 DirectoryLoader = Callable[..., dict[tuple[str, str], list[dict[str, Any]]]]
 
 
+_IFIND_SECURITY_EXCHANGE_ALIASES = {
+    "DCE": "DCE",
+    "GFE": "GFEX",
+    "GFEX": "GFEX",
+    "INE": "INE",
+    "SHF": "SHFE",
+    "SHFE": "SHFE",
+    "CZC": "CZCE",
+    "CZCE": "CZCE",
+}
+
+
 def _product_key(product: OptionProduct) -> str:
     return f"{product.exchange.upper()}:{product.product.upper()}"
 
 
 def _error_detail(exc: Exception) -> str:
     return f"{type(exc).__name__}: {str(exc)[:400]}"
+
+
+def _permission_error_exchange(exc: IFindHTTPError) -> str | None:
+    """Return the exchange named by an explicit iFinD security denial."""
+
+    match = re.search(
+        r"permission denied (?:by|for)\s+([A-Z]+)\s+security",
+        str(exc),
+        flags=re.IGNORECASE,
+    )
+    if match is None:
+        return None
+    return _IFIND_SECURITY_EXCHANGE_ALIASES.get(match.group(1).upper())
 
 
 def _status_entry(
@@ -65,10 +91,10 @@ def collect_option_market_snapshot(
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     """Attempt every catalog product and return a promotable snapshot plus status.
 
-    Exchange-directory and schema failures are isolated to one product.  An
-    iFinD HTTP failure is treated as global because authentication, entitlement
-    and transport errors would otherwise be repeated for every remaining
-    product.
+    Exchange-directory and schema failures are isolated to one product.
+    Explicit market-security denials are isolated to the named exchange;
+    authentication, transport, quota and unknown iFinD HTTP errors remain
+    global so they are not repeated for every remaining product.
     """
 
     requested_date = date.fromisoformat(trade_date).isoformat()
@@ -90,10 +116,24 @@ def collect_option_market_snapshot(
     universe_contract_count = 0
     successful_products: list[OptionProduct] = []
     global_error: str | None = None
+    exchange_errors: dict[str, str] = {}
     fallback_directories: dict[tuple[str, str], list[dict[str, Any]]] | None = None
     fallback_directory_error: str | None = None
 
     for index, product in enumerate(products):
+        product_exchange = product.exchange.upper()
+        if product_exchange in exchange_errors:
+            statuses.append(
+                _status_entry(
+                    product,
+                    "skipped_exchange_ifind_error",
+                    detail=(
+                        f"not attempted after an explicit {product_exchange} "
+                        "iFinD security denial"
+                    ),
+                )
+            )
+            continue
         universe = ExchangeOptionUniverseConfig(
             exchange=product.exchange,
             product=product.product,
@@ -109,8 +149,13 @@ def collect_option_market_snapshot(
                 ak_module=ak_module,
             )
         except IFindHTTPError as exc:
-            global_error = _error_detail(exc)
-            statuses.append(_status_entry(product, "failed", detail=global_error))
+            detail = _error_detail(exc)
+            denied_exchange = _permission_error_exchange(exc)
+            statuses.append(_status_entry(product, "failed", detail=detail))
+            if denied_exchange == product_exchange:
+                exchange_errors[product_exchange] = detail
+                continue
+            global_error = detail
             for remaining in products[index + 1 :]:
                 statuses.append(
                     _status_entry(
@@ -165,14 +210,22 @@ def collect_option_market_snapshot(
                 )
                 fallback_used = True
             except IFindHTTPError as fallback_exc:
-                global_error = _error_detail(fallback_exc)
+                fallback_detail = _error_detail(fallback_exc)
+                denied_exchange = _permission_error_exchange(fallback_exc)
                 statuses.append(
                     _status_entry(
                         product,
                         "failed",
-                        detail=f"{primary_error}; fallback quote failed: {global_error}",
+                        detail=(
+                            f"{primary_error}; fallback quote failed: "
+                            f"{fallback_detail}"
+                        ),
                     )
                 )
+                if denied_exchange == product_exchange:
+                    exchange_errors[product_exchange] = fallback_detail
+                    continue
+                global_error = fallback_detail
                 for remaining in products[index + 1 :]:
                     statuses.append(
                         _status_entry(
@@ -321,7 +374,8 @@ def collect_option_market_snapshot(
         "skipped_products": [
             f"{item['exchange']}:{item['product']}"
             for item in statuses
-            if item["status"] == "skipped_global_ifind_error"
+            if item["status"]
+            in {"skipped_global_ifind_error", "skipped_exchange_ifind_error"}
         ],
     }
     status = {
@@ -337,6 +391,7 @@ def collect_option_market_snapshot(
         "quote_contract_count": len(records),
         "duplicate_contract_count": duplicate_contract_count,
         "global_error": global_error,
+        "exchange_errors": exchange_errors,
         "product_statuses": statuses,
     }
     if not records or duplicate_contract_count:

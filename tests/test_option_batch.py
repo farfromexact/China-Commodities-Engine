@@ -182,6 +182,51 @@ class OptionBatchTests(unittest.TestCase):
             "skipped_global_ifind_error",
         )
 
+    def test_market_security_denial_skips_only_named_exchange(self) -> None:
+        products = (
+            OptionProduct("DCE", "A", "豆一期权"),
+            OptionProduct("DCE", "I", "铁矿石期权"),
+            OptionProduct("GFEX", "LC", "碳酸锂期权"),
+            OptionProduct("SHFE", "CU", "铜期权"),
+        )
+        calls = []
+
+        def collect_one(trade_date, *, universes, **kwargs):
+            universe = universes[0]
+            calls.append(f"{universe.exchange}:{universe.product}")
+            if universe.exchange == "DCE":
+                raise IFindHTTPError(
+                    "iFinD real_time_quotation failed with code -4226: "
+                    "Permission denied by DCE security"
+                )
+            return {
+                "records": [_record(universe, trade_date)],
+                "universe_contract_count": 1,
+                "quote_contract_count": 1,
+                "quote_coverage_complete": True,
+            }
+
+        snapshot, status = collect_option_market_snapshot(
+            "2026-08-19",
+            client=FakeClient(),
+            option_products=products,
+            minimum_product_coverage=0.5,
+            collect_one=collect_one,
+            fallback_directory_loader=None,
+        )
+
+        self.assertIsNotNone(snapshot)
+        self.assertEqual(calls, ["DCE:A", "GFEX:LC", "SHFE:CU"])
+        self.assertEqual(status["coverage"]["successful_product_count"], 2)
+        self.assertEqual(status["coverage"]["failed_product_count"], 1)
+        self.assertEqual(status["coverage"]["skipped_product_count"], 1)
+        self.assertEqual(
+            status["product_statuses"][1]["status"],
+            "skipped_exchange_ifind_error",
+        )
+        self.assertIsNone(status["global_error"])
+        self.assertIn("DCE", status["exchange_errors"])
+
     def test_duplicate_contracts_make_snapshot_invalid(self) -> None:
         def collect_one(trade_date, *, universes, **kwargs):
             record = _record(universes[0], trade_date)

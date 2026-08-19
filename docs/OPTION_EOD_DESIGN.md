@@ -20,7 +20,10 @@ iFinD; one missing iFinD quote blocks that product.
 
 Each product gets its own status, source date, contract count, quote coverage
 and error record. A product failure does not discard successful products or
-abort the status report for the whole batch. The default promotion rule is:
+abort the status report for the whole batch. An explicit iFinD market-security
+denial stops only the named exchange; authentication, quota, transport and
+unknown HTTP failures remain global to avoid repeating a known-bad request.
+The default promotion rule is:
 
 - if successful-product coverage is at least 75% of the 64-product target,
   update `data/options/latest.json` with the validated batch;
