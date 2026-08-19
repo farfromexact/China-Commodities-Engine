@@ -261,6 +261,12 @@ def option_contract_to_ifind_code(contract: str, exchange: str) -> str:
     strike = match.group("strike")
     if "." in strike:
         strike = strike.rstrip("0").rstrip(".")
+    if normalized_exchange in {"DCE", "GFEX"}:
+        series = "-MS" if match.group("series") else ""
+        return (
+            f"{match.group('underlying')}{series}-"
+            f"{match.group('type')}-{strike}.{suffix}"
+        )
     series = "MS" if match.group("series") else ""
     return (
         f"{match.group('underlying')}{series}{match.group('type')}{strike}.{suffix}"
