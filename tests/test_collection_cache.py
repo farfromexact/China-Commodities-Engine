@@ -51,12 +51,18 @@ def seed_verified(root: Path, trade_date: str = "2026-08-19") -> None:
             "published": True,
             "global_error": None,
             "quote_contract_count": 10,
-            "coverage": {"publish_eligible": True},
+            "coverage": {"publish_eligible": True, "scope_complete": True},
         },
     )
     write_json(
         option_root / "quality_latest.json",
-        {"trade_date": trade_date, "quality": {"full_chain_verified": True}},
+        {
+            "trade_date": trade_date,
+            "quality": {
+                "full_chain_verified": True,
+                "full_product_scope_verified": True,
+            },
+        },
     )
     for domain in ("physical", "external"):
         write_json(
@@ -97,6 +103,32 @@ class CollectionCacheTests(unittest.TestCase):
             )
             self.assertFalse(plan["needs_ifind"])
             self.assertFalse(any(plan[key] for key in plan if key.startswith("needs_")))
+
+    def test_partial_option_scope_is_scheduled_for_incremental_resume(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            seed_verified(root)
+            option_root = root / "options"
+            status = json.loads(
+                (option_root / "last_run_status.json").read_text(encoding="utf-8")
+            )
+            status["coverage"]["scope_complete"] = False
+            write_json(option_root / "last_run_status.json", status)
+            quality = json.loads(
+                (option_root / "quality_latest.json").read_text(encoding="utf-8")
+            )
+            quality["quality"]["full_product_scope_verified"] = False
+            write_json(option_root / "quality_latest.json", quality)
+
+            self.assertFalse(verified_option_chain_available(root, "2026-08-19"))
+            plan = plan_collection(
+                event_name="workflow_dispatch",
+                event_schedule="",
+                requested_date="2026-08-19",
+                data_dir=root,
+            )
+            self.assertTrue(plan["needs_options"])
+            self.assertTrue(plan["needs_ifind"])
 
     def test_schedules_request_only_their_missing_market_group(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

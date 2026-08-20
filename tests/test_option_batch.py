@@ -4,7 +4,10 @@ import unittest
 
 from china_commodities.catalog import OptionProduct
 from china_commodities.collectors.ifind_http_adapter import IFindHTTPError
-from china_commodities.option_batch import collect_option_market_snapshot
+from china_commodities.option_batch import (
+    collect_option_market_snapshot,
+    collect_option_market_snapshot_resuming,
+)
 
 
 PRODUCTS = (
@@ -30,6 +33,126 @@ class FakeClient:
 
 
 class OptionBatchTests(unittest.TestCase):
+    def test_incremental_resume_requests_only_failed_products(self) -> None:
+        trade_date = "2026-08-19"
+        existing_products = PRODUCTS[:2]
+        existing_records = [_record(product, trade_date) for product in existing_products]
+        for record in existing_records:
+            record.update(
+                {
+                    "source_provider": "ifind_http",
+                    "source_trade_date": trade_date,
+                    "source_date_match": True,
+                }
+            )
+        existing_snapshot = {
+            "trade_date": trade_date,
+            "source_provider": "ifind_http",
+            "quote_coverage_complete": True,
+            "records": existing_records,
+            "product_statuses": [
+                {
+                    "exchange": product.exchange,
+                    "product": product.product,
+                    "symbol": product.symbol,
+                    "status": "success",
+                    "contract_count": 1,
+                    "source_trade_date": trade_date,
+                    "quote_coverage_complete": True,
+                    "universe_source": "exchange_eod_via_akshare",
+                }
+                for product in existing_products
+            ],
+        }
+        calls = []
+
+        def collect_one(requested_date, *, universes, **kwargs):
+            universe = universes[0]
+            calls.append(f"{universe.exchange}:{universe.product}")
+            record = _record(universe, requested_date)
+            record.update(
+                {
+                    "source_provider": "ifind_http",
+                    "source_trade_date": requested_date,
+                    "source_date_match": True,
+                }
+            )
+            return {
+                "records": [record],
+                "universe_contract_count": 1,
+                "quote_contract_count": 1,
+                "quote_coverage_complete": True,
+                "universe_source": "exchange_eod_via_akshare",
+            }
+
+        snapshot, status = collect_option_market_snapshot_resuming(
+            trade_date,
+            client=FakeClient(),
+            option_products=PRODUCTS,
+            existing_snapshot=existing_snapshot,
+            minimum_product_coverage=1.0,
+            collect_one=collect_one,
+            fallback_directory_loader=None,
+        )
+
+        self.assertEqual(calls, ["GFEX:LC"])
+        self.assertEqual(len(snapshot["records"]), 3)
+        self.assertTrue(snapshot["coverage"]["scope_complete"])
+        self.assertEqual(snapshot["coverage"]["reused_product_count"], 2)
+        self.assertEqual(snapshot["coverage"]["requested_product_count"], 1)
+        self.assertEqual(snapshot["coverage"]["newly_successful_product_count"], 1)
+        self.assertTrue(status["incremental_resume"])
+
+    def test_incremental_resume_retains_latest_when_retry_does_not_improve(self) -> None:
+        trade_date = "2026-08-19"
+        existing_products = PRODUCTS[:2]
+        existing_records = [_record(product, trade_date) for product in existing_products]
+        for record in existing_records:
+            record.update(
+                {
+                    "source_provider": "ifind_http",
+                    "source_trade_date": trade_date,
+                    "source_date_match": True,
+                }
+            )
+        existing_snapshot = {
+            "trade_date": trade_date,
+            "source_provider": "ifind_http",
+            "quote_coverage_complete": True,
+            "records": existing_records,
+            "product_statuses": [
+                {
+                    "exchange": product.exchange,
+                    "product": product.product,
+                    "symbol": product.symbol,
+                    "status": "success",
+                    "contract_count": 1,
+                    "source_trade_date": trade_date,
+                    "quote_coverage_complete": True,
+                    "universe_source": "exchange_eod_via_akshare",
+                }
+                for product in existing_products
+            ],
+        }
+
+        def collect_one(requested_date, *, universes, **kwargs):
+            raise ValueError("still unavailable")
+
+        snapshot, status = collect_option_market_snapshot_resuming(
+            trade_date,
+            client=FakeClient(),
+            option_products=PRODUCTS,
+            existing_snapshot=existing_snapshot,
+            minimum_product_coverage=0.5,
+            collect_one=collect_one,
+            fallback_directory_loader=None,
+        )
+
+        self.assertEqual(len(snapshot["records"]), 2)
+        self.assertFalse(status["coverage"]["publish_eligible"])
+        self.assertEqual(status["coverage"]["newly_successful_product_count"], 0)
+        self.assertFalse(status["data_fresh"])
+
     def test_official_rule_registry_supplies_exercise_style(self) -> None:
         observed_styles = []
 

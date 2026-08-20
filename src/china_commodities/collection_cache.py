@@ -63,7 +63,9 @@ def verified_option_chain_available(
         and status.get("published") is True
         and not status.get("global_error")
         and coverage.get("publish_eligible") is True
+        and coverage.get("scope_complete") is True
         and quality.get("full_chain_verified") is True
+        and quality.get("full_product_scope_verified") is True
         and int(status.get("quote_contract_count") or 0) > 0
     )
 

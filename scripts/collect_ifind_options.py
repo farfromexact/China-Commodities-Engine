@@ -29,7 +29,10 @@ from china_commodities.option_storage import (
     validate_option_snapshot,
 )
 from china_commodities.option_quality import assess_option_snapshot_quality
-from china_commodities.option_batch import collect_option_market_snapshot
+from china_commodities.option_batch import (
+    collect_option_market_snapshot,
+    collect_option_market_snapshot_resuming,
+)
 from china_commodities.option_rules import load_option_rules, option_rule_for
 from china_commodities.storage import read_json, write_json_if_changed
 
@@ -170,13 +173,31 @@ def main() -> int:
         elif arguments.all_products:
             catalog = load_catalog(arguments.catalog)
             rules = load_option_rules(arguments.option_rules)
-            snapshot, run_status = collect_option_market_snapshot(
-                trade_date,
-                client=client,
-                option_products=catalog.options,
-                minimum_product_coverage=arguments.minimum_product_coverage,
-                option_rules=rules,
-            )
+            existing_snapshot = None
+            if not arguments.force_refresh:
+                candidate = read_json(
+                    arguments.data_dir / "options" / "latest.json",
+                    default={},
+                ) or {}
+                if candidate.get("trade_date") == trade_date:
+                    existing_snapshot = candidate
+            if existing_snapshot is not None:
+                snapshot, run_status = collect_option_market_snapshot_resuming(
+                    trade_date,
+                    client=client,
+                    option_products=catalog.options,
+                    existing_snapshot=existing_snapshot,
+                    minimum_product_coverage=arguments.minimum_product_coverage,
+                    option_rules=rules,
+                )
+            else:
+                snapshot, run_status = collect_option_market_snapshot(
+                    trade_date,
+                    client=client,
+                    option_products=catalog.options,
+                    minimum_product_coverage=arguments.minimum_product_coverage,
+                    option_rules=rules,
+                )
             if snapshot is None or not run_status["coverage"]["publish_eligible"]:
                 if not arguments.dry_run:
                     if snapshot is not None:
@@ -275,6 +296,16 @@ def main() -> int:
                     run_status["coverage"]["scope_complete"]
                     if run_status is not None
                     else None
+                ),
+                "reused_products": (
+                    run_status["coverage"].get("reused_product_count", 0)
+                    if run_status is not None
+                    else 0
+                ),
+                "requested_products": (
+                    run_status["coverage"].get("requested_product_count")
+                    if run_status is not None
+                    else 1
                 ),
                 "surface_ready": quality["surface_ready"],
                 "positioning_ready": quality["positioning_ready"],

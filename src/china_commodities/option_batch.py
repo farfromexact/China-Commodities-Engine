@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from datetime import date, datetime
 import re
 from typing import Any
@@ -84,6 +84,265 @@ def _status_entry(
     }
 
 
+def _sorted_products(
+    option_products: Sequence[OptionProduct],
+) -> list[OptionProduct]:
+    products = sorted(
+        option_products,
+        key=lambda item: (item.exchange.upper(), item.product.upper()),
+    )
+    if not products:
+        raise IFindOptionDataError("option product catalog is empty")
+    keys = [_product_key(product) for product in products]
+    if len(keys) != len(set(keys)):
+        raise IFindOptionDataError("option product catalog contains duplicates")
+    return products
+
+
+def _reusable_same_date_products(
+    requested_date: str,
+    products: Sequence[OptionProduct],
+    existing_snapshot: Mapping[str, Any] | None,
+) -> tuple[dict[str, list[dict[str, Any]]], dict[str, dict[str, Any]]]:
+    """Return only fully verified same-date product groups from a prior snapshot."""
+
+    if not isinstance(existing_snapshot, Mapping):
+        return {}, {}
+    if (
+        existing_snapshot.get("trade_date") != requested_date
+        or existing_snapshot.get("source_provider") != "ifind_http"
+        or existing_snapshot.get("quote_coverage_complete") is not True
+    ):
+        return {}, {}
+
+    catalog_keys = {_product_key(product) for product in products}
+    records_by_product: dict[str, list[dict[str, Any]]] = {}
+    seen_contracts: set[str] = set()
+    raw_records = existing_snapshot.get("records")
+    if not isinstance(raw_records, list):
+        return {}, {}
+    for value in raw_records:
+        if not isinstance(value, Mapping):
+            return {}, {}
+        record = dict(value)
+        exchange = str(record.get("exchange") or "").upper()
+        product = str(record.get("product") or "").upper()
+        key = f"{exchange}:{product}"
+        contract = str(record.get("contract") or "").upper()
+        if (
+            key not in catalog_keys
+            or not contract
+            or contract in seen_contracts
+            or record.get("trade_date") != requested_date
+            or record.get("source_trade_date") != requested_date
+            or record.get("source_date_match") is not True
+            or not str(record.get("source_provider") or "").lower().startswith(
+                "ifind"
+            )
+        ):
+            return {}, {}
+        seen_contracts.add(contract)
+        records_by_product.setdefault(key, []).append(record)
+
+    raw_statuses = existing_snapshot.get("product_statuses")
+    if not isinstance(raw_statuses, list):
+        return {}, {}
+    reusable_records: dict[str, list[dict[str, Any]]] = {}
+    reusable_statuses: dict[str, dict[str, Any]] = {}
+    for value in raw_statuses:
+        if not isinstance(value, Mapping):
+            continue
+        status = dict(value)
+        key = (
+            f"{str(status.get('exchange') or '').upper()}:"
+            f"{str(status.get('product') or '').upper()}"
+        )
+        product_records = records_by_product.get(key) or []
+        if (
+            key not in catalog_keys
+            or status.get("status") != "success"
+            or status.get("source_trade_date") != requested_date
+            or status.get("quote_coverage_complete") is not True
+            or int(status.get("contract_count") or 0) != len(product_records)
+            or not product_records
+        ):
+            continue
+        status["reused_existing"] = True
+        reusable_records[key] = product_records
+        reusable_statuses[key] = status
+    return reusable_records, reusable_statuses
+
+
+def _combine_resumed_market_snapshot(
+    requested_date: str,
+    *,
+    products: Sequence[OptionProduct],
+    minimum_product_coverage: float,
+    reused_records: Mapping[str, list[dict[str, Any]]],
+    reused_statuses: Mapping[str, dict[str, Any]],
+    retry_snapshot: Mapping[str, Any] | None,
+    retry_status: Mapping[str, Any],
+) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+    retry_records_by_product: dict[str, list[dict[str, Any]]] = {}
+    for value in (retry_snapshot or {}).get("records") or []:
+        if not isinstance(value, Mapping):
+            continue
+        record = dict(value)
+        key = (
+            f"{str(record.get('exchange') or '').upper()}:"
+            f"{str(record.get('product') or '').upper()}"
+        )
+        retry_records_by_product.setdefault(key, []).append(record)
+
+    retry_statuses = {
+        (
+            f"{str(value.get('exchange') or '').upper()}:"
+            f"{str(value.get('product') or '').upper()}"
+        ): dict(value)
+        for value in retry_status.get("product_statuses") or []
+        if isinstance(value, Mapping)
+    }
+    statuses: list[dict[str, Any]] = []
+    records: list[dict[str, Any]] = []
+    requested_products: list[str] = []
+    reused_products: list[str] = []
+    for product in products:
+        key = _product_key(product)
+        if key in reused_records and key in reused_statuses:
+            statuses.append(dict(reused_statuses[key]))
+            records.extend(dict(record) for record in reused_records[key])
+            reused_products.append(key)
+            continue
+        requested_products.append(key)
+        status = retry_statuses.get(key)
+        if status is None:
+            status = _status_entry(
+                product,
+                "failed",
+                detail="incremental retry returned no product status",
+            )
+        else:
+            status["reused_existing"] = False
+        statuses.append(status)
+        if status.get("status") == "success":
+            records.extend(retry_records_by_product.get(key) or [])
+
+    contracts = [str(record.get("contract") or "").upper() for record in records]
+    duplicate_contract_count = len(contracts) - len(set(contracts))
+    successful_products = [
+        f"{item['exchange']}:{item['product']}"
+        for item in statuses
+        if item.get("status") == "success"
+    ]
+    failed_products = [
+        f"{item['exchange']}:{item['product']}"
+        for item in statuses
+        if item.get("status") == "failed"
+    ]
+    skipped_products = [
+        f"{item['exchange']}:{item['product']}"
+        for item in statuses
+        if str(item.get("status") or "").startswith("skipped_")
+    ]
+    expected_count = len(products)
+    successful_count = len(successful_products)
+    failed_count = len(failed_products)
+    skipped_count = len(skipped_products)
+    newly_successful_count = sum(
+        item.get("status") == "success"
+        and f"{item['exchange']}:{item['product']}" in requested_products
+        for item in statuses
+    )
+    product_coverage = successful_count / expected_count
+    scope_complete = successful_count == expected_count
+    publish_eligible = bool(
+        records
+        and duplicate_contract_count == 0
+        and product_coverage >= minimum_product_coverage
+        and (not requested_products or newly_successful_count > 0)
+    )
+    universe_sources = sorted(
+        {
+            str(item.get("universe_source"))
+            for item in statuses
+            if item.get("status") == "success" and item.get("universe_source")
+        }
+    )
+    aggregate_universe_source = (
+        universe_sources[0]
+        if len(universe_sources) == 1
+        else "mixed_contract_directories"
+    )
+    generated_at = datetime.now().astimezone().isoformat(timespec="seconds")
+    coverage = {
+        "expected_product_count": expected_count,
+        "attempted_product_count": successful_count + failed_count,
+        "successful_product_count": successful_count,
+        "failed_product_count": failed_count,
+        "skipped_product_count": skipped_count,
+        "product_coverage": product_coverage,
+        "minimum_product_coverage": minimum_product_coverage,
+        "scope_complete": scope_complete,
+        "publish_eligible": publish_eligible,
+        "successful_products": successful_products,
+        "failed_products": failed_products,
+        "skipped_products": skipped_products,
+        "reused_product_count": len(reused_products),
+        "requested_product_count": len(requested_products),
+        "newly_successful_product_count": newly_successful_count,
+        "reused_products": reused_products,
+        "requested_products": requested_products,
+    }
+    global_error = retry_status.get("global_error")
+    if duplicate_contract_count:
+        global_error = (
+            f"combined option snapshot contains {duplicate_contract_count} duplicate contract(s)"
+        )
+    status = {
+        "schema_version": 1,
+        "trade_date": requested_date,
+        "generated_at": generated_at,
+        "source_provider": "ifind_http",
+        "universe_source": aggregate_universe_source,
+        "universe_sources": universe_sources,
+        "data_fresh": publish_eligible,
+        "coverage": coverage,
+        "universe_contract_count": len(records),
+        "quote_contract_count": len(records),
+        "duplicate_contract_count": duplicate_contract_count,
+        "global_error": global_error,
+        "exchange_errors": dict(retry_status.get("exchange_errors") or {}),
+        "product_statuses": statuses,
+        "incremental_resume": True,
+    }
+    if not records or duplicate_contract_count:
+        return None, status
+    snapshot = {
+        "schema_version": 1,
+        "trade_date": requested_date,
+        "generated_at": generated_at,
+        "source_provider": "ifind_http",
+        "universe_source": aggregate_universe_source,
+        "universe_sources": universe_sources,
+        "universe_contract_count": len(records),
+        "quote_contract_count": len(records),
+        "quote_coverage_complete": True,
+        "collection_mode": "end_of_day_full_market_incremental_resume",
+        "intraday": False,
+        "coverage": coverage,
+        "product_statuses": statuses,
+        "records": sorted(
+            records,
+            key=lambda item: (
+                str(item.get("exchange") or ""),
+                str(item.get("product") or ""),
+                str(item.get("contract") or ""),
+            ),
+        ),
+    }
+    return snapshot, status
+
+
 def collect_option_market_snapshot(
     trade_date: str,
     *,
@@ -107,15 +366,7 @@ def collect_option_market_snapshot(
     requested_date = date.fromisoformat(trade_date).isoformat()
     if not 0 < minimum_product_coverage <= 1:
         raise ValueError("minimum_product_coverage must be in (0, 1]")
-    products = sorted(
-        option_products,
-        key=lambda item: (item.exchange.upper(), item.product.upper()),
-    )
-    if not products:
-        raise IFindOptionDataError("option product catalog is empty")
-    keys = [_product_key(product) for product in products]
-    if len(keys) != len(set(keys)):
-        raise IFindOptionDataError("option product catalog contains duplicates")
+    products = _sorted_products(option_products)
     rules = option_rules or load_option_rules()
     should_enrich_metadata = (
         collect_one is collect_option_eod_from_exchange_universe
@@ -503,4 +754,76 @@ def collect_option_market_snapshot(
     return snapshot, status
 
 
-__all__ = ["collect_option_market_snapshot"]
+def collect_option_market_snapshot_resuming(
+    trade_date: str,
+    *,
+    client: IFindHTTPClient,
+    option_products: Sequence[OptionProduct],
+    existing_snapshot: Mapping[str, Any] | None,
+    minimum_product_coverage: float = 0.75,
+    ak_module: Any | None = None,
+    collect_one: OptionCollector = collect_option_eod_from_exchange_universe,
+    fallback_directory_loader: DirectoryLoader | None = collect_openctp_option_directories,
+    option_rules: dict[str, Any] | None = None,
+    enrich_missing_metadata: bool | None = None,
+) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+    """Reuse verified same-date products and request only missing/failed products."""
+
+    requested_date = date.fromisoformat(trade_date).isoformat()
+    if not 0 < minimum_product_coverage <= 1:
+        raise ValueError("minimum_product_coverage must be in (0, 1]")
+    products = _sorted_products(option_products)
+    reused_records, reused_statuses = _reusable_same_date_products(
+        requested_date,
+        products,
+        existing_snapshot,
+    )
+    retry_products = [
+        product for product in products if _product_key(product) not in reused_records
+    ]
+    if not reused_records:
+        return collect_option_market_snapshot(
+            requested_date,
+            client=client,
+            option_products=products,
+            minimum_product_coverage=minimum_product_coverage,
+            ak_module=ak_module,
+            collect_one=collect_one,
+            fallback_directory_loader=fallback_directory_loader,
+            option_rules=option_rules,
+            enrich_missing_metadata=enrich_missing_metadata,
+        )
+    if retry_products:
+        retry_snapshot, retry_status = collect_option_market_snapshot(
+            requested_date,
+            client=client,
+            option_products=retry_products,
+            minimum_product_coverage=1 / len(retry_products),
+            ak_module=ak_module,
+            collect_one=collect_one,
+            fallback_directory_loader=fallback_directory_loader,
+            option_rules=option_rules,
+            enrich_missing_metadata=enrich_missing_metadata,
+        )
+    else:
+        retry_snapshot = None
+        retry_status = {
+            "product_statuses": [],
+            "global_error": None,
+            "exchange_errors": {},
+        }
+    return _combine_resumed_market_snapshot(
+        requested_date,
+        products=products,
+        minimum_product_coverage=minimum_product_coverage,
+        reused_records=reused_records,
+        reused_statuses=reused_statuses,
+        retry_snapshot=retry_snapshot,
+        retry_status=retry_status,
+    )
+
+
+__all__ = [
+    "collect_option_market_snapshot",
+    "collect_option_market_snapshot_resuming",
+]
