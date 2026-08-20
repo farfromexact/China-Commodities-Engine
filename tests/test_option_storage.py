@@ -8,8 +8,9 @@ from china_commodities.option_storage import (
     OptionSnapshotValidationError,
     publish_option_attempt,
     publish_option_eod,
+    read_option_latest,
 )
-from china_commodities.storage import read_json
+from china_commodities.storage import read_json, write_json_if_changed
 
 
 def snapshot(trade_date: str, contract_suffix: str = "") -> dict:
@@ -84,12 +85,21 @@ class OptionStorageTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             data_dir = Path(temporary)
             publish_option_eod(snapshot("2026-08-18"), data_dir, surface_shadow_days=1)
-            latest = read_json(data_dir / "options" / "latest.json")
+            latest_index = read_json(data_dir / "options" / "latest.json")
+            latest = read_option_latest(data_dir)
             history = read_json(data_dir / "options" / "history.json")
             quality = read_json(data_dir / "options" / "quality_latest.json")
             surface = read_json(data_dir / "options" / "surface_latest.json")
             archived = read_json(
                 data_dir / "options" / "snapshots" / "2026-08-18.json.gz"
+            )
+            self.assertNotIn("records", latest_index)
+            self.assertEqual(latest_index["storage_format"], "product_shards_gzip")
+            self.assertEqual(latest_index["record_count"], 2)
+            self.assertEqual(latest_index["shard_count"], 1)
+            self.assertEqual(
+                latest_index["full_snapshot"]["path"],
+                "snapshots/2026-08-18.json.gz",
             )
             self.assertEqual(len(latest["records"]), 2)
             self.assertEqual(len(archived["records"]), 2)
@@ -102,6 +112,60 @@ class OptionStorageTests(unittest.TestCase):
             self.assertEqual(surface["surface_ready_count"], 1)
             self.assertEqual(surface["positioning_ready_count"], 1)
             self.assertEqual(surface["execution_ready_count"], 0)
+
+    def test_latest_loader_accepts_legacy_monolithic_snapshot(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            data_dir = Path(temporary)
+            write_json_if_changed(
+                data_dir / "options" / "latest.json",
+                snapshot("2026-08-18"),
+            )
+
+            loaded = read_option_latest(data_dir)
+
+            self.assertEqual(loaded["trade_date"], "2026-08-18")
+            self.assertEqual(len(loaded["records"]), 2)
+
+    def test_latest_shards_only_retain_the_current_trade_date(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            data_dir = Path(temporary)
+            publish_option_eod(snapshot("2026-08-18"), data_dir, surface_shadow_days=1)
+            old_shard = (
+                data_dir
+                / "options"
+                / "latest_shards"
+                / "2026-08-18"
+                / "SHFE"
+                / "CU.json.gz"
+            )
+            self.assertTrue(old_shard.exists())
+
+            publish_option_eod(snapshot("2026-08-19"), data_dir, surface_shadow_days=1)
+
+            self.assertFalse(old_shard.exists())
+            self.assertTrue(
+                (
+                    data_dir
+                    / "options"
+                    / "latest_shards"
+                    / "2026-08-19"
+                    / "SHFE"
+                    / "CU.json.gz"
+                ).exists()
+            )
+
+    def test_latest_loader_rejects_tampered_shard(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            data_dir = Path(temporary)
+            publish_option_eod(snapshot("2026-08-18"), data_dir, surface_shadow_days=1)
+            index = read_json(data_dir / "options" / "latest.json")
+            shard_path = data_dir / "options" / index["shards"][0]["path"]
+            shard_path.write_bytes(shard_path.read_bytes() + b"tampered")
+
+            with self.assertRaisesRegex(
+                OptionSnapshotValidationError, "hash mismatch"
+            ):
+                read_option_latest(data_dir)
 
     def test_enforces_full_chain_and_summary_retention(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

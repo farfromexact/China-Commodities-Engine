@@ -26,7 +26,8 @@ unknown HTTP failures remain global to avoid repeating a known-bad request.
 The default promotion rule is:
 
 - if successful-product coverage is at least 75% of the 64-product target,
-  update `data/options/latest.json` with the validated batch;
+  update the `data/options/latest.json` manifest and its validated product
+  shards;
 - otherwise, keep the previous `latest` and retain the failed attempt only in
   `data/options/last_run_status.json`; if the partial chain itself passes
   per-contract validation, also store it as the explicitly non-promoted
@@ -42,9 +43,13 @@ coverage.
 
 ## Retention
 
-- `data/options/latest.json`: latest batch that met the promotion threshold;
-  it may be a `partial_chain` batch and is not automatically full-market
-  complete.
+- `data/options/latest.json`: compact one-day manifest for the latest batch
+  that met the promotion threshold. It carries quality and coverage metadata,
+  record counts, the compressed full-snapshot path and product-shard paths; it
+  does not embed per-contract records. A batch may still be `partial_chain`.
+- `data/options/latest_shards/YYYY-MM-DD/EXCHANGE/PRODUCT.json.gz`: compressed
+  per-product records referenced by the manifest. Only the manifest's current
+  trade date is retained in this tree.
 - `data/options/attempt_latest.json.gz`: latest validated attempt, including a
   below-threshold partial chain; consumers must inspect `coverage`,
   `attempt_only` and `promotion_eligible` and must not treat it as global
@@ -53,15 +58,20 @@ coverage.
   latest 20 successfully published trading days.
 - `data/options/history.json`: compact series summaries for the latest 20
   successfully published trading days.
+- `data/options/history/year=YYYY/month=MM/YYYY-MM-DD.parquet`: normalized
+  per-contract daily partitions for the latest 252 distinct trading days.
+  Same-date retries are de-duplicated with last-write-wins semantics.
 - `data/options/quality_latest.json`: machine-readable readiness gates for the
   raw chain, product scope, volatility surface, model Greeks and executable
   bid/ask data.
 - `data/options/last_run_status.json`: per-product attempt status, source dates,
   coverage counts, errors and the promotion decision for the latest run.
 
-Retention is a rolling window of 20 successfully published trading days, not
-20 calendar days. A failed, empty or below-threshold collection does not
-replace the last valid chain or shorten that window.
+Compressed full snapshots and compact summaries use a rolling window of 20
+successfully published trading days, not 20 calendar days. Product shards
+retain only the current promoted date, while Parquet retains 252 distinct
+trading dates. A failed, empty or below-threshold collection does not replace
+the last valid chain or shorten either historical window.
 
 Passing raw-chain validation is intentionally weaker than being surface-ready.
 A product chain can be complete and same-date while the batch remains

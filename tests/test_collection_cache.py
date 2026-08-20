@@ -41,7 +41,10 @@ def seed_verified(root: Path, trade_date: str = "2026-08-19") -> None:
         },
     )
     option_root = root / "options"
-    write_json(option_root / "latest.json", {"trade_date": trade_date})
+    write_json(
+        option_root / "latest.json",
+        {"trade_date": trade_date, "record_count": 10},
+    )
     write_json(
         option_root / "last_run_status.json",
         {

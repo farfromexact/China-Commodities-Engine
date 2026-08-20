@@ -7,15 +7,22 @@ credentials never enter the historical artifacts.
 from __future__ import annotations
 
 from collections.abc import Iterable, Mapping, Sequence
+from datetime import date
 import json
 import os
 from pathlib import Path
+import re
 import time
 from typing import Any
 
 import pandas as pd
+import pyarrow.parquet as pq
 
 from .models import PipelineResult
+
+
+DEFAULT_OPTION_HISTORY_DAYS = 252
+OPTION_PARTITION_NAME = re.compile(r"^(\d{4}-\d{2}-\d{2})\.parquet$")
 
 
 def _scalar(value: Any) -> Any:
@@ -122,9 +129,7 @@ def append_futures_history(result: PipelineResult, data_dir: str | Path) -> int:
     )
 
 
-def append_option_history(snapshot: Mapping[str, Any], data_dir: str | Path) -> int:
-    """Append a normalized EOD option chain without persisting raw responses."""
-
+def _option_history_rows(snapshot: Mapping[str, Any]) -> list[dict[str, Any]]:
     trade_date = str(snapshot.get("trade_date") or "")
     rows: list[dict[str, Any]] = []
     for record in snapshot.get("records") or []:
@@ -178,15 +183,124 @@ def append_option_history(snapshot: Mapping[str, Any], data_dir: str | Path) -> 
                 "rho": selected_map.get("rho"),
             }
         )
-    return append_parquet_history(
-        Path(data_dir) / "options" / "history.parquet",
-        rows,
-        key_fields=("trade_date", "exchange", "contract"),
-        sort_fields=("trade_date", "exchange", "product", "contract"),
+    return rows
+
+
+def _option_partition_path(history_root: Path, trade_date: str) -> Path:
+    parsed = date.fromisoformat(trade_date)
+    return (
+        history_root
+        / f"year={parsed.year:04d}"
+        / f"month={parsed.month:02d}"
+        / f"{trade_date}.parquet"
+    )
+
+
+def _option_partition_files(history_root: Path) -> list[tuple[str, Path]]:
+    output: list[tuple[str, Path]] = []
+    if not history_root.exists():
+        return output
+    for path in history_root.glob("year=*/month=*/*.parquet"):
+        match = OPTION_PARTITION_NAME.fullmatch(path.name)
+        if match is None:
+            continue
+        trade_date = match.group(1)
+        try:
+            parsed = date.fromisoformat(trade_date)
+        except ValueError:
+            continue
+        if path.parent.name != f"month={parsed.month:02d}":
+            continue
+        if path.parent.parent.name != f"year={parsed.year:04d}":
+            continue
+        output.append((trade_date, path))
+    return sorted(output)
+
+
+def _migrate_legacy_option_history(legacy_path: Path, history_root: Path) -> None:
+    """Split the old monolithic option history before deleting it."""
+
+    if not legacy_path.exists():
+        return
+    frame = pd.read_parquet(legacy_path)
+    if not frame.empty and "trade_date" not in frame.columns:
+        raise ValueError("legacy option history has no trade_date column")
+    trade_dates: list[str] = []
+    if not frame.empty:
+        for raw_value in frame["trade_date"].dropna().unique().tolist():
+            trade_date = str(raw_value)
+            date.fromisoformat(trade_date)
+            trade_dates.append(trade_date)
+    for trade_date in sorted(trade_dates):
+        rows = frame.loc[
+            frame["trade_date"].astype(str).eq(trade_date)
+        ].to_dict(orient="records")
+        append_parquet_history(
+            _option_partition_path(history_root, trade_date),
+            rows,
+            key_fields=("trade_date", "exchange", "contract"),
+            sort_fields=("trade_date", "exchange", "product", "contract"),
+        )
+    legacy_path.unlink()
+
+
+def _prune_option_partitions(history_root: Path, retention_days: int) -> None:
+    partitions = _option_partition_files(history_root)
+    retained_dates = sorted({trade_date for trade_date, _ in partitions})
+    obsolete_dates = set(retained_dates[:-retention_days])
+    removed_parents: set[Path] = set()
+    for trade_date, path in partitions:
+        if trade_date not in obsolete_dates:
+            continue
+        path.unlink()
+        removed_parents.add(path.parent)
+        removed_parents.add(path.parent.parent)
+    for directory in sorted(
+        removed_parents, key=lambda value: len(value.parts), reverse=True
+    ):
+        try:
+            directory.rmdir()
+        except OSError:
+            pass
+
+
+def append_option_history(
+    snapshot: Mapping[str, Any],
+    data_dir: str | Path,
+    *,
+    retention_days: int = DEFAULT_OPTION_HISTORY_DAYS,
+) -> int:
+    """Append one EOD option chain to rolling daily Parquet partitions.
+
+    The most recent ``retention_days`` distinct trade dates are retained.
+    Existing monolithic ``data/options/history.parquet`` data is migrated
+    losslessly before that legacy file is removed.
+    """
+
+    if retention_days < 1:
+        raise ValueError("option history retention must be positive")
+    trade_date = str(snapshot.get("trade_date") or "")
+    date.fromisoformat(trade_date)
+    option_root = Path(data_dir) / "options"
+    history_root = option_root / "history"
+    _migrate_legacy_option_history(option_root / "history.parquet", history_root)
+    rows = _option_history_rows(snapshot)
+    if rows:
+        append_parquet_history(
+            _option_partition_path(history_root, trade_date),
+            rows,
+            key_fields=("trade_date", "exchange", "contract"),
+            sort_fields=("trade_date", "exchange", "product", "contract"),
+        )
+    _prune_option_partitions(history_root, retention_days)
+    return sum(
+        int(pq.ParquetFile(path).metadata.num_rows)
+        for _, path in _option_partition_files(history_root)
     )
 
 
 __all__ = [
+    "DEFAULT_OPTION_HISTORY_DAYS",
     "append_futures_history",
     "append_option_history",
     "append_parquet_history",

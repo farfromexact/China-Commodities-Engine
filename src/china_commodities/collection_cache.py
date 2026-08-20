@@ -48,6 +48,7 @@ def verified_option_chain_available(
     """Check compact option status files without loading the large chain JSON."""
 
     root = Path(data_dir) / "options"
+    latest = _mapping(read_json(root / "latest.json", default={}))
     status = _mapping(read_json(root / "last_run_status.json", default={}))
     quality_payload = _mapping(
         read_json(root / "quality_latest.json", default={})
@@ -55,7 +56,13 @@ def verified_option_chain_available(
     quality = _mapping(quality_payload.get("quality"))
     coverage = _mapping(status.get("coverage"))
     return bool(
-        (root / "latest.json").is_file()
+        latest.get("trade_date") == requested_date
+        and int(
+            latest.get("record_count")
+            or status.get("quote_contract_count")
+            or 0
+        )
+        > 0
         and status.get("trade_date") == requested_date
         and quality_payload.get("trade_date") == requested_date
         and status.get("source_provider") == "ifind_http"

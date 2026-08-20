@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 
 from china_commodities.catalog import load_catalog
 from china_commodities.collection_cache import verified_option_chain_available
+from china_commodities.history_storage import DEFAULT_OPTION_HISTORY_DAYS
 from china_commodities.collectors.ifind_http_adapter import (
     IFindHTTPClient,
     IFindHTTPError,
@@ -23,9 +24,12 @@ from china_commodities.collectors.ifind_option_adapter import (
     collect_option_eod_snapshot,
 )
 from china_commodities.option_storage import (
+    DEFAULT_CHAIN_LIMIT,
+    DEFAULT_SUMMARY_LIMIT,
     build_option_summary,
     publish_option_attempt,
     publish_option_eod,
+    read_option_latest,
     validate_option_snapshot,
 )
 from china_commodities.option_quality import assess_option_snapshot_quality
@@ -175,10 +179,7 @@ def main() -> int:
             rules = load_option_rules(arguments.option_rules)
             existing_snapshot = None
             if not arguments.force_refresh:
-                candidate = read_json(
-                    arguments.data_dir / "options" / "latest.json",
-                    default={},
-                ) or {}
+                candidate = read_option_latest(arguments.data_dir, default={}) or {}
                 if candidate.get("trade_date") == trade_date:
                     existing_snapshot = candidate
             if existing_snapshot is not None:
@@ -311,8 +312,11 @@ def main() -> int:
                 "positioning_ready": quality["positioning_ready"],
                 "execution_ready": quality["execution_ready"],
                 "published": not arguments.dry_run,
-                "chain_retention_trading_days": 20,
-                "summary_retention_trading_days": 20,
+                "latest_index_trading_days": 1,
+                "latest_shard_trading_days": 1,
+                "chain_retention_trading_days": DEFAULT_CHAIN_LIMIT,
+                "summary_retention_trading_days": DEFAULT_SUMMARY_LIMIT,
+                "parquet_retention_trading_days": DEFAULT_OPTION_HISTORY_DAYS,
             },
             ensure_ascii=False,
         )

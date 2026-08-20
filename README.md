@@ -42,17 +42,18 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/external/latest.json`、`attempt_latest.json` 和 `history.parquet`：固定海外标的日频序列；连续或远月上下文序列不得直接进入进口平价。
 - `data/last_run_status.json`：各数据模块的状态、错误和新鲜度。
 - `data/snapshots/YYYY-MM-DD.json`：通过校验的日级快照。
-- `data/options/latest.json`：最近一次达到发布门槛的商品期权批次；可能是部分覆盖，是否完整必须读取质量和覆盖字段。
+- `data/options/latest.json`：最近一次达到发布门槛的商品期权小型索引；只保留一个交易日的元数据、质量字段、总记录数、整链压缩快照入口和品种分片清单，不再内嵌逐合约记录。
+- `data/options/latest_shards/YYYY-MM-DD/EXCHANGE/PRODUCT.json.gz`：索引引用的当日逐品种压缩链；目录只保留 `latest` 对应的一个交易日，便于选择性读取并避免每日重写50MB级 JSON。
 - `data/options/attempt_latest.json.gz`：最近一次通过逐合约校验、但可能未达到75%提升门槛的压缩部分链；必须同时读取其中的 `coverage`、`attempt_only` 和 `promotion_eligible`，不得当作全市场 `latest`。
 - `data/options/quality_latest.json`：期权链、覆盖范围、曲面、模型 Greeks 和执行价格的独立就绪状态。
 - `data/options/surface_latest.json`：严格按交易所、品种、标的期货合约和到期日分组的已提升 EOD 曲面。
 - `data/options/surface_attempt_latest.json.gz`、`surface_last_run_status.json` 和 `surface_shadow_state.json`：当次曲面、质量门槛和可配置的影子运行状态；失败不会覆盖上一份有效曲面。生产工作流在完成历史初始化后使用 `--surface-shadow-days 1`，首个通过全部曲面质量门槛的EOD日期即可提升。
-- `data/options/history.parquet`：已提升 EOD 期权链的逐合约长期历史。
+- `data/options/history/year=YYYY/month=MM/YYYY-MM-DD.parquet`：已提升 EOD 期权链的逐日 Parquet 分区；同日重跑按交易所和合约去重，滚动保留最近252个交易日。
 - `data/options/last_run_status.json`：每个目标品种的尝试结果、错误、源日期、成功覆盖率和是否允许提升 `latest`。
 - `data/options/snapshots/YYYY-MM-DD.json.gz`：达到发布门槛后保存的压缩逐合约期权快照。
 - `data/options/history.json`：按交易日汇总的期权历史记录。
 
-正式 JSON 历史统一滚动保留最近20个交易日：`radar_history.json` 按交易日去重保存紧凑比较记录，`data/snapshots/` 保存同一窗口内包含具体合约的完整快照。`latest.json` 始终指向最近一个已验证交易日。商品期权同样只滚动保留最近20个成功发布交易日；低于75%覆盖率的尝试不会覆盖上一份 `latest`，也不会缩短有效历史窗口。Parquet 历史独立追加并按业务键去重，不受20日窗口限制。
+正式 JSON 历史统一滚动保留最近20个交易日：`radar_history.json` 按交易日去重保存紧凑比较记录，`data/snapshots/` 保存同一窗口内包含具体合约的完整快照。`latest.json` 始终指向最近一个已验证交易日。商品期权的整链压缩快照和紧凑摘要同样只滚动保留最近20个成功发布交易日，`latest_shards` 只保留当前一天；低于75%覆盖率的尝试不会覆盖上一份 `latest`，也不会缩短有效历史窗口。商品期权 Parquet 使用逐日分区并滚动保留最近252个交易日，旧分区删除前不会用新数据覆盖其他日期。
 
 `market_state_latest.json` 的历史收益只复利同一个具体合约每天已发布的结算收益，不把换月前后的两个主力价格拼成连续涨跌。它同时给出 1/3/5/20 日收益、20日实现波动率、成交量与持仓量 z-score、持仓变化、`volume/OI`、价仓四象限线索、近次月价差 z-score，以及主力/曲线合约对换月标记。观察不足时字段保持 `null` 并披露实际样本数；价仓四象限只是归因线索，不是“新多”“新空”的事实。
 
