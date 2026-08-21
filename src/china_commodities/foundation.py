@@ -193,10 +193,61 @@ def _collect_series(
     previous: Mapping[str, Any] | None,
 ) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]]]:
     base = _base_record(definition, registry, requested_date)
+    previous_observation = str(previous.get("observation_date") or "") if previous else ""
+    previous_value = previous.get("value") if previous else None
+    # A direct retry for the same requested date must be idempotent.  Once a
+    # usable observation for that date is in the repository, do not spend an
+    # iFinD request to retrieve the same row again.
+    if (
+        previous
+        and previous_value is not None
+        and previous_observation == requested_date
+        and previous.get("quality_state") in {"fresh", "stale"}
+    ):
+        record = dict(previous)
+        record.update(
+            {
+                "requested_date": requested_date,
+                "current_collection_state": "ok",
+                "current_permission_status": "available",
+                "carried_forward": False,
+                "carried_from_observation_date": None,
+            }
+        )
+        return (
+            record,
+            {
+                "series_key": definition.series_key,
+                "indicator_id": definition.indicator_id,
+                "state": "cached",
+                "quality_state": record.get("quality_state"),
+                "source_date": record.get("source_date"),
+                "carried_forward": False,
+                "detail": "same-date verified observation reused from local snapshot",
+                "cache_hit": True,
+                "request_made": False,
+                "query_start_date": requested_date,
+                "query_end_date": requested_date,
+            },
+            [],
+        )
+    query_start_date = start_date
+    if previous_observation:
+        try:
+            previous_date = date.fromisoformat(previous_observation)
+            requested = date.fromisoformat(requested_date)
+            if previous_date <= requested:
+                # Include the last known point so the normalizer can compare
+                # the incremental response with the retained observation.
+                query_start_date = max(
+                    date.fromisoformat(start_date), previous_date
+                ).isoformat()
+        except ValueError:
+            query_start_date = start_date
     try:
         frame = client.edb_series(
             [definition.indicator_id],
-            start_date=start_date,
+            start_date=query_start_date,
             end_date=requested_date,
         )
         if not isinstance(frame, pd.DataFrame):
@@ -257,6 +308,10 @@ def _collect_series(
             "source_date": record.get("source_date"),
             "carried_forward": record.get("carried_forward", False),
             "detail": record.get("missing_reason"),
+            "cache_hit": False,
+            "request_made": True,
+            "query_start_date": query_start_date,
+            "query_end_date": requested_date,
         }
         return record, status, history
     except Exception as exc:
@@ -279,6 +334,10 @@ def _collect_series(
                 "source_date": record.get("source_date"),
                 "carried_forward": record.get("carried_forward", False),
                 "detail": detail,
+                "cache_hit": False,
+                "request_made": True,
+                "query_start_date": query_start_date,
+                "query_end_date": requested_date,
             },
             [],
         )
@@ -445,14 +504,31 @@ def collect_foundation_domain(
     source_registry = registry or load_source_registry(registry_path)
     target_root = Path(data_dir) / domain
     promoted_payload = read_json(target_root / "latest.json", default={}) or {}
-    previous_payload = promoted_payload or (
-        read_json(target_root / "attempt_latest.json", default={}) or {}
-    )
-    previous_by_key = {
-        str(record.get("series_key")): record
-        for record in previous_payload.get("series") or []
-        if isinstance(record, Mapping) and record.get("series_key")
-    }
+    attempt_payload = read_json(target_root / "attempt_latest.json", default={}) or {}
+    # The attempt snapshot can be newer than the promoted snapshot while the
+    # five-day shadow gate is filling.  Merge both and retain the best local
+    # observation per indicator so a failed/partial rerun never re-requests
+    # already acquired data.
+    previous_by_key: dict[str, dict[str, Any]] = {}
+    for previous_payload in (promoted_payload, attempt_payload):
+        for value in previous_payload.get("series") or []:
+            if not isinstance(value, Mapping) or not value.get("series_key"):
+                continue
+            record = dict(value)
+            key = str(record["series_key"])
+            current = previous_by_key.get(key)
+            if current is None:
+                previous_by_key[key] = record
+                continue
+            current_observation = str(current.get("observation_date") or "")
+            candidate_observation = str(record.get("observation_date") or "")
+            current_requested = str(current.get("requested_date") or "")
+            candidate_requested = str(record.get("requested_date") or "")
+            if (candidate_observation, candidate_requested) > (
+                current_observation,
+                current_requested,
+            ):
+                previous_by_key[key] = record
     targets = (
         source_registry.physical_products
         if domain == "physical"
@@ -500,6 +576,13 @@ def collect_foundation_domain(
             item["quality_state"]
             not in {"fresh", "stale", "carried_forward", "unavailable"}
             for item in matrix
+        ),
+        "series_count": len(statuses),
+        "cache_hit_count": sum(
+            bool(item.get("cache_hit")) for item in statuses
+        ),
+        "request_count": sum(
+            bool(item.get("request_made")) for item in statuses
         ),
     }
     payload: dict[str, Any] = {

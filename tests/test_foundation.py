@@ -43,6 +43,93 @@ class FakeEDBClient:
 
 
 class FoundationTests(unittest.TestCase):
+    def test_same_date_verified_series_are_reused_without_an_ifind_request(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            first_client = FakeEDBClient(
+                observations={
+                    "S011038838": ("2026-08-20", 15000.0),
+                    "S005948590": ("2026-08-20", 1200.0),
+                    "S005696248": ("2026-08-20", 4000.0),
+                    "S011318489": ("2026-08-20", 300.0),
+                }
+            )
+            collect_foundation_domain(
+                "physical",
+                "2026-08-20",
+                data_dir=root,
+                client=first_client,
+                shadow_days=1,
+            )
+
+            retry_client = FakeEDBClient(error=RuntimeError("request must not run"))
+            result = collect_foundation_domain(
+                "physical",
+                "2026-08-20",
+                data_dir=root,
+                client=retry_client,
+                shadow_days=1,
+            )
+
+            self.assertEqual(retry_client.calls, [])
+            self.assertTrue(result["status"]["validation_passed"])
+            self.assertTrue(
+                all(item["state"] == "cached" for item in result["status"]["series"])
+            )
+            self.assertTrue(
+                all(item["request_made"] is False for item in result["status"]["series"])
+            )
+
+    def test_next_date_queries_only_from_last_local_observation(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            first_client = FakeEDBClient(
+                observations={
+                    "S011038838": ("2026-08-19", 15000.0),
+                    "S005948590": ("2026-08-19", 1200.0),
+                    "S005696248": ("2026-08-19", 4000.0),
+                    "S011318489": ("2026-08-19", 300.0),
+                }
+            )
+            collect_foundation_domain(
+                "physical",
+                "2026-08-20",
+                data_dir=root,
+                client=first_client,
+                shadow_days=1,
+            )
+
+            next_client = FakeEDBClient(
+                observations={
+                    "S011038838": ("2026-08-20", 15001.0),
+                    "S005948590": ("2026-08-20", 1201.0),
+                    "S005696248": ("2026-08-20", 4001.0),
+                    "S011318489": ("2026-08-20", 301.0),
+                }
+            )
+            next_result = collect_foundation_domain(
+                "physical",
+                "2026-08-21",
+                data_dir=root,
+                client=next_client,
+                shadow_days=1,
+            )
+
+            self.assertTrue(next_client.calls)
+            self.assertTrue(
+                all(call[1] == "2026-08-19" for call in next_client.calls)
+            )
+            self.assertTrue(
+                all(call[2] == "2026-08-21" for call in next_client.calls)
+            )
+            self.assertTrue(
+                all(
+                    status["query_start_date"] == "2026-08-19"
+                    and status["request_made"] is True
+                    for status in next_result["status"]["series"]
+                )
+            )
+
     def test_default_shadow_gate_promotes_only_on_fifth_valid_run_date(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

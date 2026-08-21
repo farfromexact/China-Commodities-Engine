@@ -136,6 +136,8 @@ GitHub Actions 通过 `workflow_dispatch`，或在工作日北京时间 06:00（
 
 每次 Action 会先只读检查仓库中各模块的日期和验证状态。同一请求日期已经存在已验证的期货、期权、Physical 或 External 数据时，对应模块直接跳过；若所有计划模块都已存在，连 access token 也不会换取。只有新日期、缺失数据或上次失败的模块才会请求 iFinD。CLI 和期权脚本还有第二层同日检查；确需重取时必须显式传入 `--force-refresh`。
 
+Physical/External 还按指标做第二层缓存：同日已有可用 EDB 观测时不会重复请求；跨日只查询本地最后观测日之后的增量区间。`last_run_status.json` 的每个 series 状态会记录 `cache_hit`、`request_made`、`query_start_date` 和 `query_end_date`，便于审计实际请求范围。
+
 历史回填优先使用 iFinD 区间查询；若账户对多日合约区间返回参数规模错误，则自动改用共享 access token 的逐日查询。系统取五个交易所共同存在或逐日验证通过的最近20个交易日，在内存中执行与每日任务相同的校验。只有选中的全部日期均通过时才发布，节假日和空返回不会伪装成交易日。历史回填建议在本地一次性执行；GitHub Action 只运行正常的单日更新。
 
 仅采集上期所、上期能源、郑商所和广期所：
