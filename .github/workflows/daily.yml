@@ -118,6 +118,9 @@ jobs:
             python -m china_commodities.cli foundation --scope external
           fi
 
+      - name: Rebuild local futures history and report input
+        run: python -m china_commodities.cli report-input --repair-futures-history
+
       - name: Upload raw diagnostic data
         if: always()
         uses: actions/upload-artifact@v4

@@ -22,6 +22,10 @@ class WorkflowScheduleTests(unittest.TestCase):
         self.assertIn("steps.collection_plan.outputs.needs_options == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_physical == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_external == 'true'", workflow)
+        self.assertIn(
+            "python -m china_commodities.cli report-input --repair-futures-history",
+            workflow,
+        )
         self.assertEqual(
             workflow.count("python -m china_commodities.cli foundation --scope physical"),
             2,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -9,6 +10,7 @@ import pandas as pd
 from china_commodities.history_storage import (
     append_option_history,
     append_parquet_history,
+    rebuild_futures_history_from_snapshots,
 )
 
 
@@ -37,6 +39,41 @@ def option_snapshot(trade_date: str, settle: float = 10.0) -> dict:
 
 
 class HistoryStorageTests(unittest.TestCase):
+    def test_rebuild_futures_history_uses_local_snapshots_and_retains_dates(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            snapshots = root / "snapshots"
+            snapshots.mkdir()
+            for day, settle in ((18, 100.0), (19, 101.0), (20, 102.0)):
+                payload = {
+                    "trade_date": f"2026-08-{day}",
+                    "verified": True,
+                    "scope_verified": True,
+                    "source": {"provider": "ifind_http"},
+                    "futures_contracts": [
+                        {
+                            "trade_date": f"2026-08-{day}",
+                            "source_trade_date": f"2026-08-{day}",
+                            "source_date_match": True,
+                            "exchange": "DCE",
+                            "contract": "I2701",
+                            "settle": settle,
+                        }
+                    ],
+                }
+                (snapshots / f"2026-08-{day}.json").write_text(
+                    json.dumps(payload), encoding="utf-8"
+                )
+
+            rows = rebuild_futures_history_from_snapshots(root, retention_days=2)
+            self.assertEqual(rows, 2)
+            frame = pd.read_parquet(root / "history" / "futures.parquet")
+            self.assertEqual(sorted(frame["trade_date"].unique().tolist()), [
+                "2026-08-19",
+                "2026-08-20",
+            ])
+            self.assertEqual(frame.loc[frame["trade_date"].eq("2026-08-20"), "settle"].item(), 102.0)
+
     def test_same_day_retry_is_deduplicated_and_last_write_wins(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "history.parquet"

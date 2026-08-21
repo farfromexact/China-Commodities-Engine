@@ -13,7 +13,7 @@ from typing import Any
 
 from .features import contract_month
 from .historical_features import build_market_state
-from .history_storage import append_futures_history
+from .history_storage import append_futures_history, rebuild_futures_history_from_snapshots
 from .models import PipelineResult
 
 
@@ -425,6 +425,9 @@ def _publish_artifacts(
     write_json_if_changed(
         data_dir / "snapshots" / f"{result.trade_date}.json", snapshot
     )
+    # Reconcile the long history from retained local snapshots.  This is a
+    # local repair/upsert only; it never makes an additional provider request.
+    rebuild_futures_history_from_snapshots(data_dir, retention_days=252)
     snapshot_files = sorted(
         path
         for path in (data_dir / "snapshots").glob("*.json")

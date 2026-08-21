@@ -36,6 +36,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/radar_latest.json`：期限结构、基差、仓单和异常候选的当前摘要。
 - `data/radar_history.json`：面向历史比较的紧凑日级记录。
 - `data/market_state_latest.json`：基于最近20个交易日、按当前具体合约回溯的收益、波动、量仓冲击、换月和曲线状态；不拼接不同主力合约。
+- `data/report_input_latest.json`：下游晨报使用的只读汇总层；合并 Market、Physical、External、期权曲面、合约元数据和各模块独立时间戳，不发起新的供应商请求。
 - `data/contract_meta.json`：合约乘数、最小变动价位、交易与到期属性等元数据。
 - `data/history/futures.parquet`：按交易日、交易所和具体合约去重的长期日线历史；不受20日 JSON 窗口限制，可回填252个交易日。
 - `data/physical/latest.json`、`attempt_latest.json` 和 `history.parquet`：20个核心品种的固定指标矩阵、产业序列、官方仓单引用、`Spot - Futures` 基差和显式空值结论。
@@ -114,6 +115,8 @@ python -m china_commodities.cli foundation --audit-only
 python -m china_commodities.cli foundation --scope physical --date YYYY-MM-DD
 python -m china_commodities.cli foundation --scope external --date YYYY-MM-DD
 python -m china_commodities.cli backfill --end-date YYYY-MM-DD --days 252 --history-limit 20 --snapshot-limit 20
+python -m china_commodities.cli history-rebuild --retention-days 252
+python -m china_commodities.cli report-input --repair-futures-history
 python -m china_commodities.cli validate
 ```
 

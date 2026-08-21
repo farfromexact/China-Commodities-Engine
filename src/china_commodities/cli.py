@@ -15,8 +15,10 @@ from .collection_cache import (
     verified_futures_available,
 )
 from .foundation import run_foundation
+from .history_storage import rebuild_futures_history_from_snapshots
 from .pipeline import run_pipeline
 from .quality import validate_snapshot
+from .reporting import publish_report_input
 from .source_registry import load_source_registry
 from .storage import read_json
 
@@ -78,6 +80,25 @@ def _parser() -> argparse.ArgumentParser:
     backfill.add_argument("--history-limit", type=int, default=20)
     backfill.add_argument("--snapshot-limit", type=int, default=20)
     backfill.add_argument("--calendar-days", type=int, default=None)
+
+    history = subparsers.add_parser(
+        "history-rebuild",
+        help="repair futures Parquet from local verified snapshots (no vendor request)",
+    )
+    history.add_argument("--data-dir", default="data")
+    history.add_argument("--retention-days", type=int, default=252)
+
+    report = subparsers.add_parser(
+        "report-input",
+        help="publish compact report input from existing local artifacts",
+    )
+    report.add_argument("--data-dir", default="data")
+    report.add_argument("--output", default=None)
+    report.add_argument(
+        "--repair-futures-history",
+        action="store_true",
+        help="repair futures Parquet from local snapshots before joining the report input",
+    )
 
     validate = subparsers.add_parser("validate", help="validate latest promoted snapshot")
     validate.add_argument("--data-dir", default="data")
@@ -301,6 +322,43 @@ def _foundation(args: argparse.Namespace) -> int:
     return 0
 
 
+def _history_rebuild(args: argparse.Namespace) -> int:
+    rows = rebuild_futures_history_from_snapshots(
+        args.data_dir,
+        retention_days=args.retention_days,
+    )
+    print(
+        json.dumps(
+            {
+                "data_dir": str(args.data_dir),
+                "retention_days": args.retention_days,
+                "futures_history_rows": rows,
+                "vendor_request_made": False,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+    return 0
+
+
+def _report_input(args: argparse.Namespace) -> int:
+    if args.repair_futures_history:
+        rebuild_futures_history_from_snapshots(args.data_dir, retention_days=252)
+    path = publish_report_input(args.data_dir, output_path=args.output)
+    print(
+        json.dumps(
+            {
+                "path": str(path),
+                "vendor_request_made": False,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     args = parser.parse_args(argv)
@@ -312,6 +370,10 @@ def main(argv: list[str] | None = None) -> int:
         return _backfill(args)
     if args.command == "foundation":
         return _foundation(args)
+    if args.command == "history-rebuild":
+        return _history_rebuild(args)
+    if args.command == "report-input":
+        return _report_input(args)
     return _validate(args)
 
 

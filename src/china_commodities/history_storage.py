@@ -107,26 +107,123 @@ def append_futures_history(result: PipelineResult, data_dir: str | Path) -> int:
 
     if not result.scope_verified:
         raise ValueError("refusing to append an unverified futures result")
-    rows = []
-    for record in result.futures_records:
-        row = dict(record)
-        row.setdefault("trade_date", result.trade_date)
-        row["requested_date"] = result.trade_date
-        row["source_date"] = record.get("source_trade_date") or record.get("trade_date")
-        row["observation_date"] = row["source_date"]
-        row["vendor"] = result.primary_provider
-        row["timezone"] = "Asia/Shanghai"
-        row["frequency"] = "EOD"
-        row["quality_state"] = (
-            "fresh" if record.get("source_date_match") is True else "invalid_source_date"
-        )
-        rows.append(row)
+    rows = _futures_history_rows(
+        result.trade_date,
+        result.primary_provider,
+        result.futures_records,
+    )
     return append_parquet_history(
         Path(data_dir) / "history" / "futures.parquet",
         rows,
         key_fields=("trade_date", "exchange", "contract"),
         sort_fields=("trade_date", "exchange", "contract"),
     )
+
+
+def _futures_history_rows(
+    trade_date: str,
+    provider: str | None,
+    records: Iterable[Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    """Normalize futures rows from either a live result or a stored snapshot."""
+
+    rows: list[dict[str, Any]] = []
+    for record in records:
+        if not isinstance(record, Mapping):
+            continue
+        row = dict(record)
+        row.setdefault("trade_date", trade_date)
+        row["requested_date"] = trade_date
+        row["source_date"] = record.get("source_trade_date") or record.get(
+            "source_date"
+        ) or record.get("trade_date")
+        row["observation_date"] = row["source_date"]
+        row["vendor"] = provider
+        row["timezone"] = "Asia/Shanghai"
+        row["frequency"] = "EOD"
+        row["quality_state"] = (
+            "fresh" if record.get("source_date_match") is True else "invalid_source_date"
+        )
+        rows.append(row)
+    return rows
+
+
+def rebuild_futures_history_from_snapshots(
+    data_dir: str | Path = "data",
+    *,
+    retention_days: int = 252,
+) -> int:
+    """Repair/extend futures Parquet from local snapshots without vendor calls.
+
+    Existing Parquet rows are retained and same-date rows from verified local
+    snapshots are upserted.  Only the most recent ``retention_days`` distinct
+    trade dates are retained.  This is intentionally separate from collection
+    so a report or a one-off repair can recover history after an older release
+    was written with an incomplete Parquet file.
+    """
+
+    if retention_days < 1:
+        raise ValueError("futures history retention must be positive")
+    root = Path(data_dir)
+    snapshot_root = root / "snapshots"
+    rows: list[dict[str, Any]] = []
+    seen_dates: set[str] = set()
+    if snapshot_root.exists():
+        for snapshot_path in sorted(snapshot_root.glob("*.json")):
+            try:
+                payload = json.loads(snapshot_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            if not isinstance(payload, Mapping):
+                continue
+            if payload.get("verified") is not True and payload.get("scope_verified") is not True:
+                continue
+            trade_date = str(payload.get("trade_date") or "")
+            if not trade_date:
+                continue
+            date.fromisoformat(trade_date)
+            if trade_date in seen_dates:
+                raise ValueError(f"duplicate verified snapshot trade_date: {trade_date}")
+            seen_dates.add(trade_date)
+            source = payload.get("source")
+            source_map = source if isinstance(source, Mapping) else {}
+            provider = source_map.get("provider") or payload.get("primary_provider")
+            rows.extend(
+                _futures_history_rows(
+                    trade_date,
+                    str(provider) if provider else None,
+                    payload.get("futures_contracts") or [],
+                )
+            )
+
+    destination = root / "history" / "futures.parquet"
+    append_parquet_history(
+        destination,
+        rows,
+        key_fields=("trade_date", "exchange", "contract"),
+        sort_fields=("trade_date", "exchange", "contract"),
+    )
+    if not destination.exists():
+        return 0
+
+    frame = pd.read_parquet(destination)
+    if frame.empty or "trade_date" not in frame.columns:
+        return int(len(frame))
+    frame["trade_date"] = frame["trade_date"].astype(str)
+    distinct_dates = sorted(set(frame["trade_date"].dropna().tolist()))
+    if len(distinct_dates) > retention_days:
+        keep_dates = set(distinct_dates[-retention_days:])
+        frame = frame[frame["trade_date"].isin(keep_dates)].copy()
+        frame = frame.sort_values(
+            [field for field in ("trade_date", "exchange", "contract") if field in frame.columns],
+            kind="stable",
+            na_position="last",
+        ).reset_index(drop=True)
+        temporary = destination.with_suffix(destination.suffix + ".tmp")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        frame.to_parquet(temporary, index=False, engine="pyarrow")
+        _replace_with_retry(temporary, destination)
+    return int(len(frame))
 
 
 def _option_history_rows(snapshot: Mapping[str, Any]) -> list[dict[str, Any]]:
@@ -304,4 +401,5 @@ __all__ = [
     "append_futures_history",
     "append_option_history",
     "append_parquet_history",
+    "rebuild_futures_history_from_snapshots",
 ]
