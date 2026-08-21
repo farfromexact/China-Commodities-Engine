@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "domain": "physical",
-  "requested_date": "2026-08-20",
-  "generated_at": "2026-08-20T19:00:12.206649+08:00",
+  "requested_date": "2026-08-21",
+  "generated_at": "2026-08-21T19:02:51.075432+08:00",
   "timezone": "Asia/Shanghai",
   "vendor": "iFinD",
   "intraday_used": false,
@@ -14,13 +14,16 @@
     "fresh_target_count": 4,
     "stale_target_count": 0,
     "carried_forward_target_count": 0,
-    "failed_target_count": 0
+    "failed_target_count": 0,
+    "series_count": 4,
+    "cache_hit_count": 0,
+    "request_count": 4
   },
   "coverage_matrix": [
     {
       "key": "I",
       "exchange": "DCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -33,7 +36,7 @@
     {
       "key": "JM",
       "exchange": "DCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -46,7 +49,7 @@
     {
       "key": "J",
       "exchange": "DCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -57,7 +60,7 @@
     {
       "key": "RB",
       "exchange": "SHFE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -68,7 +71,7 @@
     {
       "key": "HC",
       "exchange": "SHFE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -79,7 +82,7 @@
     {
       "key": "FG",
       "exchange": "CZCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -92,7 +95,7 @@
     {
       "key": "SA",
       "exchange": "CZCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -103,7 +106,7 @@
     {
       "key": "SC",
       "exchange": "INE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -114,7 +117,7 @@
     {
       "key": "FU",
       "exchange": "SHFE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -125,7 +128,7 @@
     {
       "key": "LU",
       "exchange": "INE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -136,7 +139,7 @@
     {
       "key": "MA",
       "exchange": "CZCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -147,7 +150,7 @@
     {
       "key": "TA",
       "exchange": "CZCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -160,7 +163,7 @@
     {
       "key": "PX",
       "exchange": "CZCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -171,7 +174,7 @@
     {
       "key": "CU",
       "exchange": "SHFE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -182,7 +185,7 @@
     {
       "key": "AL",
       "exchange": "SHFE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -193,7 +196,7 @@
     {
       "key": "LC",
       "exchange": "GFEX",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "no_data",
       "current_permission_status": "no_data",
@@ -204,7 +207,7 @@
     {
       "key": "SI",
       "exchange": "GFEX",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -215,7 +218,7 @@
     {
       "key": "M",
       "exchange": "DCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -226,7 +229,7 @@
     {
       "key": "Y",
       "exchange": "DCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -237,7 +240,7 @@
     {
       "key": "P",
       "exchange": "DCE",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -254,7 +257,7 @@
       "exchange": "DCE",
       "target": null,
       "metric": "inventory",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "source_date": "2026-08-19",
       "observation_date": "2026-08-19",
       "timezone": "Asia/Shanghai",
@@ -288,7 +291,7 @@
       "exchange": "DCE",
       "target": null,
       "metric": "spot",
-      "requested_date": "2026-08-20",
+      "requested_date": "2026-08-21",
       "source_date": "2026-08-10",
       "observation_date": "2026-08-10",
       "timezone": "Asia/Shanghai",
@@ -327,9 +330,9 @@
       "exchange": "CZCE",
       "target": null,
       "metric": "inventory",
-      "requested_date": "2026-08-20",
-      "source_date": "2026-08-14",
-      "observation_date": "2026-08-14",
+      "requested_date": "2026-08-21",
+      "source_date": "2026-08-21",
+      "observation_date": "2026-08-21",
       "timezone": "Asia/Shanghai",
       "indicator_id": "S005696248",
       "report_id": null,
@@ -338,7 +341,7 @@
       "mapping_verified_on": "2026-08-19",
       "current_permission_status": "available",
       "name": "企业库存:浮法玻璃:合计:当周值",
-      "value": 7447.0,
+      "value": 7441.4,
       "unit": "重量箱",
       "frequency": "W",
       "vendor": "iFinD",
@@ -352,7 +355,7 @@
       "carried_forward": false,
       "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "a18b16068d8523006f220d6138ee3a021799fa3fc58e57b36a8bbf5e53829337"
+      "normalized_value_sha256": "70ac392c2e683ada1f782f23f21aa293b9224e9d32f0c00589538663323eafac"
     },
     {
       "series_key": "physical.TA.processing_margin",
@@ -361,9 +364,9 @@
       "exchange": "CZCE",
       "target": null,
       "metric": "margin",
-      "requested_date": "2026-08-20",
-      "source_date": "2026-08-14",
-      "observation_date": "2026-08-14",
+      "requested_date": "2026-08-21",
+      "source_date": "2026-08-21",
+      "observation_date": "2026-08-21",
       "timezone": "Asia/Shanghai",
       "indicator_id": "S011318489",
       "report_id": null,
@@ -372,7 +375,7 @@
       "mapping_verified_on": "2026-08-19",
       "current_permission_status": "available",
       "name": "周度加工费:PTA:中国",
-      "value": 382.3,
+      "value": 586.52,
       "unit": "元/吨",
       "frequency": "W",
       "vendor": "iFinD",
@@ -386,7 +389,7 @@
       "carried_forward": false,
       "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "c6659910d8af091d71cc758016ee1883eab43368923edf0933aacdc3a6decbd6"
+      "normalized_value_sha256": "bcfe7bf0bc75215cb20a96c4043ef1f11a4f12a79634fbd1ea90294242c0ed42"
     }
   ],
   "fundamental_score": null,
@@ -408,8 +411,8 @@
       "series_key": "physical.JM.nbs_coking_coal_spot",
       "formula": "spot - futures",
       "spot": 1908.3,
-      "futures": 1583.5,
-      "value": 324.79999999999995,
+      "futures": 1571.0,
+      "value": 337.29999999999995,
       "unit": "元/吨",
       "quality_grade": "C",
       "eligible_for_physical_score": false,
@@ -419,7 +422,7 @@
       "delivery_location": null,
       "mapped_contract": "JM2701",
       "spot_observation_date": "2026-08-10",
-      "futures_source_date": "2026-08-20",
+      "futures_source_date": "2026-08-21",
       "missing_fields": [
         "delivery_location",
         "tax_included"
@@ -461,11 +464,11 @@
   ],
   "official_warehouse": [
     {
-      "trade_date": "2026-08-20",
+      "trade_date": "2026-08-21",
       "exchange": "CZCE",
       "product": "FG",
-      "warehouse_quantity": 1311.0,
-      "warehouse_change": 0.0,
+      "warehouse_quantity": 1296.0,
+      "warehouse_change": -15.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -473,7 +476,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-20",
+      "trade_date": "2026-08-21",
       "exchange": "CZCE",
       "product": "PX",
       "warehouse_quantity": 0.0,
@@ -485,11 +488,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-20",
+      "trade_date": "2026-08-21",
       "exchange": "CZCE",
       "product": "SA",
-      "warehouse_quantity": 7641.0,
-      "warehouse_change": 2450.0,
+      "warehouse_quantity": 7591.0,
+      "warehouse_change": -50.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -497,11 +500,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-20",
+      "trade_date": "2026-08-21",
       "exchange": "GFEX",
       "product": "LC",
-      "warehouse_quantity": 39333.0,
-      "warehouse_change": 725.0,
+      "warehouse_quantity": 39604.0,
+      "warehouse_change": 660.0,
       "source_unit": "as_published",
       "quantity_column": "今日仓单量",
       "aggregation_method": "sum_rows",
@@ -509,11 +512,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-20",
+      "trade_date": "2026-08-21",
       "exchange": "GFEX",
       "product": "SI",
       "warehouse_quantity": 33535.0,
-      "warehouse_change": 24.0,
+      "warehouse_change": 0.0,
       "source_unit": "as_published",
       "quantity_column": "今日仓单量",
       "aggregation_method": "sum_rows",
@@ -534,7 +537,7 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-08-20",
+    "last_attempt_date": "2026-08-21",
     "last_attempt_validation_passed": true,
     "out_of_order_attempt": false,
     "promotion_allowed": true
