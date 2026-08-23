@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-21T19:02:52.405697+08:00",
+  "generated_at": "2026-08-24T06:24:20.563750+08:00",
   "requested_date": "2026-08-21",
   "timezone": "Asia/Shanghai",
   "frequency": "EOD",
@@ -60,15 +60,15 @@
     },
     {
       "module": "external",
-      "requested_date": "2026-08-21",
+      "requested_date": "2026-08-24",
       "source_dates": [
         "2026-04-26",
-        "2026-08-19",
-        "2026-08-20"
+        "2026-08-21",
+        "2026-08-22"
       ],
       "source_date_min": "2026-04-26",
-      "source_date_max": "2026-08-20",
-      "generated_at": "2026-08-21T06:29:49.347877+08:00",
+      "source_date_max": "2026-08-22",
+      "generated_at": "2026-08-24T06:24:19.226673+08:00",
       "data_fresh": false,
       "validation_passed": true,
       "published": true
@@ -5288,8 +5288,8 @@
     "provider_consensus_missing_reason": "an independent second provider is not configured"
   },
   "external": {
-    "requested_date": "2026-08-21",
-    "generated_at": "2026-08-21T06:29:49.347877+08:00",
+    "requested_date": "2026-08-24",
+    "generated_at": "2026-08-24T06:24:19.226673+08:00",
     "data_fresh": false,
     "validation_passed": true,
     "published": true,
@@ -5300,13 +5300,16 @@
       "fresh_target_count": 5,
       "stale_target_count": 1,
       "carried_forward_target_count": 0,
-      "failed_target_count": 0
+      "failed_target_count": 0,
+      "series_count": 6,
+      "cache_hit_count": 0,
+      "request_count": 6
     },
     "coverage_matrix": [
       {
         "key": "WTI",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5317,7 +5320,7 @@
       {
         "key": "BRENT",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5330,7 +5333,7 @@
       {
         "key": "DUBAI_OMAN",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5341,7 +5344,7 @@
       {
         "key": "SINGAPORE_HSFO",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5352,7 +5355,7 @@
       {
         "key": "SINGAPORE_VLSFO",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5363,7 +5366,7 @@
       {
         "key": "LME_CU",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5376,7 +5379,7 @@
       {
         "key": "LME_AL",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5387,7 +5390,7 @@
       {
         "key": "LME_ZN",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5398,7 +5401,7 @@
       {
         "key": "LME_NI",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5409,7 +5412,7 @@
       {
         "key": "COMEX_AU",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5420,7 +5423,7 @@
       {
         "key": "COMEX_AG",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5431,7 +5434,7 @@
       {
         "key": "SGX_IRON_ORE",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5444,7 +5447,7 @@
       {
         "key": "CBOT_SOYBEAN",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5455,7 +5458,7 @@
       {
         "key": "CBOT_SOYMEAL",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5466,7 +5469,7 @@
       {
         "key": "CBOT_SOYBEAN_OIL",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5477,7 +5480,7 @@
       {
         "key": "CBOT_CORN",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5488,7 +5491,7 @@
       {
         "key": "CBOT_WHEAT",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5499,7 +5502,7 @@
       {
         "key": "BMD_PALM",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5512,7 +5515,7 @@
       {
         "key": "ICE_SUGAR",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5523,7 +5526,7 @@
       {
         "key": "ICE_COTTON",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5534,7 +5537,7 @@
       {
         "key": "USDCNH",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5547,7 +5550,7 @@
       {
         "key": "DXY",
         "exchange": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5566,15 +5569,15 @@
         "exchange": null,
         "target": "BRENT",
         "metric": null,
-        "requested_date": "2026-08-21",
-        "source_date": "2026-08-19",
-        "observation_date": "2026-08-19",
+        "requested_date": "2026-08-24",
+        "source_date": "2026-08-21",
+        "observation_date": "2026-08-21",
         "indicator_id": "S004111385",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 91.62,
+        "value": 94.39,
         "unit": "美元/桶",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5597,15 +5600,15 @@
         "exchange": null,
         "target": "LME_CU",
         "metric": null,
-        "requested_date": "2026-08-21",
-        "source_date": "2026-08-19",
-        "observation_date": "2026-08-19",
+        "requested_date": "2026-08-24",
+        "source_date": "2026-08-21",
+        "observation_date": "2026-08-21",
         "indicator_id": "S005808359",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 14049.5,
+        "value": 14215.5,
         "unit": "美元/吨",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5628,15 +5631,15 @@
         "exchange": null,
         "target": "SGX_IRON_ORE",
         "metric": null,
-        "requested_date": "2026-08-21",
-        "source_date": "2026-08-19",
-        "observation_date": "2026-08-19",
+        "requested_date": "2026-08-24",
+        "source_date": "2026-08-21",
+        "observation_date": "2026-08-21",
         "indicator_id": "S009067320",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 92.74,
+        "value": 92.56,
         "unit": "美元/公吨",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5659,7 +5662,7 @@
         "exchange": null,
         "target": "BMD_PALM",
         "metric": null,
-        "requested_date": "2026-08-21",
+        "requested_date": "2026-08-24",
         "source_date": "2026-04-26",
         "observation_date": "2026-04-26",
         "indicator_id": "S024923811",
@@ -5690,15 +5693,15 @@
         "exchange": null,
         "target": "USDCNH",
         "metric": null,
-        "requested_date": "2026-08-21",
-        "source_date": "2026-08-19",
-        "observation_date": "2026-08-19",
+        "requested_date": "2026-08-24",
+        "source_date": "2026-08-22",
+        "observation_date": "2026-08-22",
         "indicator_id": "G019711418",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 6.731813470280337,
+        "value": 6.719900143476806,
         "unit": "人民币/美元",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5721,15 +5724,15 @@
         "exchange": null,
         "target": "DXY",
         "metric": null,
-        "requested_date": "2026-08-21",
-        "source_date": "2026-08-20",
-        "observation_date": "2026-08-20",
+        "requested_date": "2026-08-24",
+        "source_date": "2026-08-21",
+        "observation_date": "2026-08-21",
         "indicator_id": "G002600885",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 98.9027,
+        "value": 98.8452,
         "unit": "1973年3月=100",
         "frequency": "D",
         "vendor": "iFinD",
@@ -21472,8 +21475,8 @@
     "external_status": {
       "schema_version": 1,
       "domain": "external",
-      "requested_date": "2026-08-21",
-      "generated_at": "2026-08-21T06:29:49.347877+08:00",
+      "requested_date": "2026-08-24",
+      "generated_at": "2026-08-24T06:24:19.226673+08:00",
       "data_fresh": false,
       "coverage": {
         "target_count": 22,
@@ -21482,7 +21485,10 @@
         "fresh_target_count": 5,
         "stale_target_count": 1,
         "carried_forward_target_count": 0,
-        "failed_target_count": 0
+        "failed_target_count": 0,
+        "series_count": 6,
+        "cache_hit_count": 0,
+        "request_count": 6
       },
       "series": [
         {
@@ -21490,27 +21496,39 @@
           "indicator_id": "S004111385",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-19",
+          "source_date": "2026-08-21",
           "carried_forward": false,
-          "detail": null
+          "detail": null,
+          "cache_hit": false,
+          "request_made": true,
+          "query_start_date": "2026-08-19",
+          "query_end_date": "2026-08-24"
         },
         {
           "series_key": "external.LME_CU.three_month_close",
           "indicator_id": "S005808359",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-19",
+          "source_date": "2026-08-21",
           "carried_forward": false,
-          "detail": null
+          "detail": null,
+          "cache_hit": false,
+          "request_made": true,
+          "query_start_date": "2026-08-19",
+          "query_end_date": "2026-08-24"
         },
         {
           "series_key": "external.SGX_IRON_ORE.twenty_two_month_settlement",
           "indicator_id": "S009067320",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-19",
+          "source_date": "2026-08-21",
           "carried_forward": false,
-          "detail": null
+          "detail": null,
+          "cache_hit": false,
+          "request_made": true,
+          "query_start_date": "2026-08-19",
+          "query_end_date": "2026-08-24"
         },
         {
           "series_key": "external.BMD_PALM.bmd_plus_3",
@@ -21519,25 +21537,37 @@
           "quality_state": "stale",
           "source_date": "2026-04-26",
           "carried_forward": false,
-          "detail": "observation exceeds allowed lag of 3 day(s)"
+          "detail": "observation exceeds allowed lag of 3 day(s)",
+          "cache_hit": false,
+          "request_made": true,
+          "query_start_date": "2026-04-26",
+          "query_end_date": "2026-08-24"
         },
         {
           "series_key": "external.USDCNH.close",
           "indicator_id": "G019711418",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-19",
+          "source_date": "2026-08-22",
           "carried_forward": false,
-          "detail": null
+          "detail": null,
+          "cache_hit": false,
+          "request_made": true,
+          "query_start_date": "2026-08-19",
+          "query_end_date": "2026-08-24"
         },
         {
           "series_key": "external.DXY.close",
           "indicator_id": "G002600885",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-20",
+          "source_date": "2026-08-21",
           "carried_forward": false,
-          "detail": null
+          "detail": null,
+          "cache_hit": false,
+          "request_made": true,
+          "query_start_date": "2026-08-20",
+          "query_end_date": "2026-08-24"
         }
       ],
       "validation_passed": true,
@@ -21556,7 +21586,7 @@
           "2026-08-19"
         ],
         "consecutive_pass_count": 5,
-        "last_attempt_date": "2026-08-21",
+        "last_attempt_date": "2026-08-24",
         "last_attempt_validation_passed": true,
         "out_of_order_attempt": false,
         "promotion_allowed": true
