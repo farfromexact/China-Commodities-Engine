@@ -1,26 +1,26 @@
 {
   "schema_version": 2,
   "snapshot_schema_version": 1,
-  "trade_date": "2026-08-21",
-  "generated_at": "2026-08-21T10:48:38+00:00",
+  "trade_date": "2026-08-24",
+  "generated_at": "2026-08-24T10:54:39+00:00",
   "source_provider": "ifind_http",
   "universe_source": "mixed_contract_directories",
   "universe_sources": [
     "exchange_eod_via_akshare",
     "openctp_contract_directory"
   ],
-  "universe_contract_count": 21816,
-  "quote_contract_count": 21816,
+  "universe_contract_count": 21726,
+  "quote_contract_count": 21726,
   "quote_coverage_complete": true,
   "collection_mode": "end_of_day_full_market",
   "intraday": false,
   "coverage": {
     "expected_product_count": 64,
     "attempted_product_count": 64,
-    "successful_product_count": 59,
-    "failed_product_count": 5,
+    "successful_product_count": 58,
+    "failed_product_count": 6,
     "skipped_product_count": 0,
-    "product_coverage": 0.921875,
+    "product_coverage": 0.90625,
     "minimum_product_coverage": 0.75,
     "scope_complete": false,
     "publish_eligible": true,
@@ -28,7 +28,6 @@
       "CZCE:CF",
       "CZCE:FG",
       "CZCE:MA",
-      "CZCE:OI",
       "CZCE:PF",
       "CZCE:PK",
       "CZCE:PX",
@@ -88,6 +87,7 @@
     "failed_products": [
       "CZCE:AP",
       "CZCE:CJ",
+      "CZCE:OI",
       "CZCE:PL",
       "CZCE:PR",
       "CZCE:ZC"
@@ -107,7 +107,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: iFinD option quote AP611P9200.CZC has source date 2026-08-20; requested 2026-08-21; fallback collection failed: IFindOptionDataError: iFinD option quote AP611P9200.CZC has source date 2026-08-20; requested 2026-08-21"
+      "detail": "IFindOptionDataError: iFinD option quote AP611P9100.CZC has source date 2026-08-21; requested 2026-08-24; fallback collection failed: IFindOptionDataError: iFinD option quote AP611P9100.CZC has source date 2026-08-21; requested 2026-08-24"
     },
     {
       "exchange": "CZCE",
@@ -115,7 +115,7 @@
       "symbol": "棉花期权",
       "status": "success",
       "contract_count": 198,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -135,15 +135,15 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: iFinD option quote CJ701P11000.CZC has source date 2026-08-20; requested 2026-08-21; fallback collection failed: IFindOptionDataError: iFinD option quote CJ701P11000.CZC has source date 2026-08-20; requested 2026-08-21"
+      "detail": "IFindOptionDataError: iFinD option quote CJ701P10800.CZC has source date 2026-08-21; requested 2026-08-24; fallback collection failed: IFindOptionDataError: iFinD option quote CJ701P10800.CZC has source date 2026-08-21; requested 2026-08-24"
     },
     {
       "exchange": "CZCE",
       "product": "FG",
       "symbol": "玻璃期权",
       "status": "success",
-      "contract_count": 410,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 420,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -156,8 +156,8 @@
       "product": "MA",
       "symbol": "甲醇期权",
       "status": "success",
-      "contract_count": 344,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 346,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -169,15 +169,15 @@
       "exchange": "CZCE",
       "product": "OI",
       "symbol": "菜籽油期权",
-      "status": "success",
-      "contract_count": 178,
-      "source_trade_date": "2026-08-21",
-      "quote_coverage_complete": true,
-      "universe_source": "exchange_eod_via_akshare",
+      "status": "failed",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
       "fallback_used": false,
-      "metadata_enrichment_used": true,
+      "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": null
+      "detail": "IFindOptionDataError: iFinD option quote OI703C8600.CZC has source date 2026-08-21; requested 2026-08-24; fallback collection failed: IFindOptionDataError: iFinD option quote OI703C8600.CZC has source date 2026-08-21; requested 2026-08-24"
     },
     {
       "exchange": "CZCE",
@@ -185,7 +185,7 @@
       "symbol": "短纤期权",
       "status": "success",
       "contract_count": 146,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -199,7 +199,7 @@
       "symbol": "花生期权",
       "status": "success",
       "contract_count": 174,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -219,7 +219,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: iFinD option quote PL611C6300.CZC has source date 2026-08-20; requested 2026-08-21; fallback collection failed: IFindOptionDataError: iFinD option quote PL611C6300.CZC has source date 2026-08-20; requested 2026-08-21"
+      "detail": "IFindOptionDataError: iFinD option quote PL611C6300.CZC has source date 2026-08-21; requested 2026-08-24; fallback collection failed: IFindOptionDataError: iFinD option quote PL611C6300.CZC has source date 2026-08-21; requested 2026-08-24"
     },
     {
       "exchange": "CZCE",
@@ -233,7 +233,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: iFinD option quote PR611C5800.CZC has source date 2026-08-20; requested 2026-08-21; fallback collection failed: IFindOptionDataError: iFinD option quote PR611C5800.CZC has source date 2026-08-20; requested 2026-08-21"
+      "detail": "IFindOptionDataError: iFinD option quote PR611C5800.CZC has source date 2026-08-21; requested 2026-08-24; fallback collection failed: IFindOptionDataError: iFinD option quote PR611C5800.CZC has source date 2026-08-21; requested 2026-08-24"
     },
     {
       "exchange": "CZCE",
@@ -241,7 +241,7 @@
       "symbol": "对二甲苯期权",
       "status": "success",
       "contract_count": 238,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -255,7 +255,7 @@
       "symbol": "菜籽粕期权",
       "status": "success",
       "contract_count": 242,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -269,7 +269,7 @@
       "symbol": "纯碱期权",
       "status": "success",
       "contract_count": 414,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -283,7 +283,7 @@
       "symbol": "硅铁期权",
       "status": "success",
       "contract_count": 134,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -297,7 +297,7 @@
       "symbol": "烧碱期权",
       "status": "success",
       "contract_count": 248,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -311,7 +311,7 @@
       "symbol": "锰硅期权",
       "status": "success",
       "contract_count": 176,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -325,7 +325,7 @@
       "symbol": "白糖期权",
       "status": "success",
       "contract_count": 142,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -339,7 +339,7 @@
       "symbol": "PTA期权",
       "status": "success",
       "contract_count": 278,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -353,7 +353,7 @@
       "symbol": "尿素期权",
       "status": "success",
       "contract_count": 270,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -373,7 +373,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-20; requested 2026-08-21; fallback collection failed: IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-20; requested 2026-08-21"
+      "detail": "IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-21; requested 2026-08-24; fallback collection failed: IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-21; requested 2026-08-24"
     },
     {
       "exchange": "DCE",
@@ -381,7 +381,7 @@
       "symbol": "黄大豆1号期权",
       "status": "success",
       "contract_count": 264,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -395,7 +395,7 @@
       "symbol": "黄大豆2号期权",
       "status": "success",
       "contract_count": 350,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -409,7 +409,7 @@
       "symbol": "纯苯期权",
       "status": "success",
       "contract_count": 436,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -423,7 +423,7 @@
       "symbol": "玉米期权",
       "status": "success",
       "contract_count": 328,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -437,7 +437,7 @@
       "symbol": "玉米淀粉期权",
       "status": "success",
       "contract_count": 102,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -451,7 +451,7 @@
       "symbol": "苯乙烯期权",
       "status": "success",
       "contract_count": 510,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -465,7 +465,7 @@
       "symbol": "乙二醇期权",
       "status": "success",
       "contract_count": 512,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -479,7 +479,7 @@
       "symbol": "铁矿石期权",
       "status": "success",
       "contract_count": 466,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -493,7 +493,7 @@
       "symbol": "鸡蛋期权",
       "status": "success",
       "contract_count": 294,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -506,8 +506,8 @@
       "product": "JM",
       "symbol": "焦煤期权",
       "status": "success",
-      "contract_count": 524,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 526,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -521,7 +521,7 @@
       "symbol": "聚乙烯期权",
       "status": "success",
       "contract_count": 496,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -535,7 +535,7 @@
       "symbol": "原木期权",
       "status": "success",
       "contract_count": 76,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -549,7 +549,7 @@
       "symbol": "生猪期权",
       "status": "success",
       "contract_count": 148,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -563,7 +563,7 @@
       "symbol": "豆粕期权",
       "status": "success",
       "contract_count": 230,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -576,8 +576,8 @@
       "product": "P",
       "symbol": "棕榈油期权",
       "status": "success",
-      "contract_count": 436,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 438,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -590,8 +590,8 @@
       "product": "PG",
       "symbol": "液化石油气期权",
       "status": "success",
-      "contract_count": 672,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 674,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -605,7 +605,7 @@
       "symbol": "聚丙烯期权",
       "status": "success",
       "contract_count": 494,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -618,8 +618,8 @@
       "product": "V",
       "symbol": "聚氯乙烯期权",
       "status": "success",
-      "contract_count": 442,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 444,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -632,8 +632,8 @@
       "product": "Y",
       "symbol": "豆油期权",
       "status": "success",
-      "contract_count": 308,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 310,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -647,7 +647,7 @@
       "symbol": "碳酸锂",
       "status": "success",
       "contract_count": 1428,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -660,8 +660,8 @@
       "product": "PD",
       "symbol": "钯",
       "status": "success",
-      "contract_count": 758,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 762,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -675,7 +675,7 @@
       "symbol": "多晶硅",
       "status": "success",
       "contract_count": 758,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -688,8 +688,8 @@
       "product": "PT",
       "symbol": "铂",
       "status": "success",
-      "contract_count": 804,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 810,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -702,8 +702,8 @@
       "product": "SI",
       "symbol": "工业硅",
       "status": "success",
-      "contract_count": 622,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 624,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -717,7 +717,7 @@
       "symbol": "国际铜期权",
       "status": "success",
       "contract_count": 118,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "openctp_contract_directory",
       "fallback_used": true,
@@ -730,8 +730,8 @@
       "product": "NR",
       "symbol": "20号胶期权",
       "status": "success",
-      "contract_count": 288,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 290,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -744,8 +744,8 @@
       "product": "SC",
       "symbol": "原油期权",
       "status": "success",
-      "contract_count": 322,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 324,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -759,7 +759,7 @@
       "symbol": "铸造铝合金期权",
       "status": "success",
       "contract_count": 142,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -772,8 +772,8 @@
       "product": "AG",
       "symbol": "白银期权",
       "status": "success",
-      "contract_count": 1518,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 1542,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -787,7 +787,7 @@
       "symbol": "铝期权",
       "status": "success",
       "contract_count": 506,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -801,7 +801,7 @@
       "symbol": "氧化铝期权",
       "status": "success",
       "contract_count": 234,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -814,8 +814,8 @@
       "product": "AU",
       "symbol": "黄金期权",
       "status": "success",
-      "contract_count": 652,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 656,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -829,7 +829,7 @@
       "symbol": "丁二烯橡胶期权",
       "status": "success",
       "contract_count": 320,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -842,8 +842,8 @@
       "product": "BU",
       "symbol": "石油沥青期权",
       "status": "success",
-      "contract_count": 322,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 330,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -857,7 +857,7 @@
       "symbol": "铜期权",
       "status": "success",
       "contract_count": 390,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -870,8 +870,8 @@
       "product": "FU",
       "symbol": "燃料油期权",
       "status": "success",
-      "contract_count": 372,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 380,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -885,7 +885,7 @@
       "symbol": "镍期权",
       "status": "success",
       "contract_count": 294,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -899,7 +899,7 @@
       "symbol": "胶版印刷纸期权",
       "status": "success",
       "contract_count": 74,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -912,8 +912,8 @@
       "product": "PB",
       "symbol": "铅期权",
       "status": "success",
-      "contract_count": 166,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 168,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -927,7 +927,7 @@
       "symbol": "螺纹钢期权",
       "status": "success",
       "contract_count": 170,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -940,8 +940,8 @@
       "product": "RU",
       "symbol": "天胶期权",
       "status": "success",
-      "contract_count": 198,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 200,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -955,7 +955,7 @@
       "symbol": "锡期权",
       "status": "success",
       "contract_count": 244,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
       "universe_source": "exchange_eod_via_akshare",
       "fallback_used": false,
@@ -968,14 +968,14 @@
       "product": "SP",
       "symbol": "纸浆期权",
       "status": "success",
-      "contract_count": 190,
-      "source_trade_date": "2026-08-21",
+      "contract_count": 192,
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
-      "universe_source": "openctp_contract_directory",
-      "fallback_used": true,
-      "metadata_enrichment_used": false,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
+      "metadata_enrichment_used": true,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SP"
+      "detail": null
     },
     {
       "exchange": "SHFE",
@@ -983,37 +983,37 @@
       "symbol": "锌期权",
       "status": "success",
       "contract_count": 246,
-      "source_trade_date": "2026-08-21",
+      "source_trade_date": "2026-08-24",
       "quote_coverage_complete": true,
-      "universe_source": "openctp_contract_directory",
-      "fallback_used": true,
-      "metadata_enrichment_used": false,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
+      "metadata_enrichment_used": true,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:ZN"
+      "detail": null
     }
   ],
   "quality": {
-    "trade_date": "2026-08-21",
-    "record_count": 21816,
-    "unique_contract_count": 21816,
+    "trade_date": "2026-08-24",
+    "record_count": 21726,
+    "unique_contract_count": 21726,
     "source_date_match_pct": 1.0,
     "underlying_settle_coverage": 1.0,
     "expiry_coverage": 1.0,
     "exercise_style_coverage": 1.0,
-    "iv_coverage": 0.9846901356802347,
-    "vendor_greeks_coverage": 0.9846901356802347,
+    "iv_coverage": 0.985133020344288,
+    "vendor_greeks_coverage": 0.985133020344288,
     "model_greeks_coverage": 0.0,
     "bid_ask_coverage": 0.0,
-    "open_interest_coverage": 0.6874312431243125,
-    "series_count": 368,
+    "open_interest_coverage": 0.6882997330387554,
+    "series_count": 364,
     "balanced_call_put_series_pct": 1.0,
     "product_scope_declared": true,
     "expected_product_count": 64,
-    "successful_product_count": 59,
-    "product_coverage": 0.921875,
+    "successful_product_count": 58,
+    "product_coverage": 0.90625,
     "full_product_scope_verified": false,
-    "universe_contract_count": 21816,
-    "quote_contract_count": 21816,
+    "universe_contract_count": 21726,
+    "quote_contract_count": 21726,
     "quote_coverage_complete": true,
     "universe_source": "mixed_contract_directories",
     "all_inputs_ifind": false,
@@ -1029,11 +1029,11 @@
     "limitations": [
       "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000",
       "model_greeks_ready blocked: model_greeks_coverage=0.0000 < 0.8000",
-      "vendor_risk_available blocked: vendor_greeks_coverage=0.9847 < 0.8000",
-      "open_interest_coverage=0.6874; some open interest is missing",
-      "positioning_ready blocked: open_interest_coverage=0.6874 < 0.9000",
+      "vendor_risk_available blocked: vendor_greeks_coverage=0.9851 < 0.8000",
+      "open_interest_coverage=0.6883; some open interest is missing",
+      "positioning_ready blocked: open_interest_coverage=0.6883 < 0.9000",
       "contract universe source is mixed_contract_directories; quotes are iFinD but not all inputs are iFinD",
-      "full-market scope is incomplete: successful_products=59, expected_products=64, product_coverage=0.9219",
+      "full-market scope is incomplete: successful_products=58, expected_products=64, product_coverage=0.9062",
       "vendor risk, when available, uses units_as_reported=true; no unit conversion is inferred",
       "dealer_gamma_direction_known=false; dealer Gamma direction is not observed or inferred",
       "IV surface and skew are not generated or inferred by this quality assessment"
@@ -1041,427 +1041,420 @@
   },
   "storage_format": "product_shards_gzip",
   "records_sharded": true,
-  "record_count": 21816,
-  "shard_count": 59,
+  "record_count": 21726,
+  "shard_count": 58,
   "full_snapshot": {
-    "path": "snapshots/2026-08-21.json.gz",
-    "record_count": 21816,
-    "sha256": "00699576705da0c9fd1d306a90c93a94d46f865c84ea398f05af04319647d103",
+    "path": "snapshots/2026-08-24.json.gz",
+    "record_count": 21726,
+    "sha256": "812f95a18bea2ff9e116a6a9c4868161ff002ff2047d6a8fafa71ee515695cb1",
     "retention_trading_days": 20
   },
   "shards": [
     {
       "exchange": "CZCE",
       "product": "CF",
-      "path": "latest_shards/2026-08-21/CZCE/CF.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/CF.json.gz",
       "record_count": 198,
-      "sha256": "2a50f42ab710620779bb60d6c44e1335805d82a4d39193f9b4b6157093df4c67"
+      "sha256": "925e4fa75382e340ad62c56f1d1dd140c577f54ab86493309867797611ddf8f1"
     },
     {
       "exchange": "CZCE",
       "product": "FG",
-      "path": "latest_shards/2026-08-21/CZCE/FG.json.gz",
-      "record_count": 410,
-      "sha256": "c31231ae78ded44cb2cf2c67dc1f2ec1b23a49a85fc05b5945ad68c685565ff2"
+      "path": "latest_shards/2026-08-24/CZCE/FG.json.gz",
+      "record_count": 420,
+      "sha256": "dbe301506211d0741c361337f6ed8a8f52540a70b16b34f75de9a32250f79bb2"
     },
     {
       "exchange": "CZCE",
       "product": "MA",
-      "path": "latest_shards/2026-08-21/CZCE/MA.json.gz",
-      "record_count": 344,
-      "sha256": "78db133c6d3076ac20082f56d1b13e08c58fc1957f29981d010524a461d5e5a3"
-    },
-    {
-      "exchange": "CZCE",
-      "product": "OI",
-      "path": "latest_shards/2026-08-21/CZCE/OI.json.gz",
-      "record_count": 178,
-      "sha256": "4539845a26208447228a97c2270bacb4d92eb147e30813bedb89d77eea805bd6"
+      "path": "latest_shards/2026-08-24/CZCE/MA.json.gz",
+      "record_count": 346,
+      "sha256": "576427646e3a5fe42623f236d2691c7d2ed46221096feddd433731543c01fc22"
     },
     {
       "exchange": "CZCE",
       "product": "PF",
-      "path": "latest_shards/2026-08-21/CZCE/PF.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/PF.json.gz",
       "record_count": 146,
-      "sha256": "27947af0ff02609ac7d0a31e5cd10600cee0b1609d1506da7a5f68a5b26cc9d7"
+      "sha256": "ced2b9ff59ff1e9748971908859003f18570f22f2850b32ff937ec66380280a2"
     },
     {
       "exchange": "CZCE",
       "product": "PK",
-      "path": "latest_shards/2026-08-21/CZCE/PK.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/PK.json.gz",
       "record_count": 174,
-      "sha256": "5299d291cae35eb03e249222f32cbcf20f405fbe2d2db2e5e3878330e85455c2"
+      "sha256": "1f6f9508c37e49f5e7207e285768127850c9dda5c3a918b50fa07d7fabd5d392"
     },
     {
       "exchange": "CZCE",
       "product": "PX",
-      "path": "latest_shards/2026-08-21/CZCE/PX.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/PX.json.gz",
       "record_count": 238,
-      "sha256": "6bf1daefa0b76503725bce4bf46373864f353da2238655e01d2c6883fc5aee8d"
+      "sha256": "f522c2ee5edaea88bafe069a8f8eb8a292eedeb30885e208f4aa3fa8b85424d9"
     },
     {
       "exchange": "CZCE",
       "product": "RM",
-      "path": "latest_shards/2026-08-21/CZCE/RM.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/RM.json.gz",
       "record_count": 242,
-      "sha256": "1a99cfa18e518006e5d9ae4fc0beb3cb484c7ff63330be6b1f87cad286eaf191"
+      "sha256": "93302abb9533412b474707b4bef21243583d6f3f4d4789ff69ab8f88f1087188"
     },
     {
       "exchange": "CZCE",
       "product": "SA",
-      "path": "latest_shards/2026-08-21/CZCE/SA.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/SA.json.gz",
       "record_count": 414,
-      "sha256": "c7aa9a223137746a9bf05e3679f858f4e5a19a56424266f6cbbbc7738b16ba22"
+      "sha256": "5cb4c6e00baf4669171c21bcb640391d61f05e5fd6ffa5bc73e4361fab3fc697"
     },
     {
       "exchange": "CZCE",
       "product": "SF",
-      "path": "latest_shards/2026-08-21/CZCE/SF.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/SF.json.gz",
       "record_count": 134,
-      "sha256": "b63604b06dd4aebf1280889c03970e992e4ca5ff8facb5a64b6201b2219822f9"
+      "sha256": "a52f338ae48bc70feddbe6faa9925020d85a98fd5499ba86b247246ede7c8c1e"
     },
     {
       "exchange": "CZCE",
       "product": "SH",
-      "path": "latest_shards/2026-08-21/CZCE/SH.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/SH.json.gz",
       "record_count": 248,
-      "sha256": "3c5b5e236fa8c0051e4df814a4eb558b99ffa450d5f1b29b9c0247aae6636834"
+      "sha256": "ea6a6ac445b3bb3ffbea5f107658eec3d0630d40a5982ac2bcb6182ee896a26b"
     },
     {
       "exchange": "CZCE",
       "product": "SM",
-      "path": "latest_shards/2026-08-21/CZCE/SM.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/SM.json.gz",
       "record_count": 176,
-      "sha256": "b1bcd106661b9947f039f9786c398a28de8dde82ba0b61a88e5ed241041d0168"
+      "sha256": "a6f082ddcfd6803985d148ade656cc6585ed4b94cb06692314fd4f50ca875eb4"
     },
     {
       "exchange": "CZCE",
       "product": "SR",
-      "path": "latest_shards/2026-08-21/CZCE/SR.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/SR.json.gz",
       "record_count": 142,
-      "sha256": "b7742772fd2af77ca894f65ad81149042a7a1d9b74b724279f8393b80e5a934c"
+      "sha256": "7eb717b9faf4eb592d91ee45837211ea13cf156766031a96d5621f682283faa2"
     },
     {
       "exchange": "CZCE",
       "product": "TA",
-      "path": "latest_shards/2026-08-21/CZCE/TA.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/TA.json.gz",
       "record_count": 278,
-      "sha256": "8e72bf9ea2422366dece79df6530d7f4b86fcc7166b47adf1140f2c566293209"
+      "sha256": "fc97ebc45bdefbacf328f4542791611a7bfeffbb67108603416c0eec65457791"
     },
     {
       "exchange": "CZCE",
       "product": "UR",
-      "path": "latest_shards/2026-08-21/CZCE/UR.json.gz",
+      "path": "latest_shards/2026-08-24/CZCE/UR.json.gz",
       "record_count": 270,
-      "sha256": "ae58424a65dc53f15d2cc94c12c642503bf2c58da6349c98e16c4ff1c42d32c9"
+      "sha256": "93da5443cba53c2e234ad5f0282d4651a9b5ffd0f9176dceed3f6d3e9551f119"
     },
     {
       "exchange": "DCE",
       "product": "A",
-      "path": "latest_shards/2026-08-21/DCE/A.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/A.json.gz",
       "record_count": 264,
-      "sha256": "ea725d8538059b001be461f01cba48c67326e41bcc30325ca19961179cc1e41a"
+      "sha256": "81853b393f1d3ca755b1c8b693db12eefbe40d390dae6ba7af83f782dd8d7235"
     },
     {
       "exchange": "DCE",
       "product": "B",
-      "path": "latest_shards/2026-08-21/DCE/B.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/B.json.gz",
       "record_count": 350,
-      "sha256": "c90691b7094142e566436737c6f7a6a400dcf0cdba12b4746e79069443319be7"
+      "sha256": "9cf2439c4af5cf915e91bc8a1c271a5adec6532bd843acda924b6a8fac0f6d3e"
     },
     {
       "exchange": "DCE",
       "product": "BZ",
-      "path": "latest_shards/2026-08-21/DCE/BZ.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/BZ.json.gz",
       "record_count": 436,
-      "sha256": "674f8f2e1e8118f50ea5da24288525a201906fb6e24da997a3141c7b0c36560e"
+      "sha256": "d7ea8ba33960d581757b8768463a72698f266c0639ba30f335ba0836b85c18ba"
     },
     {
       "exchange": "DCE",
       "product": "C",
-      "path": "latest_shards/2026-08-21/DCE/C.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/C.json.gz",
       "record_count": 328,
-      "sha256": "408816add1ff12f01a13d9fe32d583db45b075884e64fa03c526a1cc88ef4172"
+      "sha256": "8247e71e71f6981cce40e3338b81d7c69dd4b1a8e1129b5b4d11942fc0e2e8d1"
     },
     {
       "exchange": "DCE",
       "product": "CS",
-      "path": "latest_shards/2026-08-21/DCE/CS.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/CS.json.gz",
       "record_count": 102,
-      "sha256": "252b309f0f2deb71c0139408f59b8249759002d094b8de1106519a1ed145aae4"
+      "sha256": "47f243aedd6527b42d355c6fc4e6ab7bc080f2be24ecd3b2460eb9e6b0ae94c4"
     },
     {
       "exchange": "DCE",
       "product": "EB",
-      "path": "latest_shards/2026-08-21/DCE/EB.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/EB.json.gz",
       "record_count": 510,
-      "sha256": "a77ea9675faa45de022062099b8d3b30fd9d5862daa52b93109e0d93fd891008"
+      "sha256": "277bccf29af475be1101c088a26e584f3df1829bdb38e6eb5c6f072daab6e47b"
     },
     {
       "exchange": "DCE",
       "product": "EG",
-      "path": "latest_shards/2026-08-21/DCE/EG.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/EG.json.gz",
       "record_count": 512,
-      "sha256": "eb92ccc3b4c8f3157a61282754bd171912fd7fce94a58b23001d5edd818abdf6"
+      "sha256": "31c2c76411d6b35a67f78b4dae5ca70f0794e6e18c4f13101b64e35d665cb637"
     },
     {
       "exchange": "DCE",
       "product": "I",
-      "path": "latest_shards/2026-08-21/DCE/I.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/I.json.gz",
       "record_count": 466,
-      "sha256": "4fd3f09e582c3d202826943115cde475b7dfbd2384c68c0cdfc3f4c81aa612c3"
+      "sha256": "3e3fb4911b8c61e0424c134c5e2c7f27a1cc1950128371cc9f03b7e9f6ad3699"
     },
     {
       "exchange": "DCE",
       "product": "JD",
-      "path": "latest_shards/2026-08-21/DCE/JD.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/JD.json.gz",
       "record_count": 294,
-      "sha256": "2c6af6a2603d47902914c9b354d7ce5a183030e472dde013a68b26d37d6c78bd"
+      "sha256": "385a42c85f9b2ff6726fded7da356b785911f0bf336acf335f34c9104c3ca492"
     },
     {
       "exchange": "DCE",
       "product": "JM",
-      "path": "latest_shards/2026-08-21/DCE/JM.json.gz",
-      "record_count": 524,
-      "sha256": "f4f52a6a97fad99ce79bb9b16c3d159ec7a0d125f2b8a76f026b8f3dbaafb90b"
+      "path": "latest_shards/2026-08-24/DCE/JM.json.gz",
+      "record_count": 526,
+      "sha256": "29c6d98070ccf718146d38964fbe31af5a7b4caf4a6348d86aa6f110bd0a8103"
     },
     {
       "exchange": "DCE",
       "product": "L",
-      "path": "latest_shards/2026-08-21/DCE/L.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/L.json.gz",
       "record_count": 496,
-      "sha256": "e35e19b9aeaeb4b5f16ef36335aa4cd64d3d73037556df70b836f106bcfd1e7f"
+      "sha256": "ed9f56687afc1888798df78509cd7409fc22f801590bed31a6b1ccc78d3c4057"
     },
     {
       "exchange": "DCE",
       "product": "LG",
-      "path": "latest_shards/2026-08-21/DCE/LG.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/LG.json.gz",
       "record_count": 76,
-      "sha256": "9fa5ea619a506e74bad99818b88136fcc2d2cb00291c237b3651b52d504e06bd"
+      "sha256": "27aaab417791e8426a5f5d172a5cb63683741fe5a403ad75228b9496ec257807"
     },
     {
       "exchange": "DCE",
       "product": "LH",
-      "path": "latest_shards/2026-08-21/DCE/LH.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/LH.json.gz",
       "record_count": 148,
-      "sha256": "68ed7c496aebeeec95d92f5ef12d811b4c5741af4138be3f5d379cf67e8e717f"
+      "sha256": "7843b2b3fc1409782a3256ba6533195c3b986111333e76f0d61f85c8281c12f2"
     },
     {
       "exchange": "DCE",
       "product": "M",
-      "path": "latest_shards/2026-08-21/DCE/M.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/M.json.gz",
       "record_count": 230,
-      "sha256": "b1439446a44637395bfd9b3016af745ae8281b6aa23a09fc59cc5698f01918f9"
+      "sha256": "f8ded8c999f5c9c1c890321c3431085a15e8914d117efd97aa85b5b7430c544c"
     },
     {
       "exchange": "DCE",
       "product": "P",
-      "path": "latest_shards/2026-08-21/DCE/P.json.gz",
-      "record_count": 436,
-      "sha256": "12bc9471e5d85bd6f3c5cf91d7d668b8e1f105ea0d92e2c5a968d0a3f0379387"
+      "path": "latest_shards/2026-08-24/DCE/P.json.gz",
+      "record_count": 438,
+      "sha256": "9dba17011dc229c992742e1167cbdda5887ae8ed39fb4735e183f3a348944b9c"
     },
     {
       "exchange": "DCE",
       "product": "PG",
-      "path": "latest_shards/2026-08-21/DCE/PG.json.gz",
-      "record_count": 672,
-      "sha256": "144825219a74281ceede0b0ec7a2ee1ae9e0b84b8ea3d34763f0318c6c186e66"
+      "path": "latest_shards/2026-08-24/DCE/PG.json.gz",
+      "record_count": 674,
+      "sha256": "e2cc1ee36456c82010f322a642355894ae188e1076228b3b60f9569112db66c0"
     },
     {
       "exchange": "DCE",
       "product": "PP",
-      "path": "latest_shards/2026-08-21/DCE/PP.json.gz",
+      "path": "latest_shards/2026-08-24/DCE/PP.json.gz",
       "record_count": 494,
-      "sha256": "533fb2f99ed6d294169dbf096cd081ed17284f3134ccf585bef1b42a7e6b2ea3"
+      "sha256": "27fbf82f5d1fd002abb509c46ab6548aa9e72885ec943affe0e0bb9c7be1ed8c"
     },
     {
       "exchange": "DCE",
       "product": "V",
-      "path": "latest_shards/2026-08-21/DCE/V.json.gz",
-      "record_count": 442,
-      "sha256": "00852b658c516fbafb60da345bd4324c6afdd7ac842949a906eb8356f8db98f1"
+      "path": "latest_shards/2026-08-24/DCE/V.json.gz",
+      "record_count": 444,
+      "sha256": "553e0c554742a178c2d12efcd656821a1000edd0e377cd11154d3f349bbbaa86"
     },
     {
       "exchange": "DCE",
       "product": "Y",
-      "path": "latest_shards/2026-08-21/DCE/Y.json.gz",
-      "record_count": 308,
-      "sha256": "afc9f3b2ed8d02929e0ba9ec0ce7df357d0818bacc83e6317bb316db4bf301e6"
+      "path": "latest_shards/2026-08-24/DCE/Y.json.gz",
+      "record_count": 310,
+      "sha256": "5376b8bec84dc480cad801009c9ae8afbd473204eed2e7c3ef24375acce795ea"
     },
     {
       "exchange": "GFEX",
       "product": "LC",
-      "path": "latest_shards/2026-08-21/GFEX/LC.json.gz",
+      "path": "latest_shards/2026-08-24/GFEX/LC.json.gz",
       "record_count": 1428,
-      "sha256": "c79ff3248ac7e8526e3e2af86d514ebc73b007133d0833e80af691ec1faf0e29"
+      "sha256": "0da5f49a31b5b80603fffff87a9df219264c355a8d1c4349f0ccc7c4600d3f4a"
     },
     {
       "exchange": "GFEX",
       "product": "PD",
-      "path": "latest_shards/2026-08-21/GFEX/PD.json.gz",
-      "record_count": 758,
-      "sha256": "a8c141a22193acad2751a44caf6e16fbc12c333ec2819e8d0047edfee7290b79"
+      "path": "latest_shards/2026-08-24/GFEX/PD.json.gz",
+      "record_count": 762,
+      "sha256": "dae8821e191e36fce8d2403b1204f2346e753b20fc0656ef9dde41d9eb70c023"
     },
     {
       "exchange": "GFEX",
       "product": "PS",
-      "path": "latest_shards/2026-08-21/GFEX/PS.json.gz",
+      "path": "latest_shards/2026-08-24/GFEX/PS.json.gz",
       "record_count": 758,
-      "sha256": "91d9826befa6473b6d5ffd25cedea72faeaba0e1b9899e14a438edcab18ac887"
+      "sha256": "2b67d03c405c9ad4a702c14c6c6799ebc6e0b0133e2660f1744de7709a1b38ba"
     },
     {
       "exchange": "GFEX",
       "product": "PT",
-      "path": "latest_shards/2026-08-21/GFEX/PT.json.gz",
-      "record_count": 804,
-      "sha256": "2553782eb2e234ece20e0cfb7c8d3b6b9bd9a9466922116e0eed116622727975"
+      "path": "latest_shards/2026-08-24/GFEX/PT.json.gz",
+      "record_count": 810,
+      "sha256": "20f3eef8c03949b18d6ebf30b77585f7f07f6c8ea5d327658e4ec68b627d2f7c"
     },
     {
       "exchange": "GFEX",
       "product": "SI",
-      "path": "latest_shards/2026-08-21/GFEX/SI.json.gz",
-      "record_count": 622,
-      "sha256": "cc19c64380e138174c841b4bdda83d84c54cfaa8113facaf1bd28551a02d8a42"
+      "path": "latest_shards/2026-08-24/GFEX/SI.json.gz",
+      "record_count": 624,
+      "sha256": "0d350e8b72f20e54a921699b40a19c1d2290d9e89859f6d89bbdda361ec1a704"
     },
     {
       "exchange": "INE",
       "product": "BC",
-      "path": "latest_shards/2026-08-21/INE/BC.json.gz",
+      "path": "latest_shards/2026-08-24/INE/BC.json.gz",
       "record_count": 118,
-      "sha256": "b6c39508df5fb7fe1a90c0cb12d8f82886f200bbec76042e7e9994fcef379eeb"
+      "sha256": "6040161da96ea0556d302e22b26be2fc29399aa5dffd89c4299d1b05c07489ad"
     },
     {
       "exchange": "INE",
       "product": "NR",
-      "path": "latest_shards/2026-08-21/INE/NR.json.gz",
-      "record_count": 288,
-      "sha256": "9d87e618206396e49e8de7c8b5c18a1555965f96786e9ab7f0ad59515f2baef0"
+      "path": "latest_shards/2026-08-24/INE/NR.json.gz",
+      "record_count": 290,
+      "sha256": "869b11e22ae4a5914c8ea90f4b788d45bf752dcd9cabeb319803fae4f76b91e9"
     },
     {
       "exchange": "INE",
       "product": "SC",
-      "path": "latest_shards/2026-08-21/INE/SC.json.gz",
-      "record_count": 322,
-      "sha256": "60e8df9f66fd11c385db6b8d0e80dae08eab191d34d6cf0a31297cfc467f2f5d"
+      "path": "latest_shards/2026-08-24/INE/SC.json.gz",
+      "record_count": 324,
+      "sha256": "74e9343eefca77034bd4f4aa6fa84562e958031ba620c24aac77be663b56bf5e"
     },
     {
       "exchange": "SHFE",
       "product": "AD",
-      "path": "latest_shards/2026-08-21/SHFE/AD.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/AD.json.gz",
       "record_count": 142,
-      "sha256": "1ea1e340762aa39762d34f1dca0310ffe08e098cdcf4fdd2d68f6cf6947fff8e"
+      "sha256": "583dcd7b6095144bfd3cbfe05eb0a55279db051310479556965687fe0f820236"
     },
     {
       "exchange": "SHFE",
       "product": "AG",
-      "path": "latest_shards/2026-08-21/SHFE/AG.json.gz",
-      "record_count": 1518,
-      "sha256": "1b49fb252a8779c7f9584c52d4c982bd091924a70033eb666ea14f7518c9c96c"
+      "path": "latest_shards/2026-08-24/SHFE/AG.json.gz",
+      "record_count": 1542,
+      "sha256": "2665b5ad17154b5ac2429cd3da63f23648bec1c995ffb3881a53227ad99458b3"
     },
     {
       "exchange": "SHFE",
       "product": "AL",
-      "path": "latest_shards/2026-08-21/SHFE/AL.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/AL.json.gz",
       "record_count": 506,
-      "sha256": "d227bf09404aa431cb07ed86c1e5e03553a8f4a2dfd80609ae98027d766ead49"
+      "sha256": "de76fc4a364d5fae0597d44a99926bd7ce323e73172c6ce910db28958002e184"
     },
     {
       "exchange": "SHFE",
       "product": "AO",
-      "path": "latest_shards/2026-08-21/SHFE/AO.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/AO.json.gz",
       "record_count": 234,
-      "sha256": "2dca0680177cda08a6568bf0c39676710d214919593fed6d0a9d18630c272097"
+      "sha256": "374076a07028546d2fdd49defde07e8ed51d7f35ac98c72f71e82817eb55ba45"
     },
     {
       "exchange": "SHFE",
       "product": "AU",
-      "path": "latest_shards/2026-08-21/SHFE/AU.json.gz",
-      "record_count": 652,
-      "sha256": "4a93cba9913a303423664faa5becee9410d3e9c1fff9d72b46a44b2be77305d1"
+      "path": "latest_shards/2026-08-24/SHFE/AU.json.gz",
+      "record_count": 656,
+      "sha256": "0fbdcfd19194584c2cbd6536306de54f66d63ca436f7777341c9219884462c76"
     },
     {
       "exchange": "SHFE",
       "product": "BR",
-      "path": "latest_shards/2026-08-21/SHFE/BR.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/BR.json.gz",
       "record_count": 320,
-      "sha256": "ebc4b75d558f98ad8d71555a75bf5d45709a4a18912cf6edb56be45d33a060e5"
+      "sha256": "a73c48e419fd328ade9be684c4bdb0f4d4ea9812ce3e26f9b2473ee1828c58ef"
     },
     {
       "exchange": "SHFE",
       "product": "BU",
-      "path": "latest_shards/2026-08-21/SHFE/BU.json.gz",
-      "record_count": 322,
-      "sha256": "600f983bdcc47f124ae2fbafbad12386a17efe5eeb1d729f1186bf594409fd53"
+      "path": "latest_shards/2026-08-24/SHFE/BU.json.gz",
+      "record_count": 330,
+      "sha256": "0dce553cb22c583870a20432d77c3e07581ce384d21be3cac9051632db50b005"
     },
     {
       "exchange": "SHFE",
       "product": "CU",
-      "path": "latest_shards/2026-08-21/SHFE/CU.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/CU.json.gz",
       "record_count": 390,
-      "sha256": "7d3888892d5ba641e86d756b2089236a6b7c62c703c9038894a5e137fad0156a"
+      "sha256": "73188a98bccc193d7f4aa661fd8b3e52bbf1ee5c9f3ed9160b6100ea8d4de9eb"
     },
     {
       "exchange": "SHFE",
       "product": "FU",
-      "path": "latest_shards/2026-08-21/SHFE/FU.json.gz",
-      "record_count": 372,
-      "sha256": "62853488603df6fba44f040451bdd7a3c057d80eb30721d3a3c75602662beae9"
+      "path": "latest_shards/2026-08-24/SHFE/FU.json.gz",
+      "record_count": 380,
+      "sha256": "a9d28e308aa7c18e3049fcf25def361e6c9bf9d22bdfc1da0e91b5d4138d54b6"
     },
     {
       "exchange": "SHFE",
       "product": "NI",
-      "path": "latest_shards/2026-08-21/SHFE/NI.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/NI.json.gz",
       "record_count": 294,
-      "sha256": "5d8ed6b1dd013ea3ff50e9b5c2b7954f3a37951e4d45c20847a59c9b83b024f1"
+      "sha256": "1827e913aa363b87c3dcc4ba0fb37aa49d0c8cf534daa370fdff3a51ba5de8f4"
     },
     {
       "exchange": "SHFE",
       "product": "OP",
-      "path": "latest_shards/2026-08-21/SHFE/OP.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/OP.json.gz",
       "record_count": 74,
-      "sha256": "d4357344929d41ea41983b92fef9be3135d86375d87f968c1c0598586a86fe68"
+      "sha256": "64a2ad0660875bcb2efb6f29b992c08a542040c5eba512ff8e718f7abb1d6087"
     },
     {
       "exchange": "SHFE",
       "product": "PB",
-      "path": "latest_shards/2026-08-21/SHFE/PB.json.gz",
-      "record_count": 166,
-      "sha256": "1d3d65dda59b9ea6333303e08805ff5f46011200b14633dc6f8f525164278458"
+      "path": "latest_shards/2026-08-24/SHFE/PB.json.gz",
+      "record_count": 168,
+      "sha256": "73fb0367aee4bc35e63e04a40f05bcf3d3470548d217365be81fc179cae11d35"
     },
     {
       "exchange": "SHFE",
       "product": "RB",
-      "path": "latest_shards/2026-08-21/SHFE/RB.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/RB.json.gz",
       "record_count": 170,
-      "sha256": "2822a20059761f47180c48d8bb60a61b282d3f85af3859678290a9cfc1a5c674"
+      "sha256": "35392183d4f4e132565019098c1331d0c4a62feeb2d64a543c5d03ab7c131957"
     },
     {
       "exchange": "SHFE",
       "product": "RU",
-      "path": "latest_shards/2026-08-21/SHFE/RU.json.gz",
-      "record_count": 198,
-      "sha256": "5f35aada62b4d4f87ca6cc1b1a0f63192c2cd71c501f471c3aa8dc44e2ca0c8d"
+      "path": "latest_shards/2026-08-24/SHFE/RU.json.gz",
+      "record_count": 200,
+      "sha256": "b6217bc41dc6d849bdc47962f29b38d309952b0c1a69490a593eca9ef9069156"
     },
     {
       "exchange": "SHFE",
       "product": "SN",
-      "path": "latest_shards/2026-08-21/SHFE/SN.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/SN.json.gz",
       "record_count": 244,
-      "sha256": "87f79bcb55fb10ab55aebade97ba5c8d161fd3fce02d50c5d7c684dac49419df"
+      "sha256": "71e45e22ce06cd29a7e54b2ca58bf2cdd792b6e91a245adb3853053a12ed6c4e"
     },
     {
       "exchange": "SHFE",
       "product": "SP",
-      "path": "latest_shards/2026-08-21/SHFE/SP.json.gz",
-      "record_count": 190,
-      "sha256": "a2e9a8a556ac09edd83804ae04bf1746b6de62b61246b7d6c6adc906f089262f"
+      "path": "latest_shards/2026-08-24/SHFE/SP.json.gz",
+      "record_count": 192,
+      "sha256": "f45805e617619113c3168d26c28a30a4ad2c9113859454fd06c252d702ea2eb1"
     },
     {
       "exchange": "SHFE",
       "product": "ZN",
-      "path": "latest_shards/2026-08-21/SHFE/ZN.json.gz",
+      "path": "latest_shards/2026-08-24/SHFE/ZN.json.gz",
       "record_count": 246,
-      "sha256": "ae8bbf2014145b0beb9066c658f70070a573fca6ac24f6bc317e1a821bf1abb8"
+      "sha256": "4a2a12e9bb424c6dfd91d771848d51929fc27485034c1d96325fba1de090c6d6"
     }
   ]
 }
