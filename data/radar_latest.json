@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "trade_date": "2026-08-24",
-  "generated_at": "2026-08-24T18:54:01.417790+08:00",
+  "trade_date": "2026-08-25",
+  "generated_at": "2026-08-25T18:50:01.485168+08:00",
   "verified": true,
   "official_complete": false,
   "scope_verified": true,
@@ -22,7 +22,7 @@
     "unknown_products": [],
     "duplicate_contract_count": 0,
     "invalid_ohlc_count": 0,
-    "ohlc_placeholder_count": 4,
+    "ohlc_placeholder_count": 7,
     "negative_volume_or_oi_count": 0,
     "member_rankings_reconciled": false,
     "carried_forward_contract_meta_count": 0,
@@ -52,19 +52,19 @@
   "heatmap": [
     {
       "display_order": 1,
-      "score_rank": 2,
+      "score_rank": 3,
       "sector_representative": true,
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "SA",
       "product_name": "纯碱",
       "sector": "黑色与建材",
       "concrete_contract": "SA701",
-      "close_return_pct": 2.2308438409311293,
-      "volume": 2217259.0,
-      "open_interest": 1078686.0,
+      "close_return_pct": -1.1352885525070966,
+      "volume": 1608290.0,
+      "open_interest": 1078079.0,
       "curve_shape": "contango",
-      "cross_sectional_activity_score": 88.9,
+      "cross_sectional_activity_score": 78.7,
       "evidence": {
         "curve": {
           "available": true,
@@ -98,19 +98,19 @@
     },
     {
       "display_order": 2,
-      "score_rank": 22,
+      "score_rank": 13,
       "sector_representative": true,
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "SHFE",
       "product": "AG",
       "product_name": "白银",
       "sector": "有色与贵金属",
       "concrete_contract": "AG2610",
-      "close_return_pct": 1.3966648606345222,
-      "volume": 757231.0,
-      "open_interest": 298270.0,
+      "close_return_pct": -1.5042937518507604,
+      "volume": 752304.0,
+      "open_interest": 282243.0,
       "curve_shape": "contango",
-      "cross_sectional_activity_score": 62.6,
+      "cross_sectional_activity_score": 67.92,
       "evidence": {
         "curve": {
           "available": true,
@@ -144,19 +144,19 @@
     },
     {
       "display_order": 3,
-      "score_rank": 1,
+      "score_rank": 2,
       "sector_representative": true,
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "DCE",
-      "product": "EG",
-      "product_name": "乙二醇",
+      "product": "V",
+      "product_name": "PVC",
       "sector": "能源与化工",
-      "concrete_contract": "EG2610",
-      "close_return_pct": 4.748982360922649,
-      "volume": 1267017.0,
-      "open_interest": 343368.0,
-      "curve_shape": "backwardation",
-      "cross_sectional_activity_score": 90.52,
+      "concrete_contract": "V2701",
+      "close_return_pct": -2.867536914187885,
+      "volume": 1335984.0,
+      "open_interest": 1172046.0,
+      "curve_shape": "contango",
+      "cross_sectional_activity_score": 83.77,
       "evidence": {
         "curve": {
           "available": true,
@@ -190,19 +190,19 @@
     },
     {
       "display_order": 4,
-      "score_rank": 30,
+      "score_rank": 22,
       "sector_representative": true,
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "GFEX",
       "product": "LC",
       "product_name": "碳酸锂",
       "sector": "新能源与材料",
       "concrete_contract": "LC2701",
-      "close_return_pct": 1.5988743924277404,
-      "volume": 219750.0,
-      "open_interest": 359138.0,
-      "curve_shape": "contango",
-      "cross_sectional_activity_score": 54.68,
+      "close_return_pct": -6.086739157605303,
+      "volume": 229133.0,
+      "open_interest": 354226.0,
+      "curve_shape": "backwardation",
+      "cross_sectional_activity_score": 63.44,
       "evidence": {
         "curve": {
           "available": true,
@@ -236,19 +236,19 @@
     },
     {
       "display_order": 5,
-      "score_rank": 4,
+      "score_rank": 1,
       "sector_representative": true,
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "DCE",
       "product": "JD",
       "product_name": "鸡蛋",
       "sector": "农产品、油脂油料、饲料和畜牧",
       "concrete_contract": "JD2610",
-      "close_return_pct": -1.712950947313785,
-      "volume": 659276.0,
-      "open_interest": 289262.0,
+      "close_return_pct": -1.9035202086049585,
+      "volume": 588625.0,
+      "open_interest": 269584.0,
       "curve_shape": "backwardation",
-      "cross_sectional_activity_score": 80.71,
+      "cross_sectional_activity_score": 84.03,
       "evidence": {
         "curve": {
           "available": true,
@@ -284,63 +284,17 @@
       "display_order": 6,
       "score_rank": 14,
       "sector_representative": true,
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
-      "product": "AP",
-      "product_name": "苹果",
+      "product": "CJ",
+      "product_name": "红枣",
       "sector": "软商品与特色农产品",
-      "concrete_contract": "AP610",
-      "close_return_pct": -2.474280505274129,
-      "volume": 120261.0,
-      "open_interest": 103535.0,
-      "curve_shape": "backwardation",
-      "cross_sectional_activity_score": 66.3,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1,
-      "available_evidence_layers": [
-        "curve"
-      ],
-      "missing_evidence_layers": [
-        "basis",
-        "warehouse",
-        "options",
-        "physical_supply_demand",
-        "onshore_offshore_parity"
-      ],
-      "is_trade_recommendation": false
-    },
-    {
-      "display_order": 7,
-      "score_rank": 3,
-      "sector_representative": false,
-      "trade_date": "2026-08-24",
-      "exchange": "CZCE",
-      "product": "FG",
-      "product_name": "玻璃",
-      "sector": "黑色与建材",
-      "concrete_contract": "FG701",
-      "close_return_pct": 1.7660044150110465,
-      "volume": 2043327.0,
-      "open_interest": 1480236.0,
+      "concrete_contract": "CJ701",
+      "close_return_pct": -1.210653753026636,
+      "volume": 243397.0,
+      "open_interest": 165310.0,
       "curve_shape": "contango",
-      "cross_sectional_activity_score": 87.27,
+      "cross_sectional_activity_score": 67.92,
       "evidence": {
         "curve": {
           "available": true,
@@ -373,20 +327,66 @@
       "is_trade_recommendation": false
     },
     {
+      "display_order": 7,
+      "score_rank": 4,
+      "sector_representative": false,
+      "trade_date": "2026-08-25",
+      "exchange": "CZCE",
+      "product": "MA",
+      "product_name": "甲醇",
+      "sector": "能源与化工",
+      "concrete_contract": "MA610",
+      "close_return_pct": 1.2811634349030543,
+      "volume": 2317858.0,
+      "open_interest": 839347.0,
+      "curve_shape": "backwardation",
+      "cross_sectional_activity_score": 78.05,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1,
+      "available_evidence_layers": [
+        "curve"
+      ],
+      "missing_evidence_layers": [
+        "basis",
+        "warehouse",
+        "options",
+        "physical_supply_demand",
+        "onshore_offshore_parity"
+      ],
+      "is_trade_recommendation": false
+    },
+    {
       "display_order": 8,
       "score_rank": 5,
       "sector_representative": false,
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
-      "product": "SH",
-      "product_name": "烧碱",
-      "sector": "能源与化工",
-      "concrete_contract": "SH611",
-      "close_return_pct": 2.145473574044998,
-      "volume": 583387.0,
-      "open_interest": 232060.0,
+      "product": "FG",
+      "product_name": "玻璃",
+      "sector": "黑色与建材",
+      "concrete_contract": "FG701",
+      "close_return_pct": -1.0834236186348822,
+      "volume": 1244642.0,
+      "open_interest": 1508419.0,
       "curve_shape": "contango",
-      "cross_sectional_activity_score": 77.66,
+      "cross_sectional_activity_score": 76.69,
       "evidence": {
         "curve": {
           "available": true,
@@ -422,17 +422,17 @@
       "display_order": 9,
       "score_rank": 6,
       "sector_representative": false,
-      "trade_date": "2026-08-24",
-      "exchange": "DCE",
-      "product": "LH",
-      "product_name": "生猪",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "concrete_contract": "LH2611",
-      "close_return_pct": -2.11554109031733,
-      "volume": 179385.0,
-      "open_interest": 210400.0,
-      "curve_shape": "contango",
-      "cross_sectional_activity_score": 72.73,
+      "trade_date": "2026-08-25",
+      "exchange": "INE",
+      "product": "LU",
+      "product_name": "低硫燃料油",
+      "sector": "能源与化工",
+      "concrete_contract": "LU2610",
+      "close_return_pct": -2.2447357965832304,
+      "volume": 236776.0,
+      "open_interest": 85232.0,
+      "curve_shape": "backwardation",
+      "cross_sectional_activity_score": 75.71,
       "evidence": {
         "curve": {
           "available": true,
@@ -468,17 +468,17 @@
       "display_order": 10,
       "score_rank": 7,
       "sector_representative": false,
-      "trade_date": "2026-08-24",
-      "exchange": "CZCE",
-      "product": "TA",
-      "product_name": "PTA",
-      "sector": "能源与化工",
-      "concrete_contract": "TA701",
-      "close_return_pct": -1.1842563566701547,
-      "volume": 1005663.0,
-      "open_interest": 847531.0,
-      "curve_shape": "backwardation",
-      "cross_sectional_activity_score": 72.34,
+      "trade_date": "2026-08-25",
+      "exchange": "DCE",
+      "product": "LH",
+      "product_name": "生猪",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "concrete_contract": "LH2611",
+      "close_return_pct": -2.1900826446280997,
+      "volume": 189524.0,
+      "open_interest": 215630.0,
+      "curve_shape": "contango",
+      "cross_sectional_activity_score": 74.68,
       "evidence": {
         "curve": {
           "available": true,
@@ -514,17 +514,17 @@
       "display_order": 11,
       "score_rank": 8,
       "sector_representative": false,
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "SHFE",
-      "product": "HC",
-      "product_name": "热轧卷板",
-      "sector": "黑色与建材",
-      "concrete_contract": "HC2610",
-      "close_return_pct": 1.488909146156181,
-      "volume": 542854.0,
-      "open_interest": 1022242.0,
-      "curve_shape": "contango",
-      "cross_sectional_activity_score": 72.14,
+      "product": "BU",
+      "product_name": "沥青",
+      "sector": "能源与化工",
+      "concrete_contract": "BU2610",
+      "close_return_pct": 1.2449977767896803,
+      "volume": 544091.0,
+      "open_interest": 316430.0,
+      "curve_shape": "backwardation",
+      "cross_sectional_activity_score": 73.38,
       "evidence": {
         "curve": {
           "available": true,
@@ -560,17 +560,17 @@
       "display_order": 12,
       "score_rank": 9,
       "sector_representative": false,
-      "trade_date": "2026-08-24",
-      "exchange": "INE",
-      "product": "EC",
-      "product_name": "集运指数（欧线）",
+      "trade_date": "2026-08-25",
+      "exchange": "DCE",
+      "product": "EB",
+      "product_name": "苯乙烯",
       "sector": "能源与化工",
-      "concrete_contract": "EC2610",
-      "close_return_pct": 5.144523998939277,
-      "volume": 32651.0,
-      "open_interest": 28798.0,
-      "curve_shape": "backwardation",
-      "cross_sectional_activity_score": 70.32,
+      "concrete_contract": "EB2610",
+      "close_return_pct": 1.207014347529034,
+      "volume": 1149706.0,
+      "open_interest": 354547.0,
+      "curve_shape": "contango",
+      "cross_sectional_activity_score": 72.14,
       "evidence": {
         "curve": {
           "available": true,
@@ -606,944 +606,32 @@
   "curve_basis": [
     {
       "exchange": "DCE",
-      "product": "EG",
-      "product_name": "乙二醇",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "EG2610",
-        "contract_month": "2026-10-01",
-        "close": 5404.0,
-        "settle": 5324.0,
-        "pre_settle": 5159.0,
-        "close_return_pct": 4.748982360922649,
-        "settle_return_pct": 3.1982942430703654,
-        "volume": 1267017.0,
-        "open_interest": 343368.0,
-        "turnover": 6746657.5
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 561.0,
-        "near_minus_deferred_pct": 10.198145791674241,
-        "annualized_near_deferred_pct": 120.07494238584187,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 31
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 90.52,
-      "score_rank": 1,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "CZCE",
-      "product": "SA",
-      "product_name": "纯碱",
-      "sector": "黑色与建材",
-      "main_contract": {
-        "contract": "SA701",
-        "contract_month": "2027-01-01",
-        "close": 1054.0,
-        "settle": 1057.0,
-        "pre_settle": 1031.0,
-        "close_return_pct": 2.2308438409311293,
-        "settle_return_pct": 2.5218234723569433,
-        "volume": 2217259.0,
-        "open_interest": 1078686.0,
-        "turnover": 4687583.24
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -36.0,
-        "near_minus_deferred_pct": -3.522504892367906,
-        "annualized_near_deferred_pct": -42.857142857142854,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 88.9,
-      "score_rank": 2,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "CZCE",
-      "product": "FG",
-      "product_name": "玻璃",
-      "sector": "黑色与建材",
-      "main_contract": {
-        "contract": "FG701",
-        "contract_month": "2027-01-01",
-        "close": 922.0,
-        "settle": 923.0,
-        "pre_settle": 906.0,
-        "close_return_pct": 1.7660044150110465,
-        "settle_return_pct": 1.8763796909492259,
-        "volume": 2043327.0,
-        "open_interest": 1480236.0,
-        "turnover": 3771650.97
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -33.0,
-        "near_minus_deferred_pct": -3.6464088397790055,
-        "annualized_near_deferred_pct": -44.3646408839779,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 87.27,
-      "score_rank": 3,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "DCE",
       "product": "JD",
       "product_name": "鸡蛋",
       "sector": "农产品、油脂油料、饲料和畜牧",
       "main_contract": {
         "contract": "JD2610",
         "contract_month": "2026-10-01",
-        "close": 3787.0,
-        "settle": 3835.0,
-        "pre_settle": 3853.0,
-        "close_return_pct": -1.712950947313785,
-        "settle_return_pct": -0.46716844017649084,
-        "volume": 659276.0,
-        "open_interest": 289262.0,
-        "turnover": 2528651.1
+        "close": 3762.0,
+        "settle": 3746.0,
+        "pre_settle": 3835.0,
+        "close_return_pct": -1.9035202086049585,
+        "settle_return_pct": -2.320730117340286,
+        "volume": 588625.0,
+        "open_interest": 269584.0,
+        "turnover": 2205474.2
       },
       "near_next_curve": {
-        "near_minus_deferred": 648.0,
-        "near_minus_deferred_pct": 15.599422243620605,
-        "annualized_near_deferred_pct": 183.67061673940393,
+        "near_minus_deferred": 731.0,
+        "near_minus_deferred_pct": 17.965101990661093,
+        "annualized_near_deferred_pct": 211.52458795455806,
         "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 31
       },
       "basis": null,
-      "cross_sectional_activity_score": 80.71,
-      "score_rank": 4,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "CZCE",
-      "product": "SH",
-      "product_name": "烧碱",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "SH611",
-        "contract_month": "2026-11-01",
-        "close": 1952.0,
-        "settle": 1947.0,
-        "pre_settle": 1911.0,
-        "close_return_pct": 2.145473574044998,
-        "settle_return_pct": 1.8838304552590168,
-        "volume": 583387.0,
-        "open_interest": 232060.0,
-        "turnover": 3407436.92
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -62.0,
-        "near_minus_deferred_pct": -3.1681144609095555,
-        "annualized_near_deferred_pct": -38.54539260773293,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 77.66,
-      "score_rank": 5,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "DCE",
-      "product": "LH",
-      "product_name": "生猪",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "main_contract": {
-        "contract": "LH2611",
-        "contract_month": "2026-11-01",
-        "close": 12030.0,
-        "settle": 12100.0,
-        "pre_settle": 12290.0,
-        "close_return_pct": -2.11554109031733,
-        "settle_return_pct": -1.5459723352318933,
-        "volume": 179385.0,
-        "open_interest": 210400.0,
-        "turnover": 3473935.3
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -735.0,
-        "near_minus_deferred_pct": -6.074380165289256,
-        "annualized_near_deferred_pct": -36.34670098902588,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 61
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 72.73,
-      "score_rank": 6,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "CZCE",
-      "product": "TA",
-      "product_name": "PTA",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "TA701",
-        "contract_month": "2027-01-01",
-        "close": 5674.0,
-        "settle": 5686.0,
-        "pre_settle": 5742.0,
-        "close_return_pct": -1.1842563566701547,
-        "settle_return_pct": -0.9752699407871823,
-        "volume": 1005663.0,
-        "open_interest": 847531.0,
-        "turnover": 2859083.98
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 74.0,
-        "near_minus_deferred_pct": 1.2675573826652964,
-        "annualized_near_deferred_pct": 15.421948155761106,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 72.34,
-      "score_rank": 7,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "SHFE",
-      "product": "HC",
-      "product_name": "热轧卷板",
-      "sector": "黑色与建材",
-      "main_contract": {
-        "contract": "HC2610",
-        "contract_month": "2026-10-01",
-        "close": 3340.0,
-        "settle": 3329.0,
-        "pre_settle": 3291.0,
-        "close_return_pct": 1.488909146156181,
-        "settle_return_pct": 1.1546642357946002,
-        "volume": 542854.0,
-        "open_interest": 1022242.0,
-        "turnover": 1807415.241
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -29.0,
-        "near_minus_deferred_pct": -0.871132472213878,
-        "annualized_near_deferred_pct": -10.598778411935514,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 72.14,
-      "score_rank": 8,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "INE",
-      "product": "EC",
-      "product_name": "集运指数（欧线）",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "EC2610",
-        "contract_month": "2026-10-01",
-        "close": 1982.5,
-        "settle": 1976.0,
-        "pre_settle": 1885.5,
-        "close_return_pct": 5.144523998939277,
-        "settle_return_pct": 4.799787854680448,
-        "volume": 32651.0,
-        "open_interest": 28798.0,
-        "turnover": 322636.085
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 602.5,
-        "near_minus_deferred_pct": 24.153136901182602,
-        "annualized_near_deferred_pct": 284.38370867521445,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 31
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 70.32,
-      "score_rank": 9,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "CZCE",
-      "product": "MA",
-      "product_name": "甲醇",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "MA610",
-        "contract_month": "2026-10-01",
-        "close": 2914.0,
-        "settle": 2888.0,
-        "pre_settle": 2880.0,
-        "close_return_pct": 1.1805555555555625,
-        "settle_return_pct": 0.2777777777777768,
-        "volume": 1962523.0,
-        "open_interest": 858225.0,
-        "turnover": 5667633.47
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 18.0,
-        "near_minus_deferred_pct": 0.6232686980609419,
-        "annualized_near_deferred_pct": 7.583102493074792,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 69.55,
-      "score_rank": 10,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "SHFE",
-      "product": "RB",
-      "product_name": "螺纹钢",
-      "sector": "黑色与建材",
-      "main_contract": {
-        "contract": "RB2610",
-        "contract_month": "2026-10-01",
-        "close": 3066.0,
-        "settle": 3061.0,
-        "pre_settle": 3038.0,
-        "close_return_pct": 0.9216589861751112,
-        "settle_return_pct": 0.7570770243581215,
-        "volume": 943196.0,
-        "open_interest": 1603934.0,
-        "turnover": 2887960.384
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -40.0,
-        "near_minus_deferred_pct": -1.3067624959163673,
-        "annualized_near_deferred_pct": -15.898943700315801,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 69.09,
-      "score_rank": 11,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "DCE",
-      "product": "PP",
-      "product_name": "聚丙烯",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "PP2701",
-        "contract_month": "2027-01-01",
-        "close": 8139.0,
-        "settle": 8099.0,
-        "pre_settle": 8061.0,
-        "close_return_pct": 0.9676218831410566,
-        "settle_return_pct": 0.4714055328123079,
-        "volume": 612816.0,
-        "open_interest": 533071.0,
-        "turnover": 2481666.3
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 178.0,
-        "near_minus_deferred_pct": 2.0808978255786768,
-        "annualized_near_deferred_pct": 25.317590211207232,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 68.64,
-      "score_rank": 12,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "CZCE",
-      "product": "PX",
-      "product_name": "对二甲苯",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "PX611",
-        "contract_month": "2026-11-01",
-        "close": 8162.0,
-        "settle": 8170.0,
-        "pre_settle": 8276.0,
-        "close_return_pct": -1.377477042049302,
-        "settle_return_pct": -1.2808119864668899,
-        "volume": 468415.0,
-        "open_interest": 157421.0,
-        "turnover": 1913261.13
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 126.0,
-        "near_minus_deferred_pct": 1.5354618571776748,
-        "annualized_near_deferred_pct": 18.68145259566171,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 66.75,
-      "score_rank": 13,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "CZCE",
-      "product": "AP",
-      "product_name": "苹果",
-      "sector": "软商品与特色农产品",
-      "main_contract": {
-        "contract": "AP610",
-        "contract_month": "2026-10-01",
-        "close": 7489.0,
-        "settle": 7578.0,
-        "pre_settle": 7679.0,
-        "close_return_pct": -2.474280505274129,
-        "settle_return_pct": -1.3152754264878275,
-        "volume": 120261.0,
-        "open_interest": 103535.0,
-        "turnover": 911383.08
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 212.0,
-        "near_minus_deferred_pct": 2.878088514797719,
-        "annualized_near_deferred_pct": 33.887171222618306,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 31
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 66.3,
-      "score_rank": 14,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "DCE",
-      "product": "JM",
-      "product_name": "焦煤",
-      "sector": "黑色与建材",
-      "main_contract": {
-        "contract": "JM2701",
-        "contract_month": "2027-01-01",
-        "close": 1584.0,
-        "settle": 1599.5,
-        "pre_settle": 1571.0,
-        "close_return_pct": 0.8274984086569015,
-        "settle_return_pct": 1.8141311266709037,
-        "volume": 1252257.0,
-        "open_interest": 493002.0,
-        "turnover": 12020637.0
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -23.0,
-        "near_minus_deferred_pct": -1.4392991239048811,
-        "annualized_near_deferred_pct": -17.51147267417605,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 65.39,
-      "score_rank": 15,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "SHFE",
-      "product": "FU",
-      "product_name": "燃料油",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "FU2611",
-        "contract_month": "2026-11-01",
-        "close": 3829.0,
-        "settle": 3822.0,
-        "pre_settle": 3850.0,
-        "close_return_pct": -0.545454545454549,
-        "settle_return_pct": -0.727272727272732,
-        "volume": 890787.0,
-        "open_interest": 284651.0,
-        "turnover": 3405352.043
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 509.0,
-        "near_minus_deferred_pct": 12.712287712287711,
-        "annualized_near_deferred_pct": 154.66616716616716,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 65.06,
-      "score_rank": 16,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "DCE",
-      "product": "J",
-      "product_name": "焦炭",
-      "sector": "黑色与建材",
-      "main_contract": {
-        "contract": "J2701",
-        "contract_month": "2027-01-01",
-        "close": 2152.5,
-        "settle": 2154.5,
-        "pre_settle": 2091.5,
-        "close_return_pct": 2.9165670571360325,
-        "settle_return_pct": 3.0121922065503126,
-        "volume": 74651.0,
-        "open_interest": 67479.0,
-        "turnover": 1608704.5
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -38.0,
-        "near_minus_deferred_pct": -1.7523633848282223,
-        "annualized_near_deferred_pct": -21.320421182076704,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 64.03,
-      "score_rank": 17,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "CZCE",
-      "product": "CJ",
-      "product_name": "红枣",
-      "sector": "软商品与特色农产品",
-      "main_contract": {
-        "contract": "CJ701",
-        "contract_month": "2027-01-01",
-        "close": 8245.0,
-        "settle": 8260.0,
-        "pre_settle": 8140.0,
-        "close_return_pct": 1.2899262899262798,
-        "settle_return_pct": 1.4742014742014753,
-        "volume": 126304.0,
-        "open_interest": 157821.0,
-        "turnover": 521553.89
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -745.0,
-        "near_minus_deferred_pct": -9.157959434542102,
-        "annualized_near_deferred_pct": -36.73247465503151,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 91
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 63.7,
-      "score_rank": 18,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "CZCE",
-      "product": "RM",
-      "product_name": "菜籽粕",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "main_contract": {
-        "contract": "RM611",
-        "contract_month": "2026-11-01",
-        "close": 2235.0,
-        "settle": 2240.0,
-        "pre_settle": 2246.0,
-        "close_return_pct": -0.48975957257346714,
-        "settle_return_pct": -0.267141585040076,
-        "volume": 492308.0,
-        "open_interest": 647574.0,
-        "turnover": 1102761.4
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 84.0,
-        "near_minus_deferred_pct": 3.75,
-        "annualized_near_deferred_pct": 22.438524590163937,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 61
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 62.92,
-      "score_rank": 19,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "DCE",
-      "product": "C",
-      "product_name": "玉米",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "main_contract": {
-        "contract": "C2611",
-        "contract_month": "2026-11-01",
-        "close": 2280.0,
-        "settle": 2277.0,
-        "pre_settle": 2261.0,
-        "close_return_pct": 0.8403361344537785,
-        "settle_return_pct": 0.7076514816452883,
-        "volume": 761466.0,
-        "open_interest": 1084385.0,
-        "turnover": 1734426.4
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -15.0,
-        "near_minus_deferred_pct": -0.6587615283267457,
-        "annualized_near_deferred_pct": -3.9417698006436424,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 61
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 62.86,
-      "score_rank": 20,
+      "cross_sectional_activity_score": 84.03,
+      "score_rank": 1,
       "evidence": {
         "curve": {
           "available": true,
@@ -1572,74 +660,26 @@
       "main_contract": {
         "contract": "V2701",
         "contract_month": "2027-01-01",
-        "close": 4644.0,
-        "settle": 4673.0,
-        "pre_settle": 4680.0,
-        "close_return_pct": -0.7692307692307665,
-        "settle_return_pct": -0.14957264957264904,
-        "volume": 961947.0,
-        "open_interest": 992104.0,
-        "turnover": 2247912.6
+        "close": 4539.0,
+        "settle": 4576.0,
+        "pre_settle": 4673.0,
+        "close_return_pct": -2.867536914187885,
+        "settle_return_pct": -2.075754333404667,
+        "volume": 1335984.0,
+        "open_interest": 1172046.0,
+        "turnover": 3057084.1
       },
       "near_next_curve": {
-        "near_minus_deferred": -49.0,
-        "near_minus_deferred_pct": -1.0712724092697858,
-        "annualized_near_deferred_pct": -13.033814312782393,
+        "near_minus_deferred": -38.0,
+        "near_minus_deferred_pct": -0.8495416946121171,
+        "annualized_near_deferred_pct": -10.336090617780759,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 62.73,
-      "score_rank": 21,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "SHFE",
-      "product": "AG",
-      "product_name": "白银",
-      "sector": "有色与贵金属",
-      "main_contract": {
-        "contract": "AG2610",
-        "contract_month": "2026-10-01",
-        "close": 16843.0,
-        "settle": 16885.0,
-        "pre_settle": 16611.0,
-        "close_return_pct": 1.3966648606345222,
-        "settle_return_pct": 1.6495093612666212,
-        "volume": 757231.0,
-        "open_interest": 298270.0,
-        "turnover": 19179262.3875
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -44.0,
-        "near_minus_deferred_pct": -0.26058631921824105,
-        "annualized_near_deferred_pct": -3.170466883821933,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 62.6,
-      "score_rank": 22,
+      "cross_sectional_activity_score": 83.77,
+      "score_rank": 2,
       "evidence": {
         "curve": {
           "available": true,
@@ -1662,32 +702,32 @@
     },
     {
       "exchange": "CZCE",
-      "product": "PL",
-      "product_name": "丙烯",
-      "sector": "能源与化工",
+      "product": "SA",
+      "product_name": "纯碱",
+      "sector": "黑色与建材",
       "main_contract": {
-        "contract": "PL611",
-        "contract_month": "2026-11-01",
-        "close": 8095.0,
-        "settle": 8017.0,
-        "pre_settle": 7939.0,
-        "close_return_pct": 1.9649829953394704,
-        "settle_return_pct": 0.9824914976697352,
-        "volume": 58489.0,
-        "open_interest": 27683.0,
-        "turnover": 937763.84
+        "contract": "SA701",
+        "contract_month": "2027-01-01",
+        "close": 1045.0,
+        "settle": 1046.0,
+        "pre_settle": 1057.0,
+        "close_return_pct": -1.1352885525070966,
+        "settle_return_pct": -1.040681173131508,
+        "volume": 1608290.0,
+        "open_interest": 1078079.0,
+        "turnover": 3363848.76
       },
       "near_next_curve": {
-        "near_minus_deferred": 415.0,
-        "near_minus_deferred_pct": 5.015711868503747,
-        "annualized_near_deferred_pct": 61.024494400128916,
-        "curve_shape": "backwardation",
+        "near_minus_deferred": -33.0,
+        "near_minus_deferred_pct": -3.2640949554896146,
+        "annualized_near_deferred_pct": -39.713155291790315,
+        "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 62.4,
-      "score_rank": 23,
+      "cross_sectional_activity_score": 78.7,
+      "score_rank": 3,
       "evidence": {
         "curve": {
           "available": true,
@@ -1709,177 +749,33 @@
       "evidence_count": 2
     },
     {
-      "exchange": "DCE",
-      "product": "PG",
-      "product_name": "液化石油气",
+      "exchange": "CZCE",
+      "product": "MA",
+      "product_name": "甲醇",
       "sector": "能源与化工",
       "main_contract": {
-        "contract": "PG2610",
+        "contract": "MA610",
         "contract_month": "2026-10-01",
-        "close": 5878.0,
-        "settle": 5867.0,
-        "pre_settle": 5778.0,
-        "close_return_pct": 1.7307026652821023,
-        "settle_return_pct": 1.5403253721010701,
-        "volume": 143046.0,
-        "open_interest": 106184.0,
-        "turnover": 1678783.7
+        "close": 2925.0,
+        "settle": 2946.0,
+        "pre_settle": 2888.0,
+        "close_return_pct": 1.2811634349030543,
+        "settle_return_pct": 2.0083102493074767,
+        "volume": 2317858.0,
+        "open_interest": 839347.0,
+        "turnover": 6828349.34
       },
       "near_next_curve": {
-        "near_minus_deferred": 91.0,
-        "near_minus_deferred_pct": 1.5903530234183851,
-        "annualized_near_deferred_pct": 18.72512430799066,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 31
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 62.14,
-      "score_rank": 24,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "SHFE",
-      "product": "AU",
-      "product_name": "黄金",
-      "sector": "有色与贵金属",
-      "main_contract": {
-        "contract": "AU2610",
-        "contract_month": "2026-10-01",
-        "close": 1006.82,
-        "settle": 999.86,
-        "pre_settle": 978.8,
-        "close_return_pct": 2.8626890069472832,
-        "settle_return_pct": 2.1516142214957235,
-        "volume": 380414.0,
-        "open_interest": 208944.0,
-        "turnover": 38036155.164
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -1.5199999999999818,
-        "near_minus_deferred_pct": -0.1520212829796153,
-        "annualized_near_deferred_pct": -1.8495922762519865,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 61.04,
-      "score_rank": 25,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "SHFE",
-      "product": "WR",
-      "product_name": "线材",
-      "sector": "黑色与建材",
-      "main_contract": {
-        "contract": "WR2701",
-        "contract_month": "2027-01-01",
-        "close": 3435.0,
-        "settle": 3385.0,
-        "pre_settle": 3305.0,
-        "close_return_pct": 3.9334341906202663,
-        "settle_return_pct": 2.4205748865355536,
-        "volume": 33.0,
-        "open_interest": 29.0,
-        "turnover": 111.73
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -92.0,
-        "near_minus_deferred_pct": -2.749551703526599,
-        "annualized_near_deferred_pct": -16.452235603068992,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 61
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 59.48,
-      "score_rank": 26,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "DCE",
-      "product": "I",
-      "product_name": "铁矿石",
-      "sector": "黑色与建材",
-      "main_contract": {
-        "contract": "I2701",
-        "contract_month": "2027-01-01",
-        "close": 716.0,
-        "settle": 715.5,
-        "pre_settle": 707.0,
-        "close_return_pct": 1.2729844413012836,
-        "settle_return_pct": 1.2022630834511938,
-        "volume": 300058.0,
-        "open_interest": 547453.0,
-        "turnover": 2147377.6
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 3.0,
-        "near_minus_deferred_pct": 0.41379310344827586,
-        "annualized_near_deferred_pct": 5.03448275862069,
+        "near_minus_deferred": 37.0,
+        "near_minus_deferred_pct": 1.2559402579769179,
+        "annualized_near_deferred_pct": 15.280606472052499,
         "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 59.29,
-      "score_rank": 27,
+      "cross_sectional_activity_score": 78.05,
+      "score_rank": 4,
       "evidence": {
         "curve": {
           "available": true,
@@ -1902,128 +798,32 @@
     },
     {
       "exchange": "CZCE",
-      "product": "OI",
-      "product_name": "菜籽油",
-      "sector": "农产品、油脂油料、饲料和畜牧",
+      "product": "FG",
+      "product_name": "玻璃",
+      "sector": "黑色与建材",
       "main_contract": {
-        "contract": "OI611",
-        "contract_month": "2026-11-01",
-        "close": 10412.0,
-        "settle": 10433.0,
-        "pre_settle": 10541.0,
-        "close_return_pct": -1.2237928090313988,
-        "settle_return_pct": -1.0245707238402457,
-        "volume": 304256.0,
-        "open_interest": 338586.0,
-        "turnover": 3174227.97
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 50.0,
-        "near_minus_deferred_pct": 0.47924853829195824,
-        "annualized_near_deferred_pct": 2.8676346963371273,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 61
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 58.57,
-      "score_rank": 28,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "DCE",
-      "product": "M",
-      "product_name": "豆粕",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "main_contract": {
-        "contract": "M2701",
+        "contract": "FG701",
         "contract_month": "2027-01-01",
-        "close": 3232.0,
-        "settle": 3240.0,
-        "pre_settle": 3244.0,
-        "close_return_pct": -0.36991368680641123,
-        "settle_return_pct": -0.12330456226880004,
-        "volume": 976702.0,
-        "open_interest": 2463322.0,
-        "turnover": 3164951.7
+        "close": 913.0,
+        "settle": 916.0,
+        "pre_settle": 923.0,
+        "close_return_pct": -1.0834236186348822,
+        "settle_return_pct": -0.7583965330444253,
+        "volume": 1244642.0,
+        "open_interest": 1508419.0,
+        "turnover": 2280605.14
       },
       "near_next_curve": {
-        "near_minus_deferred": -43.0,
-        "near_minus_deferred_pct": -1.3283904850169912,
-        "annualized_near_deferred_pct": -7.948566016904947,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 61
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 57.66,
-      "score_rank": 29,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "GFEX",
-      "product": "LC",
-      "product_name": "碳酸锂",
-      "sector": "新能源与材料",
-      "main_contract": {
-        "contract": "LC2701",
-        "contract_month": "2027-01-01",
-        "close": 158860.0,
-        "settle": 160020.0,
-        "pre_settle": 156360.0,
-        "close_return_pct": 1.5988743924277404,
-        "settle_return_pct": 2.340752110514188,
-        "volume": 219750.0,
-        "open_interest": 359138.0,
-        "turnover": 3516495.91
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -120.0,
-        "near_minus_deferred_pct": -0.07575757575757576,
-        "annualized_near_deferred_pct": -0.9217171717171716,
+        "near_minus_deferred": -30.0,
+        "near_minus_deferred_pct": -3.337041156840934,
+        "annualized_near_deferred_pct": -40.600667408231374,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 54.68,
-      "score_rank": 30,
+      "cross_sectional_activity_score": 76.69,
+      "score_rank": 5,
       "evidence": {
         "curve": {
           "available": true,
@@ -2045,33 +845,33 @@
       "evidence_count": 2
     },
     {
-      "exchange": "DCE",
-      "product": "EB",
-      "product_name": "苯乙烯",
+      "exchange": "INE",
+      "product": "LU",
+      "product_name": "低硫燃料油",
       "sector": "能源与化工",
       "main_contract": {
-        "contract": "EB2610",
+        "contract": "LU2610",
         "contract_month": "2026-10-01",
-        "close": 8760.0,
-        "settle": 8782.0,
-        "pre_settle": 8725.0,
-        "close_return_pct": 0.40114613180515235,
-        "settle_return_pct": 0.6532951289398348,
-        "volume": 703250.0,
-        "open_interest": 326807.0,
-        "turnover": 3088292.1
+        "close": 4921.0,
+        "settle": 5099.0,
+        "pre_settle": 5034.0,
+        "close_return_pct": -2.2447357965832304,
+        "settle_return_pct": 1.2912197059992137,
+        "volume": 236776.0,
+        "open_interest": 85232.0,
+        "turnover": 1207416.545
       },
       "near_next_curve": {
-        "near_minus_deferred": 120.0,
-        "near_minus_deferred_pct": 1.3664313368253245,
-        "annualized_near_deferred_pct": 16.62491459804145,
+        "near_minus_deferred": 1061.0,
+        "near_minus_deferred_pct": 20.808001568935087,
+        "annualized_near_deferred_pct": 253.1640190887102,
         "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 53.96,
-      "score_rank": 31,
+      "cross_sectional_activity_score": 75.71,
+      "score_rank": 6,
       "evidence": {
         "curve": {
           "available": true,
@@ -2094,32 +894,32 @@
     },
     {
       "exchange": "DCE",
-      "product": "A",
-      "product_name": "豆一",
+      "product": "LH",
+      "product_name": "生猪",
       "sector": "农产品、油脂油料、饲料和畜牧",
       "main_contract": {
-        "contract": "A2611",
+        "contract": "LH2611",
         "contract_month": "2026-11-01",
-        "close": 5031.0,
-        "settle": 5049.0,
-        "pre_settle": 5066.0,
-        "close_return_pct": -0.6908803789972384,
-        "settle_return_pct": -0.3355704697986628,
-        "volume": 330539.0,
-        "open_interest": 381012.0,
-        "turnover": 1669039.3
+        "close": 11835.0,
+        "settle": 11920.0,
+        "pre_settle": 12100.0,
+        "close_return_pct": -2.1900826446280997,
+        "settle_return_pct": -1.4876033057851235,
+        "volume": 189524.0,
+        "open_interest": 215630.0,
+        "turnover": 3615020.2
       },
       "near_next_curve": {
-        "near_minus_deferred": -49.0,
-        "near_minus_deferred_pct": -0.9704892057833234,
-        "annualized_near_deferred_pct": -5.807025575588739,
+        "near_minus_deferred": -625.0,
+        "near_minus_deferred_pct": -5.243288590604027,
+        "annualized_near_deferred_pct": -31.37377599295852,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 61
       },
       "basis": null,
-      "cross_sectional_activity_score": 53.7,
-      "score_rank": 32,
+      "cross_sectional_activity_score": 74.68,
+      "score_rank": 7,
       "evidence": {
         "curve": {
           "available": true,
@@ -2148,26 +948,26 @@
       "main_contract": {
         "contract": "BU2610",
         "contract_month": "2026-10-01",
-        "close": 4544.0,
-        "settle": 4498.0,
-        "pre_settle": 4526.0,
-        "close_return_pct": 0.39770216526735513,
-        "settle_return_pct": -0.6186478126380957,
-        "volume": 413989.0,
-        "open_interest": 328007.0,
-        "turnover": 1862236.673
+        "close": 4554.0,
+        "settle": 4608.0,
+        "pre_settle": 4498.0,
+        "close_return_pct": 1.2449977767896803,
+        "settle_return_pct": 2.4455313472654616,
+        "volume": 544091.0,
+        "open_interest": 316430.0,
+        "turnover": 2507190.611
       },
       "near_next_curve": {
-        "near_minus_deferred": 114.0,
-        "near_minus_deferred_pct": 2.5344597598932856,
-        "annualized_near_deferred_pct": 30.83592707870164,
+        "near_minus_deferred": 143.0,
+        "near_minus_deferred_pct": 3.103298611111111,
+        "annualized_near_deferred_pct": 37.75679976851852,
         "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 53.7,
-      "score_rank": 33,
+      "cross_sectional_activity_score": 73.38,
+      "score_rank": 8,
       "evidence": {
         "curve": {
           "available": true,
@@ -2189,33 +989,33 @@
       "evidence_count": 1
     },
     {
-      "exchange": "GFEX",
-      "product": "PS",
-      "product_name": "多晶硅",
-      "sector": "新能源与材料",
+      "exchange": "DCE",
+      "product": "EB",
+      "product_name": "苯乙烯",
+      "sector": "能源与化工",
       "main_contract": {
-        "contract": "PS2611",
-        "contract_month": "2026-11-01",
-        "close": 37695.0,
-        "settle": 37855.0,
-        "pre_settle": 38640.0,
-        "close_return_pct": -2.445652173913049,
-        "settle_return_pct": -2.0315734989648004,
-        "volume": 102420.0,
-        "open_interest": 112600.0,
-        "turnover": 1163144.05
+        "contract": "EB2610",
+        "contract_month": "2026-10-01",
+        "close": 8888.0,
+        "settle": 8967.0,
+        "pre_settle": 8782.0,
+        "close_return_pct": 1.207014347529034,
+        "settle_return_pct": 2.106581644272376,
+        "volume": 1149706.0,
+        "open_interest": 354547.0,
+        "turnover": 5155213.1
       },
       "near_next_curve": {
-        "near_minus_deferred": -90.0,
-        "near_minus_deferred_pct": -0.23818975784041285,
-        "annualized_near_deferred_pct": -2.8979753870583562,
+        "near_minus_deferred": -129.0,
+        "near_minus_deferred_pct": -1.4221144306030207,
+        "annualized_near_deferred_pct": -16.744250553874274,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
-        "calendar_days": 30
+        "calendar_days": 31
       },
       "basis": null,
-      "cross_sectional_activity_score": 52.66,
-      "score_rank": 34,
+      "cross_sectional_activity_score": 72.14,
+      "score_rank": 9,
       "evidence": {
         "curve": {
           "available": true,
@@ -2226,15 +1026,111 @@
           "quality": null
         },
         "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
+          "available": false,
+          "quality": null
         },
         "options": {
           "available": false,
           "quality": null
         }
       },
-      "evidence_count": 2
+      "evidence_count": 1
+    },
+    {
+      "exchange": "DCE",
+      "product": "EG",
+      "product_name": "乙二醇",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "EG2610",
+        "contract_month": "2026-10-01",
+        "close": 5364.0,
+        "settle": 5497.0,
+        "pre_settle": 5324.0,
+        "close_return_pct": 0.7513148009015813,
+        "settle_return_pct": 3.2494365138993286,
+        "volume": 1859195.0,
+        "open_interest": 361462.0,
+        "turnover": 10221562.5
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 298.0,
+        "near_minus_deferred_pct": 5.421138802983445,
+        "annualized_near_deferred_pct": 65.95718876963193,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 71.56,
+      "score_rank": 10,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "INE",
+      "product": "EC",
+      "product_name": "集运指数（欧线）",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "EC2610",
+        "contract_month": "2026-10-01",
+        "close": 1894.0,
+        "settle": 1946.5,
+        "pre_settle": 1976.0,
+        "close_return_pct": -4.1497975708502,
+        "settle_return_pct": -1.4929149797570873,
+        "volume": 28159.0,
+        "open_interest": 28358.0,
+        "turnover": 274063.535
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 643.5,
+        "near_minus_deferred_pct": 25.627240143369175,
+        "annualized_near_deferred_pct": 301.7400855590241,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 31
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 69.16,
+      "score_rank": 11,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
     },
     {
       "exchange": "INE",
@@ -2244,26 +1140,26 @@
       "main_contract": {
         "contract": "SC2610",
         "contract_month": "2026-10-01",
-        "close": 587.8,
-        "settle": 593.6,
-        "pre_settle": 592.4,
-        "close_return_pct": -0.7765023632680612,
-        "settle_return_pct": 0.2025658338960179,
-        "volume": 152210.0,
-        "open_interest": 42179.0,
-        "turnover": 9036482.44
+        "close": 584.1,
+        "settle": 591.8,
+        "pre_settle": 593.6,
+        "close_return_pct": -1.6004043126684686,
+        "settle_return_pct": -0.30323450134771557,
+        "volume": 165640.0,
+        "open_interest": 41705.0,
+        "turnover": 9802837.35
       },
       "near_next_curve": {
-        "near_minus_deferred": 24.0,
-        "near_minus_deferred_pct": 4.0431266846361185,
-        "annualized_near_deferred_pct": 49.191374663072764,
+        "near_minus_deferred": 60.30000000000007,
+        "near_minus_deferred_pct": 10.189253126056112,
+        "annualized_near_deferred_pct": 123.96924636701603,
         "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 52.01,
-      "score_rank": 35,
+      "cross_sectional_activity_score": 68.64,
+      "score_rank": 12,
       "evidence": {
         "curve": {
           "available": true,
@@ -2285,273 +1181,33 @@
       "evidence_count": 1
     },
     {
-      "exchange": "DCE",
-      "product": "RR",
-      "product_name": "粳米",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "main_contract": {
-        "contract": "RR2610",
-        "contract_month": "2026-10-01",
-        "close": 3566.0,
-        "settle": 3583.0,
-        "pre_settle": 3613.0,
-        "close_return_pct": -1.3008580127317981,
-        "settle_return_pct": -0.8303349017437012,
-        "volume": 5975.0,
-        "open_interest": 21849.0,
-        "turnover": 21414.223
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 53.0,
-        "near_minus_deferred_pct": 1.4792073681272677,
-        "annualized_near_deferred_pct": 17.99702297888176,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 50.0,
-      "score_rank": 36,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "DCE",
-      "product": "L",
-      "product_name": "聚乙烯",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "L2701",
-        "contract_month": "2027-01-01",
-        "close": 7810.0,
-        "settle": 7818.0,
-        "pre_settle": 7839.0,
-        "close_return_pct": -0.3699451460645542,
-        "settle_return_pct": -0.26789131266743427,
-        "volume": 462638.0,
-        "open_interest": 391543.0,
-        "turnover": 1808518.6
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 93.0,
-        "near_minus_deferred_pct": 1.155136007949323,
-        "annualized_near_deferred_pct": 14.054154763383428,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 49.87,
-      "score_rank": 37,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "DCE",
-      "product": "B",
-      "product_name": "豆二",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "main_contract": {
-        "contract": "B2611",
-        "contract_month": "2026-11-01",
-        "close": 4000.0,
-        "settle": 4019.0,
-        "pre_settle": 4041.0,
-        "close_return_pct": -1.0146003464489017,
-        "settle_return_pct": -0.5444196980945337,
-        "volume": 195821.0,
-        "open_interest": 224910.0,
-        "turnover": 787137.82
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -19.0,
-        "near_minus_deferred_pct": -0.4771471622300351,
-        "annualized_near_deferred_pct": -5.805290473798761,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 49.81,
-      "score_rank": 38,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "GFEX",
-      "product": "PT",
-      "product_name": "铂",
+      "exchange": "SHFE",
+      "product": "AG",
+      "product_name": "白银",
       "sector": "有色与贵金属",
       "main_contract": {
-        "contract": "PT2610",
+        "contract": "AG2610",
         "contract_month": "2026-10-01",
-        "close": 470.15,
-        "settle": 462.75,
-        "pre_settle": 457.5,
-        "close_return_pct": 2.7650273224043564,
-        "settle_return_pct": 1.1475409836065653,
-        "volume": 7657.0,
-        "open_interest": 15425.0,
-        "turnover": 354363.51
+        "close": 16631.0,
+        "settle": 16775.0,
+        "pre_settle": 16885.0,
+        "close_return_pct": -1.5042937518507604,
+        "settle_return_pct": -0.6514657980456029,
+        "volume": 752304.0,
+        "open_interest": 282243.0,
+        "turnover": 18929987.3745
       },
       "near_next_curve": {
-        "near_minus_deferred": -1.5,
-        "near_minus_deferred_pct": -0.32310177705977383,
-        "annualized_near_deferred_pct": -1.93331391191504,
+        "near_minus_deferred": -65.0,
+        "near_minus_deferred_pct": -0.38748137108792846,
+        "annualized_near_deferred_pct": -4.714356681569797,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
-        "calendar_days": 61
+        "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 49.22,
-      "score_rank": 39,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "CZCE",
-      "product": "RS",
-      "product_name": "油菜籽",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "main_contract": {
-        "contract": "RS609",
-        "contract_month": "2026-09-01",
-        "close": 5771.0,
-        "settle": 5764.0,
-        "pre_settle": 5861.0,
-        "close_return_pct": -1.5355741341068097,
-        "settle_return_pct": -1.655007677870668,
-        "volume": 28.0,
-        "open_interest": 42.0,
-        "turnover": 161.39
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 76.0,
-        "near_minus_deferred_pct": 1.3361462728551337,
-        "annualized_near_deferred_pct": 7.994973599870882,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 61
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 48.25,
-      "score_rank": 40,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "DCE",
-      "product": "Y",
-      "product_name": "豆油",
-      "sector": "农产品、油脂油料、饲料和畜牧",
-      "main_contract": {
-        "contract": "Y2701",
-        "contract_month": "2027-01-01",
-        "close": 8805.0,
-        "settle": 8811.0,
-        "pre_settle": 8836.0,
-        "close_return_pct": -0.3508374830239913,
-        "settle_return_pct": -0.28293345405160375,
-        "volume": 375321.0,
-        "open_interest": 729973.0,
-        "turnover": 3307246.6
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -62.0,
-        "near_minus_deferred_pct": -0.6984341556832263,
-        "annualized_near_deferred_pct": -4.179155193842256,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 61
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 47.21,
-      "score_rank": 41,
+      "cross_sectional_activity_score": 67.92,
+      "score_rank": 13,
       "evidence": {
         "curve": {
           "available": true,
@@ -2574,32 +1230,32 @@
     },
     {
       "exchange": "CZCE",
-      "product": "SF",
-      "product_name": "硅铁",
-      "sector": "黑色与建材",
+      "product": "CJ",
+      "product_name": "红枣",
+      "sector": "软商品与特色农产品",
       "main_contract": {
-        "contract": "SF611",
-        "contract_month": "2026-11-01",
-        "close": 5992.0,
-        "settle": 5998.0,
-        "pre_settle": 5986.0,
-        "close_return_pct": 0.1002338790511148,
-        "settle_return_pct": 0.2004677581022296,
-        "volume": 449211.0,
-        "open_interest": 466714.0,
-        "turnover": 1346959.94
+        "contract": "CJ701",
+        "contract_month": "2027-01-01",
+        "close": 8160.0,
+        "settle": 8125.0,
+        "pre_settle": 8260.0,
+        "close_return_pct": -1.210653753026636,
+        "settle_return_pct": -1.6343825665859568,
+        "volume": 243397.0,
+        "open_interest": 165310.0,
+        "turnover": 988718.6
       },
       "near_next_curve": {
-        "near_minus_deferred": 164.0,
-        "near_minus_deferred_pct": 2.7378964941569284,
-        "annualized_near_deferred_pct": 33.31107401224263,
-        "curve_shape": "backwardation",
+        "near_minus_deferred": -665.0,
+        "near_minus_deferred_pct": -8.401768793430197,
+        "annualized_near_deferred_pct": -33.69940230331892,
+        "curve_shape": "contango",
         "price_quality": "official_settlement",
-        "calendar_days": 30
+        "calendar_days": 91
       },
       "basis": null,
-      "cross_sectional_activity_score": 46.82,
-      "score_rank": 42,
+      "cross_sectional_activity_score": 67.92,
+      "score_rank": 14,
       "evidence": {
         "curve": {
           "available": true,
@@ -2628,26 +1284,26 @@
       "main_contract": {
         "contract": "CF701",
         "contract_month": "2027-01-01",
-        "close": 17035.0,
-        "settle": 17075.0,
-        "pre_settle": 17070.0,
-        "close_return_pct": -0.20503807850029698,
-        "settle_return_pct": 0.029291154071464653,
-        "volume": 270973.0,
-        "open_interest": 561622.0,
-        "turnover": 2313340.65
+        "close": 16885.0,
+        "settle": 16960.0,
+        "pre_settle": 17075.0,
+        "close_return_pct": -1.1127379209370458,
+        "settle_return_pct": -0.6734992679355734,
+        "volume": 457361.0,
+        "open_interest": 537105.0,
+        "turnover": 3878087.23
       },
       "near_next_curve": {
-        "near_minus_deferred": -265.0,
-        "near_minus_deferred_pct": -1.5797317436661698,
-        "annualized_near_deferred_pct": -9.452493220297573,
+        "near_minus_deferred": -230.0,
+        "near_minus_deferred_pct": -1.373544341594506,
+        "annualized_near_deferred_pct": -8.218748929213026,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 61
       },
       "basis": null,
-      "cross_sectional_activity_score": 46.43,
-      "score_rank": 43,
+      "cross_sectional_activity_score": 67.47,
+      "score_rank": 15,
       "evidence": {
         "curve": {
           "available": true,
@@ -2670,32 +1326,224 @@
     },
     {
       "exchange": "CZCE",
-      "product": "SR",
-      "product_name": "白糖",
-      "sector": "软商品与特色农产品",
+      "product": "TA",
+      "product_name": "PTA",
+      "sector": "能源与化工",
       "main_contract": {
-        "contract": "SR701",
+        "contract": "TA701",
         "contract_month": "2027-01-01",
-        "close": 5375.0,
-        "settle": 5383.0,
-        "pre_settle": 5387.0,
-        "close_return_pct": -0.22275849266752967,
-        "settle_return_pct": -0.07425283088917656,
-        "volume": 459873.0,
-        "open_interest": 622186.0,
-        "turnover": 2475430.76
+        "close": 5732.0,
+        "settle": 5782.0,
+        "pre_settle": 5686.0,
+        "close_return_pct": 0.8090045726345307,
+        "settle_return_pct": 1.6883573689764342,
+        "volume": 1434677.0,
+        "open_interest": 897512.0,
+        "turnover": 4147990.52
       },
       "near_next_curve": {
-        "near_minus_deferred": -37.0,
-        "near_minus_deferred_pct": -0.7097640514099367,
-        "annualized_near_deferred_pct": -4.246948832206998,
+        "near_minus_deferred": 56.0,
+        "near_minus_deferred_pct": 0.9424436216762033,
+        "annualized_near_deferred_pct": 11.466397397060474,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 67.34,
+      "score_rank": 16,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "SHFE",
+      "product": "FU",
+      "product_name": "燃料油",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "FU2611",
+        "contract_month": "2026-11-01",
+        "close": 3842.0,
+        "settle": 3935.0,
+        "pre_settle": 3822.0,
+        "close_return_pct": 0.5232862375719627,
+        "settle_return_pct": 2.956567242281527,
+        "volume": 1366745.0,
+        "open_interest": 286887.0,
+        "turnover": 5378276.258
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 962.0,
+        "near_minus_deferred_pct": 22.77462121212121,
+        "annualized_near_deferred_pct": 277.0912247474747,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 66.88,
+      "score_rank": 17,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "CZCE",
+      "product": "AP",
+      "product_name": "苹果",
+      "sector": "软商品与特色农产品",
+      "main_contract": {
+        "contract": "AP610",
+        "contract_month": "2026-10-01",
+        "close": 7390.0,
+        "settle": 7442.0,
+        "pre_settle": 7578.0,
+        "close_return_pct": -2.4808656637635207,
+        "settle_return_pct": -1.794668778041697,
+        "volume": 89803.0,
+        "open_interest": 100764.0,
+        "turnover": 668351.23
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 169.0,
+        "near_minus_deferred_pct": 2.323662862642651,
+        "annualized_near_deferred_pct": 27.35925628595379,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 31
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 66.23,
+      "score_rank": 18,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "DCE",
+      "product": "A",
+      "product_name": "豆一",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "A2611",
+        "contract_month": "2026-11-01",
+        "close": 4987.0,
+        "settle": 4994.0,
+        "pre_settle": 5049.0,
+        "close_return_pct": -1.2279659338482851,
+        "settle_return_pct": -1.089324618736387,
+        "volume": 378737.0,
+        "open_interest": 361274.0,
+        "turnover": 1891445.4
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -45.0,
+        "near_minus_deferred_pct": -0.9010812975570685,
+        "annualized_near_deferred_pct": -5.391715960792295,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 61
       },
       "basis": null,
-      "cross_sectional_activity_score": 46.43,
-      "score_rank": 44,
+      "cross_sectional_activity_score": 65.78,
+      "score_rank": 19,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "CZCE",
+      "product": "OI",
+      "product_name": "菜籽油",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "OI611",
+        "contract_month": "2026-11-01",
+        "close": 10281.0,
+        "settle": 10308.0,
+        "pre_settle": 10433.0,
+        "close_return_pct": -1.4569155564075564,
+        "settle_return_pct": -1.1981213457298967,
+        "volume": 260577.0,
+        "open_interest": 316616.0,
+        "turnover": 2685930.63
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 70.0,
+        "near_minus_deferred_pct": 0.6790842064415987,
+        "annualized_near_deferred_pct": 4.06337271067514,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 64.48,
+      "score_rank": 20,
       "evidence": {
         "curve": {
           "available": true,
@@ -2717,177 +1565,225 @@
       "evidence_count": 2
     },
     {
-      "exchange": "SHFE",
-      "product": "ZN",
-      "product_name": "锌",
-      "sector": "有色与贵金属",
+      "exchange": "DCE",
+      "product": "JM",
+      "product_name": "焦煤",
+      "sector": "黑色与建材",
       "main_contract": {
-        "contract": "ZN2610",
-        "contract_month": "2026-10-01",
-        "close": 25905.0,
-        "settle": 25955.0,
-        "pre_settle": 25635.0,
-        "close_return_pct": 1.0532475131656005,
-        "settle_return_pct": 1.2482933489369907,
-        "volume": 144624.0,
-        "open_interest": 144428.0,
-        "turnover": 1877074.05
+        "contract": "JM2701",
+        "contract_month": "2027-01-01",
+        "close": 1578.0,
+        "settle": 1592.0,
+        "pre_settle": 1599.5,
+        "close_return_pct": -1.3441700531416023,
+        "settle_return_pct": -0.46889653016567445,
+        "volume": 1218752.0,
+        "open_interest": 486965.0,
+        "turnover": 11644240.4
       },
       "near_next_curve": {
-        "near_minus_deferred": -55.0,
-        "near_minus_deferred_pct": -0.2119052205740705,
-        "annualized_near_deferred_pct": -2.5781801836511913,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 44.16,
-      "score_rank": 45,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "INE",
-      "product": "NR",
-      "product_name": "20号胶",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "NR2610",
-        "contract_month": "2026-10-01",
-        "close": 15655.0,
-        "settle": 15575.0,
-        "pre_settle": 15495.0,
-        "close_return_pct": 1.032591158438212,
-        "settle_return_pct": 0.516295579219106,
-        "volume": 81370.0,
-        "open_interest": 57768.0,
-        "turnover": 1267701.73
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -95.0,
-        "near_minus_deferred_pct": -0.6099518459069021,
-        "annualized_near_deferred_pct": -7.4210807918673085,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 44.03,
-      "score_rank": 46,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "SHFE",
-      "product": "BR",
-      "product_name": "丁二烯橡胶",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "BR2610",
-        "contract_month": "2026-10-01",
-        "close": 14720.0,
-        "settle": 14670.0,
-        "pre_settle": 14560.0,
-        "close_return_pct": 1.098901098901095,
-        "settle_return_pct": 0.7554945054945028,
-        "volume": 310875.0,
-        "open_interest": 109794.0,
-        "turnover": 2280352.6175
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -10.0,
-        "near_minus_deferred_pct": -0.0681663258350375,
-        "annualized_near_deferred_pct": -0.8293569643262895,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 43.9,
-      "score_rank": 47,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "INE",
-      "product": "LU",
-      "product_name": "低硫燃料油",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "LU2610",
-        "contract_month": "2026-10-01",
-        "close": 5027.0,
-        "settle": 5034.0,
-        "pre_settle": 5044.0,
-        "close_return_pct": -0.33703409992069666,
-        "settle_return_pct": -0.19825535289452745,
-        "volume": 130595.0,
-        "open_interest": 81703.0,
-        "turnover": 657419.532
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 707.0,
-        "near_minus_deferred_pct": 14.044497417560589,
-        "annualized_near_deferred_pct": 170.87471858032052,
+        "near_minus_deferred": 2.0,
+        "near_minus_deferred_pct": 0.12296341838303104,
+        "annualized_near_deferred_pct": 1.4960549236602112,
         "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 43.77,
-      "score_rank": 48,
+      "cross_sectional_activity_score": 63.57,
+      "score_rank": 21,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "GFEX",
+      "product": "LC",
+      "product_name": "碳酸锂",
+      "sector": "新能源与材料",
+      "main_contract": {
+        "contract": "LC2701",
+        "contract_month": "2027-01-01",
+        "close": 150280.0,
+        "settle": 153960.0,
+        "pre_settle": 160020.0,
+        "close_return_pct": -6.086739157605303,
+        "settle_return_pct": -3.787026621672296,
+        "volume": 229133.0,
+        "open_interest": 354226.0,
+        "turnover": 3527930.88
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 220.0,
+        "near_minus_deferred_pct": 0.14405447878470404,
+        "annualized_near_deferred_pct": 1.752662825213899,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 63.44,
+      "score_rank": 22,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "CZCE",
+      "product": "PF",
+      "product_name": "短纤",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "PF610",
+        "contract_month": "2026-10-01",
+        "close": 7736.0,
+        "settle": 7788.0,
+        "pre_settle": 7622.0,
+        "close_return_pct": 1.4956704277092614,
+        "settle_return_pct": 2.1779060614012025,
+        "volume": 318838.0,
+        "open_interest": 183671.0,
+        "turnover": 1241357.11
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 54.0,
+        "near_minus_deferred_pct": 0.6933744221879815,
+        "annualized_near_deferred_pct": 8.436055469953775,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 63.05,
+      "score_rank": 23,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "CZCE",
+      "product": "SH",
+      "product_name": "烧碱",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "SH611",
+        "contract_month": "2026-11-01",
+        "close": 1932.0,
+        "settle": 1947.0,
+        "pre_settle": 1947.0,
+        "close_return_pct": -0.7704160246533087,
+        "settle_return_pct": 0.0,
+        "volume": 471802.0,
+        "open_interest": 216297.0,
+        "turnover": 2756078.26
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -70.0,
+        "near_minus_deferred_pct": -3.5823950870010237,
+        "annualized_near_deferred_pct": -43.58580689184579,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 62.14,
+      "score_rank": 24,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "DCE",
+      "product": "P",
+      "product_name": "棕榈油",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "P2701",
+        "contract_month": "2027-01-01",
+        "close": 10079.0,
+        "settle": 10064.0,
+        "pre_settle": 10178.0,
+        "close_return_pct": -0.9726861858911362,
+        "settle_return_pct": -1.1200628807231272,
+        "volume": 639721.0,
+        "open_interest": 562823.0,
+        "turnover": 6438727.1
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -45.0,
+        "near_minus_deferred_pct": -0.46530865474097816,
+        "annualized_near_deferred_pct": -5.661255299348567,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 61.82,
+      "score_rank": 25,
       "evidence": {
         "curve": {
           "available": true,
@@ -2916,26 +1812,26 @@
       "main_contract": {
         "contract": "PR611",
         "contract_month": "2026-11-01",
-        "close": 7336.0,
-        "settle": 7348.0,
-        "pre_settle": 7376.0,
-        "close_return_pct": -0.5422993492407824,
-        "settle_return_pct": -0.379609544468551,
-        "volume": 124550.0,
-        "open_interest": 54092.0,
-        "turnover": 1372823.05
+        "close": 7446.0,
+        "settle": 7486.0,
+        "pre_settle": 7348.0,
+        "close_return_pct": 1.3336962438758926,
+        "settle_return_pct": 1.8780620577027785,
+        "volume": 169364.0,
+        "open_interest": 56424.0,
+        "turnover": 1901606.38
       },
       "near_next_curve": {
-        "near_minus_deferred": 142.0,
-        "near_minus_deferred_pct": 1.9127155172413792,
-        "annualized_near_deferred_pct": 23.27137212643678,
+        "near_minus_deferred": 200.0,
+        "near_minus_deferred_pct": 2.6476039184537994,
+        "annualized_near_deferred_pct": 32.212514341187884,
         "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 43.18,
-      "score_rank": 49,
+      "cross_sectional_activity_score": 61.43,
+      "score_rank": 26,
       "evidence": {
         "curve": {
           "available": true,
@@ -2957,33 +1853,129 @@
       "evidence_count": 2
     },
     {
-      "exchange": "GFEX",
-      "product": "SI",
-      "product_name": "工业硅",
-      "sector": "新能源与材料",
+      "exchange": "CZCE",
+      "product": "SF",
+      "product_name": "硅铁",
+      "sector": "黑色与建材",
       "main_contract": {
-        "contract": "SI2611",
+        "contract": "SF611",
         "contract_month": "2026-11-01",
-        "close": 8730.0,
-        "settle": 8680.0,
-        "pre_settle": 8770.0,
-        "close_return_pct": -0.45610034207526073,
-        "settle_return_pct": -1.026225769669331,
-        "volume": 229806.0,
-        "open_interest": 297458.0,
-        "turnover": 997442.9
+        "close": 6022.0,
+        "settle": 6008.0,
+        "pre_settle": 5998.0,
+        "close_return_pct": 0.4001333777925886,
+        "settle_return_pct": 0.16672224074691933,
+        "volume": 516703.0,
+        "open_interest": 473924.0,
+        "turnover": 1551956.38
       },
       "near_next_curve": {
-        "near_minus_deferred": -40.0,
-        "near_minus_deferred_pct": -0.4632310364794441,
-        "annualized_near_deferred_pct": -5.635977610499903,
-        "curve_shape": "contango",
+        "near_minus_deferred": 186.0,
+        "near_minus_deferred_pct": 3.113491797790425,
+        "annualized_near_deferred_pct": 37.880816873116835,
+        "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 42.08,
-      "score_rank": 50,
+      "cross_sectional_activity_score": 57.34,
+      "score_rank": 27,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "CZCE",
+      "product": "PX",
+      "product_name": "对二甲苯",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "PX611",
+        "contract_month": "2026-11-01",
+        "close": 8276.0,
+        "settle": 8372.0,
+        "pre_settle": 8170.0,
+        "close_return_pct": 1.2974296205630287,
+        "settle_return_pct": 2.47246022031824,
+        "volume": 493078.0,
+        "open_interest": 168855.0,
+        "turnover": 2063811.4
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 18.0,
+        "near_minus_deferred_pct": 0.21342186388427792,
+        "annualized_near_deferred_pct": 2.596632677258715,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 56.95,
+      "score_rank": 28,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "CZCE",
+      "product": "SR",
+      "product_name": "白糖",
+      "sector": "软商品与特色农产品",
+      "main_contract": {
+        "contract": "SR701",
+        "contract_month": "2027-01-01",
+        "close": 5350.0,
+        "settle": 5360.0,
+        "pre_settle": 5383.0,
+        "close_return_pct": -0.6130410551736909,
+        "settle_return_pct": -0.42727103845439096,
+        "volume": 454926.0,
+        "open_interest": 608653.0,
+        "turnover": 2438625.68
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -44.0,
+        "near_minus_deferred_pct": -0.8458285274894272,
+        "annualized_near_deferred_pct": -5.06110512350231,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 56.43,
+      "score_rank": 29,
       "evidence": {
         "curve": {
           "available": true,
@@ -3006,32 +1998,32 @@
     },
     {
       "exchange": "SHFE",
-      "product": "RU",
-      "product_name": "天然橡胶",
-      "sector": "能源与化工",
+      "product": "RB",
+      "product_name": "螺纹钢",
+      "sector": "黑色与建材",
       "main_contract": {
-        "contract": "RU2701",
-        "contract_month": "2027-01-01",
-        "close": 18610.0,
-        "settle": 18550.0,
-        "pre_settle": 18495.0,
-        "close_return_pct": 0.621789672884554,
-        "settle_return_pct": 0.29737766964044177,
-        "volume": 280954.0,
-        "open_interest": 148254.0,
-        "turnover": 5212137.725
+        "contract": "RB2610",
+        "contract_month": "2026-10-01",
+        "close": 3071.0,
+        "settle": 3070.0,
+        "pre_settle": 3061.0,
+        "close_return_pct": 0.32669062397909787,
+        "settle_return_pct": 0.2940215615811814,
+        "volume": 651622.0,
+        "open_interest": 1501202.0,
+        "turnover": 2000877.517
       },
       "near_next_curve": {
-        "near_minus_deferred": -65.0,
-        "near_minus_deferred_pct": -0.36879432624113473,
-        "annualized_near_deferred_pct": -4.486997635933807,
+        "near_minus_deferred": -32.0,
+        "near_minus_deferred_pct": -1.0423452768729642,
+        "annualized_near_deferred_pct": -12.681867535287733,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 41.95,
-      "score_rank": 51,
+      "cross_sectional_activity_score": 56.23,
+      "score_rank": 30,
       "evidence": {
         "curve": {
           "available": true,
@@ -3054,32 +2046,992 @@
     },
     {
       "exchange": "SHFE",
+      "product": "HC",
+      "product_name": "热轧卷板",
+      "sector": "黑色与建材",
+      "main_contract": {
+        "contract": "HC2610",
+        "contract_month": "2026-10-01",
+        "close": 3343.0,
+        "settle": 3350.0,
+        "pre_settle": 3329.0,
+        "close_return_pct": 0.4205467107239347,
+        "settle_return_pct": 0.630820066085902,
+        "volume": 418386.0,
+        "open_interest": 924767.0,
+        "turnover": 1401705.82
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -54.0,
+        "near_minus_deferred_pct": -1.6119402985074627,
+        "annualized_near_deferred_pct": -19.611940298507463,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 55.91,
+      "score_rank": 31,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "DCE",
+      "product": "BZ",
+      "product_name": "纯苯",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "BZ2610",
+        "contract_month": "2026-10-01",
+        "close": 7736.0,
+        "settle": 7787.0,
+        "pre_settle": 7619.0,
+        "close_return_pct": 1.53563459771624,
+        "settle_return_pct": 2.2050137813361292,
+        "volume": 56096.0,
+        "open_interest": 28405.0,
+        "turnover": 1310522.43
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 74.0,
+        "near_minus_deferred_pct": 0.9282488710486703,
+        "annualized_near_deferred_pct": 10.92938186879886,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 31
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 55.06,
+      "score_rank": 32,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "CZCE",
+      "product": "RM",
+      "product_name": "菜籽粕",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "RM611",
+        "contract_month": "2026-11-01",
+        "close": 2243.0,
+        "settle": 2236.0,
+        "pre_settle": 2240.0,
+        "close_return_pct": 0.1339285714285765,
+        "settle_return_pct": -0.17857142857142794,
+        "volume": 476354.0,
+        "open_interest": 637652.0,
+        "turnover": 1065027.82
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 81.0,
+        "near_minus_deferred_pct": 3.6225402504472273,
+        "annualized_near_deferred_pct": 21.675855596938327,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 53.25,
+      "score_rank": 33,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "DCE",
+      "product": "M",
+      "product_name": "豆粕",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "M2701",
+        "contract_month": "2027-01-01",
+        "close": 3245.0,
+        "settle": 3228.0,
+        "pre_settle": 3240.0,
+        "close_return_pct": 0.15432098765431057,
+        "settle_return_pct": -0.37037037037036535,
+        "volume": 924525.0,
+        "open_interest": 2519721.0,
+        "turnover": 2984606.3
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -40.0,
+        "near_minus_deferred_pct": -1.2433944668946224,
+        "annualized_near_deferred_pct": -7.439983285517003,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 53.05,
+      "score_rank": 34,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "GFEX",
+      "product": "SI",
+      "product_name": "工业硅",
+      "sector": "新能源与材料",
+      "main_contract": {
+        "contract": "SI2611",
+        "contract_month": "2026-11-01",
+        "close": 8775.0,
+        "settle": 8735.0,
+        "pre_settle": 8680.0,
+        "close_return_pct": 1.0944700460829404,
+        "settle_return_pct": 0.6336405529953959,
+        "volume": 157505.0,
+        "open_interest": 304485.0,
+        "turnover": 688016.65
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -45.0,
+        "near_minus_deferred_pct": -0.5178365937859608,
+        "annualized_near_deferred_pct": -6.3003452243958575,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 52.73,
+      "score_rank": 35,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "DCE",
+      "product": "Y",
+      "product_name": "豆油",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "Y2701",
+        "contract_month": "2027-01-01",
+        "close": 8764.0,
+        "settle": 8748.0,
+        "pre_settle": 8811.0,
+        "close_return_pct": -0.5334241289297492,
+        "settle_return_pct": -0.7150153217568955,
+        "volume": 325763.0,
+        "open_interest": 710920.0,
+        "turnover": 2849989.3
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -43.0,
+        "near_minus_deferred_pct": -0.4893035958124715,
+        "annualized_near_deferred_pct": -2.927800204451674,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 51.3,
+      "score_rank": 36,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "CZCE",
+      "product": "PL",
+      "product_name": "丙烯",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "PL611",
+        "contract_month": "2026-11-01",
+        "close": 8091.0,
+        "settle": 8180.0,
+        "pre_settle": 8017.0,
+        "close_return_pct": 0.923038543095922,
+        "settle_return_pct": 2.033179493576154,
+        "volume": 72302.0,
+        "open_interest": 28364.0,
+        "turnover": 1182827.84
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 318.0,
+        "near_minus_deferred_pct": 3.7655417406749554,
+        "annualized_near_deferred_pct": 45.81409117821196,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 51.1,
+      "score_rank": 37,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "GFEX",
+      "product": "PS",
+      "product_name": "多晶硅",
+      "sector": "新能源与材料",
+      "main_contract": {
+        "contract": "PS2611",
+        "contract_month": "2026-11-01",
+        "close": 37155.0,
+        "settle": 37480.0,
+        "pre_settle": 37855.0,
+        "close_return_pct": -1.8491612732796203,
+        "settle_return_pct": -0.9906221106855129,
+        "volume": 101292.0,
+        "open_interest": 113632.0,
+        "turnover": 1138995.26
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -40.0,
+        "near_minus_deferred_pct": -0.1067378252168112,
+        "annualized_near_deferred_pct": -1.2986435401378698,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 49.16,
+      "score_rank": 38,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "SHFE",
+      "product": "AO",
+      "product_name": "氧化铝",
+      "sector": "有色与贵金属",
+      "main_contract": {
+        "contract": "AO2610",
+        "contract_month": "2026-10-01",
+        "close": 2676.0,
+        "settle": 2691.0,
+        "pre_settle": 2702.0,
+        "close_return_pct": -0.962250185048108,
+        "settle_return_pct": -0.4071058475203504,
+        "volume": 215937.0,
+        "open_interest": 249987.0,
+        "turnover": 1162245.93
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -10.0,
+        "near_minus_deferred_pct": -0.37160906726124115,
+        "annualized_near_deferred_pct": -4.521243651678434,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 49.09,
+      "score_rank": 39,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "DCE",
+      "product": "L",
+      "product_name": "聚乙烯",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "L2701",
+        "contract_month": "2027-01-01",
+        "close": 7802.0,
+        "settle": 7875.0,
+        "pre_settle": 7818.0,
+        "close_return_pct": -0.20465592223074536,
+        "settle_return_pct": 0.7290867229470477,
+        "volume": 567358.0,
+        "open_interest": 397697.0,
+        "turnover": 2234189.8
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 81.0,
+        "near_minus_deferred_pct": 0.9968003937976864,
+        "annualized_near_deferred_pct": 12.127738124538517,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 48.7,
+      "score_rank": 40,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "DCE",
+      "product": "PP",
+      "product_name": "聚丙烯",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "PP2701",
+        "contract_month": "2027-01-01",
+        "close": 8098.0,
+        "settle": 8179.0,
+        "pre_settle": 8099.0,
+        "close_return_pct": -0.012347203358442638,
+        "settle_return_pct": 0.9877762686751446,
+        "volume": 792547.0,
+        "open_interest": 541044.0,
+        "turnover": 3241388.0
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 144.0,
+        "near_minus_deferred_pct": 1.6587950696924318,
+        "annualized_near_deferred_pct": 20.18200668125792,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 48.7,
+      "score_rank": 41,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "SHFE",
+      "product": "WR",
+      "product_name": "线材",
+      "sector": "黑色与建材",
+      "main_contract": {
+        "contract": "WR2701",
+        "contract_month": "2027-01-01",
+        "close": 3422.0,
+        "settle": 3436.0,
+        "pre_settle": 3385.0,
+        "close_return_pct": 1.0930576070901088,
+        "settle_return_pct": 1.5066469719350106,
+        "volume": 80.0,
+        "open_interest": 32.0,
+        "turnover": 274.928
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -156.0,
+        "near_minus_deferred_pct": -4.536202384414074,
+        "annualized_near_deferred_pct": -18.194657915507,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 91
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 48.25,
+      "score_rank": 42,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "GFEX",
+      "product": "PD",
+      "product_name": "钯",
+      "sector": "有色与贵金属",
+      "main_contract": {
+        "contract": "PD2610",
+        "contract_month": "2026-10-01",
+        "close": 317.65,
+        "settle": 321.9,
+        "pre_settle": 323.1,
+        "close_return_pct": -1.6867842773135355,
+        "settle_return_pct": -0.3714020427112441,
+        "volume": 6360.0,
+        "open_interest": 9711.0,
+        "turnover": 204751.37
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -1.25,
+        "near_minus_deferred_pct": -0.38681726752282225,
+        "annualized_near_deferred_pct": -2.3145623384562315,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 47.66,
+      "score_rank": 43,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "SHFE",
       "product": "SP",
       "product_name": "纸浆",
       "sector": "能源与化工",
       "main_contract": {
         "contract": "SP2611",
         "contract_month": "2026-11-01",
-        "close": 4866.0,
-        "settle": 4884.0,
-        "pre_settle": 4848.0,
-        "close_return_pct": 0.3712871287128605,
-        "settle_return_pct": 0.7425742574257432,
-        "volume": 350057.0,
-        "open_interest": 253610.0,
-        "turnover": 1710040.534
+        "close": 4848.0,
+        "settle": 4842.0,
+        "pre_settle": 4884.0,
+        "close_return_pct": -0.7371007371007376,
+        "settle_return_pct": -0.8599508599508643,
+        "volume": 316118.0,
+        "open_interest": 237423.0,
+        "turnover": 1531218.902
       },
       "near_next_curve": {
-        "near_minus_deferred": -24.0,
-        "near_minus_deferred_pct": -0.49281314168377827,
-        "annualized_near_deferred_pct": -5.995893223819302,
+        "near_minus_deferred": -18.0,
+        "near_minus_deferred_pct": -0.3728251864125932,
+        "annualized_near_deferred_pct": -4.536039768019884,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 41.62,
-      "score_rank": 52,
+      "cross_sectional_activity_score": 47.4,
+      "score_rank": 44,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "GFEX",
+      "product": "PT",
+      "product_name": "铂",
+      "sector": "有色与贵金属",
+      "main_contract": {
+        "contract": "PT2610",
+        "contract_month": "2026-10-01",
+        "close": 455.65,
+        "settle": 459.95,
+        "pre_settle": 462.75,
+        "close_return_pct": -1.5343057806591065,
+        "settle_return_pct": -0.6050783360345813,
+        "volume": 8826.0,
+        "open_interest": 14480.0,
+        "turnover": 405982.52
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -1.4499999999999886,
+        "near_minus_deferred_pct": -0.3142609449501493,
+        "annualized_near_deferred_pct": -1.880413850931221,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 46.1,
+      "score_rank": 45,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "DCE",
+      "product": "C",
+      "product_name": "玉米",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "C2611",
+        "contract_month": "2026-11-01",
+        "close": 2276.0,
+        "settle": 2274.0,
+        "pre_settle": 2277.0,
+        "close_return_pct": -0.04391743522178526,
+        "settle_return_pct": -0.13175230566534468,
+        "volume": 552708.0,
+        "open_interest": 1123302.0,
+        "turnover": 1257041.06
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -16.0,
+        "near_minus_deferred_pct": -0.7036059806508356,
+        "annualized_near_deferred_pct": -4.210101359632049,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 44.61,
+      "score_rank": 46,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "DCE",
+      "product": "I",
+      "product_name": "铁矿石",
+      "sector": "黑色与建材",
+      "main_contract": {
+        "contract": "I2701",
+        "contract_month": "2027-01-01",
+        "close": 713.5,
+        "settle": 716.5,
+        "pre_settle": 715.5,
+        "close_return_pct": -0.2795248078266921,
+        "settle_return_pct": 0.13976240391335715,
+        "volume": 233317.0,
+        "open_interest": 553477.0,
+        "turnover": 1671821.4
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 4.0,
+        "near_minus_deferred_pct": 0.5513439007580978,
+        "annualized_near_deferred_pct": 6.708017459223524,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 43.38,
+      "score_rank": 47,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "SHFE",
+      "product": "SS",
+      "product_name": "不锈钢",
+      "sector": "有色与贵金属",
+      "main_contract": {
+        "contract": "SS2610",
+        "contract_month": "2026-10-01",
+        "close": 14085.0,
+        "settle": 14150.0,
+        "pre_settle": 14250.0,
+        "close_return_pct": -1.1578947368421022,
+        "settle_return_pct": -0.7017543859649145,
+        "volume": 152446.0,
+        "open_interest": 120154.0,
+        "turnover": 1078912.9625
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -20.0,
+        "near_minus_deferred_pct": -0.1413427561837456,
+        "annualized_near_deferred_pct": -1.7196702002355715,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 43.12,
+      "score_rank": 48,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "SHFE",
+      "product": "BR",
+      "product_name": "丁二烯橡胶",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "BR2610",
+        "contract_month": "2026-10-01",
+        "close": 14495.0,
+        "settle": 14760.0,
+        "pre_settle": 14670.0,
+        "close_return_pct": -1.192910702113159,
+        "settle_return_pct": 0.6134969325153339,
+        "volume": 228328.0,
+        "open_interest": 99471.0,
+        "turnover": 1685298.2075
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -5.0,
+        "near_minus_deferred_pct": -0.03387533875338753,
+        "annualized_near_deferred_pct": -0.4121499548328817,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 42.86,
+      "score_rank": 49,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "CZCE",
+      "product": "PK",
+      "product_name": "花生",
+      "sector": "软商品与特色农产品",
+      "main_contract": {
+        "contract": "PK611",
+        "contract_month": "2026-11-01",
+        "close": 8042.0,
+        "settle": 8040.0,
+        "pre_settle": 8098.0,
+        "close_return_pct": -0.6915287725364316,
+        "settle_return_pct": -0.7162262286984467,
+        "volume": 190784.0,
+        "open_interest": 252691.0,
+        "turnover": 766955.84
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -24.0,
+        "near_minus_deferred_pct": -0.2985074626865672,
+        "annualized_near_deferred_pct": -3.514684641309581,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 31
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 42.79,
+      "score_rank": 50,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
+      "exchange": "DCE",
+      "product": "B",
+      "product_name": "豆二",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "B2611",
+        "contract_month": "2026-11-01",
+        "close": 4002.0,
+        "settle": 3982.0,
+        "pre_settle": 4019.0,
+        "close_return_pct": -0.42299079372978277,
+        "settle_return_pct": -0.9206270216471801,
+        "volume": 191753.0,
+        "open_interest": 212379.0,
+        "turnover": 763736.79
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -32.0,
+        "near_minus_deferred_pct": -0.8113590263691683,
+        "annualized_near_deferred_pct": -9.871534820824882,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 42.01,
+      "score_rank": 51,
       "evidence": {
         "curve": {
           "available": true,
@@ -3127,7 +3079,7 @@
       },
       "basis": null,
       "cross_sectional_activity_score": 41.3,
-      "score_rank": 53,
+      "score_rank": 52,
       "evidence": {
         "curve": {
           "available": false,
@@ -3175,7 +3127,7 @@
       },
       "basis": null,
       "cross_sectional_activity_score": 41.3,
-      "score_rank": 54,
+      "score_rank": 53,
       "evidence": {
         "curve": {
           "available": false,
@@ -3223,7 +3175,7 @@
       },
       "basis": null,
       "cross_sectional_activity_score": 41.3,
-      "score_rank": 55,
+      "score_rank": 54,
       "evidence": {
         "curve": {
           "available": false,
@@ -3271,7 +3223,7 @@
       },
       "basis": null,
       "cross_sectional_activity_score": 41.3,
-      "score_rank": 56,
+      "score_rank": 55,
       "evidence": {
         "curve": {
           "available": false,
@@ -3319,7 +3271,7 @@
       },
       "basis": null,
       "cross_sectional_activity_score": 41.3,
-      "score_rank": 57,
+      "score_rank": 56,
       "evidence": {
         "curve": {
           "available": false,
@@ -3342,32 +3294,176 @@
     },
     {
       "exchange": "DCE",
-      "product": "P",
-      "product_name": "棕榈油",
-      "sector": "农产品、油脂油料、饲料和畜牧",
+      "product": "J",
+      "product_name": "焦炭",
+      "sector": "黑色与建材",
       "main_contract": {
-        "contract": "P2701",
+        "contract": "J2701",
         "contract_month": "2027-01-01",
-        "close": 10145.0,
-        "settle": 10178.0,
-        "pre_settle": 10146.0,
-        "close_return_pct": -0.009856100926475264,
-        "settle_return_pct": 0.31539522964714184,
-        "volume": 683275.0,
-        "open_interest": 577128.0,
-        "turnover": 6955035.6
+        "close": 2145.0,
+        "settle": 2168.0,
+        "pre_settle": 2154.5,
+        "close_return_pct": -0.4409375725226261,
+        "settle_return_pct": 0.6265954977953125,
+        "volume": 94788.0,
+        "open_interest": 66765.0,
+        "turnover": 2055360.7
       },
       "near_next_curve": {
-        "near_minus_deferred": -43.0,
-        "near_minus_deferred_pct": -0.4403030923612533,
-        "annualized_near_deferred_pct": -5.357020957061915,
+        "near_minus_deferred": -32.0,
+        "near_minus_deferred_pct": -1.4519056261343013,
+        "annualized_near_deferred_pct": -17.664851784634,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 39.22,
+      "cross_sectional_activity_score": 40.52,
+      "score_rank": 57,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "DCE",
+      "product": "RR",
+      "product_name": "粳米",
+      "sector": "农产品、油脂油料、饲料和畜牧",
+      "main_contract": {
+        "contract": "RR2610",
+        "contract_month": "2026-10-01",
+        "close": 3561.0,
+        "settle": 3563.0,
+        "pre_settle": 3583.0,
+        "close_return_pct": -0.6140106056377381,
+        "settle_return_pct": -0.558191459670665,
+        "volume": 1435.0,
+        "open_interest": 22179.0,
+        "turnover": 5113.391
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 64.0,
+        "near_minus_deferred_pct": 1.796239124333427,
+        "annualized_near_deferred_pct": 21.85424267939003,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 39.94,
       "score_rank": 58,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "SHFE",
+      "product": "AU",
+      "product_name": "黄金",
+      "sector": "有色与贵金属",
+      "main_contract": {
+        "contract": "AU2610",
+        "contract_month": "2026-10-01",
+        "close": 1004.22,
+        "settle": 1008.92,
+        "pre_settle": 999.86,
+        "close_return_pct": 0.4360610485467875,
+        "settle_return_pct": 0.9061268577600812,
+        "volume": 431132.0,
+        "open_interest": 201084.0,
+        "turnover": 43498597.38
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -2.5599999999999454,
+        "near_minus_deferred_pct": -0.253736668913288,
+        "annualized_near_deferred_pct": -3.0871294717783373,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 39.55,
+      "score_rank": 59,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "DCE",
+      "product": "PG",
+      "product_name": "液化石油气",
+      "sector": "能源与化工",
+      "main_contract": {
+        "contract": "PG2610",
+        "contract_month": "2026-10-01",
+        "close": 5853.0,
+        "settle": 5910.0,
+        "pre_settle": 5867.0,
+        "close_return_pct": -0.23862280552241488,
+        "settle_return_pct": 0.7329129026759862,
+        "volume": 130566.0,
+        "open_interest": 104790.0,
+        "turnover": 1543401.9
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -167.0,
+        "near_minus_deferred_pct": -2.8257191201353637,
+        "annualized_near_deferred_pct": -34.3795826283136,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 39.55,
+      "score_rank": 60,
       "evidence": {
         "curve": {
           "available": true,
@@ -3396,26 +3492,26 @@
       "main_contract": {
         "contract": "NI2610",
         "contract_month": "2026-10-01",
-        "close": 129860.0,
-        "settle": 130150.0,
-        "pre_settle": 128780.0,
-        "close_return_pct": 0.8386395403012781,
-        "settle_return_pct": 1.0638297872340496,
-        "volume": 156721.0,
-        "open_interest": 120687.0,
-        "turnover": 2039824.606
+        "close": 129120.0,
+        "settle": 129660.0,
+        "pre_settle": 130150.0,
+        "close_return_pct": -0.7913945447560522,
+        "settle_return_pct": -0.3764886669227807,
+        "volume": 144873.0,
+        "open_interest": 124972.0,
+        "turnover": 1878531.969
       },
       "near_next_curve": {
-        "near_minus_deferred": -250.0,
-        "near_minus_deferred_pct": -0.1920860545524395,
-        "annualized_near_deferred_pct": -2.3370469970546806,
+        "near_minus_deferred": -220.0,
+        "near_minus_deferred_pct": -0.16967453339503316,
+        "annualized_near_deferred_pct": -2.0643734896395705,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 39.09,
-      "score_rank": 59,
+      "cross_sectional_activity_score": 38.12,
+      "score_rank": 61,
       "evidence": {
         "curve": {
           "available": true,
@@ -3438,32 +3534,32 @@
     },
     {
       "exchange": "CZCE",
-      "product": "PK",
-      "product_name": "花生",
-      "sector": "软商品与特色农产品",
+      "product": "UR",
+      "product_name": "尿素",
+      "sector": "能源与化工",
       "main_contract": {
-        "contract": "PK611",
-        "contract_month": "2026-11-01",
-        "close": 8078.0,
-        "settle": 8098.0,
-        "pre_settle": 8144.0,
-        "close_return_pct": -0.8104125736738688,
-        "settle_return_pct": -0.5648330058939055,
-        "volume": 141904.0,
-        "open_interest": 237513.0,
-        "turnover": 574481.86
+        "contract": "UR701",
+        "contract_month": "2027-01-01",
+        "close": 1765.0,
+        "settle": 1762.0,
+        "pre_settle": 1775.0,
+        "close_return_pct": -0.5633802816901401,
+        "settle_return_pct": -0.7323943661971866,
+        "volume": 169413.0,
+        "open_interest": 235349.0,
+        "turnover": 597021.9
       },
       "near_next_curve": {
-        "near_minus_deferred": -16.0,
-        "near_minus_deferred_pct": -0.19757964929612248,
-        "annualized_near_deferred_pct": -2.326341032034991,
-        "curve_shape": "contango",
+        "near_minus_deferred": 2.0,
+        "near_minus_deferred_pct": 0.11668611435239205,
+        "annualized_near_deferred_pct": 1.4196810579541035,
+        "curve_shape": "backwardation",
         "price_quality": "official_settlement",
-        "calendar_days": 31
+        "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 38.96,
-      "score_rank": 60,
+      "cross_sectional_activity_score": 35.65,
+      "score_rank": 62,
       "evidence": {
         "curve": {
           "available": true,
@@ -3492,121 +3588,25 @@
       "main_contract": {
         "contract": "SM611",
         "contract_month": "2026-11-01",
-        "close": 5962.0,
+        "close": 5968.0,
         "settle": 5954.0,
-        "pre_settle": 5936.0,
-        "close_return_pct": 0.438005390835583,
-        "settle_return_pct": 0.30323450134770447,
-        "volume": 358900.0,
-        "open_interest": 410486.0,
-        "turnover": 1068194.11
+        "pre_settle": 5954.0,
+        "close_return_pct": 0.23513604299629787,
+        "settle_return_pct": 0.0,
+        "volume": 286830.0,
+        "open_interest": 400318.0,
+        "turnover": 853683.54
       },
       "near_next_curve": {
-        "near_minus_deferred": 2.0,
-        "near_minus_deferred_pct": 0.03403675970047651,
-        "annualized_near_deferred_pct": 0.41411390968913087,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 37.92,
-      "score_rank": 61,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "CZCE",
-      "product": "PF",
-      "product_name": "短纤",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "PF610",
-        "contract_month": "2026-10-01",
-        "close": 7664.0,
-        "settle": 7622.0,
-        "pre_settle": 7642.0,
-        "close_return_pct": 0.28788275320597023,
-        "settle_return_pct": -0.2617115938236103,
-        "volume": 209981.0,
-        "open_interest": 186131.0,
-        "turnover": 800163.56
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 54.0,
-        "near_minus_deferred_pct": 0.7084754657570191,
-        "annualized_near_deferred_pct": 8.619784833377066,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 37.4,
-      "score_rank": 62,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 2
-    },
-    {
-      "exchange": "GFEX",
-      "product": "PD",
-      "product_name": "钯",
-      "sector": "有色与贵金属",
-      "main_contract": {
-        "contract": "PD2610",
-        "contract_month": "2026-10-01",
-        "close": 324.6,
-        "settle": 323.1,
-        "pre_settle": 321.85,
-        "close_return_pct": 0.8544352959453105,
-        "settle_return_pct": 0.3883796799751371,
-        "volume": 5287.0,
-        "open_interest": 9935.0,
-        "turnover": 170835.44
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -2.4499999999999886,
-        "near_minus_deferred_pct": -0.7525725694977695,
-        "annualized_near_deferred_pct": -4.503098161748949,
+        "near_minus_deferred": -8.0,
+        "near_minus_deferred_pct": -0.13610071452875128,
+        "annualized_near_deferred_pct": -1.6558920267664738,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
-        "calendar_days": 61
+        "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 37.27,
+      "cross_sectional_activity_score": 34.68,
       "score_rank": 63,
       "evidence": {
         "curve": {
@@ -3630,31 +3630,31 @@
     },
     {
       "exchange": "SHFE",
-      "product": "CU",
-      "product_name": "铜",
-      "sector": "有色与贵金属",
+      "product": "OP",
+      "product_name": "胶版印刷纸",
+      "sector": "能源与化工",
       "main_contract": {
-        "contract": "CU2610",
+        "contract": "OP2610",
         "contract_month": "2026-10-01",
-        "close": 107910.0,
-        "settle": 107750.0,
-        "pre_settle": 107010.0,
-        "close_return_pct": 0.8410428931875602,
-        "settle_return_pct": 0.6915241566208818,
-        "volume": 77057.0,
-        "open_interest": 191791.0,
-        "turnover": 4151799.005
+        "close": 3872.0,
+        "settle": 3890.0,
+        "pre_settle": 3908.0,
+        "close_return_pct": -0.92118730808598,
+        "settle_return_pct": -0.46059365404298447,
+        "volume": 6148.0,
+        "open_interest": 17398.0,
+        "turnover": 95699.592
       },
       "near_next_curve": {
-        "near_minus_deferred": 170.0,
-        "near_minus_deferred_pct": 0.15777262180974477,
-        "annualized_near_deferred_pct": 1.9195668986852283,
-        "curve_shape": "backwardation",
+        "near_minus_deferred": -14.0,
+        "near_minus_deferred_pct": -0.35989717223650386,
+        "annualized_near_deferred_pct": -4.378748928877464,
+        "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 36.75,
+      "cross_sectional_activity_score": 34.61,
       "score_rank": 64,
       "evidence": {
         "curve": {
@@ -3677,6 +3677,54 @@
       "evidence_count": 1
     },
     {
+      "exchange": "CZCE",
+      "product": "CY",
+      "product_name": "棉纱",
+      "sector": "软商品与特色农产品",
+      "main_contract": {
+        "contract": "CY611",
+        "contract_month": "2026-11-01",
+        "close": 22925.0,
+        "settle": 23095.0,
+        "pre_settle": 23135.0,
+        "close_return_pct": -0.9077155824508298,
+        "settle_return_pct": -0.17289820618111573,
+        "volume": 18632.0,
+        "open_interest": 13736.0,
+        "turnover": 215138.95
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -50.0,
+        "near_minus_deferred_pct": -0.2164970772894566,
+        "annualized_near_deferred_pct": -1.2954333313221584,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 61
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 32.6,
+      "score_rank": 65,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 2
+    },
+    {
       "exchange": "DCE",
       "product": "LG",
       "product_name": "原木",
@@ -3684,26 +3732,74 @@
       "main_contract": {
         "contract": "LG2611",
         "contract_month": "2026-11-01",
-        "close": 833.0,
-        "settle": 831.5,
-        "pre_settle": 825.5,
-        "close_return_pct": 0.9085402786190189,
-        "settle_return_pct": 0.726832222895224,
-        "volume": 6046.0,
-        "open_interest": 11187.0,
-        "turnover": 45262.494
+        "close": 836.0,
+        "settle": 834.0,
+        "pre_settle": 831.5,
+        "close_return_pct": 0.541190619362597,
+        "settle_return_pct": 0.30066145520144527,
+        "volume": 4987.0,
+        "open_interest": 12153.0,
+        "turnover": 37443.618
       },
       "near_next_curve": {
-        "near_minus_deferred": -4.5,
-        "near_minus_deferred_pct": -0.5411906193625977,
-        "annualized_near_deferred_pct": -3.2382717388089866,
+        "near_minus_deferred": -6.0,
+        "near_minus_deferred_pct": -0.7194244604316548,
+        "annualized_near_deferred_pct": -4.304752918976294,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 61
       },
       "basis": null,
-      "cross_sectional_activity_score": 36.69,
-      "score_rank": 65,
+      "cross_sectional_activity_score": 32.4,
+      "score_rank": 66,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "SHFE",
+      "product": "ZN",
+      "product_name": "锌",
+      "sector": "有色与贵金属",
+      "main_contract": {
+        "contract": "ZN2610",
+        "contract_month": "2026-10-01",
+        "close": 26070.0,
+        "settle": 26055.0,
+        "pre_settle": 25955.0,
+        "close_return_pct": 0.4430745521094126,
+        "settle_return_pct": 0.38528221922558004,
+        "volume": 142232.0,
+        "open_interest": 152334.0,
+        "turnover": 1853239.06
+      },
+      "near_next_curve": {
+        "near_minus_deferred": -55.0,
+        "near_minus_deferred_pct": -0.21109192093648052,
+        "annualized_near_deferred_pct": -2.568285038060513,
+        "curve_shape": "contango",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 32.34,
+      "score_rank": 67,
       "evidence": {
         "curve": {
           "available": true,
@@ -3733,25 +3829,25 @@
         "contract": "CS2611",
         "contract_month": "2026-11-01",
         "close": 2574.0,
-        "settle": 2578.0,
-        "pre_settle": 2562.0,
-        "close_return_pct": 0.4683840749414525,
-        "settle_return_pct": 0.6245120999219367,
-        "volume": 141124.0,
-        "open_interest": 264140.0,
-        "turnover": 363832.61
+        "settle": 2573.0,
+        "pre_settle": 2578.0,
+        "close_return_pct": -0.15515903801396336,
+        "settle_return_pct": -0.19394879751745142,
+        "volume": 113630.0,
+        "open_interest": 265737.0,
+        "turnover": 292480.33
       },
       "near_next_curve": {
-        "near_minus_deferred": -8.0,
-        "near_minus_deferred_pct": -0.3103180760279286,
-        "annualized_near_deferred_pct": -1.8568212745933435,
+        "near_minus_deferred": -10.0,
+        "near_minus_deferred_pct": -0.388651379712398,
+        "annualized_near_deferred_pct": -2.3255369441807416,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 61
       },
       "basis": null,
-      "cross_sectional_activity_score": 36.56,
-      "score_rank": 66,
+      "cross_sectional_activity_score": 31.3,
+      "score_rank": 68,
       "evidence": {
         "curve": {
           "available": true,
@@ -3778,28 +3874,76 @@
       "product_name": "国际铜",
       "sector": "有色与贵金属",
       "main_contract": {
-        "contract": "BC2609",
-        "contract_month": "2026-09-01",
-        "close": 96570.0,
-        "settle": 96340.0,
-        "pre_settle": 95480.0,
-        "close_return_pct": 1.141600335148718,
-        "settle_return_pct": 0.9007121910347804,
-        "volume": 5022.0,
-        "open_interest": 10806.0,
-        "turnover": 241910.475
+        "contract": "BC2610",
+        "contract_month": "2026-10-01",
+        "close": 96550.0,
+        "settle": 96590.0,
+        "pre_settle": 96100.0,
+        "close_return_pct": 0.4682622268470382,
+        "settle_return_pct": 0.5098855359001009,
+        "volume": 4145.0,
+        "open_interest": 9867.0,
+        "turnover": 200186.54
       },
       "near_next_curve": {
-        "near_minus_deferred": 240.0,
-        "near_minus_deferred_pct": 0.2497398543184183,
-        "annualized_near_deferred_pct": 3.0385015608740895,
+        "near_minus_deferred": 290.0,
+        "near_minus_deferred_pct": 0.30023811988818716,
+        "annualized_near_deferred_pct": 3.652897125306277,
         "curve_shape": "backwardation",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 34.87,
-      "score_rank": 67,
+      "cross_sectional_activity_score": 25.19,
+      "score_rank": 69,
+      "evidence": {
+        "curve": {
+          "available": true,
+          "quality": "official_settlement"
+        },
+        "basis": {
+          "available": false,
+          "quality": null
+        },
+        "warehouse": {
+          "available": false,
+          "quality": null
+        },
+        "options": {
+          "available": false,
+          "quality": null
+        }
+      },
+      "evidence_count": 1
+    },
+    {
+      "exchange": "SHFE",
+      "product": "CU",
+      "product_name": "铜",
+      "sector": "有色与贵金属",
+      "main_contract": {
+        "contract": "CU2610",
+        "contract_month": "2026-10-01",
+        "close": 107980.0,
+        "settle": 108160.0,
+        "pre_settle": 107750.0,
+        "close_return_pct": 0.2134570765661259,
+        "settle_return_pct": 0.38051044083526886,
+        "volume": 78507.0,
+        "open_interest": 204454.0,
+        "turnover": 4245776.205
+      },
+      "near_next_curve": {
+        "near_minus_deferred": 160.0,
+        "near_minus_deferred_pct": 0.14792899408284024,
+        "annualized_near_deferred_pct": 1.799802761341223,
+        "curve_shape": "backwardation",
+        "price_quality": "official_settlement",
+        "calendar_days": 30
+      },
+      "basis": null,
+      "cross_sectional_activity_score": 24.03,
+      "score_rank": 70,
       "evidence": {
         "curve": {
           "available": true,
@@ -3828,169 +3972,25 @@
       "main_contract": {
         "contract": "AL2610",
         "contract_month": "2026-10-01",
-        "close": 23765.0,
-        "settle": 23785.0,
-        "pre_settle": 23620.0,
-        "close_return_pct": 0.6138865368331858,
-        "settle_return_pct": 0.6985605419136398,
-        "volume": 143183.0,
-        "open_interest": 263702.0,
-        "turnover": 1703076.405
+        "close": 23755.0,
+        "settle": 23800.0,
+        "pre_settle": 23785.0,
+        "close_return_pct": -0.12612991381122374,
+        "settle_return_pct": 0.06306495690562297,
+        "volume": 175448.0,
+        "open_interest": 268447.0,
+        "turnover": 2088166.7925
       },
       "near_next_curve": {
-        "near_minus_deferred": -5.0,
-        "near_minus_deferred_pct": -0.02102165230187093,
-        "annualized_near_deferred_pct": -0.25576343633942966,
+        "near_minus_deferred": -15.0,
+        "near_minus_deferred_pct": -0.06302521008403361,
+        "annualized_near_deferred_pct": -0.7668067226890757,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 33.57,
-      "score_rank": 68,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "SHFE",
-      "product": "AO",
-      "product_name": "氧化铝",
-      "sector": "有色与贵金属",
-      "main_contract": {
-        "contract": "AO2610",
-        "contract_month": "2026-10-01",
-        "close": 2690.0,
-        "settle": 2702.0,
-        "pre_settle": 2685.0,
-        "close_return_pct": 0.18621973929235924,
-        "settle_return_pct": 0.6331471135940347,
-        "volume": 209342.0,
-        "open_interest": 271274.0,
-        "turnover": 1131645.73
-      },
-      "near_next_curve": {
-        "near_minus_deferred": -8.0,
-        "near_minus_deferred_pct": -0.2960769800148038,
-        "annualized_near_deferred_pct": -3.6022699235134468,
-        "curve_shape": "contango",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 31.49,
-      "score_rank": 69,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "DCE",
-      "product": "BZ",
-      "product_name": "纯苯",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "BZ2610",
-        "contract_month": "2026-10-01",
-        "close": 7593.0,
-        "settle": 7619.0,
-        "pre_settle": 7606.0,
-        "close_return_pct": -0.1709176965553505,
-        "settle_return_pct": 0.1709176965553505,
-        "volume": 31017.0,
-        "open_interest": 26843.0,
-        "turnover": 708990.76
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 220.0,
-        "near_minus_deferred_pct": 2.8875180469877937,
-        "annualized_near_deferred_pct": 35.13146957168482,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 30.65,
-      "score_rank": 70,
-      "evidence": {
-        "curve": {
-          "available": true,
-          "quality": "official_settlement"
-        },
-        "basis": {
-          "available": false,
-          "quality": null
-        },
-        "warehouse": {
-          "available": false,
-          "quality": null
-        },
-        "options": {
-          "available": false,
-          "quality": null
-        }
-      },
-      "evidence_count": 1
-    },
-    {
-      "exchange": "CZCE",
-      "product": "UR",
-      "product_name": "尿素",
-      "sector": "能源与化工",
-      "main_contract": {
-        "contract": "UR701",
-        "contract_month": "2027-01-01",
-        "close": 1777.0,
-        "settle": 1775.0,
-        "pre_settle": 1772.0,
-        "close_return_pct": 0.2821670428893919,
-        "settle_return_pct": 0.16930022573362624,
-        "volume": 162236.0,
-        "open_interest": 243822.0,
-        "turnover": 575782.35
-      },
-      "near_next_curve": {
-        "near_minus_deferred": 2.0,
-        "near_minus_deferred_pct": 0.11587485515643105,
-        "annualized_near_deferred_pct": 1.4098107377365778,
-        "curve_shape": "backwardation",
-        "price_quality": "official_settlement",
-        "calendar_days": 30
-      },
-      "basis": null,
-      "cross_sectional_activity_score": 28.12,
+      "cross_sectional_activity_score": 23.96,
       "score_rank": 71,
       "evidence": {
         "curve": {
@@ -4002,43 +4002,43 @@
           "quality": null
         },
         "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
+          "available": false,
+          "quality": null
         },
         "options": {
           "available": false,
           "quality": null
         }
       },
-      "evidence_count": 2
+      "evidence_count": 1
     },
     {
-      "exchange": "SHFE",
-      "product": "PB",
-      "product_name": "铅",
-      "sector": "有色与贵金属",
+      "exchange": "INE",
+      "product": "NR",
+      "product_name": "20号胶",
+      "sector": "能源与化工",
       "main_contract": {
-        "contract": "PB2610",
+        "contract": "NR2610",
         "contract_month": "2026-10-01",
-        "close": 16165.0,
-        "settle": 16155.0,
-        "pre_settle": 16085.0,
-        "close_return_pct": 0.49735778675785713,
-        "settle_return_pct": 0.43518806341311667,
-        "volume": 71717.0,
-        "open_interest": 77170.0,
-        "turnover": 579419.0425
+        "close": 15560.0,
+        "settle": 15690.0,
+        "pre_settle": 15575.0,
+        "close_return_pct": -0.09630818619582593,
+        "settle_return_pct": 0.7383627608346766,
+        "volume": 82608.0,
+        "open_interest": 53819.0,
+        "turnover": 1296261.85
       },
       "near_next_curve": {
-        "near_minus_deferred": -30.0,
-        "near_minus_deferred_pct": -0.18570102135561745,
-        "annualized_near_deferred_pct": -2.259362426493346,
+        "near_minus_deferred": -100.0,
+        "near_minus_deferred_pct": -0.6373486297004461,
+        "annualized_near_deferred_pct": -7.754408328022095,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 27.79,
+      "cross_sectional_activity_score": 23.9,
       "score_rank": 72,
       "evidence": {
         "curve": {
@@ -4061,32 +4061,32 @@
       "evidence_count": 1
     },
     {
-      "exchange": "SHFE",
-      "product": "SS",
-      "product_name": "不锈钢",
-      "sector": "有色与贵金属",
+      "exchange": "CZCE",
+      "product": "RS",
+      "product_name": "油菜籽",
+      "sector": "农产品、油脂油料、饲料和畜牧",
       "main_contract": {
-        "contract": "SS2610",
-        "contract_month": "2026-10-01",
-        "close": 14215.0,
-        "settle": 14250.0,
-        "pre_settle": 14190.0,
-        "close_return_pct": 0.17618040873854657,
-        "settle_return_pct": 0.42283298097252064,
-        "volume": 150271.0,
-        "open_interest": 112108.0,
-        "turnover": 1070800.06
+        "contract": "RS609",
+        "contract_month": "2026-09-01",
+        "close": 5770.0,
+        "settle": 5761.0,
+        "pre_settle": 5764.0,
+        "close_return_pct": 0.1040943789035298,
+        "settle_return_pct": -0.0520471894517649,
+        "volume": 14.0,
+        "open_interest": 38.0,
+        "turnover": 80.65
       },
       "near_next_curve": {
-        "near_minus_deferred": -30.0,
-        "near_minus_deferred_pct": -0.21052631578947367,
-        "annualized_near_deferred_pct": -2.56140350877193,
-        "curve_shape": "contango",
+        "near_minus_deferred": 72.0,
+        "near_minus_deferred_pct": 1.2656002812445069,
+        "annualized_near_deferred_pct": 7.5728541418728685,
+        "curve_shape": "backwardation",
         "price_quality": "official_settlement",
-        "calendar_days": 30
+        "calendar_days": 61
       },
       "basis": null,
-      "cross_sectional_activity_score": 24.29,
+      "cross_sectional_activity_score": 22.4,
       "score_rank": 73,
       "evidence": {
         "curve": {
@@ -4098,43 +4098,43 @@
           "quality": null
         },
         "warehouse": {
-          "available": false,
-          "quality": null
+          "available": true,
+          "quality": "official_as_published_unit_unstandardized"
         },
         "options": {
           "available": false,
           "quality": null
         }
       },
-      "evidence_count": 1
+      "evidence_count": 2
     },
     {
       "exchange": "SHFE",
-      "product": "OP",
-      "product_name": "胶版印刷纸",
+      "product": "RU",
+      "product_name": "天然橡胶",
       "sector": "能源与化工",
       "main_contract": {
-        "contract": "OP2610",
-        "contract_month": "2026-10-01",
-        "close": 3904.0,
-        "settle": 3908.0,
-        "pre_settle": 3896.0,
-        "close_return_pct": 0.2053388090349051,
-        "settle_return_pct": 0.30800821355236874,
-        "volume": 6905.0,
-        "open_interest": 18067.0,
-        "turnover": 107972.672
+        "contract": "RU2701",
+        "contract_month": "2027-01-01",
+        "close": 18545.0,
+        "settle": 18685.0,
+        "pre_settle": 18550.0,
+        "close_return_pct": -0.026954177897575704,
+        "settle_return_pct": 0.7277628032344996,
+        "volume": 278638.0,
+        "open_interest": 146693.0,
+        "turnover": 5207478.48
       },
       "near_next_curve": {
-        "near_minus_deferred": -20.0,
-        "near_minus_deferred_pct": -0.511770726714432,
-        "annualized_near_deferred_pct": -6.226543841692256,
+        "near_minus_deferred": -10.0,
+        "near_minus_deferred_pct": -0.056449336720293536,
+        "annualized_near_deferred_pct": -0.6868002634302381,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 22.34,
+      "cross_sectional_activity_score": 21.49,
       "score_rank": 74,
       "evidence": {
         "curve": {
@@ -4164,25 +4164,25 @@
       "main_contract": {
         "contract": "SN2610",
         "contract_month": "2026-10-01",
-        "close": 427590.0,
-        "settle": 427000.0,
-        "pre_settle": 428240.0,
-        "close_return_pct": -0.15178404632916198,
-        "settle_return_pct": -0.28955725761254936,
-        "volume": 83484.0,
-        "open_interest": 36302.0,
-        "turnover": 3564793.77
+        "close": 425460.0,
+        "settle": 426080.0,
+        "pre_settle": 427000.0,
+        "close_return_pct": -0.360655737704918,
+        "settle_return_pct": -0.21545667447306904,
+        "volume": 82221.0,
+        "open_interest": 38734.0,
+        "turnover": 3503314.089
       },
       "near_next_curve": {
-        "near_minus_deferred": -300.0,
-        "near_minus_deferred_pct": -0.0702576112412178,
-        "annualized_near_deferred_pct": -0.8548009367681498,
+        "near_minus_deferred": -430.0,
+        "near_minus_deferred_pct": -0.10092001502065341,
+        "annualized_near_deferred_pct": -1.2278601827512832,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 14.68,
+      "cross_sectional_activity_score": 21.43,
       "score_rank": 75,
       "evidence": {
         "curve": {
@@ -4212,25 +4212,25 @@
       "main_contract": {
         "contract": "AD2610",
         "contract_month": "2026-10-01",
-        "close": 22995.0,
-        "settle": 23020.0,
-        "pre_settle": 22955.0,
-        "close_return_pct": 0.17425397516881436,
-        "settle_return_pct": 0.28316270964932055,
-        "volume": 5919.0,
-        "open_interest": 18012.0,
-        "turnover": 136268.52
+        "close": 23080.0,
+        "settle": 23145.0,
+        "pre_settle": 23020.0,
+        "close_return_pct": 0.26064291920069316,
+        "settle_return_pct": 0.543006081668107,
+        "volume": 8016.0,
+        "open_interest": 16992.0,
+        "turnover": 185556.015
       },
       "near_next_curve": {
-        "near_minus_deferred": -30.0,
-        "near_minus_deferred_pct": -0.13032145960034752,
-        "annualized_near_deferred_pct": -1.585577758470895,
+        "near_minus_deferred": -65.0,
+        "near_minus_deferred_pct": -0.28083819399438326,
+        "annualized_near_deferred_pct": -3.4168646935983293,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
         "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 12.47,
+      "cross_sectional_activity_score": 21.17,
       "score_rank": 76,
       "evidence": {
         "curve": {
@@ -4253,32 +4253,32 @@
       "evidence_count": 1
     },
     {
-      "exchange": "CZCE",
-      "product": "CY",
-      "product_name": "棉纱",
-      "sector": "软商品与特色农产品",
+      "exchange": "SHFE",
+      "product": "PB",
+      "product_name": "铅",
+      "sector": "有色与贵金属",
       "main_contract": {
-        "contract": "CY611",
-        "contract_month": "2026-11-01",
-        "close": 23070.0,
-        "settle": 23135.0,
-        "pre_settle": 23095.0,
-        "close_return_pct": -0.1082485386447285,
-        "settle_return_pct": 0.17319766183157004,
-        "volume": 10748.0,
-        "open_interest": 14125.0,
-        "turnover": 124340.34
+        "contract": "PB2610",
+        "contract_month": "2026-10-01",
+        "close": 16130.0,
+        "settle": 16085.0,
+        "pre_settle": 16155.0,
+        "close_return_pct": -0.15475085112968134,
+        "settle_return_pct": -0.4333023831631033,
+        "volume": 60348.0,
+        "open_interest": 74768.0,
+        "turnover": 485440.5825
       },
       "near_next_curve": {
         "near_minus_deferred": -25.0,
-        "near_minus_deferred_pct": -0.1080613788631943,
-        "annualized_near_deferred_pct": -0.646596775165015,
+        "near_minus_deferred_pct": -0.1554243083618278,
+        "annualized_near_deferred_pct": -1.8909957517355716,
         "curve_shape": "contango",
         "price_quality": "official_settlement",
-        "calendar_days": 61
+        "calendar_days": 30
       },
       "basis": null,
-      "cross_sectional_activity_score": 11.17,
+      "cross_sectional_activity_score": 19.55,
       "score_rank": 77,
       "evidence": {
         "curve": {
@@ -4290,24 +4290,24 @@
           "quality": null
         },
         "warehouse": {
-          "available": true,
-          "quality": "official_as_published_unit_unstandardized"
+          "available": false,
+          "quality": null
         },
         "options": {
           "available": false,
           "quality": null
         }
       },
-      "evidence_count": 2
+      "evidence_count": 1
     }
   ],
   "warehouse_inventory": [
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "CF",
-      "warehouse_quantity": 9272.0,
-      "warehouse_change": -54.0,
+      "warehouse_quantity": 9232.0,
+      "warehouse_change": -40.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4315,11 +4315,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "CJ",
-      "warehouse_quantity": 8113.0,
-      "warehouse_change": -8.0,
+      "warehouse_quantity": 8049.0,
+      "warehouse_change": -64.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4327,7 +4327,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "CY",
       "warehouse_quantity": 13.0,
@@ -4339,11 +4339,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "FG",
-      "warehouse_quantity": 1288.0,
-      "warehouse_change": -8.0,
+      "warehouse_quantity": 1284.0,
+      "warehouse_change": -4.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4351,7 +4351,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "JR",
       "warehouse_quantity": 0.0,
@@ -4363,7 +4363,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "LR",
       "warehouse_quantity": 0.0,
@@ -4375,7 +4375,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "OI",
       "warehouse_quantity": 944.0,
@@ -4387,11 +4387,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "PF",
       "warehouse_quantity": 2057.0,
-      "warehouse_change": -261.0,
+      "warehouse_change": 0.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4399,7 +4399,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "PK",
       "warehouse_quantity": 0.0,
@@ -4411,7 +4411,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "PL",
       "warehouse_quantity": 259.0,
@@ -4423,7 +4423,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "PM",
       "warehouse_quantity": 0.0,
@@ -4435,7 +4435,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "PR",
       "warehouse_quantity": 9.0,
@@ -4447,7 +4447,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "PX",
       "warehouse_quantity": 0.0,
@@ -4459,7 +4459,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "RI",
       "warehouse_quantity": 0.0,
@@ -4471,11 +4471,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "RM",
-      "warehouse_quantity": 6238.0,
-      "warehouse_change": 0.0,
+      "warehouse_quantity": 5546.0,
+      "warehouse_change": -692.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4483,7 +4483,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "RS",
       "warehouse_quantity": 0.0,
@@ -4495,11 +4495,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "SA",
-      "warehouse_quantity": 7532.0,
-      "warehouse_change": -59.0,
+      "warehouse_quantity": 7568.0,
+      "warehouse_change": 36.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4507,11 +4507,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "SF",
-      "warehouse_quantity": 4623.0,
-      "warehouse_change": -80.0,
+      "warehouse_quantity": 4583.0,
+      "warehouse_change": -40.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4519,11 +4519,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "SH",
-      "warehouse_quantity": 270.0,
-      "warehouse_change": -170.0,
+      "warehouse_quantity": 255.0,
+      "warehouse_change": -15.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4531,11 +4531,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "SM",
-      "warehouse_quantity": 60338.0,
-      "warehouse_change": -551.0,
+      "warehouse_quantity": 59885.0,
+      "warehouse_change": -453.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4543,11 +4543,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "SR",
-      "warehouse_quantity": 22560.0,
-      "warehouse_change": -7.0,
+      "warehouse_quantity": 22410.0,
+      "warehouse_change": -150.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -4555,7 +4555,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "UR",
       "warehouse_quantity": 5224.0,
@@ -4567,7 +4567,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "CZCE",
       "product": "ZC",
       "warehouse_quantity": 0.0,
@@ -4579,11 +4579,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "GFEX",
       "product": "LC",
-      "warehouse_quantity": 41290.0,
-      "warehouse_change": 1686.0,
+      "warehouse_quantity": 41940.0,
+      "warehouse_change": 1620.0,
       "source_unit": "as_published",
       "quantity_column": "今日仓单量",
       "aggregation_method": "sum_rows",
@@ -4591,7 +4591,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "GFEX",
       "product": "PD",
       "warehouse_quantity": 5447.0,
@@ -4603,11 +4603,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "GFEX",
       "product": "PS",
-      "warehouse_quantity": 23180.0,
-      "warehouse_change": 350.0,
+      "warehouse_quantity": 23250.0,
+      "warehouse_change": 170.0,
       "source_unit": "as_published",
       "quantity_column": "今日仓单量",
       "aggregation_method": "sum_rows",
@@ -4615,10 +4615,10 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "GFEX",
       "product": "PT",
-      "warehouse_quantity": 5155.0,
+      "warehouse_quantity": 5123.0,
       "warehouse_change": 0.0,
       "source_unit": "as_published",
       "quantity_column": "今日仓单量",
@@ -4627,7 +4627,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "exchange": "GFEX",
       "product": "SI",
       "warehouse_quantity": 33535.0,
@@ -4646,7 +4646,7 @@
       "dataset": "futures",
       "scope": "SHFE",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "cmd_history_quotation",
       "records": 238,
       "error": null,
@@ -4654,19 +4654,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:05.398937+08:00",
+      "fetched_at": "2026-08-25T18:50:06.228711+08:00",
       "source_endpoint": "cmd_history_quotation",
-      "raw_payload_sha256": "300e82c9deeda5838a213b20c50527ccad26cdcc87258518f15b607637493403",
+      "raw_payload_sha256": "9135af792fb01955c7e4bec9fa48f87cfdb1970056c13e9a648e2a7af2820428",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
     },
     {
       "dataset": "futures",
       "scope": "INE",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "cmd_history_quotation",
       "records": 64,
       "error": null,
@@ -4674,19 +4674,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:06.355891+08:00",
+      "fetched_at": "2026-08-25T18:50:07.386729+08:00",
       "source_endpoint": "cmd_history_quotation",
-      "raw_payload_sha256": "e47f9412a06cdc86ac6061fe6520be232fe8c64b1544a9be34d09a4d59a18dc2",
+      "raw_payload_sha256": "a1f135e043c41f7529434714766b0df6a67a01b22a52384ee7a2ac59509dddc8",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
     },
     {
       "dataset": "futures",
       "scope": "DCE",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "cmd_history_quotation",
       "records": 214,
       "error": null,
@@ -4694,19 +4694,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:10.273291+08:00",
+      "fetched_at": "2026-08-25T18:50:12.056687+08:00",
       "source_endpoint": "cmd_history_quotation",
-      "raw_payload_sha256": "acbb3a352094990c6a3c2d3a71760b38c820b982777949a95ec1db170c51eaaa",
+      "raw_payload_sha256": "c4f0e4300b08d6279d9c2b6c5db27c2008f4d22a9431a96cba246d7e9bc13667",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
     },
     {
       "dataset": "futures",
       "scope": "CZCE",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "cmd_history_quotation",
       "records": 239,
       "error": null,
@@ -4714,19 +4714,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:15.068367+08:00",
+      "fetched_at": "2026-08-25T18:50:17.890763+08:00",
       "source_endpoint": "cmd_history_quotation",
-      "raw_payload_sha256": "575be79e72fc8900ce27657f8893186e41a4b3a09717a9826d4ada889b93471f",
+      "raw_payload_sha256": "c019f20fe72ff0a49ffb59d22b77c158b71d1b2bf5aae1ed897c754dcdbba4f9",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
     },
     {
       "dataset": "futures",
       "scope": "GFEX",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "cmd_history_quotation",
       "records": 48,
       "error": null,
@@ -4734,19 +4734,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:16.133809+08:00",
+      "fetched_at": "2026-08-25T18:50:19.039036+08:00",
       "source_endpoint": "cmd_history_quotation",
-      "raw_payload_sha256": "493fb2eba73ad9433c179387a4352aba31ed9de34bd1451ae06f41ace129886b",
+      "raw_payload_sha256": "0334a0f750a9d3a5a05f8cff1bd3d81e1dc87d9da165c1a70b04d34ccd15fcda",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
     },
     {
       "dataset": "basis",
       "scope": "full-market",
       "state": "skipped",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "not_yet_mapped",
       "records": 0,
       "error": "iFinD report/indicator mapping and entitlement are not yet verified for this module",
@@ -4754,7 +4754,7 @@
       "is_fresh": false,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
       "source_trade_date": null,
       "source_date_match": null,
       "fetched_at": null,
@@ -4766,7 +4766,7 @@
       "dataset": "member_rankings",
       "scope": "full-market",
       "state": "skipped",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "not_yet_mapped",
       "records": 0,
       "error": "iFinD report/indicator mapping and entitlement are not yet verified for this module",
@@ -4774,7 +4774,7 @@
       "is_fresh": false,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
       "source_trade_date": null,
       "source_date_match": null,
       "fetched_at": null,
@@ -4786,7 +4786,7 @@
       "dataset": "options",
       "scope": "full-market",
       "state": "skipped",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "not_yet_mapped",
       "records": 0,
       "error": "iFinD report/indicator mapping and entitlement are not yet verified for this module",
@@ -4794,7 +4794,7 @@
       "is_fresh": false,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
       "source_trade_date": null,
       "source_date_match": null,
       "fetched_at": null,
@@ -4806,7 +4806,7 @@
       "dataset": "option_volatility",
       "scope": "full-market",
       "state": "skipped",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "not_yet_mapped",
       "records": 0,
       "error": "iFinD report/indicator mapping and entitlement are not yet verified for this module",
@@ -4814,7 +4814,7 @@
       "is_fresh": false,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
       "source_trade_date": null,
       "source_date_match": null,
       "fetched_at": null,
@@ -4826,7 +4826,7 @@
       "dataset": "contract_info",
       "scope": "SHFE",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_contract_info_shfe",
       "records": 302,
       "error": null,
@@ -4834,19 +4834,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:17.162947+08:00",
+      "fetched_at": "2026-08-25T18:50:20.325472+08:00",
       "source_endpoint": "futures_contract_info_shfe",
-      "raw_payload_sha256": "af3eda02e8871ac9ea9284c4f08a1ea3cded457265011daafbbafcc96ad07da3",
+      "raw_payload_sha256": "3b305b3922a7ee19fe7726cb9385dd816e23ee2ffffd8d300f061925a65a3436",
       "schema_signature": "16e32fdc8a53419141e48af17984ced61238dde5dc2974094389725bb932e004"
     },
     {
       "dataset": "contract_info",
       "scope": "INE",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_contract_info_ine",
       "records": 64,
       "error": null,
@@ -4854,19 +4854,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:19.260945+08:00",
+      "fetched_at": "2026-08-25T18:50:21.631132+08:00",
       "source_endpoint": "futures_contract_info_ine",
-      "raw_payload_sha256": "e11b6b9da57e49544ce97247adbf9c6fc0319015b5dfc841134d9390c6af4487",
+      "raw_payload_sha256": "1f9e06acfb8415dc0d7413263a6dedca9abce5d23b850774175f808e85bbeaae",
       "schema_signature": "4d9f7ff45700b3258d3afdf4170eaae0867f67ec5667b17ffc9827bdb5034394"
     },
     {
       "dataset": "contract_info",
       "scope": "DCE",
       "state": "error",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_contract_info_dce",
       "records": 0,
       "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
@@ -4874,10 +4874,10 @@
       "is_fresh": false,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-08-24T18:54:19.962492+08:00",
+      "fetched_at": "2026-08-25T18:50:22.449785+08:00",
       "source_endpoint": "futures_contract_info_dce",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -4886,7 +4886,7 @@
       "dataset": "contract_info",
       "scope": "CZCE",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_contract_info_czce",
       "records": 239,
       "error": null,
@@ -4894,19 +4894,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:24.533626+08:00",
+      "fetched_at": "2026-08-25T18:50:27.562346+08:00",
       "source_endpoint": "futures_contract_info_czce",
-      "raw_payload_sha256": "87d3817af147b5189b44f8412dd1a59f580735428652f72cac4b8bdd599ed77e",
+      "raw_payload_sha256": "8a3597885faeb74eabf12997bcb5a9dfb9db28cd27466c163afc4f5d88f3f39d",
       "schema_signature": "2d3de8eb6df57fb7689dd7f2a1a76e4d7a283e3817539b3cf492512a8d98a2a2"
     },
     {
       "dataset": "contract_info",
       "scope": "GFEX",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_contract_info_gfex",
       "records": 48,
       "error": null,
@@ -4914,10 +4914,10 @@
       "is_fresh": false,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
       "source_trade_date": null,
       "source_date_match": false,
-      "fetched_at": "2026-08-24T18:54:26.652717+08:00",
+      "fetched_at": "2026-08-25T18:50:29.925297+08:00",
       "source_endpoint": "futures_contract_info_gfex",
       "raw_payload_sha256": "3f15c5cdf21d253a024a7312574bafc94eb3644d1d8eb949f052b8f19aa76b2d",
       "schema_signature": "b48e14460e9a8d6afb5a3dbf5f6dfef80a1ae097a0ca8e225a845a25caf544e9"
@@ -4926,18 +4926,18 @@
       "dataset": "warehouse",
       "scope": "SHFE",
       "state": "error",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_shfe_warehouse_receipt",
       "records": 0,
-      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+      "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
       "upstream_source": "SHFE",
       "is_fresh": false,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-08-24T18:54:27.490853+08:00",
+      "fetched_at": "2026-08-25T18:50:34.351014+08:00",
       "source_endpoint": "futures_shfe_warehouse_receipt",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -4946,7 +4946,7 @@
       "dataset": "warehouse",
       "scope": "DCE",
       "state": "error",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_warehouse_receipt_dce",
       "records": 0,
       "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
@@ -4954,10 +4954,10 @@
       "is_fresh": false,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-08-24T18:54:27.974876+08:00",
+      "fetched_at": "2026-08-25T18:50:35.267855+08:00",
       "source_endpoint": "futures_warehouse_receipt_dce",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -4966,7 +4966,7 @@
       "dataset": "warehouse",
       "scope": "CZCE",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_warehouse_receipt_czce",
       "records": 23,
       "error": null,
@@ -4974,19 +4974,19 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:34.333673+08:00",
+      "fetched_at": "2026-08-25T18:50:39.134617+08:00",
       "source_endpoint": "futures_warehouse_receipt_czce",
-      "raw_payload_sha256": "e436d91e0ede1c24c64bf3f17a3622a03b8f189477fa6b3fd5eeafc9ddda973b",
+      "raw_payload_sha256": "55d9aff6fc79265b32045bc55142d7f08e5834c1c914a991f53a3e5f70a78e04",
       "schema_signature": "242b61ed6c8aa193512c2ed0ffc8c2fa985c3849133cf86ba20a669adca8400f"
     },
     {
       "dataset": "warehouse",
       "scope": "GFEX",
       "state": "ok",
-      "trade_date": "2026-08-24",
+      "trade_date": "2026-08-25",
       "source_function": "futures_gfex_warehouse_receipt",
       "records": 5,
       "error": null,
@@ -4994,12 +4994,12 @@
       "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
-      "requested_trade_date": "2026-08-24",
-      "source_trade_date": "2026-08-24",
+      "requested_trade_date": "2026-08-25",
+      "source_trade_date": "2026-08-25",
       "source_date_match": true,
-      "fetched_at": "2026-08-24T18:54:36.343936+08:00",
+      "fetched_at": "2026-08-25T18:50:40.176180+08:00",
       "source_endpoint": "futures_gfex_warehouse_receipt",
-      "raw_payload_sha256": "39535d33e78b0d2cedfd7124cfa63108ec521dc2ea0718eb0af27bfaffc7f554",
+      "raw_payload_sha256": "e9c71baa02e929592968b11003f31d13929c04694f4ad6a82c613328379be071",
       "schema_signature": "10f5a871e30d39e04f145ae9a1cf30127750b77e659744db0c6df198b3842bea"
     }
   ],
