@@ -81,7 +81,12 @@ def verified_night_session_available(
     data_dir: str | Path,
     trading_date: str,
 ) -> bool:
-    """Return true only for a complete, timestamp-validated night snapshot."""
+    """Return true for a usable timestamp-validated night snapshot.
+
+    The collection is intentionally best-effort: a partial snapshot with at
+    least one fresh night quote is reusable, while coverage diagnostics retain
+    any individual contracts iFinD could not classify.
+    """
 
     root = Path(data_dir) / "night_session"
     snapshot = _mapping(read_json(root / "latest.json", default={}))
@@ -96,7 +101,6 @@ def verified_night_session_available(
         and status.get("validation_passed") is True
         and status.get("published") is True
         and int(coverage.get("night_session_contract_count") or 0) > 0
-        and int(coverage.get("unresolved_contract_count") or 0) == 0
         and snapshot.get("records")
     )
 

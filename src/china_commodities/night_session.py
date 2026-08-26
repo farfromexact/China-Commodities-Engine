@@ -446,15 +446,18 @@ def collect_night_session(
         )
 
     coverage = _coverage(records, len(request_contexts))
-    data_fresh = bool(
-        coverage["night_session_contract_count"]
-        and coverage["unresolved_contract_count"] == 0
-    )
+    # A night session is usable when iFinD has supplied at least one
+    # timestamp-validated night quote. Sparse/dead contracts and isolated
+    # per-contract errors remain visible in coverage, but must not discard the
+    # valid part of the completed session or trigger duplicate collection.
+    data_fresh = bool(coverage["night_session_contract_count"])
+    coverage_complete = coverage["unresolved_contract_count"] == 0
     validation_errors: list[str] = []
+    coverage_warnings: list[str] = []
     if not coverage["night_session_contract_count"]:
         validation_errors.append("no concrete contract has a quote in the completed night-session window")
     if coverage["unresolved_contract_count"]:
-        validation_errors.append(
+        coverage_warnings.append(
             f"{coverage['unresolved_contract_count']} concrete contracts are unresolved"
         )
     snapshot = {
@@ -487,6 +490,8 @@ def collect_night_session(
         "validation_passed": not validation_errors,
         "published": published,
         "coverage": coverage,
+        "coverage_complete": coverage_complete,
+        "coverage_warnings": coverage_warnings,
         "validation_errors": validation_errors,
         "previous_valid_snapshot_retained": bool(prior_latest and not published),
     }

@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from china_commodities.collection_cache import verified_night_session_available
 from china_commodities.night_session import collect_night_session
 
 
@@ -74,9 +75,8 @@ class NightSessionTests(unittest.TestCase):
                     },
                     {
                         "thscode": "JD2609.DCE",
-                        "time": "2026-08-25 23:00:00",
-                        "settlement": 3510,
-                        "preSettlement": 3510,
+                        "time": "2026-08-25 15:00:00",
+                        "latest": 3520,
                     },
                 ]
             )
@@ -119,8 +119,9 @@ class NightSessionTests(unittest.TestCase):
                     },
                     {
                         "thscode": "JD2609.DCE",
-                        "time": "2026-08-25 15:00:00",
-                        "latest": 3520,
+                        "time": "2026-08-25 23:00:00",
+                        "settlement": 3510,
+                        "preSettlement": 3510,
                     },
                 ]
             )
@@ -135,6 +136,32 @@ class NightSessionTests(unittest.TestCase):
             self.assertEqual(result["status"]["coverage"]["request_contract_count"], 0)
             self.assertEqual(result["status"]["coverage"]["cache_hit_count"], 2)
             self.assertEqual(result["status"]["coverage"]["no_night_trade_count"], 1)
+
+    def test_partial_valid_night_snapshot_is_accepted_without_retry_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            _write_daily_snapshot(root)
+            result = collect_night_session(
+                "2026-08-26",
+                data_dir=root,
+                client=FakeClient(
+                    [
+                        {
+                            "thscode": "CU2609.SHF",
+                            "time": "2026-08-26 02:30:00",
+                            "latest": 80400,
+                            "preSettlement": 80000,
+                        }
+                    ]
+                ),
+            )
+
+            self.assertTrue(result["status"]["data_fresh"])
+            self.assertTrue(result["status"]["validation_passed"])
+            self.assertTrue(result["status"]["published"])
+            self.assertFalse(result["status"]["coverage_complete"])
+            self.assertEqual(result["status"]["coverage"]["missing_quote_count"], 1)
+            self.assertTrue(verified_night_session_available(root, "2026-08-26"))
 
     def test_daytime_quote_does_not_replace_previous_valid_night_snapshot(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
