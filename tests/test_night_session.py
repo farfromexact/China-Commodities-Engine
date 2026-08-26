@@ -104,6 +104,54 @@ class NightSessionTests(unittest.TestCase):
             self.assertEqual(cu["record_state"], "night_session")
             self.assertAlmostEqual(cu["night_return_pct"], 0.5)
             self.assertTrue((root / "night_session" / "history.parquet").exists())
+            self.assertEqual(
+                set(result["derivatives"]["updated_files"]),
+                {
+                    "contract_meta.json",
+                    "last_run_status.json",
+                    "latest.json",
+                    "market_state_latest.json",
+                    "radar_history.json",
+                    "radar_latest.json",
+                },
+            )
+
+            latest = json.loads((root / "latest.json").read_text(encoding="utf-8"))
+            market_state = json.loads(
+                (root / "market_state_latest.json").read_text(encoding="utf-8")
+            )
+            radar_latest = json.loads(
+                (root / "radar_latest.json").read_text(encoding="utf-8")
+            )
+            radar_history = json.loads(
+                (root / "radar_history.json").read_text(encoding="utf-8")
+            )
+            top_status = json.loads(
+                (root / "last_run_status.json").read_text(encoding="utf-8")
+            )
+            contract_meta = json.loads(
+                (root / "contract_meta.json").read_text(encoding="utf-8")
+            )
+
+            self.assertEqual(latest["trade_date"], "2026-08-25")
+            self.assertEqual(latest["night_session"]["trading_date"], "2026-08-26")
+            self.assertEqual(latest["night_session"]["record_count"], 1)
+            self.assertEqual(
+                market_state["night_session"]["records"][0]["contract"], "CU2609"
+            )
+            self.assertEqual(
+                radar_latest["night_session"]["records"][0]["night_close"], 80400.0
+            )
+            self.assertEqual(top_status["night_session"]["record_count"], 1)
+            self.assertEqual(
+                contract_meta["night_session_snapshot"]["trading_date"], "2026-08-26"
+            )
+            self.assertEqual(radar_history["records"], [])
+            self.assertEqual(len(radar_history["night_session_records"]), 1)
+            self.assertEqual(
+                radar_history["night_session_records"][0]["contracts"][0]["contract"],
+                "CU2609",
+            )
 
     def test_same_session_resolved_records_are_never_requested_again(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -136,6 +184,10 @@ class NightSessionTests(unittest.TestCase):
             self.assertEqual(result["status"]["coverage"]["request_contract_count"], 0)
             self.assertEqual(result["status"]["coverage"]["cache_hit_count"], 2)
             self.assertEqual(result["status"]["coverage"]["no_night_trade_count"], 1)
+            history = json.loads(
+                (root / "radar_history.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(len(history["night_session_records"]), 1)
 
     def test_partial_valid_night_snapshot_is_accepted_without_retry_gate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -70,8 +70,8 @@ jobs:
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         run: python scripts/export_ifind_access_token.py
 
-      - name: Collect completed domestic night-session futures snapshot
-        if: ${{ steps.collection_plan.outputs.needs_night_session == 'true' }}
+      - name: Collect or sync completed domestic night-session futures snapshot
+        if: ${{ steps.collection_plan.outputs.run_night_session == 'true' }}
         continue-on-error: true
         env:
           NIGHT_TRADING_DATE: ${{ steps.collection_plan.outputs.night_trading_date }}

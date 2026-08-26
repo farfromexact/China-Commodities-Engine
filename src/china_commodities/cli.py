@@ -22,7 +22,7 @@ from .pipeline import run_pipeline
 from .quality import validate_snapshot
 from .reporting import publish_report_input
 from .source_registry import load_source_registry
-from .storage import read_json
+from .storage import publish_night_session_derivatives, read_json
 
 
 def _today_shanghai() -> str:
@@ -370,14 +370,23 @@ def _night_session(args: argparse.Namespace) -> int:
         snapshot = read_json(
             Path(args.data_dir) / "night_session" / "latest.json", default={}
         ) or {}
+        status = read_json(
+            Path(args.data_dir) / "night_session" / "last_run_status.json", default={}
+        ) or {}
+        derivatives = publish_night_session_derivatives(
+            args.data_dir,
+            snapshot=snapshot,
+            status=status,
+        )
         print(
             json.dumps(
                 {
                     "trading_date": args.trade_date,
                     "night_session_date": snapshot.get("night_session_date"),
                     "skipped_existing": True,
-                    "reason": "complete same-session night snapshot already exists",
+                    "reason": "usable same-session night snapshot already exists",
                     "coverage": snapshot.get("coverage"),
+                    "derived_artifacts": derivatives,
                 },
                 ensure_ascii=False,
                 indent=2,
@@ -401,6 +410,7 @@ def _night_session(args: argparse.Namespace) -> int:
                 "published": status["published"],
                 "coverage": status["coverage"],
                 "validation_errors": status["validation_errors"],
+                "derived_artifacts": result.get("derivatives", {}),
             },
             ensure_ascii=False,
             indent=2,

@@ -11,6 +11,7 @@ import pandas as pd
 
 from china_commodities.models import ModuleStatus, PipelineResult
 from china_commodities.pipeline import _merge_previous_auxiliary, run_pipeline
+from china_commodities.storage import publish_night_session_derivatives
 
 
 class FakeAkshare:
@@ -448,6 +449,82 @@ class PipelineTests(unittest.TestCase):
             )
             self.assertEqual(market_state["trade_date"], "2026-08-14")
             self.assertTrue(market_state["quality"]["exact_contract_only"])
+
+    def test_daily_eod_publish_preserves_verified_night_session_overlay(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            root = Path(directory)
+            first = run_pipeline(
+                "2026-08-14",
+                data_dir=root,
+                include_options=False,
+                ak_module=FakeAkshare(),
+            )
+            self.assertTrue(first.verified, first.validation_errors)
+
+            snapshot = {
+                "frequency": "night_session_snapshot",
+                "trading_date": "2026-08-14",
+                "night_session_date": "2026-08-13",
+                "generated_at": "2026-08-14T06:00:00+08:00",
+                "timezone": "Asia/Shanghai",
+                "coverage": {"night_session_contract_count": 1},
+                "records": [
+                    {
+                        "record_state": "night_session",
+                        "trading_date": "2026-08-14",
+                        "night_session_date": "2026-08-13",
+                        "source_timestamp": "2026-08-14T02:30:00+08:00",
+                        "exchange": "SHFE",
+                        "product": "RB",
+                        "contract": "RB2610",
+                        "latest": 108,
+                        "pre_settlement": 107,
+                        "volume": 1000,
+                        "open_interest": 2000,
+                    }
+                ],
+            }
+            status = {
+                "trading_date": "2026-08-14",
+                "night_session_date": "2026-08-13",
+                "generated_at": "2026-08-14T06:00:00+08:00",
+                "data_fresh": True,
+                "validation_passed": True,
+                "published": True,
+                "coverage_complete": False,
+                "coverage_warnings": ["partial coverage accepted"],
+                "coverage": {"night_session_contract_count": 1},
+            }
+            derived = publish_night_session_derivatives(
+                root, snapshot=snapshot, status=status
+            )
+            self.assertTrue(derived["published"])
+
+            second = run_pipeline(
+                "2026-08-14",
+                data_dir=root,
+                include_options=False,
+                ak_module=FakeAkshare(),
+            )
+            self.assertTrue(second.verified, second.validation_errors)
+
+            for relative, key in (
+                ("latest.json", "night_session"),
+                ("radar_latest.json", "night_session"),
+                ("market_state_latest.json", "night_session"),
+                ("last_run_status.json", "night_session"),
+                ("contract_meta.json", "night_session_snapshot"),
+            ):
+                payload = json.loads((root / relative).read_text(encoding="utf-8"))
+                self.assertEqual(payload[key]["trading_date"], "2026-08-14")
+
+            history = json.loads((root / "radar_history.json").read_text(encoding="utf-8"))
+            self.assertEqual(len(history["records"]), 1)
+            self.assertEqual(len(history["night_session_records"]), 1)
+            self.assertEqual(
+                history["night_session_records"][0]["contracts"][0]["contract"],
+                "RB2610",
+            )
 
     def test_partial_failure_preserves_no_false_snapshot(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:

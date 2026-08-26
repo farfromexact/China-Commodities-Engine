@@ -1,10 +1,11 @@
 """Collect an auditable end-of-night futures snapshot.
 
-The daily futures artifact is deliberately EOD-only.  This module is a
+The daily futures artifact is deliberately EOD-only. This module is a
 separate, small session layer: it asks iFinD for the latest quote before the
 day session opens and accepts a row only when the vendor timestamp falls in
-the completed overnight window.  It therefore never relabels a daytime quote
-as night-session data and never modifies ``data/latest.json``.
+the completed overnight window. It never relabels a daytime quote as a night
+quote; derived top-level artifacts carry the data under an explicit
+``night_session`` overlay rather than replacing daily EOD fields.
 """
 
 from __future__ import annotations
@@ -20,7 +21,11 @@ import pandas as pd
 from .collectors.ifind_adapter import contract_to_ifind_code
 from .collectors.ifind_http_adapter import IFindHTTPClient, IFindHTTPError
 from .history_storage import append_parquet_history
-from .storage import read_json, write_json_if_changed
+from .storage import (
+    publish_night_session_derivatives,
+    read_json,
+    write_json_if_changed,
+)
 
 
 NIGHT_SESSION_FIELDS: tuple[str, ...] = (
@@ -495,6 +500,7 @@ def collect_night_session(
         "validation_errors": validation_errors,
         "previous_valid_snapshot_retained": bool(prior_latest and not published),
     }
+    derivatives: dict[str, Any] = {}
     if publish:
         write_json_if_changed(night_root / "attempt_latest.json", snapshot)
         if published:
@@ -511,7 +517,13 @@ def collect_night_session(
                 retention_days=NIGHT_SESSION_HISTORY_DAYS,
             )
         write_json_if_changed(night_root / "last_run_status.json", status)
-    return {"snapshot": snapshot, "status": status}
+        if published:
+            derivatives = publish_night_session_derivatives(
+                root,
+                snapshot=snapshot,
+                status=status,
+            )
+    return {"snapshot": snapshot, "status": status, "derivatives": derivatives}
 
 
 __all__ = [

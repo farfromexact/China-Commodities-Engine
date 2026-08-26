@@ -18,7 +18,7 @@ class WorkflowScheduleTests(unittest.TestCase):
         self.assertEqual(workflow.count("--surface-shadow-days 1"), 1)
         self.assertIn("python scripts/plan_ifind_collection.py", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_ifind == 'true'", workflow)
-        self.assertIn("steps.collection_plan.outputs.needs_night_session == 'true'", workflow)
+        self.assertIn("steps.collection_plan.outputs.run_night_session == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_futures == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_options == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_physical == 'true'", workflow)

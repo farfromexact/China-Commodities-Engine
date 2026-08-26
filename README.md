@@ -32,16 +32,16 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 约定的正式 JSON 产物包括：
 
-- `data/latest.json`：各交易所和具体合约的最新标准化数据。
-- `data/radar_latest.json`：期限结构、基差、仓单和异常候选的当前摘要。
-- `data/radar_history.json`：面向历史比较的紧凑日级记录。
-- `data/market_state_latest.json`：基于最近20个交易日、按当前具体合约回溯的收益、波动、量仓冲击、换月和曲线状态；不拼接不同主力合约。
+- `data/latest.json`：各交易所和具体合约的最新标准化日盘 EOD 数据；已验证夜盘以独立 `night_session` 覆盖层附入，不改写日盘字段。
+- `data/radar_latest.json`：期限结构、基差、仓单和异常候选的当前摘要；同时附有可供雷达读取的独立 `night_session` 覆盖层。
+- `data/radar_history.json`：面向历史比较的紧凑日级记录；日盘记录保留在 `records`，夜盘快照保留在独立、按当前交易日去重且滚动20日的 `night_session_records`。
+- `data/market_state_latest.json`：基于最近20个交易日、按当前具体合约回溯的收益、波动、量仓冲击、换月和曲线状态；不拼接不同主力合约。夜盘数据只作为 `night_session` 上下文，不进入 EOD 历史收益计算。
 - `data/report_input_latest.json`：下游晨报使用的只读汇总层；合并 Market、Physical、External、期权曲面、合约元数据和各模块独立时间戳，不发起新的供应商请求。
-- `data/contract_meta.json`：合约乘数、最小变动价位、交易与到期属性等元数据。
+- `data/contract_meta.json`：合约乘数、最小变动价位、交易与到期属性等元数据，并附有不混入合约规则的 `night_session_snapshot` 来源摘要。
 - `data/history/futures.parquet`：按交易日、交易所和具体合约去重的长期日线历史；不受20日 JSON 窗口限制，可回填252个交易日。
 - `data/physical/latest.json`、`attempt_latest.json` 和 `history.parquet`：20个核心品种的固定指标矩阵、产业序列、官方仓单引用、`Spot - Futures` 基差和显式空值结论。
 - `data/external/latest.json`、`attempt_latest.json` 和 `history.parquet`：固定海外标的日频序列；连续或远月上下文序列不得直接进入进口平价。
-- `data/last_run_status.json`：各数据模块的状态、错误和新鲜度。
+- `data/last_run_status.json`：各数据模块的状态、错误和新鲜度，并附有最新已验证夜盘的摘要状态。
 - `data/snapshots/YYYY-MM-DD.json`：通过校验的日级快照。
 - `data/options/latest.json`：最近一次达到发布门槛的商品期权小型索引；只保留一个交易日的元数据、质量字段、总记录数、整链压缩快照入口和品种分片清单，不再内嵌逐合约记录。
 - `data/options/latest_shards/YYYY-MM-DD/EXCHANGE/PRODUCT.json.gz`：索引引用的当日逐品种压缩链；目录只保留 `latest` 对应的一个交易日，便于选择性读取并避免每日重写50MB级 JSON。
@@ -54,7 +54,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/options/snapshots/YYYY-MM-DD.json.gz`：达到发布门槛后保存的压缩逐合约期权快照。
 - `data/options/history.json`：按交易日汇总的期权历史记录。
 
-正式 JSON 历史统一滚动保留最近20个交易日：`radar_history.json` 按交易日去重保存紧凑比较记录，`data/snapshots/` 保存同一窗口内包含具体合约的完整快照。`latest.json` 始终指向最近一个已验证交易日。商品期权的整链压缩快照和紧凑摘要同样只滚动保留最近20个成功发布交易日，`latest_shards` 只保留当前一天；低于75%覆盖率的尝试不会覆盖上一份 `latest`，也不会缩短有效历史窗口。商品期权 Parquet 使用逐日分区并滚动保留最近252个交易日，旧分区删除前不会用新数据覆盖其他日期。
+正式 JSON 历史统一滚动保留最近20个交易日：`radar_history.json` 的日盘 `records` 与夜盘 `night_session_records` 分别按交易日去重保存，`data/snapshots/` 保存同一窗口内包含具体合约的完整日盘快照。`latest.json` 始终指向最近一个已验证交易日；其 `night_session` 仅为最近一次通过源时间戳验证的夜盘覆盖层。晨间缓存命中时仍会同步这六个顶层读取产物，但若内容完全相同则不会制造无意义的 Git 提交。商品期权的整链压缩快照和紧凑摘要同样只滚动保留最近20个成功发布交易日，`latest_shards` 只保留当前一天；低于75%覆盖率的尝试不会覆盖上一份 `latest`，也不会缩短有效历史窗口。商品期权 Parquet 使用逐日分区并滚动保留最近252个交易日，旧分区删除前不会用新数据覆盖其他日期。
 
 `market_state_latest.json` 的历史收益只复利同一个具体合约每天已发布的结算收益，不把换月前后的两个主力价格拼成连续涨跌。它同时给出 1/3/5/20 日收益、20日实现波动率、成交量与持仓量 z-score、持仓变化、`volume/OI`、价仓四象限线索、近次月价差 z-score，以及主力/曲线合约对换月标记。观察不足时字段保持 `null` 并披露实际样本数；价仓四象限只是归因线索，不是“新多”“新空”的事实。
 
