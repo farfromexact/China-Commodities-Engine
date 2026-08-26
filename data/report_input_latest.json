@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-26T06:30:05.882004+08:00",
+  "generated_at": "2026-08-26T08:22:40.198511+08:00",
   "requested_date": "2026-08-25",
   "timezone": "Asia/Shanghai",
   "frequency": "EOD",
@@ -60,15 +60,14 @@
     },
     {
       "module": "external",
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "source_dates": [
         "2026-04-26",
-        "2026-08-24",
         "2026-08-25"
       ],
       "source_date_min": "2026-04-26",
       "source_date_max": "2026-08-25",
-      "generated_at": "2026-08-26T06:30:04.494813+08:00",
+      "generated_at": "2026-08-26T08:22:38.853492+08:00",
       "data_fresh": false,
       "validation_passed": true,
       "published": true
@@ -81,7 +80,7 @@
       ],
       "source_date_min": "2026-08-25",
       "source_date_max": "2026-08-25",
-      "generated_at": "2026-08-25T10:50:43+00:00",
+      "generated_at": "2026-08-26T00:22:17+00:00",
       "data_fresh": true,
       "validation_passed": null,
       "published": true
@@ -5270,8 +5269,8 @@
     "provider_consensus_missing_reason": "an independent second provider is not configured"
   },
   "external": {
-    "requested_date": "2026-08-26",
-    "generated_at": "2026-08-26T06:30:04.494813+08:00",
+    "requested_date": "2026-08-25",
+    "generated_at": "2026-08-26T08:22:38.853492+08:00",
     "data_fresh": false,
     "validation_passed": true,
     "published": true,
@@ -5284,14 +5283,14 @@
       "carried_forward_target_count": 0,
       "failed_target_count": 0,
       "series_count": 6,
-      "cache_hit_count": 0,
-      "request_count": 6
+      "cache_hit_count": 1,
+      "request_count": 5
     },
     "coverage_matrix": [
       {
         "key": "WTI",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5302,7 +5301,7 @@
       {
         "key": "BRENT",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5315,7 +5314,7 @@
       {
         "key": "DUBAI_OMAN",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5326,7 +5325,7 @@
       {
         "key": "SINGAPORE_HSFO",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5337,7 +5336,7 @@
       {
         "key": "SINGAPORE_VLSFO",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5348,7 +5347,7 @@
       {
         "key": "LME_CU",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5361,7 +5360,7 @@
       {
         "key": "LME_AL",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5372,7 +5371,7 @@
       {
         "key": "LME_ZN",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5383,7 +5382,7 @@
       {
         "key": "LME_NI",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5394,7 +5393,7 @@
       {
         "key": "COMEX_AU",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5405,7 +5404,7 @@
       {
         "key": "COMEX_AG",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5416,7 +5415,7 @@
       {
         "key": "SGX_IRON_ORE",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5429,7 +5428,7 @@
       {
         "key": "CBOT_SOYBEAN",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5440,7 +5439,7 @@
       {
         "key": "CBOT_SOYMEAL",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5451,7 +5450,7 @@
       {
         "key": "CBOT_SOYBEAN_OIL",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5462,7 +5461,7 @@
       {
         "key": "CBOT_CORN",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5473,7 +5472,7 @@
       {
         "key": "CBOT_WHEAT",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5484,7 +5483,7 @@
       {
         "key": "BMD_PALM",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5497,7 +5496,7 @@
       {
         "key": "ICE_SUGAR",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5508,7 +5507,7 @@
       {
         "key": "ICE_COTTON",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5519,7 +5518,7 @@
       {
         "key": "USDCNH",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5532,7 +5531,7 @@
       {
         "key": "DXY",
         "exchange": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5551,15 +5550,15 @@
         "exchange": null,
         "target": "BRENT",
         "metric": null,
-        "requested_date": "2026-08-26",
-        "source_date": "2026-08-24",
-        "observation_date": "2026-08-24",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
         "indicator_id": "S004111385",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 92.17,
+        "value": 88.58,
         "unit": "美元/桶",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5582,15 +5581,15 @@
         "exchange": null,
         "target": "LME_CU",
         "metric": null,
-        "requested_date": "2026-08-26",
-        "source_date": "2026-08-24",
-        "observation_date": "2026-08-24",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
         "indicator_id": "S005808359",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 14273.0,
+        "value": 14349.5,
         "unit": "美元/吨",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5613,15 +5612,15 @@
         "exchange": null,
         "target": "SGX_IRON_ORE",
         "metric": null,
-        "requested_date": "2026-08-26",
-        "source_date": "2026-08-24",
-        "observation_date": "2026-08-24",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
         "indicator_id": "S009067320",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 94.31,
+        "value": 93.61,
         "unit": "美元/公吨",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5644,7 +5643,7 @@
         "exchange": null,
         "target": "BMD_PALM",
         "metric": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "source_date": "2026-04-26",
         "observation_date": "2026-04-26",
         "indicator_id": "S024923811",
@@ -5675,15 +5674,15 @@
         "exchange": null,
         "target": "USDCNH",
         "metric": null,
-        "requested_date": "2026-08-26",
-        "source_date": "2026-08-24",
-        "observation_date": "2026-08-24",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
         "indicator_id": "G019711418",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 6.72428022190396,
+        "value": 6.717255917354047,
         "unit": "人民币/美元",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5706,7 +5705,7 @@
         "exchange": null,
         "target": "DXY",
         "metric": null,
-        "requested_date": "2026-08-26",
+        "requested_date": "2026-08-25",
         "source_date": "2026-08-25",
         "observation_date": "2026-08-25",
         "indicator_id": "G002600885",
@@ -5740,28 +5739,26 @@
   },
   "options": {
     "trade_date": "2026-08-25",
-    "generated_at": "2026-08-25T10:50:43+00:00",
-    "record_count": 22014,
-    "product_coverage": 0.921875,
-    "series_count": 369,
-    "surface_ready_count": 362,
-    "positioning_ready_count": 71,
+    "generated_at": "2026-08-26T00:22:17+00:00",
+    "record_count": 23046,
+    "product_coverage": 1.0,
+    "series_count": 386,
+    "surface_ready_count": 379,
+    "positioning_ready_count": 74,
     "execution_ready_count": 0,
-    "surface_ready": false,
+    "surface_ready": true,
     "positioning_ready": false,
     "execution_ready": false,
-    "iv_coverage": 0.9856909239574816,
-    "open_interest_coverage": 0.6932406650313437,
+    "iv_coverage": 0.9863316844571726,
+    "open_interest_coverage": 0.6879284908443981,
     "bid_ask_coverage": 0.0,
     "model_greeks_coverage": 0.0,
     "limitations": [
       "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000",
       "model_greeks_ready blocked: model_greeks_coverage=0.0000 < 0.8000",
-      "vendor_risk_available blocked: vendor_greeks_coverage=0.9857 < 0.8000",
-      "open_interest_coverage=0.6932; some open interest is missing",
-      "positioning_ready blocked: open_interest_coverage=0.6932 < 0.9000",
+      "open_interest_coverage=0.6879; some open interest is missing",
+      "positioning_ready blocked: open_interest_coverage=0.6879 < 0.9000",
       "contract universe source is mixed_contract_directories; quotes are iFinD but not all inputs are iFinD",
-      "full-market scope is incomplete: successful_products=59, expected_products=64, product_coverage=0.9219",
       "vendor risk, when available, uses units_as_reported=true; no unit conversion is inferred",
       "dealer_gamma_direction_known=false; dealer Gamma direction is not observed or inferred",
       "IV surface and skew are not generated or inferred by this quality assessment"
@@ -5769,14 +5766,85 @@
     "coverage": {
       "expected_product_count": 64,
       "attempted_product_count": 64,
-      "successful_product_count": 59,
-      "failed_product_count": 5,
+      "successful_product_count": 64,
+      "failed_product_count": 0,
       "skipped_product_count": 0,
-      "product_coverage": 0.921875,
+      "product_coverage": 1.0,
       "minimum_product_coverage": 0.75,
-      "scope_complete": false,
+      "scope_complete": true,
       "publish_eligible": true,
       "successful_products": [
+        "CZCE:AP",
+        "CZCE:CF",
+        "CZCE:CJ",
+        "CZCE:FG",
+        "CZCE:MA",
+        "CZCE:OI",
+        "CZCE:PF",
+        "CZCE:PK",
+        "CZCE:PL",
+        "CZCE:PR",
+        "CZCE:PX",
+        "CZCE:RM",
+        "CZCE:SA",
+        "CZCE:SF",
+        "CZCE:SH",
+        "CZCE:SM",
+        "CZCE:SR",
+        "CZCE:TA",
+        "CZCE:UR",
+        "CZCE:ZC",
+        "DCE:A",
+        "DCE:B",
+        "DCE:BZ",
+        "DCE:C",
+        "DCE:CS",
+        "DCE:EB",
+        "DCE:EG",
+        "DCE:I",
+        "DCE:JD",
+        "DCE:JM",
+        "DCE:L",
+        "DCE:LG",
+        "DCE:LH",
+        "DCE:M",
+        "DCE:P",
+        "DCE:PG",
+        "DCE:PP",
+        "DCE:V",
+        "DCE:Y",
+        "GFEX:LC",
+        "GFEX:PD",
+        "GFEX:PS",
+        "GFEX:PT",
+        "GFEX:SI",
+        "INE:BC",
+        "INE:NR",
+        "INE:SC",
+        "SHFE:AD",
+        "SHFE:AG",
+        "SHFE:AL",
+        "SHFE:AO",
+        "SHFE:AU",
+        "SHFE:BR",
+        "SHFE:BU",
+        "SHFE:CU",
+        "SHFE:FU",
+        "SHFE:NI",
+        "SHFE:OP",
+        "SHFE:PB",
+        "SHFE:RB",
+        "SHFE:RU",
+        "SHFE:SN",
+        "SHFE:SP",
+        "SHFE:ZN"
+      ],
+      "failed_products": [],
+      "skipped_products": [],
+      "reused_product_count": 59,
+      "requested_product_count": 5,
+      "newly_successful_product_count": 5,
+      "reused_products": [
         "CZCE:CF",
         "CZCE:FG",
         "CZCE:MA",
@@ -5837,29 +5905,29 @@
         "SHFE:SP",
         "SHFE:ZN"
       ],
-      "failed_products": [
+      "requested_products": [
         "CZCE:AP",
         "CZCE:CJ",
         "CZCE:PL",
         "CZCE:PR",
         "CZCE:ZC"
-      ],
-      "skipped_products": []
+      ]
     },
     "product_statuses": [
       {
         "exchange": "CZCE",
         "product": "AP",
         "symbol": "苹果期权",
-        "status": "failed",
-        "contract_count": 0,
-        "source_trade_date": null,
-        "quote_coverage_complete": false,
-        "universe_source": null,
+        "status": "success",
+        "contract_count": 284,
+        "source_trade_date": "2026-08-25",
+        "quote_coverage_complete": true,
+        "universe_source": "exchange_eod_via_akshare",
         "fallback_used": false,
-        "metadata_enrichment_used": false,
+        "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": "IFindOptionDataError: iFinD option quote AP610P10200.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote AP610P10200.CZC has source date 2026-08-24; requested 2026-08-25"
+        "detail": null,
+        "reused_existing": false
       },
       {
         "exchange": "CZCE",
@@ -5873,21 +5941,23 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
         "product": "CJ",
         "symbol": "红枣期权",
-        "status": "failed",
-        "contract_count": 0,
-        "source_trade_date": null,
-        "quote_coverage_complete": false,
-        "universe_source": null,
+        "status": "success",
+        "contract_count": 248,
+        "source_trade_date": "2026-08-25",
+        "quote_coverage_complete": true,
+        "universe_source": "exchange_eod_via_akshare",
         "fallback_used": false,
-        "metadata_enrichment_used": false,
+        "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": "IFindOptionDataError: iFinD option quote CJ612P10800.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote CJ612P10800.CZC has source date 2026-08-24; requested 2026-08-25"
+        "detail": null,
+        "reused_existing": false
       },
       {
         "exchange": "CZCE",
@@ -5901,7 +5971,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -5915,7 +5986,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -5929,7 +6001,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -5943,7 +6016,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -5957,35 +6031,38 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
         "product": "PL",
         "symbol": "丙烯期权",
-        "status": "failed",
-        "contract_count": 0,
-        "source_trade_date": null,
-        "quote_coverage_complete": false,
-        "universe_source": null,
+        "status": "success",
+        "contract_count": 158,
+        "source_trade_date": "2026-08-25",
+        "quote_coverage_complete": true,
+        "universe_source": "exchange_eod_via_akshare",
         "fallback_used": false,
-        "metadata_enrichment_used": false,
+        "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": "IFindOptionDataError: iFinD option quote PL610C5800.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote PL610C5800.CZC has source date 2026-08-24; requested 2026-08-25"
+        "detail": null,
+        "reused_existing": false
       },
       {
         "exchange": "CZCE",
         "product": "PR",
         "symbol": "瓶片期权",
-        "status": "failed",
-        "contract_count": 0,
-        "source_trade_date": null,
-        "quote_coverage_complete": false,
-        "universe_source": null,
+        "status": "success",
+        "contract_count": 142,
+        "source_trade_date": "2026-08-25",
+        "quote_coverage_complete": true,
+        "universe_source": "exchange_eod_via_akshare",
         "fallback_used": false,
-        "metadata_enrichment_used": false,
+        "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": "IFindOptionDataError: iFinD option quote PR610C5800.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote PR610C5800.CZC has source date 2026-08-24; requested 2026-08-25"
+        "detail": null,
+        "reused_existing": false
       },
       {
         "exchange": "CZCE",
@@ -5999,7 +6076,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -6013,7 +6091,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -6027,7 +6106,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -6041,7 +6121,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -6055,7 +6136,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -6069,7 +6151,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -6083,7 +6166,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -6097,7 +6181,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
@@ -6111,21 +6196,23 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "CZCE",
         "product": "ZC",
         "symbol": "动力煤期权",
-        "status": "failed",
-        "contract_count": 0,
-        "source_trade_date": null,
-        "quote_coverage_complete": false,
-        "universe_source": null,
+        "status": "success",
+        "contract_count": 200,
+        "source_trade_date": "2026-08-25",
+        "quote_coverage_complete": true,
+        "universe_source": "exchange_eod_via_akshare",
         "fallback_used": false,
-        "metadata_enrichment_used": false,
+        "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": "IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-24; requested 2026-08-25"
+        "detail": null,
+        "reused_existing": false
       },
       {
         "exchange": "DCE",
@@ -6139,7 +6226,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6153,7 +6241,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6167,7 +6256,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))"
+        "detail": "primary directory failed; fallback used: ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6181,7 +6271,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6195,7 +6286,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6209,7 +6301,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6223,7 +6316,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6237,7 +6331,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6251,7 +6346,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6265,7 +6361,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: KeyError: '焦煤期权'"
+        "detail": "primary directory failed; fallback used: KeyError: '焦煤期权'",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6279,7 +6376,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6293,7 +6391,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6307,7 +6406,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6321,7 +6421,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6335,7 +6436,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6349,7 +6451,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6363,7 +6466,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6377,7 +6481,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "DCE",
@@ -6391,7 +6496,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+        "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "reused_existing": true
       },
       {
         "exchange": "GFEX",
@@ -6405,7 +6511,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "GFEX",
@@ -6419,7 +6526,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "GFEX",
@@ -6433,7 +6541,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "GFEX",
@@ -6447,7 +6556,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "GFEX",
@@ -6461,7 +6571,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "INE",
@@ -6475,7 +6586,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:BC"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:BC",
+        "reused_existing": true
       },
       {
         "exchange": "INE",
@@ -6489,7 +6601,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "INE",
@@ -6503,7 +6616,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:SC"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:SC",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6517,7 +6631,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AD"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AD",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6531,7 +6646,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AG"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AG",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6545,7 +6661,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6559,7 +6676,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AO"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AO",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6573,7 +6691,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6587,7 +6706,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BR"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BR",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6601,7 +6721,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BU"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BU",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6615,7 +6736,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:CU"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:CU",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6629,7 +6751,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:FU"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:FU",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6643,7 +6766,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6657,7 +6781,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6671,7 +6796,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:PB"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:PB",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6685,7 +6811,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:RB"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:RB",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6699,7 +6826,8 @@
         "fallback_used": false,
         "metadata_enrichment_used": true,
         "metadata_enrichment_error": null,
-        "detail": null
+        "detail": null,
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6713,7 +6841,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SN"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SN",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6727,7 +6856,8 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SP"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SP",
+        "reused_existing": true
       },
       {
         "exchange": "SHFE",
@@ -6741,10 +6871,37 @@
         "fallback_used": true,
         "metadata_enrichment_used": false,
         "metadata_enrichment_error": null,
-        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:ZN"
+        "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:ZN",
+        "reused_existing": true
       }
     ],
     "product_summaries": [
+      {
+        "product_key": "CZCE:AP",
+        "exchange": "CZCE",
+        "product": "AP",
+        "series_count": 5,
+        "surface_ready_count": 5,
+        "positioning_ready_count": 2,
+        "execution_ready_count": 0,
+        "iv_coverage_min": 1.0,
+        "open_interest_coverage_min": 0.2619047619047619,
+        "bid_ask_coverage_min": 0.0,
+        "underlying_contracts": [
+          "AP610",
+          "AP611",
+          "AP612",
+          "AP701",
+          "AP703"
+        ],
+        "expiry_dates": [
+          "2026-08-27",
+          "2026-09-28",
+          "2026-10-28",
+          "2026-11-26",
+          "2027-01-27"
+        ]
+      },
       {
         "product_key": "CZCE:CF",
         "exchange": "CZCE",
@@ -6767,6 +6924,30 @@
           "2026-12-11",
           "2027-02-11",
           "2027-04-13"
+        ]
+      },
+      {
+        "product_key": "CZCE:CJ",
+        "exchange": "CZCE",
+        "product": "CJ",
+        "series_count": 4,
+        "surface_ready_count": 4,
+        "positioning_ready_count": 1,
+        "execution_ready_count": 0,
+        "iv_coverage_min": 1.0,
+        "open_interest_coverage_min": 0.47619047619047616,
+        "bid_ask_coverage_min": 0.0,
+        "underlying_contracts": [
+          "CJ612",
+          "CJ701",
+          "CJ703",
+          "CJ705"
+        ],
+        "expiry_dates": [
+          "2026-10-28",
+          "2026-11-26",
+          "2027-01-27",
+          "2027-03-29"
         ]
       },
       {
@@ -6893,6 +7074,50 @@
           "2026-10-13",
           "2026-11-11",
           "2026-12-11"
+        ]
+      },
+      {
+        "product_key": "CZCE:PL",
+        "exchange": "CZCE",
+        "product": "PL",
+        "series_count": 3,
+        "surface_ready_count": 3,
+        "positioning_ready_count": 0,
+        "execution_ready_count": 0,
+        "iv_coverage_min": 1.0,
+        "open_interest_coverage_min": 0.02631578947368421,
+        "bid_ask_coverage_min": 0.0,
+        "underlying_contracts": [
+          "PL610",
+          "PL611",
+          "PL612"
+        ],
+        "expiry_dates": [
+          "2026-09-11",
+          "2026-10-13",
+          "2026-11-11"
+        ]
+      },
+      {
+        "product_key": "CZCE:PR",
+        "exchange": "CZCE",
+        "product": "PR",
+        "series_count": 3,
+        "surface_ready_count": 3,
+        "positioning_ready_count": 0,
+        "execution_ready_count": 0,
+        "iv_coverage_min": 1.0,
+        "open_interest_coverage_min": 0.7708333333333334,
+        "bid_ask_coverage_min": 0.0,
+        "underlying_contracts": [
+          "PR610",
+          "PR611",
+          "PR612"
+        ],
+        "expiry_dates": [
+          "2026-09-11",
+          "2026-10-13",
+          "2026-11-11"
         ]
       },
       {
@@ -7124,6 +7349,26 @@
           "2026-11-11",
           "2026-12-11",
           "2027-02-11"
+        ]
+      },
+      {
+        "product_key": "CZCE:ZC",
+        "exchange": "CZCE",
+        "product": "ZC",
+        "series_count": 2,
+        "surface_ready_count": 2,
+        "positioning_ready_count": 0,
+        "execution_ready_count": 0,
+        "iv_coverage_min": 1.0,
+        "open_interest_coverage_min": 0.0,
+        "bid_ask_coverage_min": 0.0,
+        "underlying_contracts": [
+          "ZC610",
+          "ZC611"
+        ],
+        "expiry_dates": [
+          "2026-09-11",
+          "2026-10-13"
         ]
       },
       {
@@ -8424,6 +8669,169 @@
     "series": [
       {
         "exchange": "CZCE",
+        "product": "AP",
+        "underlying_contract": "AP610",
+        "expiry_date": "2026-08-27",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 76,
+        "call_contract_count": 38,
+        "put_contract_count": 38,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.9605263157894737,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7442.0,
+        "atm_strike": 7400.0,
+        "atm_iv_percent": 25.135,
+        "risk_reversal_25d_iv_points": 2.6400000000000006,
+        "butterfly_25d_iv_points": 0.9149999999999991,
+        "surface_ready": true,
+        "positioning_ready": true,
+        "execution_ready": false,
+        "limitations": [
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "AP",
+        "underlying_contract": "AP611",
+        "expiry_date": "2026-09-28",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 70,
+        "call_contract_count": 35,
+        "put_contract_count": 35,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.6714285714285714,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7273.0,
+        "atm_strike": 7300.0,
+        "atm_iv_percent": 20.67,
+        "risk_reversal_25d_iv_points": 5.879999999999999,
+        "butterfly_25d_iv_points": 0.9299999999999997,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.6714 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "AP",
+        "underlying_contract": "AP612",
+        "expiry_date": "2026-10-28",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 46,
+        "call_contract_count": 23,
+        "put_contract_count": 23,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.5217391304347826,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7335.0,
+        "atm_strike": 7300.0,
+        "atm_iv_percent": 17.25,
+        "risk_reversal_25d_iv_points": 3.3000000000000007,
+        "butterfly_25d_iv_points": 4.210000000000001,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.5217 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "AP",
+        "underlying_contract": "AP701",
+        "expiry_date": "2026-11-26",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 50,
+        "call_contract_count": 25,
+        "put_contract_count": 25,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.9,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7330.0,
+        "atm_strike": 7300.0,
+        "atm_iv_percent": 21.035,
+        "risk_reversal_25d_iv_points": 0.1599999999999966,
+        "butterfly_25d_iv_points": 0.16499999999999915,
+        "surface_ready": true,
+        "positioning_ready": true,
+        "execution_ready": false,
+        "limitations": [
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "AP",
+        "underlying_contract": "AP703",
+        "expiry_date": "2027-01-27",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 42,
+        "call_contract_count": 21,
+        "put_contract_count": 21,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.2619047619047619,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7398.0,
+        "atm_strike": 7400.0,
+        "atm_iv_percent": 14.579999999999998,
+        "risk_reversal_25d_iv_points": -0.3399999999999963,
+        "butterfly_25d_iv_points": 22.680000000000007,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.2619 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
         "product": "CF",
         "underlying_contract": "CF611",
         "expiry_date": "2026-10-13",
@@ -8549,6 +8957,137 @@
         "execution_ready": false,
         "limitations": [
           "positioning_ready blocked: open_interest_coverage=0.8864 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "CJ",
+        "underlying_contract": "CJ612",
+        "expiry_date": "2026-10-28",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 74,
+        "call_contract_count": 37,
+        "put_contract_count": 37,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.8513513513513513,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7915.0,
+        "atm_strike": 7900.0,
+        "atm_iv_percent": 17.625,
+        "risk_reversal_25d_iv_points": 3.280000000000001,
+        "butterfly_25d_iv_points": 0.9849999999999994,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.8514 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "CJ",
+        "underlying_contract": "CJ701",
+        "expiry_date": "2026-11-26",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 72,
+        "call_contract_count": 36,
+        "put_contract_count": 36,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.9305555555555556,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 8125.0,
+        "atm_strike": 8100.0,
+        "atm_iv_percent": 19.45,
+        "risk_reversal_25d_iv_points": 3.789999999999999,
+        "butterfly_25d_iv_points": 0.495000000000001,
+        "surface_ready": true,
+        "positioning_ready": true,
+        "execution_ready": false,
+        "limitations": [
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "CJ",
+        "underlying_contract": "CJ703",
+        "expiry_date": "2027-01-27",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 42,
+        "call_contract_count": 21,
+        "put_contract_count": 21,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.47619047619047616,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 8090.0,
+        "atm_strike": 8100.0,
+        "atm_iv_percent": 14.979999999999999,
+        "risk_reversal_25d_iv_points": 0.16000000000000014,
+        "butterfly_25d_iv_points": 3.2799999999999994,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.4762 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "CJ",
+        "underlying_contract": "CJ705",
+        "expiry_date": "2027-03-29",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 60,
+        "call_contract_count": 30,
+        "put_contract_count": 30,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.8666666666666667,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 8270.0,
+        "atm_strike": 8300.0,
+        "atm_iv_percent": 19.655,
+        "risk_reversal_25d_iv_points": 3.0300000000000047,
+        "butterfly_25d_iv_points": -1.5200000000000031,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.8667 < 0.9000",
           "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
         ]
       },
@@ -9298,6 +9837,204 @@
         "execution_ready": false,
         "limitations": [
           "positioning_ready blocked: open_interest_coverage=0.5714 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "PL",
+        "underlying_contract": "PL610",
+        "expiry_date": "2026-09-11",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 68,
+        "call_contract_count": 34,
+        "put_contract_count": 34,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.8235294117647058,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 8260.0,
+        "atm_strike": 8300.0,
+        "atm_iv_percent": 29.815,
+        "risk_reversal_25d_iv_points": 14.100000000000001,
+        "butterfly_25d_iv_points": -0.18500000000000227,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.8235 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "PL",
+        "underlying_contract": "PL611",
+        "expiry_date": "2026-10-13",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 52,
+        "call_contract_count": 26,
+        "put_contract_count": 26,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.3269230769230769,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 8004.0,
+        "atm_strike": 8000.0,
+        "atm_iv_percent": 25.895,
+        "risk_reversal_25d_iv_points": 6.530000000000005,
+        "butterfly_25d_iv_points": 0.3099999999999987,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.3269 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "PL",
+        "underlying_contract": "PL612",
+        "expiry_date": "2026-11-11",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 38,
+        "call_contract_count": 19,
+        "put_contract_count": 19,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.02631578947368421,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7773.0,
+        "atm_strike": 7800.0,
+        "atm_iv_percent": 25.035,
+        "risk_reversal_25d_iv_points": 6.539999999999999,
+        "butterfly_25d_iv_points": -0.3150000000000013,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.0263 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "PR",
+        "underlying_contract": "PR610",
+        "expiry_date": "2026-09-11",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 54,
+        "call_contract_count": 27,
+        "put_contract_count": 27,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.8888888888888888,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7434.0,
+        "atm_strike": 7400.0,
+        "atm_iv_percent": 24.55,
+        "risk_reversal_25d_iv_points": -6.539999999999996,
+        "butterfly_25d_iv_points": 9.7,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.8889 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "PR",
+        "underlying_contract": "PR611",
+        "expiry_date": "2026-10-13",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 48,
+        "call_contract_count": 24,
+        "put_contract_count": 24,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.7708333333333334,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7348.0,
+        "atm_strike": 7300.0,
+        "atm_iv_percent": 24.854999999999997,
+        "risk_reversal_25d_iv_points": 8.509999999999998,
+        "butterfly_25d_iv_points": -0.4599999999999973,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.7708 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "PR",
+        "underlying_contract": "PR612",
+        "expiry_date": "2026-11-11",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 40,
+        "call_contract_count": 20,
+        "put_contract_count": 20,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.8,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 7228.0,
+        "atm_strike": 7200.0,
+        "atm_iv_percent": 24.515,
+        "risk_reversal_25d_iv_points": 7.239999999999998,
+        "butterfly_25d_iv_points": 0.24499999999999744,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.8000 < 0.9000",
           "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
         ]
       },
@@ -10727,6 +11464,72 @@
         "positioning_ready": true,
         "execution_ready": false,
         "limitations": [
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "ZC",
+        "underlying_contract": "ZC610",
+        "expiry_date": "2026-09-11",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 100,
+        "call_contract_count": 50,
+        "put_contract_count": 50,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.0,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 801.4,
+        "atm_strike": 800.0,
+        "atm_iv_percent": 54.045,
+        "risk_reversal_25d_iv_points": 0.28999999999999915,
+        "butterfly_25d_iv_points": 0.29999999999999716,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.0000 < 0.9000",
+          "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
+        ]
+      },
+      {
+        "exchange": "CZCE",
+        "product": "ZC",
+        "underlying_contract": "ZC611",
+        "expiry_date": "2026-10-13",
+        "trade_date": "2026-08-25",
+        "requested_date": "2026-08-25",
+        "source_date": "2026-08-25",
+        "observation_date": "2026-08-25",
+        "timezone": "Asia/Shanghai",
+        "frequency": "EOD",
+        "quality_state": "ready",
+        "missing_reason": null,
+        "contract_count": 100,
+        "call_contract_count": 50,
+        "put_contract_count": 50,
+        "source_date_match_pct": 1.0,
+        "iv_coverage": 1.0,
+        "open_interest_coverage": 0.0,
+        "bid_ask_coverage": 0.0,
+        "underlying_settle": 801.4,
+        "atm_strike": 800.0,
+        "atm_iv_percent": 53.974999999999994,
+        "risk_reversal_25d_iv_points": -0.11999999999999744,
+        "butterfly_25d_iv_points": 0.23499999999999943,
+        "surface_ready": true,
+        "positioning_ready": false,
+        "execution_ready": false,
+        "limitations": [
+          "positioning_ready blocked: open_interest_coverage=0.0000 < 0.9000",
           "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000"
         ]
       },
@@ -21490,8 +22293,8 @@
     "external_status": {
       "schema_version": 1,
       "domain": "external",
-      "requested_date": "2026-08-26",
-      "generated_at": "2026-08-26T06:30:04.494813+08:00",
+      "requested_date": "2026-08-25",
+      "generated_at": "2026-08-26T08:22:38.853492+08:00",
       "data_fresh": false,
       "coverage": {
         "target_count": 22,
@@ -21502,8 +22305,8 @@
         "carried_forward_target_count": 0,
         "failed_target_count": 0,
         "series_count": 6,
-        "cache_hit_count": 0,
-        "request_count": 6
+        "cache_hit_count": 1,
+        "request_count": 5
       },
       "series": [
         {
@@ -21511,39 +22314,39 @@
           "indicator_id": "S004111385",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-24",
+          "source_date": "2026-08-25",
           "carried_forward": false,
           "detail": null,
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-08-21",
-          "query_end_date": "2026-08-26"
+          "query_start_date": "2026-08-24",
+          "query_end_date": "2026-08-25"
         },
         {
           "series_key": "external.LME_CU.three_month_close",
           "indicator_id": "S005808359",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-24",
+          "source_date": "2026-08-25",
           "carried_forward": false,
           "detail": null,
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-08-21",
-          "query_end_date": "2026-08-26"
+          "query_start_date": "2026-08-24",
+          "query_end_date": "2026-08-25"
         },
         {
           "series_key": "external.SGX_IRON_ORE.twenty_two_month_settlement",
           "indicator_id": "S009067320",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-24",
+          "source_date": "2026-08-25",
           "carried_forward": false,
           "detail": null,
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-08-21",
-          "query_end_date": "2026-08-26"
+          "query_start_date": "2026-08-24",
+          "query_end_date": "2026-08-25"
         },
         {
           "series_key": "external.BMD_PALM.bmd_plus_3",
@@ -21556,24 +22359,11 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2026-04-26",
-          "query_end_date": "2026-08-26"
+          "query_end_date": "2026-08-25"
         },
         {
           "series_key": "external.USDCNH.close",
           "indicator_id": "G019711418",
-          "state": "ok",
-          "quality_state": "fresh",
-          "source_date": "2026-08-24",
-          "carried_forward": false,
-          "detail": null,
-          "cache_hit": false,
-          "request_made": true,
-          "query_start_date": "2026-08-22",
-          "query_end_date": "2026-08-26"
-        },
-        {
-          "series_key": "external.DXY.close",
-          "indicator_id": "G002600885",
           "state": "ok",
           "quality_state": "fresh",
           "source_date": "2026-08-25",
@@ -21581,8 +22371,21 @@
           "detail": null,
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-08-21",
-          "query_end_date": "2026-08-26"
+          "query_start_date": "2026-08-24",
+          "query_end_date": "2026-08-25"
+        },
+        {
+          "series_key": "external.DXY.close",
+          "indicator_id": "G002600885",
+          "state": "cached",
+          "quality_state": "fresh",
+          "source_date": "2026-08-25",
+          "carried_forward": false,
+          "detail": "same-date verified observation reused from local snapshot",
+          "cache_hit": true,
+          "request_made": false,
+          "query_start_date": "2026-08-25",
+          "query_end_date": "2026-08-25"
         }
       ],
       "validation_passed": true,
@@ -21601,7 +22404,7 @@
           "2026-08-19"
         ],
         "consecutive_pass_count": 5,
-        "last_attempt_date": "2026-08-26",
+        "last_attempt_date": "2026-08-25",
         "last_attempt_validation_passed": true,
         "out_of_order_attempt": false,
         "promotion_allowed": true
@@ -21611,7 +22414,7 @@
     "options_status": {
       "schema_version": 1,
       "trade_date": "2026-08-25",
-      "generated_at": "2026-08-25T10:50:43+00:00",
+      "generated_at": "2026-08-26T00:22:17+00:00",
       "source_provider": "ifind_http",
       "universe_source": "mixed_contract_directories",
       "universe_sources": [
@@ -21622,14 +22425,85 @@
       "coverage": {
         "expected_product_count": 64,
         "attempted_product_count": 64,
-        "successful_product_count": 59,
-        "failed_product_count": 5,
+        "successful_product_count": 64,
+        "failed_product_count": 0,
         "skipped_product_count": 0,
-        "product_coverage": 0.921875,
+        "product_coverage": 1.0,
         "minimum_product_coverage": 0.75,
-        "scope_complete": false,
+        "scope_complete": true,
         "publish_eligible": true,
         "successful_products": [
+          "CZCE:AP",
+          "CZCE:CF",
+          "CZCE:CJ",
+          "CZCE:FG",
+          "CZCE:MA",
+          "CZCE:OI",
+          "CZCE:PF",
+          "CZCE:PK",
+          "CZCE:PL",
+          "CZCE:PR",
+          "CZCE:PX",
+          "CZCE:RM",
+          "CZCE:SA",
+          "CZCE:SF",
+          "CZCE:SH",
+          "CZCE:SM",
+          "CZCE:SR",
+          "CZCE:TA",
+          "CZCE:UR",
+          "CZCE:ZC",
+          "DCE:A",
+          "DCE:B",
+          "DCE:BZ",
+          "DCE:C",
+          "DCE:CS",
+          "DCE:EB",
+          "DCE:EG",
+          "DCE:I",
+          "DCE:JD",
+          "DCE:JM",
+          "DCE:L",
+          "DCE:LG",
+          "DCE:LH",
+          "DCE:M",
+          "DCE:P",
+          "DCE:PG",
+          "DCE:PP",
+          "DCE:V",
+          "DCE:Y",
+          "GFEX:LC",
+          "GFEX:PD",
+          "GFEX:PS",
+          "GFEX:PT",
+          "GFEX:SI",
+          "INE:BC",
+          "INE:NR",
+          "INE:SC",
+          "SHFE:AD",
+          "SHFE:AG",
+          "SHFE:AL",
+          "SHFE:AO",
+          "SHFE:AU",
+          "SHFE:BR",
+          "SHFE:BU",
+          "SHFE:CU",
+          "SHFE:FU",
+          "SHFE:NI",
+          "SHFE:OP",
+          "SHFE:PB",
+          "SHFE:RB",
+          "SHFE:RU",
+          "SHFE:SN",
+          "SHFE:SP",
+          "SHFE:ZN"
+        ],
+        "failed_products": [],
+        "skipped_products": [],
+        "reused_product_count": 59,
+        "requested_product_count": 5,
+        "newly_successful_product_count": 5,
+        "reused_products": [
           "CZCE:CF",
           "CZCE:FG",
           "CZCE:MA",
@@ -21690,17 +22564,16 @@
           "SHFE:SP",
           "SHFE:ZN"
         ],
-        "failed_products": [
+        "requested_products": [
           "CZCE:AP",
           "CZCE:CJ",
           "CZCE:PL",
           "CZCE:PR",
           "CZCE:ZC"
-        ],
-        "skipped_products": []
+        ]
       },
-      "universe_contract_count": 22014,
-      "quote_contract_count": 22014,
+      "universe_contract_count": 23046,
+      "quote_contract_count": 23046,
       "duplicate_contract_count": 0,
       "global_error": null,
       "exchange_errors": {},
@@ -21709,15 +22582,16 @@
           "exchange": "CZCE",
           "product": "AP",
           "symbol": "苹果期权",
-          "status": "failed",
-          "contract_count": 0,
-          "source_trade_date": null,
-          "quote_coverage_complete": false,
-          "universe_source": null,
+          "status": "success",
+          "contract_count": 284,
+          "source_trade_date": "2026-08-25",
+          "quote_coverage_complete": true,
+          "universe_source": "exchange_eod_via_akshare",
           "fallback_used": false,
-          "metadata_enrichment_used": false,
+          "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: iFinD option quote AP610P10200.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote AP610P10200.CZC has source date 2026-08-24; requested 2026-08-25"
+          "detail": null,
+          "reused_existing": false
         },
         {
           "exchange": "CZCE",
@@ -21731,21 +22605,23 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
           "product": "CJ",
           "symbol": "红枣期权",
-          "status": "failed",
-          "contract_count": 0,
-          "source_trade_date": null,
-          "quote_coverage_complete": false,
-          "universe_source": null,
+          "status": "success",
+          "contract_count": 248,
+          "source_trade_date": "2026-08-25",
+          "quote_coverage_complete": true,
+          "universe_source": "exchange_eod_via_akshare",
           "fallback_used": false,
-          "metadata_enrichment_used": false,
+          "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: iFinD option quote CJ612P10800.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote CJ612P10800.CZC has source date 2026-08-24; requested 2026-08-25"
+          "detail": null,
+          "reused_existing": false
         },
         {
           "exchange": "CZCE",
@@ -21759,7 +22635,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21773,7 +22650,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21787,7 +22665,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21801,7 +22680,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21815,35 +22695,38 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
           "product": "PL",
           "symbol": "丙烯期权",
-          "status": "failed",
-          "contract_count": 0,
-          "source_trade_date": null,
-          "quote_coverage_complete": false,
-          "universe_source": null,
+          "status": "success",
+          "contract_count": 158,
+          "source_trade_date": "2026-08-25",
+          "quote_coverage_complete": true,
+          "universe_source": "exchange_eod_via_akshare",
           "fallback_used": false,
-          "metadata_enrichment_used": false,
+          "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: iFinD option quote PL610C5800.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote PL610C5800.CZC has source date 2026-08-24; requested 2026-08-25"
+          "detail": null,
+          "reused_existing": false
         },
         {
           "exchange": "CZCE",
           "product": "PR",
           "symbol": "瓶片期权",
-          "status": "failed",
-          "contract_count": 0,
-          "source_trade_date": null,
-          "quote_coverage_complete": false,
-          "universe_source": null,
+          "status": "success",
+          "contract_count": 142,
+          "source_trade_date": "2026-08-25",
+          "quote_coverage_complete": true,
+          "universe_source": "exchange_eod_via_akshare",
           "fallback_used": false,
-          "metadata_enrichment_used": false,
+          "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: iFinD option quote PR610C5800.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote PR610C5800.CZC has source date 2026-08-24; requested 2026-08-25"
+          "detail": null,
+          "reused_existing": false
         },
         {
           "exchange": "CZCE",
@@ -21857,7 +22740,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21871,7 +22755,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21885,7 +22770,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21899,7 +22785,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21913,7 +22800,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21927,7 +22815,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21941,7 +22830,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21955,7 +22845,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -21969,21 +22860,23 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
           "product": "ZC",
           "symbol": "动力煤期权",
-          "status": "failed",
-          "contract_count": 0,
-          "source_trade_date": null,
-          "quote_coverage_complete": false,
-          "universe_source": null,
+          "status": "success",
+          "contract_count": 200,
+          "source_trade_date": "2026-08-25",
+          "quote_coverage_complete": true,
+          "universe_source": "exchange_eod_via_akshare",
           "fallback_used": false,
-          "metadata_enrichment_used": false,
+          "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-24; requested 2026-08-25; fallback collection failed: IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-24; requested 2026-08-25"
+          "detail": null,
+          "reused_existing": false
         },
         {
           "exchange": "DCE",
@@ -21997,7 +22890,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22011,7 +22905,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22025,7 +22920,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))"
+          "detail": "primary directory failed; fallback used: ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22039,7 +22935,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22053,7 +22950,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22067,7 +22965,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22081,7 +22980,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22095,7 +22995,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22109,7 +23010,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22123,7 +23025,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: KeyError: '焦煤期权'"
+          "detail": "primary directory failed; fallback used: KeyError: '焦煤期权'",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22137,7 +23040,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22151,7 +23055,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22165,7 +23070,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22179,7 +23085,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22193,7 +23100,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22207,7 +23115,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22221,7 +23130,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22235,7 +23145,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -22249,7 +23160,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -22263,7 +23175,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -22277,7 +23190,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -22291,7 +23205,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -22305,7 +23220,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -22319,7 +23235,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "INE",
@@ -22333,7 +23250,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:BC"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:BC",
+          "reused_existing": true
         },
         {
           "exchange": "INE",
@@ -22347,7 +23265,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "INE",
@@ -22361,7 +23280,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:SC"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:SC",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22375,7 +23295,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AD"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AD",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22389,7 +23310,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AG"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AG",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22403,7 +23325,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22417,7 +23340,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AO"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AO",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22431,7 +23355,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22445,7 +23370,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BR"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BR",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22459,7 +23385,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BU"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BU",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22473,7 +23400,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:CU"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:CU",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22487,7 +23415,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:FU"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:FU",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22501,7 +23430,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22515,7 +23445,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22529,7 +23460,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:PB"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:PB",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22543,7 +23475,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:RB"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:RB",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22557,7 +23490,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22571,7 +23505,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SN"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SN",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22585,7 +23520,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SP"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SP",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -22599,54 +23535,54 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:ZN"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:ZN",
+          "reused_existing": true
         }
       ],
-      "quality_status": "partial_chain",
+      "incremental_resume": true,
+      "quality_status": "surface_ready",
       "published": true
     },
     "options_quality": {
       "trade_date": "2026-08-25",
-      "record_count": 22014,
-      "unique_contract_count": 22014,
+      "record_count": 23046,
+      "unique_contract_count": 23046,
       "source_date_match_pct": 1.0,
       "underlying_settle_coverage": 1.0,
       "expiry_coverage": 1.0,
       "exercise_style_coverage": 1.0,
-      "iv_coverage": 0.9856909239574816,
-      "vendor_greeks_coverage": 0.9856909239574816,
+      "iv_coverage": 0.9863316844571726,
+      "vendor_greeks_coverage": 0.9863316844571726,
       "model_greeks_coverage": 0.0,
       "bid_ask_coverage": 0.0,
-      "open_interest_coverage": 0.6932406650313437,
-      "series_count": 369,
+      "open_interest_coverage": 0.6879284908443981,
+      "series_count": 386,
       "balanced_call_put_series_pct": 1.0,
       "product_scope_declared": true,
       "expected_product_count": 64,
-      "successful_product_count": 59,
-      "product_coverage": 0.921875,
-      "full_product_scope_verified": false,
-      "universe_contract_count": 22014,
-      "quote_contract_count": 22014,
+      "successful_product_count": 64,
+      "product_coverage": 1.0,
+      "full_product_scope_verified": true,
+      "universe_contract_count": 23046,
+      "quote_contract_count": 23046,
       "quote_coverage_complete": true,
       "universe_source": "mixed_contract_directories",
       "all_inputs_ifind": false,
       "full_chain_verified": true,
-      "surface_ready": false,
+      "surface_ready": true,
       "positioning_ready": false,
       "execution_ready": false,
       "model_greeks_ready": false,
-      "vendor_risk_available": false,
+      "vendor_risk_available": true,
       "vendor_risk_units_as_reported": true,
       "dealer_gamma_direction_known": false,
-      "status": "partial_chain",
+      "status": "surface_ready",
       "limitations": [
         "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000",
         "model_greeks_ready blocked: model_greeks_coverage=0.0000 < 0.8000",
-        "vendor_risk_available blocked: vendor_greeks_coverage=0.9857 < 0.8000",
-        "open_interest_coverage=0.6932; some open interest is missing",
-        "positioning_ready blocked: open_interest_coverage=0.6932 < 0.9000",
+        "open_interest_coverage=0.6879; some open interest is missing",
+        "positioning_ready blocked: open_interest_coverage=0.6879 < 0.9000",
         "contract universe source is mixed_contract_directories; quotes are iFinD but not all inputs are iFinD",
-        "full-market scope is incomplete: successful_products=59, expected_products=64, product_coverage=0.9219",
         "vendor risk, when available, uses units_as_reported=true; no unit conversion is inferred",
         "dealer_gamma_direction_known=false; dealer Gamma direction is not observed or inferred",
         "IV surface and skew are not generated or inferred by this quality assessment"

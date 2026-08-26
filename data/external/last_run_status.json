@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "domain": "external",
-  "requested_date": "2026-08-26",
-  "generated_at": "2026-08-26T06:30:04.494813+08:00",
+  "requested_date": "2026-08-25",
+  "generated_at": "2026-08-26T08:22:38.853492+08:00",
   "data_fresh": false,
   "coverage": {
     "target_count": 22,
@@ -13,8 +13,8 @@
     "carried_forward_target_count": 0,
     "failed_target_count": 0,
     "series_count": 6,
-    "cache_hit_count": 0,
-    "request_count": 6
+    "cache_hit_count": 1,
+    "request_count": 5
   },
   "series": [
     {
@@ -22,39 +22,39 @@
       "indicator_id": "S004111385",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-08-24",
+      "source_date": "2026-08-25",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2026-08-21",
-      "query_end_date": "2026-08-26"
+      "query_start_date": "2026-08-24",
+      "query_end_date": "2026-08-25"
     },
     {
       "series_key": "external.LME_CU.three_month_close",
       "indicator_id": "S005808359",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-08-24",
+      "source_date": "2026-08-25",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2026-08-21",
-      "query_end_date": "2026-08-26"
+      "query_start_date": "2026-08-24",
+      "query_end_date": "2026-08-25"
     },
     {
       "series_key": "external.SGX_IRON_ORE.twenty_two_month_settlement",
       "indicator_id": "S009067320",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-08-24",
+      "source_date": "2026-08-25",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2026-08-21",
-      "query_end_date": "2026-08-26"
+      "query_start_date": "2026-08-24",
+      "query_end_date": "2026-08-25"
     },
     {
       "series_key": "external.BMD_PALM.bmd_plus_3",
@@ -67,24 +67,11 @@
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-04-26",
-      "query_end_date": "2026-08-26"
+      "query_end_date": "2026-08-25"
     },
     {
       "series_key": "external.USDCNH.close",
       "indicator_id": "G019711418",
-      "state": "ok",
-      "quality_state": "fresh",
-      "source_date": "2026-08-24",
-      "carried_forward": false,
-      "detail": null,
-      "cache_hit": false,
-      "request_made": true,
-      "query_start_date": "2026-08-22",
-      "query_end_date": "2026-08-26"
-    },
-    {
-      "series_key": "external.DXY.close",
-      "indicator_id": "G002600885",
       "state": "ok",
       "quality_state": "fresh",
       "source_date": "2026-08-25",
@@ -92,8 +79,21 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2026-08-21",
-      "query_end_date": "2026-08-26"
+      "query_start_date": "2026-08-24",
+      "query_end_date": "2026-08-25"
+    },
+    {
+      "series_key": "external.DXY.close",
+      "indicator_id": "G002600885",
+      "state": "cached",
+      "quality_state": "fresh",
+      "source_date": "2026-08-25",
+      "carried_forward": false,
+      "detail": "same-date verified observation reused from local snapshot",
+      "cache_hit": true,
+      "request_made": false,
+      "query_start_date": "2026-08-25",
+      "query_end_date": "2026-08-25"
     }
   ],
   "validation_passed": true,
@@ -112,7 +112,7 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-08-26",
+    "last_attempt_date": "2026-08-25",
     "last_attempt_validation_passed": true,
     "out_of_order_attempt": false,
     "promotion_allowed": true

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "domain": "external",
-  "requested_date": "2026-08-26",
-  "generated_at": "2026-08-26T06:30:04.494813+08:00",
+  "requested_date": "2026-08-25",
+  "generated_at": "2026-08-26T08:22:38.853492+08:00",
   "timezone": "Asia/Shanghai",
   "vendor": "iFinD",
   "intraday_used": false,
@@ -16,14 +16,14 @@
     "carried_forward_target_count": 0,
     "failed_target_count": 0,
     "series_count": 6,
-    "cache_hit_count": 0,
-    "request_count": 6
+    "cache_hit_count": 1,
+    "request_count": 5
   },
   "coverage_matrix": [
     {
       "key": "WTI",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -34,7 +34,7 @@
     {
       "key": "BRENT",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -47,7 +47,7 @@
     {
       "key": "DUBAI_OMAN",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -58,7 +58,7 @@
     {
       "key": "SINGAPORE_HSFO",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -69,7 +69,7 @@
     {
       "key": "SINGAPORE_VLSFO",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -80,7 +80,7 @@
     {
       "key": "LME_CU",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -93,7 +93,7 @@
     {
       "key": "LME_AL",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -104,7 +104,7 @@
     {
       "key": "LME_ZN",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -115,7 +115,7 @@
     {
       "key": "LME_NI",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -126,7 +126,7 @@
     {
       "key": "COMEX_AU",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -137,7 +137,7 @@
     {
       "key": "COMEX_AG",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -148,7 +148,7 @@
     {
       "key": "SGX_IRON_ORE",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -161,7 +161,7 @@
     {
       "key": "CBOT_SOYBEAN",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -172,7 +172,7 @@
     {
       "key": "CBOT_SOYMEAL",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -183,7 +183,7 @@
     {
       "key": "CBOT_SOYBEAN_OIL",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -194,7 +194,7 @@
     {
       "key": "CBOT_CORN",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -205,7 +205,7 @@
     {
       "key": "CBOT_WHEAT",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -216,7 +216,7 @@
     {
       "key": "BMD_PALM",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -229,7 +229,7 @@
     {
       "key": "ICE_SUGAR",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -240,7 +240,7 @@
     {
       "key": "ICE_COTTON",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -251,7 +251,7 @@
     {
       "key": "USDCNH",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -264,7 +264,7 @@
     {
       "key": "DXY",
       "exchange": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -283,9 +283,9 @@
       "exchange": null,
       "target": "BRENT",
       "metric": null,
-      "requested_date": "2026-08-26",
-      "source_date": "2026-08-24",
-      "observation_date": "2026-08-24",
+      "requested_date": "2026-08-25",
+      "source_date": "2026-08-25",
+      "observation_date": "2026-08-25",
       "timezone": "Asia/Shanghai",
       "indicator_id": "S004111385",
       "report_id": null,
@@ -294,7 +294,7 @@
       "mapping_verified_on": "2026-08-19",
       "current_permission_status": "available",
       "name": "期货结算价(连续):布伦特原油:ICE",
-      "value": 92.17,
+      "value": 88.58,
       "unit": "美元/桶",
       "frequency": "D",
       "vendor": "iFinD",
@@ -308,7 +308,7 @@
       "carried_forward": false,
       "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "249a6d232128c5c9f17d6a4a80b5de55497a23967f9d33652075abc14905cde8",
+      "normalized_value_sha256": "f96047c4487f12a3c0b5f1b58982a457278122850ba50c518001bd21a438a456",
       "mapping_status": "verified"
     },
     {
@@ -318,9 +318,9 @@
       "exchange": null,
       "target": "LME_CU",
       "metric": null,
-      "requested_date": "2026-08-26",
-      "source_date": "2026-08-24",
-      "observation_date": "2026-08-24",
+      "requested_date": "2026-08-25",
+      "source_date": "2026-08-25",
+      "observation_date": "2026-08-25",
       "timezone": "Asia/Shanghai",
       "indicator_id": "S005808359",
       "report_id": null,
@@ -329,7 +329,7 @@
       "mapping_verified_on": "2026-08-19",
       "current_permission_status": "available",
       "name": "最后收盘价:LME铜(3个月)",
-      "value": 14273.0,
+      "value": 14349.5,
       "unit": "美元/吨",
       "frequency": "D",
       "vendor": "iFinD",
@@ -343,7 +343,7 @@
       "carried_forward": false,
       "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "970031d5649efe58d22bb5d71783249db141dc756a3a0247cbdd160092ea8d6c",
+      "normalized_value_sha256": "e067f227c7d6164b146c353a0bdb4f88b99588d4dccf36831299fbac28677035",
       "mapping_status": "verified"
     },
     {
@@ -353,9 +353,9 @@
       "exchange": null,
       "target": "SGX_IRON_ORE",
       "metric": null,
-      "requested_date": "2026-08-26",
-      "source_date": "2026-08-24",
-      "observation_date": "2026-08-24",
+      "requested_date": "2026-08-25",
+      "source_date": "2026-08-25",
+      "observation_date": "2026-08-25",
       "timezone": "Asia/Shanghai",
       "indicator_id": "S009067320",
       "report_id": null,
@@ -364,7 +364,7 @@
       "mapping_verified_on": "2026-08-19",
       "current_permission_status": "available",
       "name": "期货结算价:铁矿石掉期:新交所:22个月",
-      "value": 94.31,
+      "value": 93.61,
       "unit": "美元/公吨",
       "frequency": "D",
       "vendor": "iFinD",
@@ -378,7 +378,7 @@
       "carried_forward": false,
       "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "0b3757058634c511bb9b061ad0bd0bc8caf2c0d6d0448e708a6bf25e77be0cce",
+      "normalized_value_sha256": "046eff987ed2af9eee8ffddd5763d36df9dd86ea28a2ff1ebcc6d92129b609c1",
       "mapping_status": "verified"
     },
     {
@@ -388,7 +388,7 @@
       "exchange": null,
       "target": "BMD_PALM",
       "metric": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "source_date": "2026-04-26",
       "observation_date": "2026-04-26",
       "timezone": "Asia/Shanghai",
@@ -425,9 +425,9 @@
       "exchange": null,
       "target": "USDCNH",
       "metric": null,
-      "requested_date": "2026-08-26",
-      "source_date": "2026-08-24",
-      "observation_date": "2026-08-24",
+      "requested_date": "2026-08-25",
+      "source_date": "2026-08-25",
+      "observation_date": "2026-08-25",
       "timezone": "Asia/Shanghai",
       "indicator_id": "G019711418",
       "report_id": null,
@@ -436,7 +436,7 @@
       "mapping_verified_on": "2026-08-19",
       "current_permission_status": "available",
       "name": "美元兑离岸人民币",
-      "value": 6.72428022190396,
+      "value": 6.717255917354047,
       "unit": "人民币/美元",
       "frequency": "D",
       "vendor": "iFinD",
@@ -450,7 +450,7 @@
       "carried_forward": false,
       "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "922f127471759e5806a79e1a8ee7ef2d0912e267efd7c0ed7e5db1903540f2ad",
+      "normalized_value_sha256": "21b83bfa11e46ab5cd5b17abcfe694789b80510917453d832a0069658a555583",
       "mapping_status": "verified"
     },
     {
@@ -460,7 +460,7 @@
       "exchange": null,
       "target": "DXY",
       "metric": null,
-      "requested_date": "2026-08-26",
+      "requested_date": "2026-08-25",
       "source_date": "2026-08-25",
       "observation_date": "2026-08-25",
       "timezone": "Asia/Shanghai",
@@ -514,7 +514,7 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-08-26",
+    "last_attempt_date": "2026-08-25",
     "last_attempt_validation_passed": true,
     "out_of_order_attempt": false,
     "promotion_allowed": true
