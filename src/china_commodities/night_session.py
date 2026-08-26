@@ -39,7 +39,9 @@ NIGHT_SESSION_HISTORY_DAYS = 252
 NIGHT_SESSION_TIMEZONE = "Asia/Shanghai"
 _NIGHT_WINDOW_START = time(20, 0)
 _NIGHT_WINDOW_END = time(3, 45)
-_RESOLVED_STATES = frozenset({"night_session", "outside_night_window"})
+_RESOLVED_STATES = frozenset(
+    {"night_session", "outside_night_window", "no_night_trade"}
+)
 
 
 def _mapping(value: Any) -> Mapping[str, Any]:
@@ -290,6 +292,22 @@ def _record_from_quote(
         )
         return base
     if base["night_close"] is None or base["night_close"] <= 0:
+        # iFinD can publish a timestamp plus a carried settlement for an
+        # illiquid concrete contract that had no night-session trade.  That is
+        # an observed non-event, not an invalid quote and not a reason to keep
+        # re-requesting the same contract within this completed session.
+        if all(
+            value is None or value <= 0
+            for value in (base["open"], base["high"], base["low"])
+        ):
+            base.update(
+                {
+                    "record_state": "no_night_trade",
+                    "quality_state": "not_applicable",
+                    "missing_reason": "iFinD timestamped the completed night session but reported no trade price for the concrete contract",
+                }
+            )
+            return base
         base.update(
             {
                 "record_state": "missing_price",
@@ -321,6 +339,7 @@ def _coverage(records: Sequence[Mapping[str, Any]], request_count: int) -> dict[
         "cache_hit_count": sum(bool(record.get("cache_hit")) for record in records),
         "night_session_contract_count": night_count,
         "outside_night_window_count": counts.get("outside_night_window", 0),
+        "no_night_trade_count": counts.get("no_night_trade", 0),
         "missing_timestamp_count": counts.get("missing_timestamp", 0),
         "missing_price_count": counts.get("missing_price", 0),
         "missing_quote_count": counts.get("missing_quote", 0),

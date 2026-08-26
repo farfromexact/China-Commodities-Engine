@@ -74,8 +74,9 @@ class NightSessionTests(unittest.TestCase):
                     },
                     {
                         "thscode": "JD2609.DCE",
-                        "time": "2026-08-25 15:00:00",
-                        "latest": 3520,
+                        "time": "2026-08-25 23:00:00",
+                        "settlement": 3510,
+                        "preSettlement": 3510,
                     },
                 ]
             )
@@ -133,6 +134,7 @@ class NightSessionTests(unittest.TestCase):
             self.assertEqual(second.calls, [])
             self.assertEqual(result["status"]["coverage"]["request_contract_count"], 0)
             self.assertEqual(result["status"]["coverage"]["cache_hit_count"], 2)
+            self.assertEqual(result["status"]["coverage"]["no_night_trade_count"], 1)
 
     def test_daytime_quote_does_not_replace_previous_valid_night_snapshot(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
