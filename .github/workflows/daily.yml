@@ -16,9 +16,9 @@ on:
           - full
           - night_session_only
   schedule:
-    # 06:00 Asia/Shanghai: primary job is the completed prior-night futures
-    # snapshot; it also retries missing completed domestic EOD and overseas data.
-    - cron: "0 22 * * 0-4"
+    # 06:00 Asia/Shanghai Tuesday-Saturday: primary job is the completed
+    # Monday-Friday prior-night futures snapshot; it also retries missing EOD.
+    - cron: "0 22 * * 1-5"
     # 18:15 Asia/Shanghai: primary job is current-day domestic EOD; it also
     # retries overseas daily series when the morning attempt was missing or failed.
     - cron: "15 10 * * 1-5"

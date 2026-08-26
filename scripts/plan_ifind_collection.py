@@ -18,7 +18,8 @@ from china_commodities.collection_cache import (
 
 
 EVENING_SCHEDULE = "15 10 * * 1-5"
-MORNING_SCHEDULE = "0 22 * * 0-4"
+# 06:00 BJT Tuesday-Saturday captures the completed Monday-Friday night session.
+MORNING_SCHEDULE = "0 22 * * 1-5"
 
 
 def _previous_weekday(value: date) -> str:
