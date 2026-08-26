@@ -133,27 +133,78 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertTrue(plan["needs_options"])
             self.assertTrue(plan["needs_ifind"])
 
-    def test_schedules_request_only_their_missing_market_group(self) -> None:
+    def test_schedules_check_all_modules_with_safe_target_dates(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             morning = plan_collection(
                 event_name="schedule",
                 event_schedule=MORNING_SCHEDULE,
-                requested_date="2026-08-20",
+                requested_date="2026-08-25",
                 data_dir=root,
             )
+            self.assertTrue(morning["run_domestic"])
+            self.assertTrue(morning["run_external"])
+            self.assertEqual(morning["domestic_trade_date"], "2026-08-24")
+            self.assertEqual(morning["external_trade_date"], "2026-08-25")
+            self.assertEqual(
+                morning["domestic_date_policy"],
+                "previous_completed_weekday_eod",
+            )
+            self.assertTrue(morning["needs_futures"])
+            self.assertTrue(morning["needs_options"])
+            self.assertTrue(morning["needs_physical"])
             self.assertTrue(morning["needs_external"])
-            self.assertFalse(morning["needs_futures"])
             evening = plan_collection(
                 event_name="schedule",
                 event_schedule=EVENING_SCHEDULE,
-                requested_date="2026-08-20",
+                requested_date="2026-08-25",
                 data_dir=root,
             )
+            self.assertTrue(evening["run_domestic"])
+            self.assertTrue(evening["run_external"])
+            self.assertEqual(evening["domestic_trade_date"], "2026-08-25")
+            self.assertEqual(evening["external_trade_date"], "2026-08-25")
+            self.assertEqual(evening["domestic_date_policy"], "requested_date_eod")
             self.assertTrue(evening["needs_futures"])
             self.assertTrue(evening["needs_options"])
             self.assertTrue(evening["needs_physical"])
-            self.assertFalse(evening["needs_external"])
+            self.assertTrue(evening["needs_external"])
+
+    def test_monday_morning_uses_previous_friday_for_domestic_eod(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            plan = plan_collection(
+                event_name="schedule",
+                event_schedule=MORNING_SCHEDULE,
+                requested_date="2026-08-24",
+                data_dir=Path(directory),
+            )
+            self.assertEqual(plan["domestic_trade_date"], "2026-08-21")
+            self.assertEqual(plan["external_trade_date"], "2026-08-24")
+
+    def test_morning_reuses_completed_domestic_and_external_snapshots(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            seed_verified(root, trade_date="2026-08-24")
+            for path in (
+                root / "external" / "latest.json",
+                root / "external" / "last_run_status.json",
+            ):
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                payload["requested_date"] = "2026-08-25"
+                write_json(path, payload)
+
+            plan = plan_collection(
+                event_name="schedule",
+                event_schedule=MORNING_SCHEDULE,
+                requested_date="2026-08-25",
+                data_dir=root,
+            )
+
+            self.assertFalse(plan["needs_futures"])
+            self.assertFalse(plan["needs_options"])
+            self.assertFalse(plan["needs_physical"])
+            self.assertFalse(plan["needs_external"])
+            self.assertFalse(plan["needs_ifind"])
 
 
 if __name__ == "__main__":

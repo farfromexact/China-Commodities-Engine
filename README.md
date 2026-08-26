@@ -64,7 +64,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 核心期货的自动发布采用 **iFinD-primary** 原则：上期所、上期能源、大商所、郑商所和广期所的具体商品期货日终行情统一从 iFinD Quant API 提取，AKShare 不参与核心期货正式行情。商品期权是明确标记的例外：交易所 EOD 合约目录经 AKShare 适配，受阻时使用 OpenCTP 目录后备；逐合约报价、源日期、IV 和 vendor Greeks 仍由 iFinD 提供。任何来源切换都必须保留来源、时间和口径标记，不得静默混合。
 
-本仓库不建设分钟、逐笔、夜盘或 session 数据产物。国内期货、Physical 和期权只在收盘后更新；期权允许收盘后调用一次行情快照形成 EOD 链。晨间任务只查询已经完成收盘的海外日频序列，不生成任何国内夜盘推断。Physical 与 External 已用5个真实历史交易日完成日期、字段、单位和覆盖初始化；期权曲面按用户批准的生产配置在首个通过全部质量门槛的EOD日期直接提升。失败尝试仍只更新 `attempt_latest`、`last_run_status` 与 shadow state，绝不覆盖上一份有效快照。
+本仓库不建设分钟、逐笔、夜盘或 session 数据产物。国内期货、Physical 和期权只在收盘后更新；期权允许收盘后调用一次行情快照形成 EOD 链。晨间任务会复核最近一个已完成工作日的国内 EOD，并更新已经完成收盘的海外日频序列；晚间任务更新当天国内 EOD，并对海外日频进行缓存式补采。两次任务都不生成国内夜盘推断，也不把未收盘的当天行情写成 EOD。Physical 与 External 已用5个真实历史交易日完成日期、字段、单位和覆盖初始化；期权曲面按用户批准的生产配置在首个通过全部质量门槛的EOD日期直接提升。失败尝试仍只更新 `attempt_latest`、`last_run_status` 与 shadow state，绝不覆盖上一份有效快照。
 
 ### iFinD 主源接入
 
@@ -132,7 +132,7 @@ python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD --dry-r
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD
 ```
 
-GitHub Actions 通过 `workflow_dispatch`，或在工作日北京时间 06:00（前一 UTC 日 22:00）和 18:15（UTC 10:15）运行。06:00 只更新已经收盘的海外日频序列；18:15 更新国内全市场 iFinD 日终期货、交易所合约参数/仓单、Physical 和商品期权 EOD 链。手工触发会运行两组任务。若某次运行未通过本模块门槛，则保留上一份已验证 latest，并只更新明确的 attempt/status/shadow state。期权模块单品种失败写入 `data/options/last_run_status.json`；期货、Physical、External、期权链和期权曲面的提升规则彼此隔离。只有达到各自发布门槛且确有变化的文件才会提交和推送。
+GitHub Actions 通过 `workflow_dispatch`，或在工作日北京时间 06:00（前一 UTC 日 22:00）和 18:15（UTC 10:15）运行。两个时段都会检查期货、商品期权、Physical 和 External：06:00 的国内目标日是前一个工作日，避免请求未收盘的当天 EOD；18:15 的国内目标日是当天。External 两次都以当天为请求日，只有缺失、失败或新日期才会实际调用 iFinD。手工触发会以输入日期检查两组任务。若某次运行未通过本模块门槛，则保留上一份已验证 latest，并只更新明确的 attempt/status/shadow state。期权模块单品种失败写入 `data/options/last_run_status.json`；期货、Physical、External、期权链和期权曲面的提升规则彼此隔离。只有达到各自发布门槛且确有变化的文件才会提交和推送。
 
 每次 Action 会先只读检查仓库中各模块的日期和验证状态。同一请求日期已经存在已验证的期货、期权、Physical 或 External 数据时，对应模块直接跳过；若所有计划模块都已存在，连 access token 也不会换取。只有新日期、缺失数据或上次失败的模块才会请求 iFinD。CLI 和期权脚本还有第二层同日检查；确需重取时必须显式传入 `--force-refresh`。
 

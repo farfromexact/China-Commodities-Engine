@@ -8,9 +8,11 @@ on:
         required: false
         type: string
   schedule:
-    # 06:00 Asia/Shanghai, Monday through Friday (previous UTC day).
+    # 06:00 Asia/Shanghai: retry the latest completed domestic EOD and refresh
+    # completed overseas daily series (previous UTC day, Monday through Friday).
     - cron: "0 22 * * 0-4"
-    # 18:15 Asia/Shanghai, Monday through Friday.
+    # 18:15 Asia/Shanghai: collect current domestic EOD and retry overseas
+    # daily series when the morning attempt was missing or failed.
     - cron: "15 10 * * 1-5"
 
 permissions:
@@ -62,7 +64,7 @@ jobs:
       - name: Collect verified full-market iFinD futures
         if: ${{ steps.collection_plan.outputs.needs_futures == 'true' }}
         env:
-          TRADE_DATE: ${{ inputs.trade_date }}
+          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
@@ -70,53 +72,37 @@ jobs:
             echo "IFIND_REFRESH_TOKEN secret is required." >&2
             exit 1
           fi
-          if [[ -n "${TRADE_DATE}" ]]; then
-            python -m china_commodities.cli run --date "${TRADE_DATE}" --provider ifind --skip-options
-          else
-            python -m china_commodities.cli run --provider ifind --skip-options
-          fi
+          python -m china_commodities.cli run --date "${DOMESTIC_TRADE_DATE}" --provider ifind --skip-options
 
       - name: Collect all catalog commodity option chains
         if: ${{ steps.collection_plan.outputs.needs_options == 'true' }}
         continue-on-error: true
         env:
-          TRADE_DATE: ${{ inputs.trade_date }}
+          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
-          if [[ -n "${TRADE_DATE}" ]]; then
-            python scripts/collect_ifind_options.py --all-products --date "${TRADE_DATE}" --surface-shadow-days 1
-          else
-            python scripts/collect_ifind_options.py --all-products --surface-shadow-days 1
-          fi
+          python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1
 
       - name: Collect pinned Physical EDB series
         if: ${{ steps.collection_plan.outputs.needs_physical == 'true' }}
         continue-on-error: true
         env:
-          TRADE_DATE: ${{ inputs.trade_date }}
+          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
-          if [[ -n "${TRADE_DATE}" ]]; then
-            python -m china_commodities.cli foundation --scope physical --date "${TRADE_DATE}"
-          else
-            python -m china_commodities.cli foundation --scope physical
-          fi
+          python -m china_commodities.cli foundation --scope physical --date "${DOMESTIC_TRADE_DATE}"
 
       - name: Collect completed overseas daily series
         if: ${{ steps.collection_plan.outputs.needs_external == 'true' }}
         continue-on-error: true
         env:
-          TRADE_DATE: ${{ inputs.trade_date }}
+          EXTERNAL_TRADE_DATE: ${{ steps.collection_plan.outputs.external_trade_date }}
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
-          if [[ -n "${TRADE_DATE}" ]]; then
-            python -m china_commodities.cli foundation --scope external --date "${TRADE_DATE}"
-          else
-            python -m china_commodities.cli foundation --scope external
-          fi
+          python -m china_commodities.cli foundation --scope external --date "${EXTERNAL_TRADE_DATE}"
 
       - name: Rebuild local futures history and report input
         run: python -m china_commodities.cli report-input --repair-futures-history
