@@ -161,6 +161,60 @@ class ReportingInputTests(unittest.TestCase):
             self.assertEqual(path, root / "report_input_latest.json")
             self.assertTrue(path.exists())
 
+    def test_exposes_timestamp_validated_night_session_separately_from_eod(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self._write(root, "latest.json", {"trade_date": "2026-08-25"})
+            self._write(
+                root,
+                "night_session/latest.json",
+                {
+                    "trading_date": "2026-08-26",
+                    "night_session_date": "2026-08-25",
+                    "generated_at": "2026-08-26T06:03:00+08:00",
+                    "session_window_start": "2026-08-25T20:00:00+08:00",
+                    "session_window_end": "2026-08-26T03:45:00+08:00",
+                    "coverage": {"night_session_contract_count": 1},
+                    "records": [
+                        {
+                            "record_state": "night_session",
+                            "trading_date": "2026-08-26",
+                            "night_session_date": "2026-08-25",
+                            "source_timestamp": "2026-08-26T02:30:00+08:00",
+                            "exchange": "SHFE",
+                            "product": "CU",
+                            "contract": "CU2609",
+                            "night_close": 80400,
+                            "night_return_pct": 0.5,
+                        },
+                        {
+                            "record_state": "outside_night_window",
+                            "contract": "JD2609",
+                        },
+                    ],
+                },
+            )
+            self._write(
+                root,
+                "night_session/last_run_status.json",
+                {
+                    "trading_date": "2026-08-26",
+                    "data_fresh": True,
+                    "validation_passed": True,
+                    "published": True,
+                },
+            )
+
+            output = build_report_input(root)
+
+            # The report's canonical date remains the prior completed EOD;
+            # the following trading day's night session is an explicit overlay.
+            self.assertEqual(output["requested_date"], "2026-08-25")
+            self.assertEqual(output["frequency"], "EOD+night_session")
+            self.assertTrue(output["intraday"])
+            self.assertEqual(output["night_session"]["records"][0]["contract"], "CU2609")
+            self.assertEqual(len(output["night_session"]["records"]), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

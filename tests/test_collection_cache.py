@@ -8,6 +8,7 @@ from pathlib import Path
 from china_commodities.collection_cache import (
     verified_foundation_available,
     verified_futures_available,
+    verified_night_session_available,
     verified_option_chain_available,
 )
 from scripts.plan_ifind_collection import (
@@ -80,6 +81,32 @@ def seed_verified(root: Path, trade_date: str = "2026-08-19") -> None:
                 "published": True,
             },
         )
+    seed_verified_night(root, trade_date)
+
+
+def seed_verified_night(root: Path, trade_date: str) -> None:
+    write_json(
+        root / "night_session" / "latest.json",
+        {
+            "trading_date": trade_date,
+            "frequency": "night_session_snapshot",
+            "intraday_used": True,
+            "records": [{"exchange": "SHFE", "contract": "CU2609"}],
+        },
+    )
+    write_json(
+        root / "night_session" / "last_run_status.json",
+        {
+            "trading_date": trade_date,
+            "data_fresh": True,
+            "validation_passed": True,
+            "published": True,
+            "coverage": {
+                "night_session_contract_count": 1,
+                "unresolved_contract_count": 0,
+            },
+        },
+    )
 
 
 class CollectionCacheTests(unittest.TestCase):
@@ -89,6 +116,7 @@ class CollectionCacheTests(unittest.TestCase):
             seed_verified(root)
             self.assertTrue(verified_futures_available(root, "2026-08-19"))
             self.assertTrue(verified_option_chain_available(root, "2026-08-19"))
+            self.assertTrue(verified_night_session_available(root, "2026-08-19"))
             self.assertTrue(
                 verified_foundation_available(root, "physical", "2026-08-19")
             )
@@ -144,13 +172,16 @@ class CollectionCacheTests(unittest.TestCase):
             )
             self.assertTrue(morning["run_domestic"])
             self.assertTrue(morning["run_external"])
+            self.assertTrue(morning["run_night_session"])
             self.assertEqual(morning["domestic_trade_date"], "2026-08-24")
             self.assertEqual(morning["external_trade_date"], "2026-08-25")
+            self.assertEqual(morning["night_trading_date"], "2026-08-25")
             self.assertEqual(
                 morning["domestic_date_policy"],
                 "previous_completed_weekday_eod",
             )
             self.assertTrue(morning["needs_futures"])
+            self.assertTrue(morning["needs_night_session"])
             self.assertTrue(morning["needs_options"])
             self.assertTrue(morning["needs_physical"])
             self.assertTrue(morning["needs_external"])
@@ -162,10 +193,12 @@ class CollectionCacheTests(unittest.TestCase):
             )
             self.assertTrue(evening["run_domestic"])
             self.assertTrue(evening["run_external"])
+            self.assertFalse(evening["run_night_session"])
             self.assertEqual(evening["domestic_trade_date"], "2026-08-25")
             self.assertEqual(evening["external_trade_date"], "2026-08-25")
             self.assertEqual(evening["domestic_date_policy"], "requested_date_eod")
             self.assertTrue(evening["needs_futures"])
+            self.assertFalse(evening["needs_night_session"])
             self.assertTrue(evening["needs_options"])
             self.assertTrue(evening["needs_physical"])
             self.assertTrue(evening["needs_external"])
@@ -180,6 +213,7 @@ class CollectionCacheTests(unittest.TestCase):
             )
             self.assertEqual(plan["domestic_trade_date"], "2026-08-21")
             self.assertEqual(plan["external_trade_date"], "2026-08-24")
+            self.assertEqual(plan["night_trading_date"], "2026-08-24")
 
     def test_morning_reuses_completed_domestic_and_external_snapshots(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -192,6 +226,7 @@ class CollectionCacheTests(unittest.TestCase):
                 payload = json.loads(path.read_text(encoding="utf-8"))
                 payload["requested_date"] = "2026-08-25"
                 write_json(path, payload)
+            seed_verified_night(root, "2026-08-25")
 
             plan = plan_collection(
                 event_name="schedule",
@@ -201,10 +236,30 @@ class CollectionCacheTests(unittest.TestCase):
             )
 
             self.assertFalse(plan["needs_futures"])
+            self.assertFalse(plan["needs_night_session"])
             self.assertFalse(plan["needs_options"])
             self.assertFalse(plan["needs_physical"])
             self.assertFalse(plan["needs_external"])
             self.assertFalse(plan["needs_ifind"])
+
+    def test_manual_night_only_does_not_schedule_unclosed_daytime_eod(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan = plan_collection(
+                event_name="workflow_dispatch",
+                event_schedule="",
+                requested_date="2026-08-26",
+                collection_mode="night_session_only",
+                data_dir=root,
+            )
+            self.assertTrue(plan["run_night_session"])
+            self.assertTrue(plan["needs_night_session"])
+            self.assertFalse(plan["run_domestic"])
+            self.assertFalse(plan["run_external"])
+            self.assertFalse(plan["needs_futures"])
+            self.assertFalse(plan["needs_options"])
+            self.assertFalse(plan["needs_physical"])
+            self.assertFalse(plan["needs_external"])
 
 
 if __name__ == "__main__":

@@ -7,12 +7,20 @@ on:
         description: "Optional trade date (YYYY-MM-DD); defaults to runner date"
         required: false
         type: string
+      collection_mode:
+        description: "full runs the scheduled module plan; night_session_only is a safe night-data canary"
+        required: false
+        default: full
+        type: choice
+        options:
+          - full
+          - night_session_only
   schedule:
-    # 06:00 Asia/Shanghai: retry the latest completed domestic EOD and refresh
-    # completed overseas daily series (previous UTC day, Monday through Friday).
+    # 06:00 Asia/Shanghai: primary job is the completed prior-night futures
+    # snapshot; it also retries missing completed domestic EOD and overseas data.
     - cron: "0 22 * * 0-4"
-    # 18:15 Asia/Shanghai: collect current domestic EOD and retry overseas
-    # daily series when the morning attempt was missing or failed.
+    # 18:15 Asia/Shanghai: primary job is current-day domestic EOD; it also
+    # retries overseas daily series when the morning attempt was missing or failed.
     - cron: "15 10 * * 1-5"
 
 permissions:
@@ -53,6 +61,7 @@ jobs:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
           TRADE_DATE: ${{ inputs.trade_date }}
+          COLLECTION_MODE: ${{ inputs.collection_mode || 'full' }}
         run: python scripts/plan_ifind_collection.py
 
       - name: Acquire one shared iFinD access token
@@ -60,6 +69,16 @@ jobs:
         env:
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         run: python scripts/export_ifind_access_token.py
+
+      - name: Collect completed domestic night-session futures snapshot
+        if: ${{ steps.collection_plan.outputs.needs_night_session == 'true' }}
+        continue-on-error: true
+        env:
+          NIGHT_TRADING_DATE: ${{ steps.collection_plan.outputs.night_trading_date }}
+          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
+        shell: bash
+        run: |
+          python -m china_commodities.cli night-session --trade-date "${NIGHT_TRADING_DATE}"
 
       - name: Collect verified full-market iFinD futures
         if: ${{ steps.collection_plan.outputs.needs_futures == 'true' }}
@@ -119,7 +138,7 @@ jobs:
           retention-days: 14
 
       - name: Validate full-market snapshot
-        if: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '15 10 * * 1-5' }}
+        if: ${{ (github.event_name == 'workflow_dispatch' && inputs.collection_mode != 'night_session_only') || github.event.schedule == '15 10 * * 1-5' }}
         run: python -m china_commodities.cli validate
 
       - name: Commit and push data changes

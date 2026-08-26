@@ -64,7 +64,7 @@ def _read(root: Path, relative: str, default: Any = None) -> Any:
 
 
 def _trade_date(payload: Mapping[str, Any], fallback: str | None = None) -> str | None:
-    for field in ("trade_date", "requested_date", "run_date"):
+    for field in ("trading_date", "trade_date", "requested_date", "run_date"):
         value = payload.get(field)
         if value:
             return str(value)
@@ -327,6 +327,54 @@ def _module_freshness(
     }
 
 
+def _night_session_view(
+    snapshot: Mapping[str, Any], status: Mapping[str, Any]
+) -> dict[str, Any]:
+    """Compact only timestamp-validated night quotes for report consumers."""
+
+    records = [
+        {
+            key: item.get(key)
+            for key in (
+                "trading_date",
+                "night_session_date",
+                "source_timestamp",
+                "exchange",
+                "product",
+                "contract",
+                "open",
+                "high",
+                "low",
+                "night_close",
+                "pre_settlement",
+                "prior_eod_settlement",
+                "night_return_pct",
+                "volume",
+                "turnover",
+                "open_interest",
+                "source_provider",
+                "source_endpoint",
+                "quality_state",
+            )
+        }
+        for item in _list(snapshot.get("records"))
+        if isinstance(item, Mapping) and item.get("record_state") == "night_session"
+    ]
+    return {
+        "trading_date": snapshot.get("trading_date") or status.get("trading_date"),
+        "night_session_date": snapshot.get("night_session_date")
+        or status.get("night_session_date"),
+        "generated_at": snapshot.get("generated_at") or status.get("generated_at"),
+        "data_fresh": status.get("data_fresh"),
+        "validation_passed": status.get("validation_passed"),
+        "published": status.get("published"),
+        "coverage": snapshot.get("coverage") or status.get("coverage"),
+        "session_window_start": snapshot.get("session_window_start"),
+        "session_window_end": snapshot.get("session_window_end"),
+        "records": records,
+    }
+
+
 def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     """Join current local artifacts into a stable, report-facing JSON object."""
 
@@ -338,6 +386,10 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     physical_status = _mapping(_read(root, "physical/last_run_status.json", {}))
     external = _mapping(_read(root, "external/latest.json", {}))
     external_status = _mapping(_read(root, "external/last_run_status.json", {}))
+    night_session = _mapping(_read(root, "night_session/latest.json", {}))
+    night_session_status = _mapping(
+        _read(root, "night_session/last_run_status.json", {})
+    )
     options_latest = _mapping(_read(root, "options/latest.json", {}))
     options_status = _mapping(_read(root, "options/last_run_status.json", {}))
     options_quality_payload = _mapping(_read(root, "options/quality_latest.json", {}))
@@ -361,6 +413,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
 
     physical_view = _foundation_view(physical, physical_status)
     external_view = _foundation_view(external, external_status)
+    night_session_view = _night_session_view(night_session, night_session_status)
     physical_source_dates = [
         str(item.get("source_date"))
         for item in _list(physical.get("series"))
@@ -372,12 +425,17 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         if isinstance(item, Mapping) and item.get("source_date")
     ]
 
+    # Keep the report's canonical date tied to the daily EOD layer.  The night
+    # snapshot belongs to the following trading day, but it is an overlay on
+    # the prior completed EOD rather than a replacement for it.
     requested_date = (
         _trade_date(futures)
         or _trade_date(market_state)
         or _trade_date(options_surface)
         or _trade_date(physical)
         or _trade_date(external)
+        or _trade_date(night_session)
+        or _trade_date(night_session_status)
     )
     generated_at = datetime.now(ZoneInfo("Asia/Shanghai")).isoformat()
 
@@ -394,6 +452,8 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         limitations.append("physical_module_not_fresh")
     if not external_view.get("data_fresh"):
         limitations.append("external_module_not_fresh")
+    if not night_session_view.get("data_fresh"):
+        limitations.append("night_session_module_not_fresh")
     if not _list(futures.get("proxy_basis")):
         limitations.append("basis_not_available_in_futures_snapshot")
     if not _list(futures.get("member_rankings")):
@@ -410,13 +470,18 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         "generated_at": generated_at,
         "requested_date": requested_date,
         "timezone": "Asia/Shanghai",
-        "frequency": "EOD",
-        "intraday": False,
+        "frequency": (
+            "EOD+night_session"
+            if night_session_view.get("published")
+            else "EOD"
+        ),
+        "intraday": bool(night_session_view.get("published")),
         "source_paths": {
             "futures": "data/latest.json",
             "market_state": "data/market_state_latest.json",
             "physical": "data/physical/latest.json",
             "external": "data/external/latest.json",
+            "night_session": "data/night_session/latest.json",
             "options_chain_index": "data/options/latest.json",
             "options_quality": "data/options/quality_latest.json",
             "options_surface": "data/options/surface_latest.json",
@@ -444,6 +509,16 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             ),
             _module_freshness(
                 "external", external, external_status, source_dates=external_source_dates
+            ),
+            _module_freshness(
+                "night_session",
+                night_session,
+                night_session_status,
+                source_dates=[
+                    str(night_session.get("night_session_date"))
+                    if night_session.get("night_session_date")
+                    else ""
+                ],
             ),
             _module_freshness(
                 "options",
@@ -474,6 +549,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         ],
         "physical": physical_view,
         "external": external_view,
+        "night_session": night_session_view,
         "options": {
             "trade_date": options_surface.get("trade_date") or options_latest.get("trade_date"),
             "generated_at": options_surface.get("generated_at") or options_latest.get("generated_at"),
@@ -529,6 +605,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             "futures_status": futures_status,
             "physical_status": physical_status,
             "external_status": external_status,
+            "night_session_status": night_session_status,
             "options_status": options_status,
             "options_quality": options_quality,
             "limitations": limitations,

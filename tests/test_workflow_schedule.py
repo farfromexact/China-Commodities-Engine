@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 class WorkflowScheduleTests(unittest.TestCase):
-    def test_twice_daily_schedule_checks_all_modules_with_safe_dates(self) -> None:
+    def test_twice_daily_schedule_has_distinct_night_and_daytime_roles(self) -> None:
         workflow = (
             Path(__file__).resolve().parents[1] / ".github" / "workflows" / "daily.yml"
         ).read_text(encoding="utf-8")
@@ -18,6 +18,7 @@ class WorkflowScheduleTests(unittest.TestCase):
         self.assertEqual(workflow.count("--surface-shadow-days 1"), 1)
         self.assertIn("python scripts/plan_ifind_collection.py", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_ifind == 'true'", workflow)
+        self.assertIn("steps.collection_plan.outputs.needs_night_session == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_futures == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_options == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_physical == 'true'", workflow)
@@ -29,6 +30,12 @@ class WorkflowScheduleTests(unittest.TestCase):
         self.assertEqual(
             workflow.count(
                 'python -m china_commodities.cli run --date "${DOMESTIC_TRADE_DATE}"'
+            ),
+            1,
+        )
+        self.assertEqual(
+            workflow.count(
+                'python -m china_commodities.cli night-session --trade-date "${NIGHT_TRADING_DATE}"'
             ),
             1,
         )
@@ -62,6 +69,13 @@ class WorkflowScheduleTests(unittest.TestCase):
             ),
             1,
         )
+        self.assertEqual(
+            workflow.count(
+                "NIGHT_TRADING_DATE: ${{ steps.collection_plan.outputs.night_trading_date }}"
+            ),
+            1,
+        )
+        self.assertIn("night_session_only", workflow)
 
 
 if __name__ == "__main__":

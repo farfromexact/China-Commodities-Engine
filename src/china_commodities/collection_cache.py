@@ -77,6 +77,30 @@ def verified_option_chain_available(
     )
 
 
+def verified_night_session_available(
+    data_dir: str | Path,
+    trading_date: str,
+) -> bool:
+    """Return true only for a complete, timestamp-validated night snapshot."""
+
+    root = Path(data_dir) / "night_session"
+    snapshot = _mapping(read_json(root / "latest.json", default={}))
+    status = _mapping(read_json(root / "last_run_status.json", default={}))
+    coverage = _mapping(status.get("coverage"))
+    return bool(
+        snapshot.get("trading_date") == trading_date
+        and status.get("trading_date") == trading_date
+        and snapshot.get("frequency") == "night_session_snapshot"
+        and snapshot.get("intraday_used") is True
+        and status.get("data_fresh") is True
+        and status.get("validation_passed") is True
+        and status.get("published") is True
+        and int(coverage.get("night_session_contract_count") or 0) > 0
+        and int(coverage.get("unresolved_contract_count") or 0) == 0
+        and snapshot.get("records")
+    )
+
+
 def verified_foundation_available(
     data_dir: str | Path,
     domain: str,
@@ -101,5 +125,6 @@ def verified_foundation_available(
 __all__ = [
     "verified_foundation_available",
     "verified_futures_available",
+    "verified_night_session_available",
     "verified_option_chain_available",
 ]

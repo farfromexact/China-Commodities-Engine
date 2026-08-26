@@ -13,9 +13,11 @@ from .collectors.akshare_adapter import COMMODITY_EXCHANGES
 from .collection_cache import (
     verified_foundation_available,
     verified_futures_available,
+    verified_night_session_available,
 )
 from .foundation import run_foundation
 from .history_storage import rebuild_futures_history_from_snapshots
+from .night_session import collect_night_session
 from .pipeline import run_pipeline
 from .quality import validate_snapshot
 from .reporting import publish_report_input
@@ -130,6 +132,23 @@ def _parser() -> argparse.ArgumentParser:
         "--force-refresh",
         action="store_true",
         help="request iFinD even when a verified same-date module snapshot exists",
+    )
+
+    night_session = subparsers.add_parser(
+        "night-session",
+        help="capture the completed prior-night futures session as a separate snapshot",
+    )
+    night_session.add_argument(
+        "--trade-date",
+        default=_today_shanghai(),
+        help="exchange trading date following the completed night session",
+    )
+    night_session.add_argument("--data-dir", default="data")
+    night_session.add_argument("--dry-run", action="store_true")
+    night_session.add_argument(
+        "--force-refresh",
+        action="store_true",
+        help="request iFinD even when a complete same-session snapshot exists",
     )
     return parser
 
@@ -342,6 +361,58 @@ def _history_rebuild(args: argparse.Namespace) -> int:
     return 0
 
 
+def _night_session(args: argparse.Namespace) -> int:
+    if (
+        not args.force_refresh
+        and not args.dry_run
+        and verified_night_session_available(args.data_dir, args.trade_date)
+    ):
+        snapshot = read_json(
+            Path(args.data_dir) / "night_session" / "latest.json", default={}
+        ) or {}
+        print(
+            json.dumps(
+                {
+                    "trading_date": args.trade_date,
+                    "night_session_date": snapshot.get("night_session_date"),
+                    "skipped_existing": True,
+                    "reason": "complete same-session night snapshot already exists",
+                    "coverage": snapshot.get("coverage"),
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 0
+    result = collect_night_session(
+        args.trade_date,
+        data_dir=args.data_dir,
+        publish=not args.dry_run,
+        force_refresh=args.force_refresh,
+    )
+    status = result["status"]
+    print(
+        json.dumps(
+            {
+                "trading_date": status["trading_date"],
+                "night_session_date": status["night_session_date"],
+                "data_fresh": status["data_fresh"],
+                "validation_passed": status["validation_passed"],
+                "published": status["published"],
+                "coverage": status["coverage"],
+                "validation_errors": status["validation_errors"],
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+    # A closed-market night can legitimately have no qualifying timestamp.  The
+    # status artifact records that explicitly while downstream daily EOD work
+    # continues; this command is therefore observational rather than a hard
+    # workflow failure.
+    return 0
+
+
 def _report_input(args: argparse.Namespace) -> int:
     if args.repair_futures_history:
         rebuild_futures_history_from_snapshots(args.data_dir, retention_days=252)
@@ -370,6 +441,8 @@ def main(argv: list[str] | None = None) -> int:
         return _backfill(args)
     if args.command == "foundation":
         return _foundation(args)
+    if args.command == "night-session":
+        return _night_session(args)
     if args.command == "history-rebuild":
         return _history_rebuild(args)
     if args.command == "report-input":

@@ -59,6 +59,8 @@ def append_parquet_history(
     *,
     key_fields: Sequence[str],
     sort_fields: Sequence[str] | None = None,
+    retention_field: str | None = None,
+    retention_days: int | None = None,
 ) -> int:
     """Append normalized rows with last-write-wins de-duplication.
 
@@ -73,6 +75,13 @@ def append_parquet_history(
         if destination.exists():
             return int(len(pd.read_parquet(destination)))
         return 0
+    if (retention_field is None) != (retention_days is None):
+        raise ValueError(
+            "retention_field and retention_days must be supplied together"
+        )
+    if retention_days is not None and retention_days < 1:
+        raise ValueError("retention_days must be positive")
+
     keys = tuple(str(field) for field in key_fields)
     if not keys:
         raise ValueError("Parquet history requires at least one key field")
@@ -91,6 +100,19 @@ def append_parquet_history(
     else:
         combined = incoming
     combined = combined.drop_duplicates(subset=list(keys), keep="last")
+    if retention_field is not None and retention_days is not None:
+        field = str(retention_field)
+        if field not in combined.columns:
+            raise ValueError(f"Parquet history retention field is missing: {field}")
+        retained = sorted(
+            {
+                str(value)
+                for value in combined[field].dropna().tolist()
+                if str(value)
+            }
+        )
+        if len(retained) > retention_days:
+            combined = combined[combined[field].astype(str).isin(retained[-retention_days:])]
     order = list(sort_fields or keys)
     combined = combined.sort_values(order, kind="stable", na_position="last")
     combined = combined.reset_index(drop=True)
