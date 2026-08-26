@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "domain": "external",
-  "requested_date": "2026-08-26",
-  "generated_at": "2026-08-26T19:05:00.927182+08:00",
+  "requested_date": "2026-08-27",
+  "generated_at": "2026-08-27T07:55:15.115546+08:00",
   "data_fresh": false,
   "coverage": {
     "target_count": 22,
@@ -22,39 +22,39 @@
       "indicator_id": "S004111385",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-08-25",
+      "source_date": "2026-08-26",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-25",
-      "query_end_date": "2026-08-26"
+      "query_end_date": "2026-08-27"
     },
     {
       "series_key": "external.LME_CU.three_month_close",
       "indicator_id": "S005808359",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-08-25",
+      "source_date": "2026-08-26",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-25",
-      "query_end_date": "2026-08-26"
+      "query_end_date": "2026-08-27"
     },
     {
       "series_key": "external.SGX_IRON_ORE.twenty_two_month_settlement",
       "indicator_id": "S009067320",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-08-25",
+      "source_date": "2026-08-26",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-25",
-      "query_end_date": "2026-08-26"
+      "query_end_date": "2026-08-27"
     },
     {
       "series_key": "external.BMD_PALM.bmd_plus_3",
@@ -67,7 +67,7 @@
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-04-26",
-      "query_end_date": "2026-08-26"
+      "query_end_date": "2026-08-27"
     },
     {
       "series_key": "external.USDCNH.close",
@@ -80,20 +80,20 @@
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-25",
-      "query_end_date": "2026-08-26"
+      "query_end_date": "2026-08-27"
     },
     {
       "series_key": "external.DXY.close",
       "indicator_id": "G002600885",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-08-25",
+      "source_date": "2026-08-26",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-25",
-      "query_end_date": "2026-08-26"
+      "query_end_date": "2026-08-27"
     }
   ],
   "validation_passed": true,
@@ -112,7 +112,7 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-08-26",
+    "last_attempt_date": "2026-08-27",
     "last_attempt_validation_passed": true,
     "out_of_order_attempt": false,
     "promotion_allowed": true
