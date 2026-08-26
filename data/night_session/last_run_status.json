@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "trading_date": "2026-08-26",
+  "night_session_date": "2026-08-25",
+  "generated_at": "2026-08-26T08:37:52.555070+08:00",
+  "data_fresh": false,
+  "validation_passed": false,
+  "published": true,
+  "coverage": {
+    "selected_contract_count": 803,
+    "request_contract_count": 803,
+    "cache_hit_count": 0,
+    "night_session_contract_count": 610,
+    "outside_night_window_count": 186,
+    "missing_timestamp_count": 0,
+    "missing_price_count": 7,
+    "missing_quote_count": 0,
+    "query_error_count": 0,
+    "unresolved_contract_count": 7,
+    "night_session_coverage_pct": 75.9651
+  },
+  "validation_errors": [
+    "7 concrete contracts are unresolved"
+  ],
+  "previous_valid_snapshot_retained": false
+}
