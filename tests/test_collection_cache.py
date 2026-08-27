@@ -3,7 +3,9 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from china_commodities.collection_cache import (
     verified_foundation_available,
@@ -44,7 +46,12 @@ def seed_verified(root: Path, trade_date: str = "2026-08-19") -> None:
     option_root = root / "options"
     write_json(
         option_root / "latest.json",
-        {"trade_date": trade_date, "record_count": 10},
+        {
+            "trade_date": trade_date,
+            "source_provider": "ifind_http",
+            "record_count": 10,
+            "coverage": {"publish_eligible": True, "scope_complete": True},
+        },
     )
     write_json(
         option_root / "last_run_status.json",
@@ -174,12 +181,18 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertTrue(morning["run_external"])
             self.assertTrue(morning["run_night_session"])
             self.assertEqual(morning["domestic_trade_date"], "2026-08-24")
-            self.assertEqual(morning["external_trade_date"], "2026-08-25")
+            self.assertEqual(morning["external_trade_date"], "2026-08-24")
             self.assertEqual(morning["night_trading_date"], "2026-08-25")
+            self.assertEqual(morning["execution_profile"], "completed_eod_recovery")
             self.assertEqual(
                 morning["domestic_date_policy"],
                 "previous_completed_weekday_eod",
             )
+            self.assertEqual(
+                morning["external_date_policy"],
+                "previous_completed_weekday_daily",
+            )
+            self.assertFalse(morning["validate_full_market"])
             self.assertTrue(morning["needs_futures"])
             self.assertTrue(morning["needs_night_session"])
             self.assertTrue(morning["needs_options"])
@@ -196,7 +209,10 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertFalse(evening["run_night_session"])
             self.assertEqual(evening["domestic_trade_date"], "2026-08-25")
             self.assertEqual(evening["external_trade_date"], "2026-08-25")
+            self.assertEqual(evening["execution_profile"], "current_or_historical_eod")
             self.assertEqual(evening["domestic_date_policy"], "requested_date_eod")
+            self.assertEqual(evening["external_date_policy"], "requested_date_daily")
+            self.assertTrue(evening["validate_full_market"])
             self.assertTrue(evening["needs_futures"])
             self.assertFalse(evening["needs_night_session"])
             self.assertTrue(evening["needs_options"])
@@ -212,20 +228,13 @@ class CollectionCacheTests(unittest.TestCase):
                 data_dir=Path(directory),
             )
             self.assertEqual(plan["domestic_trade_date"], "2026-08-21")
-            self.assertEqual(plan["external_trade_date"], "2026-08-24")
+            self.assertEqual(plan["external_trade_date"], "2026-08-21")
             self.assertEqual(plan["night_trading_date"], "2026-08-24")
 
     def test_morning_reuses_completed_domestic_and_external_snapshots(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             seed_verified(root, trade_date="2026-08-24")
-            for path in (
-                root / "external" / "latest.json",
-                root / "external" / "last_run_status.json",
-            ):
-                payload = json.loads(path.read_text(encoding="utf-8"))
-                payload["requested_date"] = "2026-08-25"
-                write_json(path, payload)
             seed_verified_night(root, "2026-08-25")
 
             plan = plan_collection(
@@ -242,6 +251,82 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertFalse(plan["needs_external"])
             self.assertFalse(plan["needs_ifind"])
 
+    def test_manual_current_day_before_eod_uses_completed_eod_recovery(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            plan = plan_collection(
+                event_name="workflow_dispatch",
+                event_schedule="",
+                requested_date="2026-08-27",
+                collection_mode="full",
+                data_dir=Path(directory),
+                now=datetime(2026, 8, 27, 7, 44, tzinfo=ZoneInfo("Asia/Shanghai")),
+            )
+
+            self.assertEqual(plan["execution_profile"], "completed_eod_recovery")
+            self.assertEqual(plan["domestic_trade_date"], "2026-08-26")
+            self.assertEqual(plan["external_trade_date"], "2026-08-26")
+            self.assertEqual(plan["night_trading_date"], "2026-08-27")
+            self.assertTrue(plan["run_night_session"])
+            self.assertFalse(plan["validate_full_market"])
+
+    def test_manual_current_day_after_eod_uses_current_eod_without_night_query(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            plan = plan_collection(
+                event_name="workflow_dispatch",
+                event_schedule="",
+                requested_date="2026-08-27",
+                collection_mode="full",
+                data_dir=Path(directory),
+                now=datetime(2026, 8, 27, 18, 16, tzinfo=ZoneInfo("Asia/Shanghai")),
+            )
+
+            self.assertEqual(plan["execution_profile"], "current_or_historical_eod")
+            self.assertEqual(plan["domestic_trade_date"], "2026-08-27")
+            self.assertEqual(plan["external_trade_date"], "2026-08-27")
+            self.assertFalse(plan["run_night_session"])
+            self.assertTrue(plan["validate_full_market"])
+
+    def test_later_failed_attempt_does_not_invalidate_promoted_completed_date(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            seed_verified(root, trade_date="2026-08-26")
+            write_json(
+                root / "last_run_status.json",
+                {
+                    "run_date": "2026-08-27",
+                    "primary_provider": "ifind",
+                    "data_fresh": False,
+                    "validation_errors": ["unclosed EOD"],
+                },
+            )
+            write_json(
+                root / "options" / "last_run_status.json",
+                {
+                    "trade_date": "2026-08-27",
+                    "data_fresh": False,
+                    "published": False,
+                    "coverage": {"publish_eligible": False, "scope_complete": False},
+                },
+            )
+            for domain in ("physical", "external"):
+                write_json(
+                    root / domain / "last_run_status.json",
+                    {
+                        "requested_date": "2026-08-27",
+                        "validation_passed": False,
+                        "published": False,
+                    },
+                )
+
+            self.assertTrue(verified_futures_available(root, "2026-08-26"))
+            self.assertTrue(verified_option_chain_available(root, "2026-08-26"))
+            self.assertTrue(
+                verified_foundation_available(root, "physical", "2026-08-26")
+            )
+            self.assertTrue(
+                verified_foundation_available(root, "external", "2026-08-26")
+            )
+
     def test_manual_night_only_does_not_schedule_unclosed_daytime_eod(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -253,6 +338,7 @@ class CollectionCacheTests(unittest.TestCase):
                 data_dir=root,
             )
             self.assertTrue(plan["run_night_session"])
+            self.assertEqual(plan["execution_profile"], "night_session_only")
             self.assertTrue(plan["needs_night_session"])
             self.assertFalse(plan["run_domestic"])
             self.assertFalse(plan["run_external"])
@@ -260,6 +346,7 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertFalse(plan["needs_options"])
             self.assertFalse(plan["needs_physical"])
             self.assertFalse(plan["needs_external"])
+            self.assertFalse(plan["validate_full_market"])
 
 
 if __name__ == "__main__":

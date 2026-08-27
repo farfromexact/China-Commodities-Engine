@@ -30,14 +30,25 @@ def verified_futures_available(
         else snapshot.get("verified") is True
     )
     fresh_key = "scope_data_fresh" if allow_scoped else "data_fresh"
-    return bool(
+    snapshot_is_verified = bool(
         snapshot.get("trade_date") == requested_date
-        and status.get("run_date") == requested_date
+        and verified
+        and snapshot.get("futures_contracts")
+    )
+    if not snapshot_is_verified:
+        return False
+    status_date = str(status.get("run_date") or "")
+    # ``last_run_status`` intentionally describes the newest attempt.  A
+    # later, unclosed-date failure must not invalidate a separately promoted
+    # snapshot for the requested completed EOD date and cause a duplicate API
+    # request on the next recovery run.
+    if status_date and status_date != requested_date:
+        return True
+    return bool(
+        status_date == requested_date
         and status.get("primary_provider") == provider
         and status.get(fresh_key) is True
         and not (status.get("validation_errors") or [])
-        and verified
-        and snapshot.get("futures_contracts")
     )
 
 
@@ -55,24 +66,32 @@ def verified_option_chain_available(
     )
     quality = _mapping(quality_payload.get("quality"))
     coverage = _mapping(status.get("coverage"))
-    return bool(
+    latest_is_verified = bool(
         latest.get("trade_date") == requested_date
         and int(
-            latest.get("record_count")
-            or status.get("quote_contract_count")
-            or 0
+            latest.get("record_count") or 0
         )
         > 0
-        and status.get("trade_date") == requested_date
         and quality_payload.get("trade_date") == requested_date
+        and latest.get("source_provider") == "ifind_http"
+        and _mapping(latest.get("coverage")).get("publish_eligible") is True
+        and _mapping(latest.get("coverage")).get("scope_complete") is True
+        and quality.get("full_chain_verified") is True
+        and quality.get("full_product_scope_verified") is True
+    )
+    if not latest_is_verified:
+        return False
+    status_date = str(status.get("trade_date") or "")
+    if status_date and status_date != requested_date:
+        return True
+    return bool(
+        status_date == requested_date
         and status.get("source_provider") == "ifind_http"
         and status.get("data_fresh") is True
         and status.get("published") is True
         and not status.get("global_error")
         and coverage.get("publish_eligible") is True
         and coverage.get("scope_complete") is True
-        and quality.get("full_chain_verified") is True
-        and quality.get("full_product_scope_verified") is True
         and int(status.get("quote_contract_count") or 0) > 0
     )
 
@@ -117,12 +136,19 @@ def verified_foundation_available(
     root = Path(data_dir) / domain
     snapshot = _mapping(read_json(root / "latest.json", default={}))
     status = _mapping(read_json(root / "last_run_status.json", default={}))
-    return bool(
+    promoted_snapshot = bool(
         snapshot.get("requested_date") == requested_date
-        and status.get("requested_date") == requested_date
+        and snapshot.get("series")
+    )
+    if not promoted_snapshot:
+        return False
+    status_date = str(status.get("requested_date") or "")
+    if status_date and status_date != requested_date:
+        return True
+    return bool(
+        status_date == requested_date
         and status.get("validation_passed") is True
         and status.get("published") is True
-        and snapshot.get("series")
     )
 
 

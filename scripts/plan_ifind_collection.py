@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, time, timedelta
 import json
 import os
 from pathlib import Path
@@ -18,8 +18,10 @@ from china_commodities.collection_cache import (
 
 
 EVENING_SCHEDULE = "15 10 * * 1-5"
-# 06:00 BJT Tuesday-Saturday captures the completed Monday-Friday night session.
-MORNING_SCHEDULE = "0 22 * * 1-5"
+# 06:13 BJT Tuesday-Saturday captures the completed Monday-Friday night session.
+# Avoiding the top of the UTC hour reduces GitHub Actions schedule contention.
+MORNING_SCHEDULE = "13 22 * * 1-5"
+DOMESTIC_EOD_READY_AT = time(18, 15)
 
 
 def _previous_weekday(value: date) -> str:
@@ -39,6 +41,17 @@ def _previous_weekday(value: date) -> str:
     return cursor.isoformat()
 
 
+def _shanghai_now(now: datetime | None = None) -> datetime:
+    """Return an explicit Shanghai timestamp, including for deterministic tests."""
+
+    zone = ZoneInfo("Asia/Shanghai")
+    if now is None:
+        return datetime.now(zone)
+    if now.tzinfo is None:
+        return now.replace(tzinfo=zone)
+    return now.astimezone(zone)
+
+
 def plan_collection(
     *,
     event_name: str,
@@ -46,11 +59,13 @@ def plan_collection(
     requested_date: str | None,
     collection_mode: str = "full",
     data_dir: str | Path = "data",
+    now: datetime | None = None,
 ) -> dict[str, Any]:
-    requested_trade_date = requested_date or datetime.now(
-        ZoneInfo("Asia/Shanghai")
-    ).date().isoformat()
+    now_shanghai = _shanghai_now(now)
+    requested_trade_date = requested_date or now_shanghai.date().isoformat()
     target_date = date.fromisoformat(requested_trade_date)
+    if target_date > now_shanghai.date():
+        raise ValueError("requested trade date cannot be in the future")
     mode = str(collection_mode or "full").strip().lower()
     if mode not in {"full", "night_session_only"}:
         raise ValueError("collection_mode must be full or night_session_only")
@@ -59,21 +74,39 @@ def plan_collection(
         MORNING_SCHEDULE,
         EVENING_SCHEDULE,
     }
+    scheduled_morning = is_scheduled and event_schedule == MORNING_SCHEDULE
+    # A manual full run before the normal 18:15 BJT EOD publication boundary
+    # must behave like the scheduled morning recovery.  Otherwise a user
+    # clicking "Run workflow" at 07:00 would request a not-yet-closed domestic
+    # EOD date and replace the attempt/status layer with a false failure.
+    manual_before_current_eod = bool(
+        is_manual
+        and target_date == now_shanghai.date()
+        and now_shanghai.time() < DOMESTIC_EOD_READY_AT
+    )
+    if mode == "night_session_only":
+        execution_profile = "night_session_only"
+    elif scheduled_morning or manual_before_current_eod:
+        execution_profile = "completed_eod_recovery"
+    else:
+        execution_profile = "current_or_historical_eod"
+
+    completed_eod_recovery = execution_profile == "completed_eod_recovery"
     run_night_session = bool(
-        (
-            is_manual
-            or (is_scheduled and event_schedule == MORNING_SCHEDULE)
-        )
-        and mode in {"full", "night_session_only"}
+        execution_profile in {"completed_eod_recovery", "night_session_only"}
     )
     run_domestic = bool((is_manual or is_scheduled) and mode == "full")
     run_external = bool((is_manual or is_scheduled) and mode == "full")
     domestic_trade_date = (
         _previous_weekday(target_date)
-        if event_name == "schedule" and event_schedule == MORNING_SCHEDULE
+        if completed_eod_recovery
         else target_date.isoformat()
     )
-    external_trade_date = target_date.isoformat()
+    external_trade_date = (
+        _previous_weekday(target_date)
+        if completed_eod_recovery
+        else target_date.isoformat()
+    )
     night_trading_date = target_date.isoformat()
     needs_night_session = bool(
         run_night_session
@@ -102,17 +135,24 @@ def plan_collection(
     return {
         "requested_date": target_date.isoformat(),
         "collection_mode": mode,
+        "execution_profile": execution_profile,
         "domestic_trade_date": domestic_trade_date,
         "external_trade_date": external_trade_date,
         "night_trading_date": night_trading_date,
         "domestic_date_policy": (
             "previous_completed_weekday_eod"
-            if event_name == "schedule" and event_schedule == MORNING_SCHEDULE
+            if completed_eod_recovery
             else "requested_date_eod"
+        ),
+        "external_date_policy": (
+            "previous_completed_weekday_daily"
+            if completed_eod_recovery
+            else "requested_date_daily"
         ),
         "run_domestic": run_domestic,
         "run_external": run_external,
         "run_night_session": run_night_session,
+        "validate_full_market": execution_profile == "current_or_historical_eod",
         "needs_night_session": needs_night_session,
         "needs_futures": needs_futures,
         "needs_options": needs_options,

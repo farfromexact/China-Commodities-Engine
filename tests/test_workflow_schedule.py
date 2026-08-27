@@ -11,7 +11,7 @@ class WorkflowScheduleTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
 
         self.assertIn('name: Split EOD China Commodities Data', workflow)
-        self.assertIn('- cron: "0 22 * * 1-5"', workflow)
+        self.assertIn('- cron: "13 22 * * 1-5"', workflow)
         self.assertIn('- cron: "15 10 * * 1-5"', workflow)
         self.assertEqual(workflow.count("python -m china_commodities.cli run"), 1)
         self.assertEqual(workflow.count("python scripts/collect_ifind_options.py"), 1)
@@ -23,6 +23,7 @@ class WorkflowScheduleTests(unittest.TestCase):
         self.assertIn("steps.collection_plan.outputs.needs_options == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_physical == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_external == 'true'", workflow)
+        self.assertIn("steps.collection_plan.outputs.validate_full_market == 'true'", workflow)
         self.assertIn(
             "python -m china_commodities.cli report-input --repair-futures-history",
             workflow,
