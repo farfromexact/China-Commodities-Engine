@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "domain": "physical",
-  "requested_date": "2026-08-28",
-  "generated_at": "2026-08-28T04:34:50.964844+08:00",
-  "data_fresh": true,
+  "requested_date": "2026-08-27",
+  "generated_at": "2026-08-28T14:05:34.798000+08:00",
+  "data_fresh": false,
   "coverage": {
     "target_count": 20,
     "verified_mapping_count": 4,
     "unavailable_mapping_count": 16,
-    "fresh_target_count": 4,
+    "fresh_target_count": 2,
     "stale_target_count": 0,
-    "carried_forward_target_count": 0,
+    "carried_forward_target_count": 2,
     "failed_target_count": 0,
     "series_count": 4,
     "cache_hit_count": 0,
@@ -28,7 +28,7 @@
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-26",
-      "query_end_date": "2026-08-28"
+      "query_end_date": "2026-08-27"
     },
     {
       "series_key": "physical.JM.nbs_coking_coal_spot",
@@ -41,38 +41,47 @@
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-20",
-      "query_end_date": "2026-08-28"
+      "query_end_date": "2026-08-27"
     },
     {
       "series_key": "physical.FG.float_glass_inventory",
       "indicator_id": "S005696248",
-      "state": "ok",
-      "quality_state": "fresh",
+      "state": "regressed_source_date",
+      "quality_state": "carried_forward",
       "source_date": "2026-08-28",
-      "carried_forward": false,
-      "detail": null,
+      "carried_forward": true,
+      "detail": "current query returned an observation older than the retained snapshot",
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2026-08-21",
-      "query_end_date": "2026-08-28"
+      "query_start_date": "2025-07-23",
+      "query_end_date": "2026-08-27"
     },
     {
       "series_key": "physical.TA.processing_margin",
       "indicator_id": "S011318489",
-      "state": "ok",
-      "quality_state": "fresh",
+      "state": "regressed_source_date",
+      "quality_state": "carried_forward",
       "source_date": "2026-08-28",
-      "carried_forward": false,
-      "detail": null,
+      "carried_forward": true,
+      "detail": "current query returned an observation older than the retained snapshot",
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2026-08-21",
-      "query_end_date": "2026-08-28"
+      "query_start_date": "2025-07-23",
+      "query_end_date": "2026-08-27"
     }
   ],
-  "validation_passed": true,
-  "validation_errors": [],
-  "published": true,
+  "validation_passed": false,
+  "validation_errors": [
+    "FG: invalid target quality state carried_forward",
+    "TA: invalid target quality state carried_forward",
+    "physical.FG.float_glass_inventory: current collection is carried forward",
+    "physical.FG.float_glass_inventory: current collection state=regressed_source_date",
+    "physical.FG.float_glass_inventory: observation date is after requested date",
+    "physical.TA.processing_margin: current collection is carried forward",
+    "physical.TA.processing_margin: current collection state=regressed_source_date",
+    "physical.TA.processing_margin: observation date is after requested date"
+  ],
+  "published": false,
   "shadow_state": {
     "schema_version": 1,
     "required_pass_days": 5,
@@ -86,10 +95,10 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-08-28",
-    "last_attempt_validation_passed": true,
+    "last_attempt_date": "2026-08-27",
+    "last_attempt_validation_passed": false,
     "out_of_order_attempt": false,
-    "promotion_allowed": true
+    "promotion_allowed": false
   },
-  "previous_valid_snapshot_retained": false
+  "previous_valid_snapshot_retained": true
 }

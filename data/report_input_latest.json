@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-28T04:34:57.443587+08:00",
+  "generated_at": "2026-08-28T14:05:40.413181+08:00",
   "requested_date": "2026-08-27",
   "timezone": "Asia/Shanghai",
-  "frequency": "EOD+night_session",
-  "intraday": true,
+  "frequency": "EOD",
+  "intraday": false,
   "source_paths": {
     "futures": "data/latest.json",
     "market_state": "data/market_state_latest.json",
@@ -55,21 +55,20 @@
       "source_date_min": "2026-08-20",
       "source_date_max": "2026-08-28",
       "generated_at": "2026-08-28T04:34:50.964844+08:00",
-      "data_fresh": true,
-      "validation_passed": true,
-      "published": true
+      "data_fresh": false,
+      "validation_passed": false,
+      "published": false
     },
     {
       "module": "external",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "source_dates": [
         "2026-04-26",
-        "2026-08-26",
         "2026-08-27"
       ],
       "source_date_min": "2026-04-26",
       "source_date_max": "2026-08-27",
-      "generated_at": "2026-08-28T04:34:56.418773+08:00",
+      "generated_at": "2026-08-28T14:05:39.084590+08:00",
       "data_fresh": false,
       "validation_passed": true,
       "published": true
@@ -83,9 +82,9 @@
       "source_date_min": "2026-08-26",
       "source_date_max": "2026-08-26",
       "generated_at": "2026-08-27T07:45:00.632978+08:00",
-      "data_fresh": true,
-      "validation_passed": true,
-      "published": true
+      "data_fresh": false,
+      "validation_passed": false,
+      "published": false
     },
     {
       "module": "options",
@@ -4837,9 +4836,9 @@
   "physical": {
     "requested_date": "2026-08-28",
     "generated_at": "2026-08-28T04:34:50.964844+08:00",
-    "data_fresh": true,
-    "validation_passed": true,
-    "published": true,
+    "data_fresh": false,
+    "validation_passed": false,
+    "published": false,
     "coverage": {
       "target_count": 20,
       "verified_mapping_count": 4,
@@ -5272,8 +5271,8 @@
     "provider_consensus_missing_reason": "an independent second provider is not configured"
   },
   "external": {
-    "requested_date": "2026-08-28",
-    "generated_at": "2026-08-28T04:34:56.418773+08:00",
+    "requested_date": "2026-08-27",
+    "generated_at": "2026-08-28T14:05:39.084590+08:00",
     "data_fresh": false,
     "validation_passed": true,
     "published": true,
@@ -5286,14 +5285,14 @@
       "carried_forward_target_count": 0,
       "failed_target_count": 0,
       "series_count": 6,
-      "cache_hit_count": 0,
-      "request_count": 6
+      "cache_hit_count": 1,
+      "request_count": 5
     },
     "coverage_matrix": [
       {
         "key": "WTI",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5304,7 +5303,7 @@
       {
         "key": "BRENT",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5317,7 +5316,7 @@
       {
         "key": "DUBAI_OMAN",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5328,7 +5327,7 @@
       {
         "key": "SINGAPORE_HSFO",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5339,7 +5338,7 @@
       {
         "key": "SINGAPORE_VLSFO",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5350,7 +5349,7 @@
       {
         "key": "LME_CU",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5363,7 +5362,7 @@
       {
         "key": "LME_AL",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5374,7 +5373,7 @@
       {
         "key": "LME_ZN",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5385,7 +5384,7 @@
       {
         "key": "LME_NI",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5396,7 +5395,7 @@
       {
         "key": "COMEX_AU",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5407,7 +5406,7 @@
       {
         "key": "COMEX_AG",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5418,7 +5417,7 @@
       {
         "key": "SGX_IRON_ORE",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5431,7 +5430,7 @@
       {
         "key": "CBOT_SOYBEAN",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5442,7 +5441,7 @@
       {
         "key": "CBOT_SOYMEAL",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5453,7 +5452,7 @@
       {
         "key": "CBOT_SOYBEAN_OIL",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5464,7 +5463,7 @@
       {
         "key": "CBOT_CORN",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5475,7 +5474,7 @@
       {
         "key": "CBOT_WHEAT",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5486,7 +5485,7 @@
       {
         "key": "BMD_PALM",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5499,7 +5498,7 @@
       {
         "key": "ICE_SUGAR",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5510,7 +5509,7 @@
       {
         "key": "ICE_COTTON",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "unavailable",
         "permission_status": "not_verified",
         "current_permission_status": "not_verified",
@@ -5521,7 +5520,7 @@
       {
         "key": "USDCNH",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5534,7 +5533,7 @@
       {
         "key": "DXY",
         "exchange": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "mapping_status": "verified",
         "permission_status": "verified",
         "current_permission_status": "available",
@@ -5553,15 +5552,15 @@
         "exchange": null,
         "target": "BRENT",
         "metric": null,
-        "requested_date": "2026-08-28",
-        "source_date": "2026-08-26",
-        "observation_date": "2026-08-26",
+        "requested_date": "2026-08-27",
+        "source_date": "2026-08-27",
+        "observation_date": "2026-08-27",
         "indicator_id": "S004111385",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 87.84,
+        "value": 89.7,
         "unit": "美元/桶",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5584,15 +5583,15 @@
         "exchange": null,
         "target": "LME_CU",
         "metric": null,
-        "requested_date": "2026-08-28",
-        "source_date": "2026-08-26",
-        "observation_date": "2026-08-26",
+        "requested_date": "2026-08-27",
+        "source_date": "2026-08-27",
+        "observation_date": "2026-08-27",
         "indicator_id": "S005808359",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 14252.0,
+        "value": 14282.5,
         "unit": "美元/吨",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5615,15 +5614,15 @@
         "exchange": null,
         "target": "SGX_IRON_ORE",
         "metric": null,
-        "requested_date": "2026-08-28",
-        "source_date": "2026-08-26",
-        "observation_date": "2026-08-26",
+        "requested_date": "2026-08-27",
+        "source_date": "2026-08-27",
+        "observation_date": "2026-08-27",
         "indicator_id": "S009067320",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 94.43,
+        "value": 93.95,
         "unit": "美元/公吨",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5646,7 +5645,7 @@
         "exchange": null,
         "target": "BMD_PALM",
         "metric": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "source_date": "2026-04-26",
         "observation_date": "2026-04-26",
         "indicator_id": "S024923811",
@@ -5677,15 +5676,15 @@
         "exchange": null,
         "target": "USDCNH",
         "metric": null,
-        "requested_date": "2026-08-28",
-        "source_date": "2026-08-26",
-        "observation_date": "2026-08-26",
+        "requested_date": "2026-08-27",
+        "source_date": "2026-08-27",
+        "observation_date": "2026-08-27",
         "indicator_id": "G019711418",
         "report_id": null,
         "source_endpoint": "edb_service",
         "permission_status": "verified",
         "current_permission_status": "available",
-        "value": 6.723510390918585,
+        "value": 6.718775648775198,
         "unit": "人民币/美元",
         "frequency": "D",
         "vendor": "iFinD",
@@ -5708,7 +5707,7 @@
         "exchange": null,
         "target": "DXY",
         "metric": null,
-        "requested_date": "2026-08-28",
+        "requested_date": "2026-08-27",
         "source_date": "2026-08-27",
         "observation_date": "2026-08-27",
         "indicator_id": "G002600885",
@@ -5744,9 +5743,9 @@
     "trading_date": "2026-08-27",
     "night_session_date": "2026-08-26",
     "generated_at": "2026-08-27T07:45:00.632978+08:00",
-    "data_fresh": true,
-    "validation_passed": true,
-    "published": true,
+    "data_fresh": false,
+    "validation_passed": false,
+    "published": false,
     "coverage": {
       "selected_contract_count": 803,
       "request_contract_count": 803,
@@ -34545,16 +34544,16 @@
     "physical_status": {
       "schema_version": 1,
       "domain": "physical",
-      "requested_date": "2026-08-28",
-      "generated_at": "2026-08-28T04:34:50.964844+08:00",
-      "data_fresh": true,
+      "requested_date": "2026-08-27",
+      "generated_at": "2026-08-28T14:05:34.798000+08:00",
+      "data_fresh": false,
       "coverage": {
         "target_count": 20,
         "verified_mapping_count": 4,
         "unavailable_mapping_count": 16,
-        "fresh_target_count": 4,
+        "fresh_target_count": 2,
         "stale_target_count": 0,
-        "carried_forward_target_count": 0,
+        "carried_forward_target_count": 2,
         "failed_target_count": 0,
         "series_count": 4,
         "cache_hit_count": 0,
@@ -34572,7 +34571,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2026-08-26",
-          "query_end_date": "2026-08-28"
+          "query_end_date": "2026-08-27"
         },
         {
           "series_key": "physical.JM.nbs_coking_coal_spot",
@@ -34585,38 +34584,47 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2026-08-20",
-          "query_end_date": "2026-08-28"
+          "query_end_date": "2026-08-27"
         },
         {
           "series_key": "physical.FG.float_glass_inventory",
           "indicator_id": "S005696248",
-          "state": "ok",
-          "quality_state": "fresh",
+          "state": "regressed_source_date",
+          "quality_state": "carried_forward",
           "source_date": "2026-08-28",
-          "carried_forward": false,
-          "detail": null,
+          "carried_forward": true,
+          "detail": "current query returned an observation older than the retained snapshot",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-08-21",
-          "query_end_date": "2026-08-28"
+          "query_start_date": "2025-07-23",
+          "query_end_date": "2026-08-27"
         },
         {
           "series_key": "physical.TA.processing_margin",
           "indicator_id": "S011318489",
-          "state": "ok",
-          "quality_state": "fresh",
+          "state": "regressed_source_date",
+          "quality_state": "carried_forward",
           "source_date": "2026-08-28",
-          "carried_forward": false,
-          "detail": null,
+          "carried_forward": true,
+          "detail": "current query returned an observation older than the retained snapshot",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-08-21",
-          "query_end_date": "2026-08-28"
+          "query_start_date": "2025-07-23",
+          "query_end_date": "2026-08-27"
         }
       ],
-      "validation_passed": true,
-      "validation_errors": [],
-      "published": true,
+      "validation_passed": false,
+      "validation_errors": [
+        "FG: invalid target quality state carried_forward",
+        "TA: invalid target quality state carried_forward",
+        "physical.FG.float_glass_inventory: current collection is carried forward",
+        "physical.FG.float_glass_inventory: current collection state=regressed_source_date",
+        "physical.FG.float_glass_inventory: observation date is after requested date",
+        "physical.TA.processing_margin: current collection is carried forward",
+        "physical.TA.processing_margin: current collection state=regressed_source_date",
+        "physical.TA.processing_margin: observation date is after requested date"
+      ],
+      "published": false,
       "shadow_state": {
         "schema_version": 1,
         "required_pass_days": 5,
@@ -34630,18 +34638,18 @@
           "2026-08-19"
         ],
         "consecutive_pass_count": 5,
-        "last_attempt_date": "2026-08-28",
-        "last_attempt_validation_passed": true,
+        "last_attempt_date": "2026-08-27",
+        "last_attempt_validation_passed": false,
         "out_of_order_attempt": false,
-        "promotion_allowed": true
+        "promotion_allowed": false
       },
-      "previous_valid_snapshot_retained": false
+      "previous_valid_snapshot_retained": true
     },
     "external_status": {
       "schema_version": 1,
       "domain": "external",
-      "requested_date": "2026-08-28",
-      "generated_at": "2026-08-28T04:34:56.418773+08:00",
+      "requested_date": "2026-08-27",
+      "generated_at": "2026-08-28T14:05:39.084590+08:00",
       "data_fresh": false,
       "coverage": {
         "target_count": 22,
@@ -34652,8 +34660,8 @@
         "carried_forward_target_count": 0,
         "failed_target_count": 0,
         "series_count": 6,
-        "cache_hit_count": 0,
-        "request_count": 6
+        "cache_hit_count": 1,
+        "request_count": 5
       },
       "series": [
         {
@@ -34661,39 +34669,39 @@
           "indicator_id": "S004111385",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-26",
+          "source_date": "2026-08-27",
           "carried_forward": false,
           "detail": null,
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2026-08-26",
-          "query_end_date": "2026-08-28"
+          "query_end_date": "2026-08-27"
         },
         {
           "series_key": "external.LME_CU.three_month_close",
           "indicator_id": "S005808359",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-26",
+          "source_date": "2026-08-27",
           "carried_forward": false,
           "detail": null,
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2026-08-26",
-          "query_end_date": "2026-08-28"
+          "query_end_date": "2026-08-27"
         },
         {
           "series_key": "external.SGX_IRON_ORE.twenty_two_month_settlement",
           "indicator_id": "S009067320",
           "state": "ok",
           "quality_state": "fresh",
-          "source_date": "2026-08-26",
+          "source_date": "2026-08-27",
           "carried_forward": false,
           "detail": null,
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2026-08-26",
-          "query_end_date": "2026-08-28"
+          "query_end_date": "2026-08-27"
         },
         {
           "series_key": "external.BMD_PALM.bmd_plus_3",
@@ -34706,24 +34714,11 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2026-04-26",
-          "query_end_date": "2026-08-28"
+          "query_end_date": "2026-08-27"
         },
         {
           "series_key": "external.USDCNH.close",
           "indicator_id": "G019711418",
-          "state": "ok",
-          "quality_state": "fresh",
-          "source_date": "2026-08-26",
-          "carried_forward": false,
-          "detail": null,
-          "cache_hit": false,
-          "request_made": true,
-          "query_start_date": "2026-08-25",
-          "query_end_date": "2026-08-28"
-        },
-        {
-          "series_key": "external.DXY.close",
-          "indicator_id": "G002600885",
           "state": "ok",
           "quality_state": "fresh",
           "source_date": "2026-08-27",
@@ -34732,7 +34727,20 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2026-08-26",
-          "query_end_date": "2026-08-28"
+          "query_end_date": "2026-08-27"
+        },
+        {
+          "series_key": "external.DXY.close",
+          "indicator_id": "G002600885",
+          "state": "cached",
+          "quality_state": "fresh",
+          "source_date": "2026-08-27",
+          "carried_forward": false,
+          "detail": "same-date verified observation reused from local snapshot",
+          "cache_hit": true,
+          "request_made": false,
+          "query_start_date": "2026-08-27",
+          "query_end_date": "2026-08-27"
         }
       ],
       "validation_passed": true,
@@ -34751,7 +34759,7 @@
           "2026-08-19"
         ],
         "consecutive_pass_count": 5,
-        "last_attempt_date": "2026-08-28",
+        "last_attempt_date": "2026-08-27",
         "last_attempt_validation_passed": true,
         "out_of_order_attempt": false,
         "promotion_allowed": true
@@ -34760,30 +34768,32 @@
     },
     "night_session_status": {
       "schema_version": 1,
-      "trading_date": "2026-08-27",
-      "night_session_date": "2026-08-26",
-      "generated_at": "2026-08-27T07:45:00.632978+08:00",
-      "data_fresh": true,
-      "validation_passed": true,
-      "published": true,
+      "trading_date": "2026-08-28",
+      "night_session_date": "2026-08-27",
+      "generated_at": "2026-08-28T14:05:21.318719+08:00",
+      "data_fresh": false,
+      "validation_passed": false,
+      "published": false,
       "coverage": {
         "selected_contract_count": 803,
         "request_contract_count": 803,
         "cache_hit_count": 0,
-        "night_session_contract_count": 607,
-        "outside_night_window_count": 190,
-        "no_night_trade_count": 6,
+        "night_session_contract_count": 0,
+        "outside_night_window_count": 803,
+        "no_night_trade_count": 0,
         "missing_timestamp_count": 0,
         "missing_price_count": 0,
         "missing_quote_count": 0,
         "query_error_count": 0,
         "unresolved_contract_count": 0,
-        "night_session_coverage_pct": 75.5915
+        "night_session_coverage_pct": 0.0
       },
       "coverage_complete": true,
       "coverage_warnings": [],
-      "validation_errors": [],
-      "previous_valid_snapshot_retained": false
+      "validation_errors": [
+        "no concrete contract has a quote in the completed night-session window"
+      ],
+      "previous_valid_snapshot_retained": true
     },
     "options_status": {
       "schema_version": 1,
@@ -35827,7 +35837,9 @@
       ]
     },
     "limitations": [
+      "physical_module_not_fresh",
       "external_module_not_fresh",
+      "night_session_module_not_fresh",
       "basis_not_available_in_futures_snapshot",
       "member_rankings_not_available",
       "options_positioning_not_ready",

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "domain": "physical",
-  "requested_date": "2026-08-28",
-  "generated_at": "2026-08-28T04:34:50.964844+08:00",
+  "requested_date": "2026-08-27",
+  "generated_at": "2026-08-28T14:05:34.798000+08:00",
   "timezone": "Asia/Shanghai",
   "vendor": "iFinD",
   "intraday_used": false,
@@ -11,9 +11,9 @@
     "target_count": 20,
     "verified_mapping_count": 4,
     "unavailable_mapping_count": 16,
-    "fresh_target_count": 4,
+    "fresh_target_count": 2,
     "stale_target_count": 0,
-    "carried_forward_target_count": 0,
+    "carried_forward_target_count": 2,
     "failed_target_count": 0,
     "series_count": 4,
     "cache_hit_count": 0,
@@ -23,7 +23,7 @@
     {
       "key": "I",
       "exchange": "DCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -36,7 +36,7 @@
     {
       "key": "JM",
       "exchange": "DCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "verified",
       "permission_status": "verified",
       "current_permission_status": "available",
@@ -49,7 +49,7 @@
     {
       "key": "J",
       "exchange": "DCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -60,7 +60,7 @@
     {
       "key": "RB",
       "exchange": "SHFE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -71,7 +71,7 @@
     {
       "key": "HC",
       "exchange": "SHFE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -82,20 +82,20 @@
     {
       "key": "FG",
       "exchange": "CZCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "available",
-      "quality_state": "fresh",
+      "current_permission_status": "regressed_source_date",
+      "quality_state": "carried_forward",
       "series_keys": [
         "physical.FG.float_glass_inventory"
       ],
-      "missing_reason": null
+      "missing_reason": "current query returned an observation older than the retained snapshot"
     },
     {
       "key": "SA",
       "exchange": "CZCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -106,7 +106,7 @@
     {
       "key": "SC",
       "exchange": "INE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -117,7 +117,7 @@
     {
       "key": "FU",
       "exchange": "SHFE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -128,7 +128,7 @@
     {
       "key": "LU",
       "exchange": "INE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -139,7 +139,7 @@
     {
       "key": "MA",
       "exchange": "CZCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -150,20 +150,20 @@
     {
       "key": "TA",
       "exchange": "CZCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "available",
-      "quality_state": "fresh",
+      "current_permission_status": "regressed_source_date",
+      "quality_state": "carried_forward",
       "series_keys": [
         "physical.TA.processing_margin"
       ],
-      "missing_reason": null
+      "missing_reason": "current query returned an observation older than the retained snapshot"
     },
     {
       "key": "PX",
       "exchange": "CZCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -174,7 +174,7 @@
     {
       "key": "CU",
       "exchange": "SHFE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -185,7 +185,7 @@
     {
       "key": "AL",
       "exchange": "SHFE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -196,7 +196,7 @@
     {
       "key": "LC",
       "exchange": "GFEX",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "no_data",
       "current_permission_status": "no_data",
@@ -207,7 +207,7 @@
     {
       "key": "SI",
       "exchange": "GFEX",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -218,7 +218,7 @@
     {
       "key": "M",
       "exchange": "DCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -229,7 +229,7 @@
     {
       "key": "Y",
       "exchange": "DCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -240,7 +240,7 @@
     {
       "key": "P",
       "exchange": "DCE",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -257,7 +257,7 @@
       "exchange": "DCE",
       "target": null,
       "metric": "inventory",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "source_date": "2026-08-26",
       "observation_date": "2026-08-26",
       "timezone": "Asia/Shanghai",
@@ -291,7 +291,7 @@
       "exchange": "DCE",
       "target": null,
       "metric": "spot",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "source_date": "2026-08-20",
       "observation_date": "2026-08-20",
       "timezone": "Asia/Shanghai",
@@ -330,7 +330,7 @@
       "exchange": "CZCE",
       "target": null,
       "metric": "inventory",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "source_date": "2026-08-28",
       "observation_date": "2026-08-28",
       "timezone": "Asia/Shanghai",
@@ -339,7 +339,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "available",
+      "current_permission_status": "regressed_source_date",
       "name": "企业库存:浮法玻璃:合计:当周值",
       "value": 7404.9,
       "unit": "重量箱",
@@ -349,13 +349,13 @@
       "usage": "physical_evidence",
       "contract_kind": null,
       "max_lag_days": 10,
-      "quality_state": "fresh",
-      "missing_reason": null,
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
+      "quality_state": "carried_forward",
+      "missing_reason": "current query returned an observation older than the retained snapshot",
+      "current_collection_state": "regressed_source_date",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-08-28",
       "is_stale": false,
-      "normalized_value_sha256": "573326d23fdedb76dda479ea7d7308b9ead7231af998c497bcafc8a270ac5a32"
+      "normalized_value_sha256": "642ec53293d8396247ba0e6a64b8b2baef77459ae374c67388dafe7f74c11c04"
     },
     {
       "series_key": "physical.TA.processing_margin",
@@ -364,7 +364,7 @@
       "exchange": "CZCE",
       "target": null,
       "metric": "margin",
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-27",
       "source_date": "2026-08-28",
       "observation_date": "2026-08-28",
       "timezone": "Asia/Shanghai",
@@ -373,7 +373,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "available",
+      "current_permission_status": "regressed_source_date",
       "name": "周度加工费:PTA:中国",
       "value": 677.532,
       "unit": "元/吨",
@@ -383,13 +383,13 @@
       "usage": "physical_evidence",
       "contract_kind": null,
       "max_lag_days": 10,
-      "quality_state": "fresh",
-      "missing_reason": null,
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
+      "quality_state": "carried_forward",
+      "missing_reason": "current query returned an observation older than the retained snapshot",
+      "current_collection_state": "regressed_source_date",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-08-28",
       "is_stale": false,
-      "normalized_value_sha256": "6c5f7949807b1e5ab1268c3d602fcce4d207deb32864d075e1e28c354dd48287"
+      "normalized_value_sha256": "c6f933cf1da22b09306077c2b6cb5d2a27f0f0efb736930aedf7088dc24a02fe"
     }
   ],
   "fundamental_score": null,
@@ -537,9 +537,9 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-08-28",
-    "last_attempt_validation_passed": true,
+    "last_attempt_date": "2026-08-27",
+    "last_attempt_validation_passed": false,
     "out_of_order_attempt": false,
-    "promotion_allowed": true
+    "promotion_allowed": false
   }
 }
