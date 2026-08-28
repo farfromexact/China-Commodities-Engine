@@ -17,10 +17,9 @@ from china_commodities.collection_cache import (
 )
 
 
-EVENING_SCHEDULE = "15 10 * * 1-5"
-# 06:13 BJT Tuesday-Saturday captures the completed Monday-Friday night session.
-# Avoiding the top of the UTC hour reduces GitHub Actions schedule contention.
-MORNING_SCHEDULE = "13 22 * * 1-5"
+EVENING_SCHEDULE = "0 10 * * *"
+# 06:00 BJT every day captures the completed prior-night session when one exists.
+MORNING_SCHEDULE = "0 22 * * *"
 DOMESTIC_EOD_READY_AT = time(18, 15)
 
 
@@ -75,25 +74,41 @@ def plan_collection(
         EVENING_SCHEDULE,
     }
     scheduled_morning = is_scheduled and event_schedule == MORNING_SCHEDULE
-    # A manual full run before the normal 18:15 BJT EOD publication boundary
-    # must behave like the scheduled morning recovery.  Otherwise a user
-    # clicking "Run workflow" at 07:00 would request a not-yet-closed domestic
-    # EOD date and replace the attempt/status layer with a false failure.
+    # A scheduled or manual full run before the normal 18:15 BJT EOD
+    # publication boundary must use the last completed weekday for domestic
+    # and external data. Otherwise an 18:00 run would request a not-yet-closed
+    # domestic EOD date and replace the attempt/status layer with a false
+    # failure. Scheduled weekend runs also use the last completed weekday.
     manual_before_current_eod = bool(
         is_manual
         and target_date == now_shanghai.date()
         and now_shanghai.time() < DOMESTIC_EOD_READY_AT
     )
+    scheduled_before_current_eod = bool(
+        is_scheduled
+        and target_date == now_shanghai.date()
+        and now_shanghai.time() < DOMESTIC_EOD_READY_AT
+    )
+    scheduled_non_trading_day = bool(
+        is_scheduled and target_date.weekday() >= 5
+    )
     if mode == "night_session_only":
         execution_profile = "night_session_only"
-    elif scheduled_morning or manual_before_current_eod:
+    elif (
+        scheduled_morning
+        or scheduled_before_current_eod
+        or scheduled_non_trading_day
+        or manual_before_current_eod
+    ):
         execution_profile = "completed_eod_recovery"
     else:
         execution_profile = "current_or_historical_eod"
 
     completed_eod_recovery = execution_profile == "completed_eod_recovery"
     run_night_session = bool(
-        execution_profile in {"completed_eod_recovery", "night_session_only"}
+        mode == "night_session_only"
+        or scheduled_morning
+        or manual_before_current_eod
     )
     run_domestic = bool((is_manual or is_scheduled) and mode == "full")
     run_external = bool((is_manual or is_scheduled) and mode == "full")

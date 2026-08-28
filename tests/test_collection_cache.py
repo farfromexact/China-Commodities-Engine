@@ -176,6 +176,9 @@ class CollectionCacheTests(unittest.TestCase):
                 event_schedule=MORNING_SCHEDULE,
                 requested_date="2026-08-25",
                 data_dir=root,
+                now=datetime(
+                    2026, 8, 25, 6, 0, tzinfo=ZoneInfo("Asia/Shanghai")
+                ),
             )
             self.assertTrue(morning["run_domestic"])
             self.assertTrue(morning["run_external"])
@@ -203,6 +206,9 @@ class CollectionCacheTests(unittest.TestCase):
                 event_schedule=EVENING_SCHEDULE,
                 requested_date="2026-08-25",
                 data_dir=root,
+                now=datetime(
+                    2026, 8, 25, 18, 20, tzinfo=ZoneInfo("Asia/Shanghai")
+                ),
             )
             self.assertTrue(evening["run_domestic"])
             self.assertTrue(evening["run_external"])
@@ -218,6 +224,24 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertTrue(evening["needs_options"])
             self.assertTrue(evening["needs_physical"])
             self.assertTrue(evening["needs_external"])
+
+    def test_evening_schedule_before_eod_uses_completed_recovery(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            plan = plan_collection(
+                event_name="schedule",
+                event_schedule=EVENING_SCHEDULE,
+                requested_date="2026-08-27",
+                data_dir=Path(directory),
+                now=datetime(
+                    2026, 8, 27, 18, 0, tzinfo=ZoneInfo("Asia/Shanghai")
+                ),
+            )
+
+            self.assertEqual(plan["execution_profile"], "completed_eod_recovery")
+            self.assertEqual(plan["domestic_trade_date"], "2026-08-26")
+            self.assertEqual(plan["external_trade_date"], "2026-08-26")
+            self.assertFalse(plan["run_night_session"])
+            self.assertFalse(plan["validate_full_market"])
 
     def test_monday_morning_uses_previous_friday_for_domestic_eod(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

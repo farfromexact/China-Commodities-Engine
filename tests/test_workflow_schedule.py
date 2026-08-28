@@ -5,14 +5,14 @@ from pathlib import Path
 
 
 class WorkflowScheduleTests(unittest.TestCase):
-    def test_twice_daily_schedule_has_distinct_night_and_daytime_roles(self) -> None:
+    def test_daily_twice_daily_schedule_has_distinct_night_and_daytime_roles(self) -> None:
         workflow = (
             Path(__file__).resolve().parents[1] / ".github" / "workflows" / "daily.yml"
         ).read_text(encoding="utf-8")
 
         self.assertIn('name: Split EOD China Commodities Data', workflow)
-        self.assertIn('- cron: "13 22 * * 1-5"', workflow)
-        self.assertIn('- cron: "15 10 * * 1-5"', workflow)
+        self.assertIn('- cron: "0 22 * * *"', workflow)
+        self.assertIn('- cron: "0 10 * * *"', workflow)
         self.assertEqual(workflow.count("python -m china_commodities.cli run"), 1)
         self.assertEqual(workflow.count("python scripts/collect_ifind_options.py"), 1)
         self.assertEqual(workflow.count("--surface-shadow-days 1"), 1)
