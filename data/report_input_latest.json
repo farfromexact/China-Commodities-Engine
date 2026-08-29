@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-28T19:41:26.332469+08:00",
+  "generated_at": "2026-08-29T11:57:04.753181+08:00",
   "requested_date": "2026-08-28",
   "timezone": "Asia/Shanghai",
   "frequency": "EOD",
@@ -95,9 +95,9 @@
       "source_date_min": "2026-08-28",
       "source_date_max": "2026-08-28",
       "generated_at": "2026-08-28T11:24:33+00:00",
-      "data_fresh": true,
+      "data_fresh": false,
       "validation_passed": null,
-      "published": true
+      "published": false
     }
   ],
   "futures": {
@@ -34505,9 +34505,9 @@
     },
     "night_session_status": {
       "schema_version": 1,
-      "trading_date": "2026-08-28",
-      "night_session_date": "2026-08-27",
-      "generated_at": "2026-08-28T14:05:21.318719+08:00",
+      "trading_date": "2026-08-29",
+      "night_session_date": "2026-08-28",
+      "generated_at": "2026-08-29T11:36:59.839875+08:00",
       "data_fresh": false,
       "validation_passed": false,
       "published": false,
@@ -34516,17 +34516,19 @@
         "request_contract_count": 803,
         "cache_hit_count": 0,
         "night_session_contract_count": 0,
-        "outside_night_window_count": 803,
+        "outside_night_window_count": 0,
         "no_night_trade_count": 0,
         "missing_timestamp_count": 0,
         "missing_price_count": 0,
         "missing_quote_count": 0,
-        "query_error_count": 0,
-        "unresolved_contract_count": 0,
+        "query_error_count": 803,
+        "unresolved_contract_count": 803,
         "night_session_coverage_pct": 0.0
       },
-      "coverage_complete": true,
-      "coverage_warnings": [],
+      "coverage_complete": false,
+      "coverage_warnings": [
+        "803 concrete contracts are unresolved"
+      ],
       "validation_errors": [
         "no concrete contract has a quote in the completed night-session window"
       ],
@@ -34535,24 +34537,24 @@
     "options_status": {
       "schema_version": 1,
       "trade_date": "2026-08-28",
-      "generated_at": "2026-08-28T11:24:33+00:00",
+      "generated_at": "2026-08-29T03:56:55+00:00",
       "source_provider": "ifind_http",
       "universe_source": "mixed_contract_directories",
       "universe_sources": [
         "exchange_eod_via_akshare",
         "openctp_contract_directory"
       ],
-      "data_fresh": true,
+      "data_fresh": false,
       "coverage": {
         "expected_product_count": 64,
-        "attempted_product_count": 64,
+        "attempted_product_count": 62,
         "successful_product_count": 61,
-        "failed_product_count": 3,
-        "skipped_product_count": 0,
+        "failed_product_count": 1,
+        "skipped_product_count": 2,
         "product_coverage": 0.953125,
         "minimum_product_coverage": 0.75,
         "scope_complete": false,
-        "publish_eligible": true,
+        "publish_eligible": false,
         "successful_products": [
           "CZCE:AP",
           "CZCE:CF",
@@ -34617,16 +34619,88 @@
           "SHFE:ZN"
         ],
         "failed_products": [
-          "CZCE:CJ",
+          "CZCE:CJ"
+        ],
+        "skipped_products": [
           "CZCE:PL",
           "CZCE:ZC"
         ],
-        "skipped_products": []
+        "reused_product_count": 61,
+        "requested_product_count": 3,
+        "newly_successful_product_count": 0,
+        "reused_products": [
+          "CZCE:AP",
+          "CZCE:CF",
+          "CZCE:FG",
+          "CZCE:MA",
+          "CZCE:OI",
+          "CZCE:PF",
+          "CZCE:PK",
+          "CZCE:PR",
+          "CZCE:PX",
+          "CZCE:RM",
+          "CZCE:SA",
+          "CZCE:SF",
+          "CZCE:SH",
+          "CZCE:SM",
+          "CZCE:SR",
+          "CZCE:TA",
+          "CZCE:UR",
+          "DCE:A",
+          "DCE:B",
+          "DCE:BZ",
+          "DCE:C",
+          "DCE:CS",
+          "DCE:EB",
+          "DCE:EG",
+          "DCE:I",
+          "DCE:JD",
+          "DCE:JM",
+          "DCE:L",
+          "DCE:LG",
+          "DCE:LH",
+          "DCE:M",
+          "DCE:P",
+          "DCE:PG",
+          "DCE:PP",
+          "DCE:V",
+          "DCE:Y",
+          "GFEX:LC",
+          "GFEX:PD",
+          "GFEX:PS",
+          "GFEX:PT",
+          "GFEX:SI",
+          "INE:BC",
+          "INE:NR",
+          "INE:SC",
+          "SHFE:AD",
+          "SHFE:AG",
+          "SHFE:AL",
+          "SHFE:AO",
+          "SHFE:AU",
+          "SHFE:BR",
+          "SHFE:BU",
+          "SHFE:CU",
+          "SHFE:FU",
+          "SHFE:NI",
+          "SHFE:OP",
+          "SHFE:PB",
+          "SHFE:RB",
+          "SHFE:RU",
+          "SHFE:SN",
+          "SHFE:SP",
+          "SHFE:ZN"
+        ],
+        "requested_products": [
+          "CZCE:CJ",
+          "CZCE:PL",
+          "CZCE:ZC"
+        ]
       },
       "universe_contract_count": 21806,
       "quote_contract_count": 21806,
       "duplicate_contract_count": 0,
-      "global_error": null,
+      "global_error": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
       "exchange_errors": {},
       "product_statuses": [
         {
@@ -34641,7 +34715,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34655,7 +34730,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34669,7 +34745,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: iFinD option quote CJ701P10800.CZC has source date 2026-08-27; requested 2026-08-28; fallback collection failed: IFindOptionDataError: iFinD option quote CJ701P10800.CZC has source date 2026-08-27; requested 2026-08-28"
+          "detail": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
+          "reused_existing": false
         },
         {
           "exchange": "CZCE",
@@ -34683,7 +34760,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34697,7 +34775,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34711,7 +34790,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34725,7 +34805,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34739,13 +34820,14 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
           "product": "PL",
           "symbol": "丙烯期权",
-          "status": "failed",
+          "status": "skipped_global_ifind_error",
           "contract_count": 0,
           "source_trade_date": null,
           "quote_coverage_complete": false,
@@ -34753,7 +34835,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: iFinD option quote PL611C6300.CZC has source date 2026-08-27; requested 2026-08-28; fallback collection failed: IFindOptionDataError: iFinD option quote PL611C6300.CZC has source date 2026-08-27; requested 2026-08-28"
+          "detail": "not attempted after a global iFinD HTTP failure",
+          "reused_existing": false
         },
         {
           "exchange": "CZCE",
@@ -34767,7 +34850,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34781,7 +34865,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34795,7 +34880,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34809,7 +34895,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34823,7 +34910,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34837,7 +34925,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34851,7 +34940,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34865,7 +34955,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34879,7 +34970,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
@@ -34893,13 +34985,14 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "CZCE",
           "product": "ZC",
           "symbol": "动力煤期权",
-          "status": "failed",
+          "status": "skipped_global_ifind_error",
           "contract_count": 0,
           "source_trade_date": null,
           "quote_coverage_complete": false,
@@ -34907,7 +35000,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-27; requested 2026-08-28; fallback collection failed: IFindOptionDataError: iFinD option quote ZC610C1000.CZC has source date 2026-08-27; requested 2026-08-28"
+          "detail": "not attempted after a global iFinD HTTP failure",
+          "reused_existing": false
         },
         {
           "exchange": "DCE",
@@ -34921,7 +35015,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -34935,7 +35030,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -34949,7 +35045,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))"
+          "detail": "primary directory failed; fallback used: ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -34963,7 +35060,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -34977,7 +35075,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -34991,7 +35090,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35005,7 +35105,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35019,7 +35120,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35033,7 +35135,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35047,7 +35150,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: KeyError: '焦煤期权'"
+          "detail": "primary directory failed; fallback used: KeyError: '焦煤期权'",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35061,7 +35165,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35075,7 +35180,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35089,7 +35195,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35103,7 +35210,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35117,7 +35225,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35131,7 +35240,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35145,7 +35255,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35159,7 +35270,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "DCE",
@@ -35173,7 +35285,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+          "detail": "primary directory failed; fallback used: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -35187,7 +35300,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -35201,7 +35315,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -35215,7 +35330,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -35229,7 +35345,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: ChunkedEncodingError: (\"Connection broken: ConnectionResetError(104, 'Connection reset by peer')\", ConnectionResetError(104, 'Connection reset by peer'))"
+          "detail": "primary directory failed; fallback used: ChunkedEncodingError: (\"Connection broken: ConnectionResetError(104, 'Connection reset by peer')\", ConnectionResetError(104, 'Connection reset by peer'))",
+          "reused_existing": true
         },
         {
           "exchange": "GFEX",
@@ -35243,7 +35360,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "INE",
@@ -35257,7 +35375,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:BC"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:BC",
+          "reused_existing": true
         },
         {
           "exchange": "INE",
@@ -35271,7 +35390,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "INE",
@@ -35285,7 +35405,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:SC"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:SC",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35299,7 +35420,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AD"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AD",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35313,7 +35435,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AG"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AG",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35327,7 +35450,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AL"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AL",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35341,7 +35465,8 @@
           "fallback_used": false,
           "metadata_enrichment_used": true,
           "metadata_enrichment_error": null,
-          "detail": null
+          "detail": null,
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35355,7 +35480,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AU"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:AU",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35369,7 +35495,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BR"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BR",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35383,7 +35510,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BU"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:BU",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35397,7 +35525,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:CU"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:CU",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35411,7 +35540,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:FU"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:FU",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35425,7 +35555,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:NI"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:NI",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35439,7 +35570,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:OP"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:OP",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35453,7 +35585,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:PB"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:PB",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35467,7 +35600,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:RB"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:RB",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35481,7 +35615,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:RU"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:RU",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35495,7 +35630,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SN"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SN",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35509,7 +35645,8 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SP"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:SP",
+          "reused_existing": true
         },
         {
           "exchange": "SHFE",
@@ -35523,11 +35660,15 @@
           "fallback_used": true,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:ZN"
+          "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:ZN",
+          "reused_existing": true
         }
       ],
-      "quality_status": "partial_chain",
-      "published": true
+      "incremental_resume": true,
+      "attempt_published": true,
+      "attempt_path": "data/options/attempt_latest.json.gz",
+      "attempt_record_count": 21806,
+      "published": false
     },
     "options_quality": {
       "trade_date": "2026-08-28",
