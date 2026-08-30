@@ -11,8 +11,8 @@ class WorkflowScheduleTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
 
         self.assertIn('name: Split EOD China Commodities Data', workflow)
-        self.assertIn('- cron: "0 22 * * *"', workflow)
-        self.assertIn('- cron: "0 10 * * *"', workflow)
+        self.assertIn('- cron: "3 22 * * *"', workflow)
+        self.assertIn('- cron: "3 10 * * *"', workflow)
         self.assertEqual(workflow.count("python -m china_commodities.cli run"), 1)
         self.assertEqual(workflow.count("python scripts/collect_ifind_options.py"), 1)
         self.assertEqual(workflow.count("--surface-shadow-days 1"), 1)

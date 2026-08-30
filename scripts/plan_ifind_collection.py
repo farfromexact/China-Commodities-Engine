@@ -17,16 +17,16 @@ from china_commodities.collection_cache import (
 )
 
 
-EVENING_SCHEDULE = "0 10 * * *"
-# 06:00 BJT every day captures the completed prior-night session when one exists.
-MORNING_SCHEDULE = "0 22 * * *"
+EVENING_SCHEDULE = "3 10 * * *"
+# 06:03 BJT every day captures the completed prior-night session when one exists.
+MORNING_SCHEDULE = "3 22 * * *"
 DOMESTIC_EOD_READY_AT = time(18, 15)
 
 
 def _previous_weekday(value: date) -> str:
     """Return the prior Monday-Friday date for a completed domestic EOD retry.
 
-    At 06:00 Shanghai time the current domestic daytime EOD is not closed, so
+    At 06:03 Shanghai time the current domestic daytime EOD is not closed, so
     the daily retry must target the previous completed weekday.  Night-session
     collection has its own current-trading-date key and is not derived here.
     Exchange holidays still fail closed in the normal validation path; a future
@@ -76,7 +76,7 @@ def plan_collection(
     scheduled_morning = is_scheduled and event_schedule == MORNING_SCHEDULE
     # A scheduled or manual full run before the normal 18:15 BJT EOD
     # publication boundary must use the last completed weekday for domestic
-    # and external data. Otherwise an 18:00 run would request a not-yet-closed
+    # and external data. Otherwise an 18:03 run would request a not-yet-closed
     # domestic EOD date and replace the attempt/status layer with a false
     # failure. Scheduled weekend runs also use the last completed weekday.
     manual_before_current_eod = bool(

@@ -16,12 +16,12 @@ on:
           - full
           - night_session_only
   schedule:
-    # 06:00 Asia/Shanghai every day: primary job is the completed prior-night
+    # 06:03 Asia/Shanghai every day: primary job is the completed prior-night
     # futures snapshot; it also retries missing EOD.
-    - cron: "0 22 * * *"
-    # 18:00 Asia/Shanghai every day: collect current-day domestic EOD when it
+    - cron: "3 22 * * *"
+    # 18:03 Asia/Shanghai every day: collect current-day domestic EOD when it
     # is available; before 18:15, safely retry the last completed EOD instead.
-    - cron: "0 10 * * *"
+    - cron: "3 10 * * *"
 
 permissions:
   contents: write
