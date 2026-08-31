@@ -2,7 +2,7 @@
   "schema_version": 1,
   "domain": "physical",
   "requested_date": "2026-08-31",
-  "generated_at": "2026-08-31T19:44:50.482000+08:00",
+  "generated_at": "2026-08-31T20:51:05.419476+08:00",
   "timezone": "Asia/Shanghai",
   "vendor": "iFinD",
   "intraday_used": false,
@@ -11,9 +11,9 @@
     "target_count": 20,
     "verified_mapping_count": 4,
     "unavailable_mapping_count": 16,
-    "fresh_target_count": 0,
+    "fresh_target_count": 4,
     "stale_target_count": 0,
-    "carried_forward_target_count": 4,
+    "carried_forward_target_count": 0,
     "failed_target_count": 0,
     "series_count": 4,
     "cache_hit_count": 0,
@@ -26,12 +26,12 @@
       "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "collection_error",
-      "quality_state": "carried_forward",
+      "current_permission_status": "available",
+      "quality_state": "fresh",
       "series_keys": [
         "physical.I.port_inventory"
       ],
-      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
+      "missing_reason": null
     },
     {
       "key": "JM",
@@ -39,12 +39,12 @@
       "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "collection_error",
-      "quality_state": "carried_forward",
+      "current_permission_status": "available",
+      "quality_state": "fresh",
       "series_keys": [
         "physical.JM.nbs_coking_coal_spot"
       ],
-      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
+      "missing_reason": null
     },
     {
       "key": "J",
@@ -85,12 +85,12 @@
       "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "collection_error",
-      "quality_state": "carried_forward",
+      "current_permission_status": "available",
+      "quality_state": "fresh",
       "series_keys": [
         "physical.FG.float_glass_inventory"
       ],
-      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
+      "missing_reason": null
     },
     {
       "key": "SA",
@@ -153,12 +153,12 @@
       "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "collection_error",
-      "quality_state": "carried_forward",
+      "current_permission_status": "available",
+      "quality_state": "fresh",
       "series_keys": [
         "physical.TA.processing_margin"
       ],
-      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
+      "missing_reason": null
     },
     {
       "key": "PX",
@@ -266,7 +266,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "collection_error",
+      "current_permission_status": "available",
       "name": "港口库存:铁矿石",
       "value": 15904.0,
       "unit": "吨",
@@ -276,13 +276,13 @@
       "usage": "physical_evidence",
       "contract_kind": null,
       "max_lag_days": 10,
-      "quality_state": "carried_forward",
-      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
-      "current_collection_state": "collection_error",
-      "carried_forward": true,
-      "carried_from_observation_date": "2026-08-26",
+      "quality_state": "fresh",
+      "missing_reason": null,
+      "current_collection_state": "ok",
+      "carried_forward": false,
+      "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "3ffa3b05d0382da228797029077238c1c2af5da5bc8bf0ea1072bff6986b197d"
+      "normalized_value_sha256": "4f4d94527ba104ec63a2bd570c7f7d19e1e6493100c5ca2a3d54d0e3bc7d4e9a"
     },
     {
       "series_key": "physical.JM.nbs_coking_coal_spot",
@@ -300,7 +300,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "collection_error",
+      "current_permission_status": "available",
       "name": "市场价:焦煤(主焦煤):当旬值",
       "value": 2043.1,
       "unit": "元/吨",
@@ -310,13 +310,13 @@
       "usage": "physical_evidence",
       "contract_kind": null,
       "max_lag_days": 15,
-      "quality_state": "carried_forward",
-      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
-      "current_collection_state": "collection_error",
-      "carried_forward": true,
-      "carried_from_observation_date": "2026-08-20",
+      "quality_state": "fresh",
+      "missing_reason": null,
+      "current_collection_state": "ok",
+      "carried_forward": false,
+      "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "00340f6093b0f7456325ebae1f51cd88e2ce6c3e2f428e4189f3d5987277f064",
+      "normalized_value_sha256": "49f2e01f3612e8e20069f59a9112d8bc9212c6a3a7aba26002865f8f67aa735f",
       "region": "中国",
       "grade": "主焦煤统计口径",
       "delivery_location": null,
@@ -339,7 +339,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "collection_error",
+      "current_permission_status": "available",
       "name": "企业库存:浮法玻璃:合计:当周值",
       "value": 7404.9,
       "unit": "重量箱",
@@ -349,13 +349,13 @@
       "usage": "physical_evidence",
       "contract_kind": null,
       "max_lag_days": 10,
-      "quality_state": "carried_forward",
-      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
-      "current_collection_state": "collection_error",
-      "carried_forward": true,
-      "carried_from_observation_date": "2026-08-28",
+      "quality_state": "fresh",
+      "missing_reason": null,
+      "current_collection_state": "ok",
+      "carried_forward": false,
+      "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "c0d2791e867f80f1173d5e88a252b9511ec087dbfeb68b63cbd40067749702d5"
+      "normalized_value_sha256": "573326d23fdedb76dda479ea7d7308b9ead7231af998c497bcafc8a270ac5a32"
     },
     {
       "series_key": "physical.TA.processing_margin",
@@ -373,7 +373,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "collection_error",
+      "current_permission_status": "available",
       "name": "周度加工费:PTA:中国",
       "value": 677.532,
       "unit": "元/吨",
@@ -383,13 +383,13 @@
       "usage": "physical_evidence",
       "contract_kind": null,
       "max_lag_days": 10,
-      "quality_state": "carried_forward",
-      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
-      "current_collection_state": "collection_error",
-      "carried_forward": true,
-      "carried_from_observation_date": "2026-08-28",
+      "quality_state": "fresh",
+      "missing_reason": null,
+      "current_collection_state": "ok",
+      "carried_forward": false,
+      "carried_from_observation_date": null,
       "is_stale": false,
-      "normalized_value_sha256": "b971be8f87aac05ece3feef1e8370d48ac52cd1cb0d3fba2729b5ff45e918bf4"
+      "normalized_value_sha256": "6c5f7949807b1e5ab1268c3d602fcce4d207deb32864d075e1e28c354dd48287"
     }
   ],
   "fundamental_score": null,
@@ -411,8 +411,8 @@
       "series_key": "physical.JM.nbs_coking_coal_spot",
       "formula": "spot - futures",
       "spot": 2043.1,
-      "futures": 1623.0,
-      "value": 420.0999999999999,
+      "futures": 1696.0,
+      "value": 347.0999999999999,
       "unit": "元/吨",
       "quality_grade": "C",
       "eligible_for_physical_score": false,
@@ -422,7 +422,7 @@
       "delivery_location": null,
       "mapped_contract": "JM2701",
       "spot_observation_date": "2026-08-20",
-      "futures_source_date": "2026-08-28",
+      "futures_source_date": "2026-08-31",
       "missing_fields": [
         "delivery_location",
         "tax_included"
@@ -464,11 +464,11 @@
   ],
   "official_warehouse": [
     {
-      "trade_date": "2026-08-28",
+      "trade_date": "2026-08-31",
       "exchange": "CZCE",
       "product": "FG",
-      "warehouse_quantity": 1269.0,
-      "warehouse_change": 0.0,
+      "warehouse_quantity": 1268.0,
+      "warehouse_change": -1.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -476,7 +476,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-28",
+      "trade_date": "2026-08-31",
       "exchange": "CZCE",
       "product": "PX",
       "warehouse_quantity": 0.0,
@@ -488,11 +488,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-28",
+      "trade_date": "2026-08-31",
       "exchange": "CZCE",
       "product": "SA",
-      "warehouse_quantity": 8050.0,
-      "warehouse_change": 357.0,
+      "warehouse_quantity": 7013.0,
+      "warehouse_change": -1037.0,
       "source_unit": "as_published",
       "quantity_column": "仓单数量",
       "aggregation_method": "source_total",
@@ -500,11 +500,11 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-28",
+      "trade_date": "2026-08-31",
       "exchange": "GFEX",
       "product": "LC",
-      "warehouse_quantity": 44024.0,
-      "warehouse_change": 964.0,
+      "warehouse_quantity": 45624.0,
+      "warehouse_change": 1810.0,
       "source_unit": "as_published",
       "quantity_column": "今日仓单量",
       "aggregation_method": "sum_rows",
@@ -512,7 +512,7 @@
       "is_stale": false
     },
     {
-      "trade_date": "2026-08-28",
+      "trade_date": "2026-08-31",
       "exchange": "GFEX",
       "product": "SI",
       "warehouse_quantity": 33559.0,
@@ -538,8 +538,8 @@
     ],
     "consecutive_pass_count": 5,
     "last_attempt_date": "2026-08-31",
-    "last_attempt_validation_passed": false,
+    "last_attempt_validation_passed": true,
     "out_of_order_attempt": false,
-    "promotion_allowed": false
+    "promotion_allowed": true
   }
 }
