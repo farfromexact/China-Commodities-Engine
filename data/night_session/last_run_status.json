@@ -1,31 +1,27 @@
 {
   "schema_version": 1,
-  "trading_date": "2026-08-31",
-  "night_session_date": "2026-08-30",
-  "generated_at": "2026-08-31T08:25:01.083299+08:00",
-  "data_fresh": false,
-  "validation_passed": false,
-  "published": false,
+  "trading_date": "2026-09-01",
+  "night_session_date": "2026-08-31",
+  "generated_at": "2026-09-01T07:26:19.730343+08:00",
+  "data_fresh": true,
+  "validation_passed": true,
+  "published": true,
   "coverage": {
     "selected_contract_count": 803,
     "request_contract_count": 803,
     "cache_hit_count": 0,
-    "night_session_contract_count": 0,
-    "outside_night_window_count": 0,
-    "no_night_trade_count": 0,
+    "night_session_contract_count": 609,
+    "outside_night_window_count": 189,
+    "no_night_trade_count": 5,
     "missing_timestamp_count": 0,
     "missing_price_count": 0,
     "missing_quote_count": 0,
-    "query_error_count": 803,
-    "unresolved_contract_count": 803,
-    "night_session_coverage_pct": 0.0
+    "query_error_count": 0,
+    "unresolved_contract_count": 0,
+    "night_session_coverage_pct": 75.8406
   },
-  "coverage_complete": false,
-  "coverage_warnings": [
-    "803 concrete contracts are unresolved"
-  ],
-  "validation_errors": [
-    "no concrete contract has a quote in the completed night-session window"
-  ],
-  "previous_valid_snapshot_retained": true
+  "coverage_complete": true,
+  "coverage_warnings": [],
+  "validation_errors": [],
+  "previous_valid_snapshot_retained": false
 }
