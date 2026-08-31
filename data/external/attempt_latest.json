@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "domain": "external",
-  "requested_date": "2026-08-28",
-  "generated_at": "2026-08-28T19:41:25.516544+08:00",
+  "requested_date": "2026-08-31",
+  "generated_at": "2026-08-31T19:44:55.326802+08:00",
   "timezone": "Asia/Shanghai",
   "vendor": "iFinD",
   "intraday_used": false,
@@ -11,9 +11,9 @@
     "target_count": 22,
     "verified_mapping_count": 6,
     "unavailable_mapping_count": 16,
-    "fresh_target_count": 5,
-    "stale_target_count": 1,
-    "carried_forward_target_count": 0,
+    "fresh_target_count": 0,
+    "stale_target_count": 0,
+    "carried_forward_target_count": 6,
     "failed_target_count": 0,
     "series_count": 6,
     "cache_hit_count": 0,
@@ -23,7 +23,7 @@
     {
       "key": "WTI",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -34,20 +34,20 @@
     {
       "key": "BRENT",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "available",
-      "quality_state": "fresh",
+      "current_permission_status": "collection_error",
+      "quality_state": "carried_forward",
       "series_keys": [
         "external.BRENT.continuous_settlement"
       ],
-      "missing_reason": null
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
     },
     {
       "key": "DUBAI_OMAN",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -58,7 +58,7 @@
     {
       "key": "SINGAPORE_HSFO",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -69,7 +69,7 @@
     {
       "key": "SINGAPORE_VLSFO",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -80,20 +80,20 @@
     {
       "key": "LME_CU",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "available",
-      "quality_state": "fresh",
+      "current_permission_status": "collection_error",
+      "quality_state": "carried_forward",
       "series_keys": [
         "external.LME_CU.three_month_close"
       ],
-      "missing_reason": null
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
     },
     {
       "key": "LME_AL",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -104,7 +104,7 @@
     {
       "key": "LME_ZN",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -115,7 +115,7 @@
     {
       "key": "LME_NI",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -126,7 +126,7 @@
     {
       "key": "COMEX_AU",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -137,7 +137,7 @@
     {
       "key": "COMEX_AG",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -148,20 +148,20 @@
     {
       "key": "SGX_IRON_ORE",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "available",
-      "quality_state": "fresh",
+      "current_permission_status": "collection_error",
+      "quality_state": "carried_forward",
       "series_keys": [
         "external.SGX_IRON_ORE.twenty_two_month_settlement"
       ],
-      "missing_reason": null
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
     },
     {
       "key": "CBOT_SOYBEAN",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -172,7 +172,7 @@
     {
       "key": "CBOT_SOYMEAL",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -183,7 +183,7 @@
     {
       "key": "CBOT_SOYBEAN_OIL",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -194,7 +194,7 @@
     {
       "key": "CBOT_CORN",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -205,7 +205,7 @@
     {
       "key": "CBOT_WHEAT",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -216,20 +216,20 @@
     {
       "key": "BMD_PALM",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "available",
-      "quality_state": "stale",
+      "current_permission_status": "collection_error",
+      "quality_state": "carried_forward",
       "series_keys": [
         "external.BMD_PALM.bmd_plus_3"
       ],
-      "missing_reason": "observation exceeds allowed lag of 3 day(s)"
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
     },
     {
       "key": "ICE_SUGAR",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -240,7 +240,7 @@
     {
       "key": "ICE_COTTON",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "unavailable",
       "permission_status": "not_verified",
       "current_permission_status": "not_verified",
@@ -251,28 +251,28 @@
     {
       "key": "USDCNH",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "available",
-      "quality_state": "fresh",
+      "current_permission_status": "collection_error",
+      "quality_state": "carried_forward",
       "series_keys": [
         "external.USDCNH.close"
       ],
-      "missing_reason": null
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
     },
     {
       "key": "DXY",
       "exchange": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "mapping_status": "verified",
       "permission_status": "verified",
-      "current_permission_status": "available",
-      "quality_state": "fresh",
+      "current_permission_status": "collection_error",
+      "quality_state": "carried_forward",
       "series_keys": [
         "external.DXY.close"
       ],
-      "missing_reason": null
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
     }
   ],
   "series": [
@@ -283,7 +283,7 @@
       "exchange": null,
       "target": "BRENT",
       "metric": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "source_date": "2026-08-27",
       "observation_date": "2026-08-27",
       "timezone": "Asia/Shanghai",
@@ -292,7 +292,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "available",
+      "current_permission_status": "collection_error",
       "name": "期货结算价(连续):布伦特原油:ICE",
       "value": 89.7,
       "unit": "美元/桶",
@@ -302,13 +302,13 @@
       "usage": "context_only",
       "contract_kind": "continuous",
       "max_lag_days": 3,
-      "quality_state": "fresh",
-      "missing_reason": null,
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
-      "is_stale": false,
-      "normalized_value_sha256": "9f2daa6c03d53604fecc746228fbc1b0b2a087576feef8c0df882ee6f95f6edb",
+      "quality_state": "carried_forward",
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
+      "current_collection_state": "collection_error",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-08-27",
+      "is_stale": true,
+      "normalized_value_sha256": "0322cee75abed41d32f1522abe7ca412ae01e6abeea64c004428b659f02fc21a",
       "mapping_status": "verified"
     },
     {
@@ -318,7 +318,7 @@
       "exchange": null,
       "target": "LME_CU",
       "metric": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "source_date": "2026-08-27",
       "observation_date": "2026-08-27",
       "timezone": "Asia/Shanghai",
@@ -327,7 +327,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "available",
+      "current_permission_status": "collection_error",
       "name": "最后收盘价:LME铜(3个月)",
       "value": 14282.5,
       "unit": "美元/吨",
@@ -337,13 +337,13 @@
       "usage": "context_only",
       "contract_kind": "three_month",
       "max_lag_days": 3,
-      "quality_state": "fresh",
-      "missing_reason": null,
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
-      "is_stale": false,
-      "normalized_value_sha256": "3168b0882f022b82d354666aa67fd3fa0121c9d8612fd04ffc4d9039f7aeaa72",
+      "quality_state": "carried_forward",
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
+      "current_collection_state": "collection_error",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-08-27",
+      "is_stale": true,
+      "normalized_value_sha256": "7be6899f904f07c1ad4b83446200f36219c362cec73e5d01ad812a127be322f6",
       "mapping_status": "verified"
     },
     {
@@ -353,7 +353,7 @@
       "exchange": null,
       "target": "SGX_IRON_ORE",
       "metric": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "source_date": "2026-08-27",
       "observation_date": "2026-08-27",
       "timezone": "Asia/Shanghai",
@@ -362,7 +362,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "available",
+      "current_permission_status": "collection_error",
       "name": "期货结算价:铁矿石掉期:新交所:22个月",
       "value": 93.95,
       "unit": "美元/公吨",
@@ -372,13 +372,13 @@
       "usage": "context_only",
       "contract_kind": "twenty_two_month",
       "max_lag_days": 3,
-      "quality_state": "fresh",
-      "missing_reason": null,
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
-      "is_stale": false,
-      "normalized_value_sha256": "0065dcded8b7d095a8ae4fb6480ce8a2132ca70853be52ce4728d2722ab7538f",
+      "quality_state": "carried_forward",
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
+      "current_collection_state": "collection_error",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-08-27",
+      "is_stale": true,
+      "normalized_value_sha256": "9fa97c22e05a8ace020371ecec515d9f1eb396a6b3b232fb086712b8b0a741ab",
       "mapping_status": "verified"
     },
     {
@@ -388,7 +388,7 @@
       "exchange": null,
       "target": "BMD_PALM",
       "metric": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "source_date": "2026-04-26",
       "observation_date": "2026-04-26",
       "timezone": "Asia/Shanghai",
@@ -397,7 +397,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "available",
+      "current_permission_status": "collection_error",
       "name": "马来西亚:国际市场价:毛棕榈油:BMD+3",
       "value": 1159.0,
       "unit": "美元/吨",
@@ -407,13 +407,13 @@
       "usage": "context_only",
       "contract_kind": "bmd_plus_3",
       "max_lag_days": 3,
-      "quality_state": "stale",
-      "missing_reason": "observation exceeds allowed lag of 3 day(s)",
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
+      "quality_state": "carried_forward",
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
+      "current_collection_state": "collection_error",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-04-26",
       "is_stale": true,
-      "normalized_value_sha256": "6bf635c53021479c6d9d948f89176185f2c56110773e8c025a29e993b223cc5c",
+      "normalized_value_sha256": "3799864a1d71d76f12a4f0ca5402269014c1bf44e7e4a11c6a344774067c13be",
       "mapping_status": "verified",
       "current_canary_date": "2026-08-19",
       "current_canary_status": "no usable current observation; runtime staleness gate required"
@@ -425,7 +425,7 @@
       "exchange": null,
       "target": "USDCNH",
       "metric": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "source_date": "2026-08-27",
       "observation_date": "2026-08-27",
       "timezone": "Asia/Shanghai",
@@ -434,7 +434,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "available",
+      "current_permission_status": "collection_error",
       "name": "美元兑离岸人民币",
       "value": 6.718775648775198,
       "unit": "人民币/美元",
@@ -444,13 +444,13 @@
       "usage": "context_only",
       "contract_kind": "spot_fx",
       "max_lag_days": 3,
-      "quality_state": "fresh",
-      "missing_reason": null,
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
-      "is_stale": false,
-      "normalized_value_sha256": "f4a131f94423ab3c7c3d9fe4e30637669c376af616069cb6c230c71a359c52b5",
+      "quality_state": "carried_forward",
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
+      "current_collection_state": "collection_error",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-08-27",
+      "is_stale": true,
+      "normalized_value_sha256": "49abb3f3db2bb32f34efad86cc0d1e31f32eb3a83d722331d49d2ed50f5b5bd9",
       "mapping_status": "verified"
     },
     {
@@ -460,7 +460,7 @@
       "exchange": null,
       "target": "DXY",
       "metric": null,
-      "requested_date": "2026-08-28",
+      "requested_date": "2026-08-31",
       "source_date": "2026-08-27",
       "observation_date": "2026-08-27",
       "timezone": "Asia/Shanghai",
@@ -469,7 +469,7 @@
       "source_endpoint": "edb_service",
       "permission_status": "verified",
       "mapping_verified_on": "2026-08-19",
-      "current_permission_status": "available",
+      "current_permission_status": "collection_error",
       "name": "美国:美元指数",
       "value": 99.1278,
       "unit": "1973年3月=100",
@@ -479,13 +479,13 @@
       "usage": "context_only",
       "contract_kind": "index",
       "max_lag_days": 3,
-      "quality_state": "fresh",
-      "missing_reason": null,
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
-      "is_stale": false,
-      "normalized_value_sha256": "a47de98dcb753472f28427200d8fcd34eaf01fcd397336d6265245c7dd23d5f9",
+      "quality_state": "carried_forward",
+      "missing_reason": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
+      "current_collection_state": "collection_error",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-08-27",
+      "is_stale": true,
+      "normalized_value_sha256": "af0e2236e6e949150cabb530c134fd3bccc963ebc1b73efa532b63c43753998b",
       "mapping_status": "verified"
     }
   ],
@@ -514,9 +514,9 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-08-28",
-    "last_attempt_validation_passed": true,
+    "last_attempt_date": "2026-08-31",
+    "last_attempt_validation_passed": false,
     "out_of_order_attempt": false,
-    "promotion_allowed": true
+    "promotion_allowed": false
   }
 }

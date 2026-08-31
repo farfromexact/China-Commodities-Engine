@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "domain": "physical",
-  "requested_date": "2026-08-27",
-  "generated_at": "2026-08-28T14:05:34.798000+08:00",
+  "requested_date": "2026-08-31",
+  "generated_at": "2026-08-31T19:44:50.482000+08:00",
   "data_fresh": false,
   "coverage": {
     "target_count": 20,
     "verified_mapping_count": 4,
     "unavailable_mapping_count": 16,
-    "fresh_target_count": 2,
+    "fresh_target_count": 0,
     "stale_target_count": 0,
-    "carried_forward_target_count": 2,
+    "carried_forward_target_count": 4,
     "failed_target_count": 0,
     "series_count": 4,
     "cache_hit_count": 0,
@@ -20,66 +20,70 @@
     {
       "series_key": "physical.I.port_inventory",
       "indicator_id": "S011038838",
-      "state": "ok",
-      "quality_state": "fresh",
+      "state": "collection_error",
+      "quality_state": "carried_forward",
       "source_date": "2026-08-26",
-      "carried_forward": false,
-      "detail": null,
+      "carried_forward": true,
+      "detail": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-26",
-      "query_end_date": "2026-08-27"
+      "query_end_date": "2026-08-31"
     },
     {
       "series_key": "physical.JM.nbs_coking_coal_spot",
       "indicator_id": "S005948590",
-      "state": "ok",
-      "quality_state": "fresh",
+      "state": "collection_error",
+      "quality_state": "carried_forward",
       "source_date": "2026-08-20",
-      "carried_forward": false,
-      "detail": null,
+      "carried_forward": true,
+      "detail": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-20",
-      "query_end_date": "2026-08-27"
+      "query_end_date": "2026-08-31"
     },
     {
       "series_key": "physical.FG.float_glass_inventory",
       "indicator_id": "S005696248",
-      "state": "regressed_source_date",
+      "state": "collection_error",
       "quality_state": "carried_forward",
       "source_date": "2026-08-28",
       "carried_forward": true,
-      "detail": "current query returned an observation older than the retained snapshot",
+      "detail": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2025-07-23",
-      "query_end_date": "2026-08-27"
+      "query_start_date": "2026-08-28",
+      "query_end_date": "2026-08-31"
     },
     {
       "series_key": "physical.TA.processing_margin",
       "indicator_id": "S011318489",
-      "state": "regressed_source_date",
+      "state": "collection_error",
       "quality_state": "carried_forward",
       "source_date": "2026-08-28",
       "carried_forward": true,
-      "detail": "current query returned an observation older than the retained snapshot",
+      "detail": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}",
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2025-07-23",
-      "query_end_date": "2026-08-27"
+      "query_start_date": "2026-08-28",
+      "query_end_date": "2026-08-31"
     }
   ],
   "validation_passed": false,
   "validation_errors": [
     "FG: invalid target quality state carried_forward",
+    "I: invalid target quality state carried_forward",
+    "JM: invalid target quality state carried_forward",
     "TA: invalid target quality state carried_forward",
     "physical.FG.float_glass_inventory: current collection is carried forward",
-    "physical.FG.float_glass_inventory: current collection state=regressed_source_date",
-    "physical.FG.float_glass_inventory: observation date is after requested date",
+    "physical.FG.float_glass_inventory: current collection state=collection_error",
+    "physical.I.port_inventory: current collection is carried forward",
+    "physical.I.port_inventory: current collection state=collection_error",
+    "physical.JM.nbs_coking_coal_spot: current collection is carried forward",
+    "physical.JM.nbs_coking_coal_spot: current collection state=collection_error",
     "physical.TA.processing_margin: current collection is carried forward",
-    "physical.TA.processing_margin: current collection state=regressed_source_date",
-    "physical.TA.processing_margin: observation date is after requested date"
+    "physical.TA.processing_margin: current collection state=collection_error"
   ],
   "published": false,
   "shadow_state": {
@@ -95,7 +99,7 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-08-27",
+    "last_attempt_date": "2026-08-31",
     "last_attempt_validation_passed": false,
     "out_of_order_attempt": false,
     "promotion_allowed": false
