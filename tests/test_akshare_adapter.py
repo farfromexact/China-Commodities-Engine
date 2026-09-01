@@ -334,6 +334,44 @@ class AkShareAdapterTests(unittest.TestCase):
                 collect_contract_info("2026-08-14", exchange, ak_module=fake)
                 self.assertEqual(fake.calls[-1], call)
 
+    def test_dce_contract_info_retries_current_official_portal(self) -> None:
+        empty_response = Mock()
+        empty_response.text = ""
+        good_response = Mock()
+        good_response.json.return_value = {
+            "data": [
+                {
+                    "variety": "豆一",
+                    "contractId": "a2609",
+                    "unit": 10,
+                    "tick": 1,
+                    "startTradeDate": "20250915",
+                    "endTradeDate": "20260914",
+                    "endDeliveryDate": "20260917",
+                }
+            ]
+        }
+
+        with patch(
+            "china_commodities.collectors.akshare_adapter.requests.post",
+            side_effect=[empty_response, good_response],
+        ) as post, patch(
+            "china_commodities.collectors.akshare_adapter.time.sleep"
+        ) as sleep:
+            frame = collect_contract_info("2026-08-14", "DCE")
+
+        self.assertEqual(frame.iloc[0]["合约"], "a2609")
+        self.assertEqual(post.call_count, 2)
+        sleep.assert_called_once_with(1.0)
+        self.assertEqual(
+            post.call_args.kwargs["json"],
+            {
+                "lang": "zh",
+                "tradeType": "1",
+                "varietyId": "all",
+            },
+        )
+
     def test_shfe_option_volatility_route(self) -> None:
         fake = FakeAkShare()
         collect_option_volatility_daily(

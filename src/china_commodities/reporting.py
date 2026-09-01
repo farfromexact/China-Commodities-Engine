@@ -71,6 +71,211 @@ def _trade_date(payload: Mapping[str, Any], fallback: str | None = None) -> str 
     return fallback
 
 
+def _merge_options_status(
+    root: Path, futures_status: Mapping[str, Any]
+) -> tuple[dict[str, Any], bool]:
+    """Reflect the separately published option chain in the root status.
+
+    The futures CLI intentionally runs with ``--skip-options`` and the option
+    collector publishes under ``data/options``.  Without this reconciliation,
+    the root status keeps the CLI's placeholder ``not_collected`` value even
+    after a same-date option chain has been promoted.
+
+    Only a same-date, published option manifest is merged.  Quality gates for
+    surface, positioning, and execution remain independent fields.
+    """
+
+    merged = dict(futures_status)
+    option_status = _mapping(_read(root, "options/last_run_status.json", {}))
+    if not option_status or "published" not in option_status:
+        return merged, False
+    option_latest = _mapping(_read(root, "options/latest.json", {}))
+    option_quality_payload = _mapping(_read(root, "options/quality_latest.json", {}))
+    option_quality = _mapping(option_quality_payload.get("quality"))
+    requested_date = _trade_date(merged)
+    option_date = (
+        _trade_date(option_status)
+        or _trade_date(option_quality)
+        or _trade_date(option_latest)
+    )
+    if not requested_date or option_date != requested_date:
+        return merged, False
+
+    coverage = _mapping(option_status.get("coverage"))
+    latest_matches = _trade_date(option_latest) == requested_date
+    published = (
+        option_status.get("published") is True
+        and option_status.get("data_fresh") is True
+        and latest_matches
+        and coverage.get("publish_eligible") is True
+    )
+    full_scope = bool(
+        coverage.get("scope_complete") is True
+        and option_quality.get("full_product_scope_verified") is True
+    )
+    full_chain = bool(
+        option_quality.get("full_chain_verified") is True and full_scope
+    )
+    quality_status = str(option_quality.get("status") or "").strip()
+    if not published:
+        chain_quality = "partial_error" if option_status.get("global_error") else "not_collected"
+        module_state = "error" if option_status.get("global_error") else "empty"
+        module_error = option_status.get("global_error")
+    elif full_chain:
+        chain_quality = "verified_vendor_full_chain"
+        module_state = "ok"
+        module_error = None
+    elif quality_status == "partial_chain" or not full_scope:
+        chain_quality = "partial_chain"
+        module_state = "ok"
+        module_error = None
+    else:
+        chain_quality = "available_vendor_chain"
+        module_state = "ok"
+        module_error = None
+
+    module_records = option_status.get("quote_contract_count")
+    if not isinstance(module_records, int) or isinstance(module_records, bool):
+        module_records = option_quality.get("record_count")
+    if not isinstance(module_records, int) or isinstance(module_records, bool):
+        module_records = option_latest.get("record_count", 0)
+    if not isinstance(module_records, int) or isinstance(module_records, bool):
+        module_records = 0
+
+    source_date_match = option_quality.get("source_date_match_pct") == 1.0
+    module = {
+        "dataset": "options",
+        "scope": "full-market",
+        "state": module_state,
+        "trade_date": requested_date,
+        "source_function": "collect_ifind_options.py",
+        "records": module_records,
+        "error": module_error,
+        "upstream_source": "iFinD Quant API",
+        "is_fresh": published,
+        "is_proxy": False,
+        "is_fallback": False,
+        "requested_trade_date": requested_date,
+        "source_trade_date": requested_date if source_date_match else None,
+        "source_date_match": source_date_match,
+        "fetched_at": option_status.get("generated_at"),
+        "source_endpoint": "collect_ifind_options.py",
+        "raw_payload_sha256": None,
+        "schema_signature": None,
+    }
+
+    modules = [dict(item) for item in _list(merged.get("modules")) if isinstance(item, Mapping)]
+    replaced = False
+    for index, item in enumerate(modules):
+        if item.get("dataset") == "options" and item.get("scope") == "full-market":
+            modules[index] = module
+            replaced = True
+            break
+    if not replaced:
+        modules.append(module)
+    merged["modules"] = modules
+
+    module_quality = dict(_mapping(merged.get("module_quality")))
+    module_quality["options_chain"] = chain_quality
+    module_quality["options_surface"] = (
+        "surface_ready" if option_quality.get("surface_ready") is True else "not_ready"
+    )
+    merged["module_quality"] = module_quality
+
+    quality_metrics = dict(_mapping(merged.get("quality_metrics")))
+    quality_metrics.update(
+        {
+            "options_chain_data_fresh": published,
+            "options_full_product_scope_verified": full_scope,
+            "options_full_chain_verified": full_chain,
+            "options_surface_ready": option_quality.get("surface_ready") is True,
+            "options_positioning_ready": option_quality.get("positioning_ready") is True,
+            "options_execution_ready": option_quality.get("execution_ready") is True,
+        }
+    )
+    merged["quality_metrics"] = quality_metrics
+    return merged, True
+
+
+def reconcile_main_status(data_dir: str | Path = "data") -> bool:
+    """Persist same-date independent option status into root artifacts."""
+
+    root = Path(data_dir)
+    path = root / "last_run_status.json"
+    current = _mapping(_read(root, "last_run_status.json", {}))
+    if not current:
+        return False
+    merged, applicable = _merge_options_status(root, current)
+    if not applicable:
+        return False
+    changed = write_json_if_changed(path, merged)
+    option_module = next(
+        (
+            dict(item)
+            for item in _list(merged.get("modules"))
+            if isinstance(item, Mapping)
+            and item.get("dataset") == "options"
+            and item.get("scope") == "full-market"
+        ),
+        None,
+    )
+    if option_module is None:
+        return changed
+
+    requested_date = _trade_date(merged)
+    for relative, module_key in (
+        ("latest.json", "source"),
+        ("radar_latest.json", "session_freshness"),
+    ):
+        artifact_path = root / relative
+        artifact = _mapping(_read(root, relative, {}))
+        if not artifact or _trade_date(artifact) != requested_date:
+            continue
+        artifact = dict(artifact)
+        artifact["module_quality"] = dict(_mapping(merged.get("module_quality")))
+        artifact["quality_metrics"] = dict(_mapping(merged.get("quality_metrics")))
+        if module_key == "source":
+            source = dict(_mapping(artifact.get("source")))
+            modules = [
+                dict(item)
+                for item in _list(source.get("modules"))
+                if isinstance(item, Mapping)
+            ]
+            replaced = False
+            for index, item in enumerate(modules):
+                if (
+                    item.get("dataset") == "options"
+                    and item.get("scope") == "full-market"
+                ):
+                    modules[index] = option_module
+                    replaced = True
+                    break
+            if not replaced:
+                modules.append(option_module)
+            source["modules"] = modules
+            artifact["source"] = source
+        else:
+            freshness = [
+                dict(item)
+                for item in _list(artifact.get(module_key))
+                if isinstance(item, Mapping)
+            ]
+            replaced = False
+            for index, item in enumerate(freshness):
+                if (
+                    item.get("dataset") == "options"
+                    and item.get("scope") == "full-market"
+                ):
+                    freshness[index] = option_module
+                    replaced = True
+                    break
+            if not replaced:
+                freshness.append(option_module)
+            artifact[module_key] = freshness
+        changed = write_json_if_changed(artifact_path, artifact) or changed
+    return changed
+
+
 def _metric_value(product: Mapping[str, Any], horizon: str) -> float | None:
     value = _mapping(product.get("settlement_return_pct")).get(horizon)
     value = _mapping(value).get("value")
@@ -380,7 +585,9 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
 
     root = Path(data_dir)
     futures = _mapping(_read(root, "latest.json", {}))
-    futures_status = _mapping(_read(root, "last_run_status.json", {}))
+    futures_status, _ = _merge_options_status(
+        root, _mapping(_read(root, "last_run_status.json", {}))
+    )
     market_state = _mapping(_read(root, "market_state_latest.json", {}))
     physical = _mapping(_read(root, "physical/latest.json", {}))
     physical_status = _mapping(_read(root, "physical/last_run_status.json", {}))
@@ -621,6 +828,7 @@ def publish_report_input(
     """Write the joined report input and return its path."""
 
     root = Path(data_dir)
+    reconcile_main_status(root)
     destination = Path(output_path) if output_path else root / REPORT_INPUT_NAME
     write_json_if_changed(destination, build_report_input(root))
     return destination
@@ -632,4 +840,5 @@ __all__ = [
     "REPORT_SCHEMA_VERSION",
     "build_report_input",
     "publish_report_input",
+    "reconcile_main_status",
 ]

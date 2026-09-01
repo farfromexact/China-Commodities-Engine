@@ -16,8 +16,8 @@
     "warehouse": "partial_error",
     "basis": "unavailable",
     "member_rankings": "unavailable",
-    "options_chain": "not_collected",
-    "options_surface": "not_ready"
+    "options_chain": "verified_vendor_full_chain",
+    "options_surface": "surface_ready"
   },
   "quality_metrics": {
     "source_date_match_pct": 100.0,
@@ -37,7 +37,13 @@
     "full_market_ready": true,
     "excluded_exchange_count": 0,
     "coverage_penalty": false,
-    "included_exchange_count": 5
+    "included_exchange_count": 5,
+    "options_chain_data_fresh": true,
+    "options_full_product_scope_verified": true,
+    "options_full_chain_verified": true,
+    "options_surface_ready": true,
+    "options_positioning_ready": false,
+    "options_execution_ready": false
   },
   "coverage_scope": {
     "scope_id": "full-market",
@@ -198,20 +204,20 @@
       {
         "dataset": "options",
         "scope": "full-market",
-        "state": "skipped",
+        "state": "ok",
         "trade_date": "2026-09-01",
-        "source_function": "not_yet_mapped",
-        "records": 0,
-        "error": "iFinD report/indicator mapping and entitlement are not yet verified for this module",
+        "source_function": "collect_ifind_options.py",
+        "records": 23200,
+        "error": null,
         "upstream_source": "iFinD Quant API",
-        "is_fresh": false,
+        "is_fresh": true,
         "is_proxy": false,
         "is_fallback": false,
         "requested_trade_date": "2026-09-01",
-        "source_trade_date": null,
-        "source_date_match": null,
-        "fetched_at": null,
-        "source_endpoint": null,
+        "source_trade_date": "2026-09-01",
+        "source_date_match": true,
+        "fetched_at": "2026-09-01T14:44:54+00:00",
+        "source_endpoint": "collect_ifind_options.py",
         "raw_payload_sha256": null,
         "schema_signature": null
       },

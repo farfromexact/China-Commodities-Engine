@@ -5,7 +5,11 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from china_commodities.reporting import build_report_input, publish_report_input
+from china_commodities.reporting import (
+    build_report_input,
+    publish_report_input,
+    reconcile_main_status,
+)
 
 
 class ReportingInputTests(unittest.TestCase):
@@ -214,6 +218,109 @@ class ReportingInputTests(unittest.TestCase):
             self.assertTrue(output["intraday"])
             self.assertEqual(output["night_session"]["records"][0]["contract"], "CU2609")
             self.assertEqual(len(output["night_session"]["records"]), 1)
+
+    def test_reconciles_same_date_published_options_into_root_status(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self._write(root, "last_run_status.json", {
+                "run_date": "2026-08-20",
+                "generated_at": "2026-08-20T18:00:00+08:00",
+                "module_quality": {
+                    "options_chain": "not_collected",
+                    "options_surface": "not_ready",
+                },
+                "quality_metrics": {},
+                "modules": [
+                    {
+                        "dataset": "options",
+                        "scope": "full-market",
+                        "state": "skipped",
+                    }
+                ],
+            })
+            self._write(root, "latest.json", {
+                "trade_date": "2026-08-20",
+                "module_quality": {
+                    "options_chain": "not_collected",
+                    "options_surface": "not_ready",
+                },
+                "quality_metrics": {},
+                "source": {
+                    "modules": [
+                        {
+                            "dataset": "options",
+                            "scope": "full-market",
+                            "state": "skipped",
+                        }
+                    ]
+                },
+            })
+            self._write(root, "options/last_run_status.json", {
+                "trade_date": "2026-08-20",
+                "generated_at": "2026-08-20T21:00:00+08:00",
+                "data_fresh": True,
+                "published": True,
+                "quote_contract_count": 12,
+                "coverage": {
+                    "scope_complete": True,
+                    "publish_eligible": True,
+                },
+            })
+            self._write(root, "options/latest.json", {
+                "trade_date": "2026-08-20",
+                "record_count": 12,
+            })
+            self._write(root, "options/quality_latest.json", {
+                "trade_date": "2026-08-20",
+                "quality": {
+                    "source_date_match_pct": 1.0,
+                    "full_product_scope_verified": True,
+                    "full_chain_verified": True,
+                    "surface_ready": True,
+                    "positioning_ready": False,
+                    "execution_ready": False,
+                },
+            })
+
+            report = build_report_input(root)
+            self.assertEqual(
+                report["quality"]["futures_status"]["module_quality"]["options_chain"],
+                "verified_vendor_full_chain",
+            )
+            self.assertTrue(
+                report["quality"]["futures_status"]["quality_metrics"]
+                ["options_full_chain_verified"]
+            )
+            self.assertTrue(reconcile_main_status(root))
+            self.assertFalse(reconcile_main_status(root))
+
+            persisted = json.loads(
+                (root / "last_run_status.json").read_text(encoding="utf-8")
+            )
+            option_module = next(
+                item
+                for item in persisted["modules"]
+                if item["dataset"] == "options"
+            )
+            self.assertEqual(option_module["state"], "ok")
+            self.assertTrue(option_module["is_fresh"])
+            self.assertEqual(option_module["records"], 12)
+            self.assertEqual(
+                persisted["module_quality"]["options_surface"], "surface_ready"
+            )
+            latest = json.loads(
+                (root / "latest.json").read_text(encoding="utf-8")
+            )
+            latest_option = next(
+                item
+                for item in latest["source"]["modules"]
+                if item["dataset"] == "options"
+            )
+            self.assertEqual(latest_option["state"], "ok")
+            self.assertEqual(
+                latest["module_quality"]["options_chain"],
+                "verified_vendor_full_chain",
+            )
 
 
 if __name__ == "__main__":

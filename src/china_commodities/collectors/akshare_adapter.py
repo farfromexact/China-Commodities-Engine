@@ -5,7 +5,10 @@ from __future__ import annotations
 from collections.abc import Sequence
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from io import StringIO
+import json
 import re
+import time
 from typing import Any
 
 import pandas as pd
@@ -51,6 +54,53 @@ _CONTRACT_INFO_FUNCTIONS: dict[str, str] = {
     "CZCE": "futures_contract_info_czce",
     "GFEX": "futures_contract_info_gfex",
 }
+
+_DCE_CONTRACT_INFO_URL = (
+    "http://www.dce.com.cn/dcereport/publicweb/tradepara/contractInfo"
+)
+_DCE_CONTRACT_INFO_PAYLOAD = {
+    "lang": "zh",
+    "tradeType": "1",
+    "varietyId": "all",
+}
+_DCE_CONTRACT_INFO_LEGACY_URL = (
+    "http://portal.dce.com.cn/publicweb/businessguidelines/"
+    "queryContractInfo.html"
+)
+_DCE_CONTRACT_INFO_LEGACY_PARAMS = {
+    "contractInformation.variety": "all",
+    "contractInformation.trade_type": "0",
+}
+_DCE_CONTRACT_INFO_ATTEMPTS = 2
+_DCE_CONTRACT_INFO_RETRY_DELAY_SECONDS = 1.0
+
+
+def _prepare_dce_contract_info_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    """Normalize columns and dates shared by the DCE official routes."""
+
+    frame = frame.copy()
+    frame.rename(
+        columns={
+            "contractId": "合约",
+            "variety": "品种名称",
+            "varietyOrder": "品种代码",
+            "unit": "交易单位",
+            "tick": "最小变动价位",
+            "startTradeDate": "开始交易日",
+            "endTradeDate": "最后交易日",
+            "endDeliveryDate": "最后交割日",
+        },
+        inplace=True,
+    )
+    for column in ("交易单位", "最小变动价位"):
+        if column in frame.columns:
+            frame[column] = pd.to_numeric(frame[column], errors="coerce")
+    for column in ("开始交易日", "最后交易日", "最后交割日"):
+        if column in frame.columns:
+            frame[column] = pd.to_datetime(
+                frame[column], format="mixed", errors="coerce"
+            ).dt.date
+    return frame
 
 
 def _load_akshare(ak_module: Any | None) -> Any:
@@ -324,6 +374,79 @@ def collect_member_rankings(
     return function(date=date, vars_list=list(products))
 
 
+def _collect_dce_contract_info_direct() -> pd.DataFrame:
+    """Read DCE's current contract table from its current official route.
+
+    The current DCE route returns JSON.  A legacy portal HTML route is kept as
+    a narrow fallback because DCE has changed this endpoint more than once.
+    The AKShare function remains a final compatibility fallback in the public
+    adapter below.
+    """
+
+    last_error: Exception | None = None
+    for attempt in range(_DCE_CONTRACT_INFO_ATTEMPTS):
+        try:
+            response = requests.post(
+                _DCE_CONTRACT_INFO_URL,
+                json=_DCE_CONTRACT_INFO_PAYLOAD,
+                timeout=30,
+            )
+            response.raise_for_status()
+            try:
+                payload = response.json()
+            except (json.JSONDecodeError, ValueError):
+                payload = None
+            if isinstance(payload, dict):
+                rows = payload.get("data")
+                if isinstance(rows, dict):
+                    rows = rows.get("entityList")
+                if not isinstance(rows, list) or not rows:
+                    raise ValueError(
+                        "DCE contract info endpoint returned no JSON records"
+                    )
+                return _prepare_dce_contract_info_frame(pd.DataFrame(rows))
+
+            body = str(getattr(response, "text", "") or "")
+            if not body.strip():
+                raise ValueError("DCE contract info endpoint returned an empty body")
+            tables = pd.read_html(StringIO(body))
+            if not tables:
+                raise ValueError(
+                    "DCE contract info endpoint returned no HTML table"
+                )
+            return _prepare_dce_contract_info_frame(tables[0])
+        except (json.JSONDecodeError, requests.RequestException, ValueError) as exc:
+            last_error = exc
+            if attempt + 1 < _DCE_CONTRACT_INFO_ATTEMPTS:
+                time.sleep(_DCE_CONTRACT_INFO_RETRY_DELAY_SECONDS)
+
+    legacy_error: Exception | None = None
+    try:
+        response = requests.post(
+            _DCE_CONTRACT_INFO_LEGACY_URL,
+            params=_DCE_CONTRACT_INFO_LEGACY_PARAMS,
+            timeout=30,
+        )
+        response.raise_for_status()
+        body = str(getattr(response, "text", "") or "")
+        if not body.strip():
+            raise ValueError("DCE legacy contract info endpoint returned an empty body")
+        tables = pd.read_html(StringIO(body))
+        if not tables:
+            raise ValueError("DCE legacy contract info endpoint returned no HTML table")
+        return _prepare_dce_contract_info_frame(tables[0])
+    except (json.JSONDecodeError, requests.RequestException, ValueError) as exc:
+        legacy_error = exc
+
+    assert last_error is not None
+    raise RuntimeError(
+        "DCE contract info official routes failed; current route after "
+        f"{_DCE_CONTRACT_INFO_ATTEMPTS} attempts: "
+        f"{type(last_error).__name__}: {last_error}; legacy route: "
+        f"{type(legacy_error).__name__}: {legacy_error}"
+    ) from legacy_error
+
+
 def collect_contract_info(
     trade_date: str,
     exchange: str,
@@ -333,6 +456,22 @@ def collect_contract_info(
 
     date = _normalize_trade_date(trade_date)
     exchange = _validate_exchange(exchange)
+    if exchange == "DCE" and ak_module is None:
+        direct_error: Exception | None = None
+        try:
+            return _collect_dce_contract_info_direct()
+        except Exception as exc:
+            direct_error = exc
+        try:
+            function = getattr(_load_akshare(ak_module), _CONTRACT_INFO_FUNCTIONS[exchange])
+            return function()
+        except Exception as fallback_error:
+            raise RuntimeError(
+                "DCE contract info failed through both the current official "
+                f"portal and the AKShare compatibility route; portal: "
+                f"{type(direct_error).__name__}: {direct_error}; AKShare: "
+                f"{type(fallback_error).__name__}: {fallback_error}"
+            ) from fallback_error
     function = getattr(_load_akshare(ak_module), _CONTRACT_INFO_FUNCTIONS[exchange])
     if exchange in {"DCE", "GFEX"}:
         return function()

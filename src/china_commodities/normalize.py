@@ -635,7 +635,9 @@ def normalize_contract_info(
                 "as_of_date": iso_date(trade_date),
                 "exchange": exchange.upper(),
                 "product": product,
-                "product_name": row.get("产品名称", row.get("品种")),
+                "product_name": row.get(
+                    "产品名称", row.get("品种名称", row.get("品种"))
+                ),
                 "contract": contract,
                 "multiplier": multiplier,
                 "tick_size": tick_size,

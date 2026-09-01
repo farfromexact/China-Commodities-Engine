@@ -54,6 +54,8 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/options/snapshots/YYYY-MM-DD.json.gz`：达到发布门槛后保存的压缩逐合约期权快照。
 - `data/options/history.json`：按交易日汇总的期权历史记录。
 
+期权采集使用独立目录，但每日最后的 `report-input` 步骤会把同交易日、已发布的期权链状态回写到根级 `data/last_run_status.json`、`data/latest.json` 和 `data/radar_latest.json`。这只同步链条采集状态；`surface_ready`、`positioning_ready` 和 `execution_ready` 仍然分别由期权质量文件决定。
+
 正式 JSON 历史统一滚动保留最近20个交易日：`radar_history.json` 的日盘 `records` 与夜盘 `night_session_records` 分别按交易日去重保存，`data/snapshots/` 保存同一窗口内包含具体合约的完整日盘快照。`latest.json` 始终指向最近一个已验证交易日；其 `night_session` 仅为最近一次通过源时间戳验证的夜盘覆盖层。晨间缓存命中时仍会同步这六个顶层读取产物，但若内容完全相同则不会制造无意义的 Git 提交。商品期权的整链压缩快照和紧凑摘要同样只滚动保留最近20个成功发布交易日，`latest_shards` 只保留当前一天；低于75%覆盖率的尝试不会覆盖上一份 `latest`，也不会缩短有效历史窗口。商品期权 Parquet 使用逐日分区并滚动保留最近252个交易日，旧分区删除前不会用新数据覆盖其他日期。
 
 `market_state_latest.json` 的历史收益只复利同一个具体合约每天已发布的结算收益，不把换月前后的两个主力价格拼成连续涨跌。它同时给出 1/3/5/20 日收益、20日实现波动率、成交量与持仓量 z-score、持仓变化、`volume/OI`、价仓四象限线索、近次月价差 z-score，以及主力/曲线合约对换月标记。观察不足时字段保持 `null` 并披露实际样本数；价仓四象限只是归因线索，不是“新多”“新空”的事实。
@@ -83,7 +85,7 @@ HTTP 探针从隐藏输入或当前进程的 `IFIND_REFRESH_TOKEN` 读取 refres
 
 `src/china_commodities/collectors/ifind_http_adapter.py` 将 iFinD 返回值映射到现有期货字段，再经过具体合约、源日期、OHLC、成交量、持仓量和全交易所覆盖校验。iFinD 是当前核心期货行情的主源，但不被标记为交易所官方直连，因此 `core_futures_official_complete` 保持为 `false`，`module_quality.futures` 使用 `verified_vendor_primary`。
 
-产业数据和海外日频序列只使用 `config/data_foundation.json` 中已固定、已验证的 iFinD 指标 ID；生产任务不依赖自然语言搜索。合约参数与仓单由交易所接口经 AKShare 适配，iFinD 基础数据和专题报表客户端只为后续已验证映射提供只读入口。会员排名和未固定的现货/海外指标保持 `skipped/unavailable`，不得猜测补值。商品期权按下方独立流程采集，目录优先由交易所 EOD 经 AKShare 适配、受阻时使用 OpenCTP 后备，逐合约字段由 iFinD 提供。
+产业数据和海外日频序列只使用 `config/data_foundation.json` 中已固定、已验证的 iFinD 指标 ID；生产任务不依赖自然语言搜索。合约参数与仓单由交易所接口经 AKShare 适配，DCE 合约信息优先走当前官方 portal，失败时再走兼容接口并保留明确错误；iFinD 基础数据和专题报表客户端只为后续已验证映射提供只读入口。会员排名和未固定的现货/海外指标保持 `skipped/unavailable`，不得猜测补值。商品期权按下方独立流程采集，目录优先由交易所 EOD 经 AKShare 适配、受阻时使用 OpenCTP 后备，逐合约字段由 iFinD 提供。
 
 ### 商品期权全市场采集（目标范围）
 
