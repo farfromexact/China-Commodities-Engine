@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "domain": "physical",
-  "requested_date": "2026-09-01",
-  "generated_at": "2026-09-01T23:05:38.748482+08:00",
+  "requested_date": "2026-09-02",
+  "generated_at": "2026-09-02T20:36:23.453353+08:00",
   "data_fresh": true,
   "coverage": {
     "target_count": 20,
@@ -22,13 +22,13 @@
       "indicator_id": "S011038838",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-08-26",
+      "source_date": "2026-09-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-26",
-      "query_end_date": "2026-09-01"
+      "query_end_date": "2026-09-02"
     },
     {
       "series_key": "physical.JM.nbs_coking_coal_spot",
@@ -41,7 +41,7 @@
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-20",
-      "query_end_date": "2026-09-01"
+      "query_end_date": "2026-09-02"
     },
     {
       "series_key": "physical.FG.float_glass_inventory",
@@ -54,7 +54,7 @@
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-28",
-      "query_end_date": "2026-09-01"
+      "query_end_date": "2026-09-02"
     },
     {
       "series_key": "physical.TA.processing_margin",
@@ -67,7 +67,7 @@
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2026-08-28",
-      "query_end_date": "2026-09-01"
+      "query_end_date": "2026-09-02"
     }
   ],
   "validation_passed": true,
@@ -86,7 +86,7 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 5,
-    "last_attempt_date": "2026-09-01",
+    "last_attempt_date": "2026-09-02",
     "last_attempt_validation_passed": true,
     "out_of_order_attempt": false,
     "promotion_allowed": true
