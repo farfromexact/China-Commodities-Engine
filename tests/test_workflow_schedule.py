@@ -49,15 +49,19 @@ class WorkflowScheduleTests(unittest.TestCase):
         )
         self.assertEqual(
             workflow.count(
-                'python -m china_commodities.cli foundation --scope physical --date "${DOMESTIC_TRADE_DATE}" --force-refresh'
+                'python -m china_commodities.cli foundation --provider akshare --scope physical --date "${DOMESTIC_TRADE_DATE}" --shadow-days 1 --force-refresh'
             ),
             1,
         )
         self.assertEqual(
             workflow.count(
-                'python -m china_commodities.cli foundation --scope external --date "${EXTERNAL_TRADE_DATE}" --force-refresh'
+                'python -m china_commodities.cli foundation --provider akshare --scope external --date "${EXTERNAL_TRADE_DATE}" --shadow-days 1 --force-refresh'
             ),
             1,
+        )
+        self.assertEqual(
+            workflow.count("IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}"),
+            4,
         )
         self.assertEqual(
             workflow.count(

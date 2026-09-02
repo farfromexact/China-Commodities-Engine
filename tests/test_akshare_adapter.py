@@ -20,6 +20,7 @@ from china_commodities.collectors.akshare_adapter import (  # noqa: E402
     collect_basis_daily,
     collect_contract_info,
     collect_dce_realtime_fallback,
+    collect_foreign_futures_history,
     collect_futures_daily,
     collect_member_rankings,
     collect_option_daily,
@@ -59,6 +60,10 @@ class FakeAkShare:
 
     def futures_spot_price(self, **kwargs: Any) -> pd.DataFrame:
         self.calls.append(("futures_spot_price", kwargs))
+        return self.frame
+
+    def futures_foreign_hist(self, **kwargs: Any) -> pd.DataFrame:
+        self.calls.append(("futures_foreign_hist", kwargs))
         return self.frame
 
     def option_hist_dce(self, **kwargs: Any) -> pd.DataFrame:
@@ -188,6 +193,16 @@ class AkShareAdapterTests(unittest.TestCase):
             fake.calls[-1],
             ("futures_spot_price", {"date": "20260814", "vars_list": ["铁矿石", "铜"]}),
         )
+
+    def test_foreign_history_routes_an_explicit_source_symbol(self) -> None:
+        fake = FakeAkShare()
+
+        result = collect_foreign_futures_history(" FCPO ", ak_module=fake)
+
+        self.assertIs(result, fake.frame)
+        self.assertEqual(fake.calls[-1], ("futures_foreign_hist", {"symbol": "FCPO"}))
+        with self.assertRaisesRegex(ValueError, "must not be empty"):
+            collect_foreign_futures_history("", ak_module=fake)
 
     def test_option_routes_ine_to_shfe_and_normalizes_date(self) -> None:
         expected = {

@@ -78,12 +78,17 @@ def seed_verified(root: Path, trade_date: str = "2026-08-19") -> None:
     for domain in ("physical", "external"):
         write_json(
             root / domain / "latest.json",
-            {"requested_date": trade_date, "series": [{"series_key": domain}]},
+            {
+                "requested_date": trade_date,
+                "provider": "akshare",
+                "series": [{"series_key": domain}],
+            },
         )
         write_json(
             root / domain / "last_run_status.json",
             {
                 "requested_date": trade_date,
+                "provider": "akshare",
                 "validation_passed": True,
                 "published": True,
             },
@@ -125,7 +130,9 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertTrue(verified_option_chain_available(root, "2026-08-19"))
             self.assertTrue(verified_night_session_available(root, "2026-08-19"))
             self.assertTrue(
-                verified_foundation_available(root, "physical", "2026-08-19")
+                verified_foundation_available(
+                    root, "physical", "2026-08-19", provider="akshare"
+                )
             )
             self.assertFalse(verified_futures_available(root, "2026-08-20"))
 
@@ -141,6 +148,25 @@ class CollectionCacheTests(unittest.TestCase):
             )
             self.assertFalse(plan["needs_ifind"])
             self.assertFalse(any(plan[key] for key in plan if key.startswith("needs_")))
+
+    def test_public_foundation_only_does_not_request_an_ifind_token(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            seed_verified(root)
+            for domain in ("physical", "external"):
+                (root / domain / "latest.json").unlink()
+                (root / domain / "last_run_status.json").unlink()
+
+            plan = plan_collection(
+                event_name="workflow_dispatch",
+                event_schedule="",
+                requested_date="2026-08-19",
+                data_dir=root,
+            )
+
+            self.assertTrue(plan["needs_physical"])
+            self.assertTrue(plan["needs_external"])
+            self.assertFalse(plan["needs_ifind"])
 
     def test_force_refresh_plan_runs_verified_full_modules_again(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

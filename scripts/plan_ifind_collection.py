@@ -153,13 +153,13 @@ def plan_collection(
         needs_physical = bool(
             run_domestic
             and not verified_foundation_available(
-                data_dir, "physical", domestic_trade_date
+                data_dir, "physical", domestic_trade_date, provider="akshare"
             )
         )
         needs_external = bool(
             run_external
             and not verified_foundation_available(
-                data_dir, "external", external_trade_date
+                data_dir, "external", external_trade_date, provider="akshare"
             )
         )
     return {
@@ -194,8 +194,6 @@ def plan_collection(
                 needs_night_session,
                 needs_futures,
                 needs_options,
-                needs_physical,
-                needs_external,
             )
         ),
     }

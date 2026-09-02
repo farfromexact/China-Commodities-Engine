@@ -680,13 +680,39 @@ def run_foundation(
     data_dir: str | Path = "data",
     registry_path: str | Path | None = None,
     client: IFindHTTPClient | None = None,
+    provider: str = "ifind",
+    ak_module: Any | None = None,
     lookback_days: int = 400,
     publish: bool = True,
     shadow_days: int = 5,
+    request_interval_seconds: float = 0.25,
 ) -> dict[str, Any]:
+    """Run one Foundation provider.
+
+    The legacy pinned-ID path remains available for historical diagnostics,
+    while production Physical and External collection uses the explicit
+    AKShare public-source route.
+    """
+
     domains = FOUNDATION_DOMAINS if scope == "all" else (scope,)
     if any(domain not in FOUNDATION_DOMAINS for domain in domains):
         raise ValueError("foundation scope must be physical, external, or all")
+    normalized_provider = str(provider or "").strip().lower()
+    if normalized_provider == "akshare":
+        from .akshare_foundation import run_akshare_foundation
+
+        return run_akshare_foundation(
+            requested_date,
+            scope=scope,
+            data_dir=data_dir,
+            registry_path=registry_path,
+            ak_module=ak_module,
+            publish=publish,
+            shadow_days=shadow_days,
+            request_interval_seconds=request_interval_seconds,
+        )
+    if normalized_provider != "ifind":
+        raise ValueError("foundation provider must be akshare or ifind")
     registry = load_source_registry(registry_path)
     http_client = client or IFindHTTPClient(
         minimum_request_interval_seconds=0.55

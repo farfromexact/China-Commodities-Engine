@@ -107,11 +107,17 @@ def _parser() -> argparse.ArgumentParser:
     validate.add_argument("--scope", default=None)
 
     foundation = subparsers.add_parser(
-        "foundation", help="collect pinned-ID Physical and External EOD series"
+        "foundation", help="collect Physical and External EOD source data"
     )
     foundation.add_argument("--date", default=_today_shanghai())
     foundation.add_argument("--data-dir", default="data")
     foundation.add_argument("--registry", default=None)
+    foundation.add_argument(
+        "--provider",
+        choices=("akshare", "ifind"),
+        default="akshare",
+        help="Foundation source provider; production defaults to public AKShare routes",
+    )
     foundation.add_argument(
         "--scope", choices=("physical", "external", "all"), default="all"
     )
@@ -119,19 +125,19 @@ def _parser() -> argparse.ArgumentParser:
         "--lookback-days",
         type=int,
         default=400,
-        help="calendar-day EDB window; 400 days normally covers 252 trading observations",
+        help="legacy iFinD calendar-day window; ignored by the AKShare provider",
     )
     foundation.add_argument("--shadow-days", type=int, default=5)
     foundation.add_argument(
         "--audit-only",
         action="store_true",
-        help="validate the fixed source/permission matrix without using a token",
+        help="print the selected source/permission matrix without making requests",
     )
     foundation.add_argument("--dry-run", action="store_true")
     foundation.add_argument(
         "--force-refresh",
         action="store_true",
-        help="request iFinD even when a verified same-date module snapshot exists",
+        help="collect even when a verified same-date snapshot already exists",
     )
 
     night_session = subparsers.add_parser(
@@ -289,7 +295,12 @@ def _backfill(args: argparse.Namespace) -> int:
 
 def _foundation(args: argparse.Namespace) -> int:
     if args.audit_only:
-        audit = load_source_registry(args.registry).audit()
+        if args.provider == "akshare":
+            from .akshare_foundation import akshare_foundation_audit
+
+            audit = akshare_foundation_audit()
+        else:
+            audit = load_source_registry(args.registry).audit()
         print(json.dumps(audit, ensure_ascii=False, indent=2))
         return 0
     domains = ("physical", "external") if args.scope == "all" else (args.scope,)
@@ -298,7 +309,9 @@ def _foundation(args: argparse.Namespace) -> int:
         for domain in domains
         if not args.force_refresh
         and not args.dry_run
-        and verified_foundation_available(args.data_dir, domain, args.date)
+        and verified_foundation_available(
+            args.data_dir, domain, args.date, provider=args.provider
+        )
     }
     pending = tuple(domain for domain in domains if domain not in skipped)
     results = {}
@@ -309,6 +322,7 @@ def _foundation(args: argparse.Namespace) -> int:
             scope=pending_scope,
             data_dir=args.data_dir,
             registry_path=args.registry,
+            provider=args.provider,
             lookback_days=args.lookback_days,
             publish=not args.dry_run,
             shadow_days=args.shadow_days,

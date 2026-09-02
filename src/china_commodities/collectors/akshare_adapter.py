@@ -273,6 +273,23 @@ def collect_basis_daily(
     return function(date=date, vars_list=list(products))
 
 
+def collect_foreign_futures_history(
+    symbol: str,
+    ak_module: Any | None = None,
+) -> pd.DataFrame:
+    """Collect a public foreign-futures daily history from AKShare.
+
+    ``futures_foreign_hist`` is backed by Sina Finance in AKShare.  Keep the
+    source-specific symbol explicit at the caller so it cannot be confused
+    with a domestic exchange code or a synthetic import-parity leg.
+    """
+
+    normalized_symbol = str(symbol or "").strip()
+    if not normalized_symbol:
+        raise ValueError("foreign futures symbol must not be empty")
+    return _load_akshare(ak_module).futures_foreign_hist(symbol=normalized_symbol)
+
+
 def collect_option_daily(
     trade_date: str,
     exchange: str,
@@ -491,6 +508,7 @@ __all__ = [
     "collect_basis_daily",
     "collect_contract_info",
     "collect_dce_realtime_fallback",
+    "collect_foreign_futures_history",
     "collect_futures_daily",
     "collect_member_rankings",
     "collect_option_daily",

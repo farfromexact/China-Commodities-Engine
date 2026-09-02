@@ -66,7 +66,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 核心期货的自动发布采用 **iFinD-primary** 原则：上期所、上期能源、大商所、郑商所和广期所的具体商品期货日终行情统一从 iFinD Quant API 提取，AKShare 不参与核心期货正式行情。商品期权是明确标记的例外：交易所 EOD 合约目录经 AKShare 适配，受阻时使用 OpenCTP 目录后备；逐合约报价、源日期、IV 和 vendor Greeks 仍由 iFinD 提供。任何来源切换都必须保留来源、时间和口径标记，不得静默混合。
 
-本仓库不建设分钟、逐笔或逐笔盘口历史，但明确建设一个**夜盘收盘快照层**：晨间在日盘开盘前从 iFinD 读取具体期货合约的最新报价，并且只有供应商时间戳落在昨晚已结束的夜盘窗口时才写入 `data/night_session/`。该层保存夜盘 OHLC、最新价、成交量、持仓、源时间戳和相对前结算变动，不和 `data/latest.json` 的日盘 EOD 混合，也不把日盘报价伪装成夜盘。晚间任务更新当天国内日盘 EOD；晨间仍会复核最近一个已完成工作日的国内 EOD，并更新已经完成收盘的海外日频序列。Physical 与 External 已用5个真实历史交易日完成日期、字段、单位和覆盖初始化；期权曲面按用户批准的生产配置在首个通过全部质量门槛的EOD日期直接提升。失败尝试仍只更新 `attempt_latest`、`last_run_status` 与 shadow state，绝不覆盖上一份有效快照。
+本仓库不建设分钟、逐笔或逐笔盘口历史，但明确建设一个**夜盘收盘快照层**：晨间在日盘开盘前从 iFinD 读取具体期货合约的最新报价，并且只有供应商时间戳落在昨晚已结束的夜盘窗口时才写入 `data/night_session/`。该层保存夜盘 OHLC、最新价、成交量、持仓、源时间戳和相对前结算变动，不和 `data/latest.json` 的日盘 EOD 混合，也不把日盘报价伪装成夜盘。晚间任务更新当天国内日盘 EOD；晨间仍会复核最近一个已完成工作日的国内 EOD，并更新已经完成收盘的海外日频序列。Physical 与 External 的生产链路直接使用 AKShare：Physical 读取 100ppi 现货/基差表，External 读取 Sina 海外期货日线；两者均不申请或使用 iFinD token。期权曲面按用户批准的生产配置在首个通过全部质量门槛的 EOD 日期直接提升。失败尝试仍只更新 `attempt_latest`、`last_run_status` 与 shadow state，绝不覆盖上一份有效快照。
 
 ### iFinD 主源接入
 
@@ -85,7 +85,7 @@ HTTP 探针从隐藏输入或当前进程的 `IFIND_REFRESH_TOKEN` 读取 refres
 
 `src/china_commodities/collectors/ifind_http_adapter.py` 将 iFinD 返回值映射到现有期货字段，再经过具体合约、源日期、OHLC、成交量、持仓量和全交易所覆盖校验。iFinD 是当前核心期货行情的主源，但不被标记为交易所官方直连，因此 `core_futures_official_complete` 保持为 `false`，`module_quality.futures` 使用 `verified_vendor_primary`。
 
-产业数据和海外日频序列只使用 `config/data_foundation.json` 中已固定、已验证的 iFinD 指标 ID；生产任务不依赖自然语言搜索。合约参数与仓单由交易所接口经 AKShare 适配，DCE 合约信息优先走当前官方 portal，失败时再走兼容接口并保留明确错误；iFinD 基础数据和专题报表客户端只为后续已验证映射提供只读入口。会员排名和未固定的现货/海外指标保持 `skipped/unavailable`，不得猜测补值。商品期权按下方独立流程采集，目录优先由交易所 EOD 经 AKShare 适配、受阻时使用 OpenCTP 后备，逐合约字段由 iFinD 提供。
+Physical 通过 AKShare 的 `futures_spot_price` 直接读取 100ppi 现货/基差日表，覆盖配置中的 20 个国内商品；它是公开现货代理，保留 `basis_quality=C`，不能替代已核验地区、等级、税口径的实货定价。External 通过 AKShare 的 `futures_foreign_hist` 直接读取 Sina 海外期货日线，已配置 WTI、Brent、LME、COMEX、SGX、CBOT、BMD Palm、原糖和棉花等 17 条公开合约。Dubai/Oman、两条新加坡燃料油、USD/CNH 与 DXY 没有精确且稳定的公开 AKShare 路由时，保持显式 `unavailable`，不以近似品种补值。生产任务不依赖自然语言搜索，也不申请 iFinD token；`config/data_foundation.json` 中的 iFinD ID 仅保留给旧快照/诊断兼容，已不作为生产 Physical 或 External 来源。合约参数与仓单由交易所接口经 AKShare 适配，DCE 合约信息优先走当前官方 portal，失败时再走兼容接口并保留明确错误。商品期权按下方独立流程采集，目录优先由交易所 EOD 经 AKShare 适配、受阻时使用 OpenCTP 后备，逐合约字段由 iFinD 提供。
 
 ### 商品期权全市场采集（目标范围）
 
@@ -113,9 +113,9 @@ python -m pip install --no-deps -e .
 ```powershell
 python -m unittest discover -s tests -v
 python -m china_commodities.cli run --provider ifind --skip-options
-python -m china_commodities.cli foundation --audit-only
-python -m china_commodities.cli foundation --scope physical --date YYYY-MM-DD
-python -m china_commodities.cli foundation --scope external --date YYYY-MM-DD
+python -m china_commodities.cli foundation --provider akshare --audit-only
+python -m china_commodities.cli foundation --provider akshare --scope physical --date YYYY-MM-DD
+python -m china_commodities.cli foundation --provider akshare --scope external --date YYYY-MM-DD
 python -m china_commodities.cli backfill --end-date YYYY-MM-DD --days 252 --history-limit 20 --snapshot-limit 20
 python -m china_commodities.cli history-rebuild --retention-days 252
 python -m china_commodities.cli report-input --repair-futures-history
@@ -134,11 +134,11 @@ python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD --dry-r
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD
 ```
 
-GitHub Actions 通过 `workflow_dispatch`，或每天北京时间**06:03**（UTC 22:03，抓取前一晚已完成的夜盘）和**18:03**（UTC 10:03）运行。**06:03 的主任务是提取前一晚夜盘**：夜盘按当前交易日键存储，并以供应商源时间戳严格验证；它还会复核最近一个已完成工作日的国内 EOD 和已完成海外日频。**18:03 的主任务是提取当日日盘 EOD**；但由于国内 EOD 就绪边界仍为 18:15，若任务在 18:15 前实际开始，会自动采用最近一个已完成工作日的恢复策略，避免请求未收盘的当天日盘，任务在 18:15 后启动时才请求当日 EOD。External 在晨间只以最近完成交易日为请求日，晚间才尝试当日可用序列。手工 `full` 在北京时间 18:15 前会自动采用“已完成 EOD”日期策略；对历史日期或 18:15 后的当日手工运行才请求该日期的完整 EOD。夜盘按“可用即发布”处理：无夜盘或整晚无成交的具体合约会保留显式状态，不阻断已有有效夜盘记录，也不会造成重复请求。期权模块单品种失败写入 `data/options/last_run_status.json`；日盘期货、夜盘快照、Physical、External、期权链和期权曲面的提升规则彼此隔离。只有达到各自发布门槛且确有变化的文件才会提交和推送。
+GitHub Actions 只保留 `workflow_dispatch`；北京时间**06:03** 和 **18:03** 的触发由 GPT Automation + Scheduler Bridge 负责，不在仓库中保留 cron。**06:03 的主任务是提取前一晚夜盘**：夜盘按当前交易日键存储，并以供应商源时间戳严格验证；它还会复核最近一个已完成工作日的国内 EOD 和已完成海外日频。**18:03 的主任务是提取当日日盘 EOD**；但由于国内 EOD 就绪边界仍为 18:15，若任务在 18:15 前实际开始，会自动采用最近一个已完成工作日的恢复策略，避免请求未收盘的当天日盘，任务在 18:15 后启动时才请求当日 EOD。External 在晨间只以最近完成交易日为请求日，晚间才尝试当日可用序列。手工 `full` 在北京时间 18:15 前会自动采用“已完成 EOD”日期策略；对历史日期或 18:15 后的当日手工运行才请求该日期的完整 EOD。夜盘按“可用即发布”处理：无夜盘或整晚无成交的具体合约会保留显式状态，不阻断已有有效夜盘记录，也不会造成重复请求。期权模块单品种失败写入 `data/options/last_run_status.json`；日盘期货、夜盘快照、Physical、External、期权链和期权曲面的提升规则彼此隔离。只有达到各自发布门槛且确有变化的文件才会提交和推送。
 
 每次生产 Action 都会在 `full` 模式下强制执行期货、期权、Physical 和 External 四个模块，即使同一请求日期已经存在已验证快照；定时任务通过 `--force-refresh` 绕过 CLI、期权脚本和模块级缓存，确保每次都形成一次新的采集尝试。`night_session_only` 仍是只采夜盘的独立探针模式。18:15 前的运行仍按最近一个已完成工作日处理国内 EOD，避免请求尚未收盘的当日日盘。
 
-Physical/External 还按指标做第二层缓存：同日已有可用 EDB 观测时不会重复请求；跨日只查询本地最后观测日之后的增量区间。`last_run_status.json` 的每个 series 状态会记录 `cache_hit`、`request_made`、`query_start_date` 和 `query_end_date`，便于审计实际请求范围。
+Physical 每次以一个 AKShare 批量请求获取 100ppi 现货/基差表；External 对每条已配置海外合约读取公开日线。`last_run_status.json` 的每个 series 状态会记录 `request_made`、`query_start_date`、`query_end_date`、源日期和陈旧状态，便于审计实际请求范围。生产工作流以 `--shadow-days 1` 在通过校验后立即提升 AKShare 快照；无数据或无法精确映射的目标会保留显式状态。
 
 历史回填优先使用 iFinD 区间查询；若账户对多日合约区间返回参数规模错误，则自动改用共享 access token 的逐日查询。系统取五个交易所共同存在或逐日验证通过的最近20个交易日，在内存中执行与每日任务相同的校验。只有选中的全部日期均通过时才发布，节假日和空返回不会伪装成交易日。历史回填建议在本地一次性执行；GitHub Action 只运行正常的单日更新。
 

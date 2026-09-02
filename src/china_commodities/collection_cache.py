@@ -128,14 +128,26 @@ def verified_foundation_available(
     data_dir: str | Path,
     domain: str,
     requested_date: str,
+    *,
+    provider: str | None = None,
 ) -> bool:
-    """Return true for a same-date promoted Physical or External snapshot."""
+    """Return true for a same-date promoted Physical or External snapshot.
+
+    When a provider is specified, an old snapshot from another collector is
+    intentionally not reused after a source-policy migration.
+    """
 
     if domain not in {"physical", "external"}:
         raise ValueError(f"unsupported foundation domain: {domain}")
     root = Path(data_dir) / domain
     snapshot = _mapping(read_json(root / "latest.json", default={}))
     status = _mapping(read_json(root / "last_run_status.json", default={}))
+    normalized_provider = str(provider or "").strip().lower()
+    if normalized_provider and (
+        str(snapshot.get("provider") or "").strip().lower() != normalized_provider
+        or str(status.get("provider") or "").strip().lower() != normalized_provider
+    ):
+        return False
     promoted_snapshot = bool(
         snapshot.get("requested_date") == requested_date
         and snapshot.get("series")
