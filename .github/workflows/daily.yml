@@ -47,13 +47,14 @@ jobs:
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
-      - name: Plan idempotent iFinD collection
+      - name: Plan forced iFinD collection
         id: collection_plan
         env:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
           TRADE_DATE: ${{ inputs.trade_date }}
           COLLECTION_MODE: ${{ inputs.collection_mode || 'full' }}
+          FORCE_REFRESH: "true"
         run: python scripts/plan_ifind_collection.py
 
       - name: Acquire one shared iFinD access token
@@ -83,7 +84,7 @@ jobs:
             echo "IFIND_REFRESH_TOKEN secret is required." >&2
             exit 1
           fi
-          python -m china_commodities.cli run --date "${DOMESTIC_TRADE_DATE}" --provider ifind --skip-options
+          python -m china_commodities.cli run --date "${DOMESTIC_TRADE_DATE}" --provider ifind --skip-options --force-refresh
 
       - name: Collect all catalog commodity option chains
         if: ${{ steps.collection_plan.outputs.needs_options == 'true' }}
@@ -93,7 +94,7 @@ jobs:
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
-          python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1
+          python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --force-refresh
 
       - name: Collect pinned Physical EDB series
         if: ${{ steps.collection_plan.outputs.needs_physical == 'true' }}
@@ -103,7 +104,7 @@ jobs:
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
-          python -m china_commodities.cli foundation --scope physical --date "${DOMESTIC_TRADE_DATE}"
+          python -m china_commodities.cli foundation --scope physical --date "${DOMESTIC_TRADE_DATE}" --force-refresh
 
       - name: Collect completed overseas daily series
         if: ${{ steps.collection_plan.outputs.needs_external == 'true' }}
@@ -113,7 +114,7 @@ jobs:
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
-          python -m china_commodities.cli foundation --scope external --date "${EXTERNAL_TRADE_DATE}"
+          python -m china_commodities.cli foundation --scope external --date "${EXTERNAL_TRADE_DATE}" --force-refresh
 
       - name: Rebuild local futures history and report input
         run: python -m china_commodities.cli report-input --repair-futures-history

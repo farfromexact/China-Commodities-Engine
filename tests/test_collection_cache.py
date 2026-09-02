@@ -142,6 +142,27 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertFalse(plan["needs_ifind"])
             self.assertFalse(any(plan[key] for key in plan if key.startswith("needs_")))
 
+    def test_force_refresh_plan_runs_verified_full_modules_again(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            seed_verified(root, trade_date="2026-08-24")
+            seed_verified_night(root, "2026-08-25")
+
+            plan = plan_collection(
+                event_name="workflow_dispatch",
+                event_schedule="",
+                requested_date="2026-08-25",
+                data_dir=root,
+                force_refresh=True,
+            )
+
+            self.assertTrue(plan["force_refresh"])
+            self.assertTrue(plan["needs_futures"])
+            self.assertTrue(plan["needs_options"])
+            self.assertTrue(plan["needs_physical"])
+            self.assertTrue(plan["needs_external"])
+            self.assertTrue(plan["needs_ifind"])
+
     def test_partial_option_scope_is_scheduled_for_incremental_resume(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

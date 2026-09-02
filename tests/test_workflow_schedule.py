@@ -17,6 +17,7 @@ class WorkflowScheduleTests(unittest.TestCase):
         self.assertEqual(workflow.count("python scripts/collect_ifind_options.py"), 1)
         self.assertEqual(workflow.count("--surface-shadow-days 1"), 1)
         self.assertIn("python scripts/plan_ifind_collection.py", workflow)
+        self.assertIn('FORCE_REFRESH: "true"', workflow)
         self.assertIn("steps.collection_plan.outputs.needs_ifind == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.run_night_session == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_futures == 'true'", workflow)
@@ -30,7 +31,7 @@ class WorkflowScheduleTests(unittest.TestCase):
         )
         self.assertEqual(
             workflow.count(
-                'python -m china_commodities.cli run --date "${DOMESTIC_TRADE_DATE}"'
+                'python -m china_commodities.cli run --date "${DOMESTIC_TRADE_DATE}" --provider ifind --skip-options --force-refresh'
             ),
             1,
         )
@@ -42,19 +43,19 @@ class WorkflowScheduleTests(unittest.TestCase):
         )
         self.assertEqual(
             workflow.count(
-                'python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}"'
+                'python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --force-refresh'
             ),
             1,
         )
         self.assertEqual(
             workflow.count(
-                'python -m china_commodities.cli foundation --scope physical --date "${DOMESTIC_TRADE_DATE}"'
+                'python -m china_commodities.cli foundation --scope physical --date "${DOMESTIC_TRADE_DATE}" --force-refresh'
             ),
             1,
         )
         self.assertEqual(
             workflow.count(
-                'python -m china_commodities.cli foundation --scope external --date "${EXTERNAL_TRADE_DATE}"'
+                'python -m china_commodities.cli foundation --scope external --date "${EXTERNAL_TRADE_DATE}" --force-refresh'
             ),
             1,
         )

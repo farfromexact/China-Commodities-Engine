@@ -51,6 +51,10 @@ def _shanghai_now(now: datetime | None = None) -> datetime:
     return now.astimezone(zone)
 
 
+def _env_flag(value: str | None) -> bool:
+    return str(value or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
 def plan_collection(
     *,
     event_name: str,
@@ -58,6 +62,7 @@ def plan_collection(
     requested_date: str | None,
     collection_mode: str = "full",
     data_dir: str | Path = "data",
+    force_refresh: bool = False,
     now: datetime | None = None,
 ) -> dict[str, Any]:
     now_shanghai = _shanghai_now(now)
@@ -127,26 +132,36 @@ def plan_collection(
         run_night_session
         and not verified_night_session_available(data_dir, night_trading_date)
     )
-    needs_futures = bool(
-        run_domestic
-        and not verified_futures_available(data_dir, domestic_trade_date)
-    )
-    needs_options = bool(
-        run_domestic
-        and not verified_option_chain_available(data_dir, domestic_trade_date)
-    )
-    needs_physical = bool(
-        run_domestic
-        and not verified_foundation_available(
-            data_dir, "physical", domestic_trade_date
+    if force_refresh:
+        # The production GPT Automation runs are deliberate full collection
+        # attempts.  A verified snapshot prevents accidental duplicate manual
+        # requests by default, but it must not suppress a scheduled repair or
+        # refresh of any of the four report inputs.
+        needs_futures = run_domestic
+        needs_options = run_domestic
+        needs_physical = run_domestic
+        needs_external = run_external
+    else:
+        needs_futures = bool(
+            run_domestic
+            and not verified_futures_available(data_dir, domestic_trade_date)
         )
-    )
-    needs_external = bool(
-        run_external
-        and not verified_foundation_available(
-            data_dir, "external", external_trade_date
+        needs_options = bool(
+            run_domestic
+            and not verified_option_chain_available(data_dir, domestic_trade_date)
         )
-    )
+        needs_physical = bool(
+            run_domestic
+            and not verified_foundation_available(
+                data_dir, "physical", domestic_trade_date
+            )
+        )
+        needs_external = bool(
+            run_external
+            and not verified_foundation_available(
+                data_dir, "external", external_trade_date
+            )
+        )
     return {
         "requested_date": target_date.isoformat(),
         "collection_mode": mode,
@@ -167,6 +182,7 @@ def plan_collection(
         "run_domestic": run_domestic,
         "run_external": run_external,
         "run_night_session": run_night_session,
+        "force_refresh": force_refresh,
         "validate_full_market": execution_profile == "current_or_historical_eod",
         "needs_night_session": needs_night_session,
         "needs_futures": needs_futures,
@@ -191,6 +207,7 @@ def main() -> int:
         event_schedule=os.environ.get("GITHUB_EVENT_SCHEDULE", ""),
         requested_date=os.environ.get("TRADE_DATE") or None,
         collection_mode=os.environ.get("COLLECTION_MODE", "full"),
+        force_refresh=_env_flag(os.environ.get("FORCE_REFRESH")),
         data_dir=os.environ.get("DATA_DIR", "data"),
     )
     output_path = os.environ.get("GITHUB_OUTPUT")
