@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "run_date": "2026-09-03",
-  "generated_at": "2026-09-03T20:56:17.223780+08:00",
+  "generated_at": "2026-09-04T06:02:03.837197+08:00",
   "primary_provider": "ifind",
   "akshare_version": "1.18.94",
   "data_fresh": true,
@@ -15,8 +15,8 @@
     "warehouse": "partial_error_with_carry_forward",
     "basis": "unavailable",
     "member_rankings": "unavailable",
-    "options_chain": "verified_vendor_full_chain",
-    "options_surface": "surface_ready"
+    "options_chain": "partial_chain",
+    "options_surface": "not_ready"
   },
   "quality_metrics": {
     "source_date_match_pct": 100.0,
@@ -38,9 +38,9 @@
     "coverage_penalty": false,
     "included_exchange_count": 5,
     "options_chain_data_fresh": true,
-    "options_full_product_scope_verified": true,
-    "options_full_chain_verified": true,
-    "options_surface_ready": true,
+    "options_full_product_scope_verified": false,
+    "options_full_chain_verified": false,
+    "options_surface_ready": false,
     "options_positioning_ready": false,
     "options_execution_ready": false
   },
@@ -73,7 +73,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:22.318121+08:00",
+      "fetched_at": "2026-09-04T06:02:08.417267+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "45796bc25badcf471dbc240b3dc710eb12a4c1c7bc2ced87c4acca111e451f28",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -93,7 +93,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:23.557837+08:00",
+      "fetched_at": "2026-09-04T06:02:09.518015+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "047f7ab0e4f71b45e495507d0a1f9c0efae747fc4eb433d46dd5fa696aaaf953",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -113,7 +113,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:28.561299+08:00",
+      "fetched_at": "2026-09-04T06:02:13.850361+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "4f6c086fa9d463aec9a4258b565c098e0ccf4c6f723a37fd48399408f9682c40",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -133,7 +133,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:34.593538+08:00",
+      "fetched_at": "2026-09-04T06:02:19.921026+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "5fd344534d22340b468d433a63ce5fa42263653694660f60bf2eb691f8ef6f6b",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -153,7 +153,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:35.810139+08:00",
+      "fetched_at": "2026-09-04T06:02:21.010923+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "bdb7789cb91c55e93c35cd9515e60b8806c0a47627692df3a2dce31b06daaaf5",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -204,7 +204,7 @@
       "state": "ok",
       "trade_date": "2026-09-03",
       "source_function": "collect_ifind_options.py",
-      "records": 24200,
+      "records": 19354,
       "error": null,
       "upstream_source": "iFinD Quant API",
       "is_fresh": true,
@@ -213,7 +213,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T12:56:59+00:00",
+      "fetched_at": "2026-09-03T22:02:43+00:00",
       "source_endpoint": "collect_ifind_options.py",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -253,7 +253,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:38.233787+08:00",
+      "fetched_at": "2026-09-04T06:02:22.429576+08:00",
       "source_endpoint": "futures_contract_info_shfe",
       "raw_payload_sha256": "fde29bf4298ab33c5e62ae7e760337b92b5c7506ec4b5bbf93b474282b87be8b",
       "schema_signature": "16e32fdc8a53419141e48af17984ced61238dde5dc2974094389725bb932e004"
@@ -273,7 +273,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:42.609509+08:00",
+      "fetched_at": "2026-09-04T06:02:23.793543+08:00",
       "source_endpoint": "futures_contract_info_ine",
       "raw_payload_sha256": "8f9fede5a6d36786da6ce443a577f9632dd256f4e3ad64c01ba441282c9bce3b",
       "schema_signature": "4d9f7ff45700b3258d3afdf4170eaae0867f67ec5667b17ffc9827bdb5034394"
@@ -285,7 +285,7 @@
       "trade_date": "2026-09-03",
       "source_function": "futures_contract_info_dce",
       "records": 0,
-      "error": "RuntimeError: DCE contract info failed through both the current official portal and the AKShare compatibility route; portal: RuntimeError: DCE contract info official routes failed; current route after 2 attempts: ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')); legacy route: ConnectionError: HTTPConnectionPool(host='portal.dce.com.cn', port=80): Max retries exceeded with url: /publicweb/businessguidelines/queryContractInfo.html?contractInformation.variety=all&contractInformation.trade_type=0 (Caused by NameResolutionError(\"HTTPConnection(host='portal.dce.com.cn', port=80): Failed to resolve 'portal.dce.com.cn' ([Errno -5] No address associated with hostname)\")); AKShare: ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
+      "error": "RuntimeError: DCE contract info failed through both the current official portal and the AKShare compatibility route; portal: RuntimeError: DCE contract info official routes failed; current route after 2 attempts: HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/tradepara/contractInfo; legacy route: ConnectionError: HTTPConnectionPool(host='portal.dce.com.cn', port=80): Max retries exceeded with url: /publicweb/businessguidelines/queryContractInfo.html?contractInformation.variety=all&contractInformation.trade_type=0 (Caused by NameResolutionError(\"HTTPConnection(host='portal.dce.com.cn', port=80): Failed to resolve 'portal.dce.com.cn' ([Errno -5] No address associated with hostname)\")); AKShare: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
       "upstream_source": "DCE",
       "is_fresh": false,
       "is_proxy": false,
@@ -293,7 +293,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-09-03T20:56:46.114695+08:00",
+      "fetched_at": "2026-09-04T06:02:27.627050+08:00",
       "source_endpoint": "futures_contract_info_dce",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -313,7 +313,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:48.532571+08:00",
+      "fetched_at": "2026-09-04T06:02:30.475788+08:00",
       "source_endpoint": "futures_contract_info_czce",
       "raw_payload_sha256": "72be4eb54efb097fab096f59ad5844f8013ad415c6f126fdea5acf3b2184bf37",
       "schema_signature": "2d3de8eb6df57fb7689dd7f2a1a76e4d7a283e3817539b3cf492512a8d98a2a2"
@@ -333,7 +333,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": null,
       "source_date_match": false,
-      "fetched_at": "2026-09-03T20:56:49.822005+08:00",
+      "fetched_at": "2026-09-04T06:02:32.128749+08:00",
       "source_endpoint": "futures_contract_info_gfex",
       "raw_payload_sha256": "3f15c5cdf21d253a024a7312574bafc94eb3644d1d8eb949f052b8f19aa76b2d",
       "schema_signature": "b48e14460e9a8d6afb5a3dbf5f6dfef80a1ae097a0ca8e225a845a25caf544e9"
@@ -345,7 +345,7 @@
       "trade_date": "2026-09-03",
       "source_function": "futures_shfe_warehouse_receipt",
       "records": 0,
-      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+      "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
       "upstream_source": "SHFE",
       "is_fresh": false,
       "is_proxy": false,
@@ -353,7 +353,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-09-03T20:56:50.720052+08:00",
+      "fetched_at": "2026-09-04T06:02:36.492619+08:00",
       "source_endpoint": "futures_shfe_warehouse_receipt",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -365,7 +365,7 @@
       "trade_date": "2026-09-03",
       "source_function": "futures_warehouse_receipt_dce",
       "records": 0,
-      "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
       "upstream_source": "DCE",
       "is_fresh": false,
       "is_proxy": false,
@@ -373,7 +373,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-09-03T20:56:52.598921+08:00",
+      "fetched_at": "2026-09-04T06:02:37.859818+08:00",
       "source_endpoint": "futures_warehouse_receipt_dce",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -393,7 +393,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": "2026-09-03",
       "source_date_match": true,
-      "fetched_at": "2026-09-03T20:56:56.155512+08:00",
+      "fetched_at": "2026-09-04T06:02:40.580486+08:00",
       "source_endpoint": "futures_warehouse_receipt_czce",
       "raw_payload_sha256": "d604d69669ddced4910ba1eece3cbdbe3692096820726510894fc351a513d055",
       "schema_signature": "242b61ed6c8aa193512c2ed0ffc8c2fa985c3849133cf86ba20a669adca8400f"
@@ -413,7 +413,7 @@
       "requested_trade_date": "2026-09-03",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-09-03T20:56:57.502922+08:00",
+      "fetched_at": "2026-09-04T06:02:41.620527+08:00",
       "source_endpoint": "futures_gfex_warehouse_receipt",
       "raw_payload_sha256": null,
       "schema_signature": null

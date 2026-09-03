@@ -1,8 +1,10 @@
 {
   "schema_version": 2,
-  "trading_date": "2026-09-03",
-  "night_session_date": "2026-09-02",
-  "generated_at": "2026-09-03T06:02:01.205166+08:00",
+  "trading_date": "2026-09-04",
+  "night_session_date": "2026-09-03",
+  "session_start_date": "2026-09-03",
+  "session_end_date": "2026-09-04",
+  "generated_at": "2026-09-04T06:01:55.452677+08:00",
   "data_fresh": true,
   "validation_passed": true,
   "published": true,
@@ -10,20 +12,18 @@
     "selected_contract_count": 802,
     "request_contract_count": 802,
     "cache_hit_count": 0,
-    "night_session_contract_count": 611,
-    "outside_night_window_count": 187,
+    "night_session_contract_count": 610,
+    "outside_night_window_count": 188,
     "no_night_trade_count": 4,
     "missing_timestamp_count": 0,
     "missing_price_count": 0,
     "missing_quote_count": 0,
     "query_error_count": 0,
     "unresolved_contract_count": 0,
-    "night_session_coverage_pct": 76.1845
+    "night_session_coverage_pct": 76.0599
   },
   "coverage_complete": true,
   "coverage_warnings": [],
   "validation_errors": [],
-  "previous_valid_snapshot_retained": false,
-  "session_start_date": "2026-09-02",
-  "session_end_date": "2026-09-03"
+  "previous_valid_snapshot_retained": false
 }
