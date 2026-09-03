@@ -26514,41 +26514,5 @@
   "static_fields_min_coverage": 0.0,
   "dynamic_fields_min_coverage": 0.29800498753117205,
   "quality_state": "partial",
-  "warning": "Null trading parameters were not published by the verified exchange interface and must not be inferred.",
-  "night_session_snapshot": {
-    "schema_version": 1,
-    "trading_date": "2026-09-03",
-    "night_session_date": "2026-09-02",
-    "generated_at": "2026-09-03T06:02:01.205166+08:00",
-    "timezone": "Asia/Shanghai",
-    "frequency": "night_session_snapshot",
-    "data_fresh": true,
-    "validation_passed": true,
-    "published": true,
-    "coverage": {
-      "selected_contract_count": 802,
-      "request_contract_count": 802,
-      "cache_hit_count": 0,
-      "night_session_contract_count": 611,
-      "outside_night_window_count": 187,
-      "no_night_trade_count": 4,
-      "missing_timestamp_count": 0,
-      "missing_price_count": 0,
-      "missing_quote_count": 0,
-      "query_error_count": 0,
-      "unresolved_contract_count": 0,
-      "night_session_coverage_pct": 76.1845
-    },
-    "coverage_complete": true,
-    "coverage_warnings": [],
-    "session_window_start": "2026-09-02T20:00:00+08:00",
-    "session_window_end": "2026-09-03T03:45:00+08:00",
-    "source": {
-      "provider": "ifind_http",
-      "endpoint": "real_time_quotation"
-    },
-    "record_count": 611,
-    "is_separate_from_daily_eod": true,
-    "daily_metrics_unchanged": true
-  }
+  "warning": "Null trading parameters were not published by the verified exchange interface and must not be inferred."
 }

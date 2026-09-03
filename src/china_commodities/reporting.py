@@ -15,6 +15,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from datetime import datetime
+import math
 from pathlib import Path
 from typing import Any, Mapping
 from zoneinfo import ZoneInfo
@@ -22,7 +23,7 @@ from zoneinfo import ZoneInfo
 from .storage import read_json, write_json_if_changed
 
 
-REPORT_SCHEMA_VERSION = 1
+REPORT_SCHEMA_VERSION = 2
 REPORT_INPUT_NAME = "report_input_latest.json"
 
 # This is the approved Physical scope, not the full futures universe.  Keep the
@@ -532,51 +533,143 @@ def _module_freshness(
     }
 
 
+def _finite_number(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    if not isinstance(value, (int, float)):
+        return None
+    numeric = float(value)
+    return numeric if math.isfinite(numeric) else None
+
+
+def _percent_change(value: Any, reference: Any) -> float | None:
+    numerator = _finite_number(value)
+    denominator = _finite_number(reference)
+    if numerator is None or denominator is None or denominator <= 0:
+        return None
+    return (numerator / denominator - 1.0) * 100.0
+
+
+def _first_finite(*values: Any) -> float | None:
+    for value in values:
+        numeric = _finite_number(value)
+        if numeric is not None:
+            return numeric
+    return None
+
+
+def _night_contract_summary(item: Mapping[str, Any]) -> dict[str, Any]:
+    """Return one report-safe contract row, never the full raw session feed."""
+
+    previous_day_close = _first_finite(
+        item.get("previous_day_close"), item.get("prior_eod_close")
+    )
+    previous_day_settlement = _first_finite(
+        item.get("previous_day_settlement"),
+        item.get("prior_eod_settlement"),
+        item.get("pre_settlement"),
+    )
+    night_close = _finite_number(item.get("night_close"))
+    source = _mapping(item.get("source"))
+    return {
+        "contract": item.get("contract"),
+        "night_open": item.get("open"),
+        "night_high": item.get("high"),
+        "night_low": item.get("low"),
+        "night_close": night_close,
+        "previous_day_close": previous_day_close,
+        "previous_day_settlement": previous_day_settlement,
+        "return_vs_close_pct": item.get("return_vs_close_pct")
+        if _finite_number(item.get("return_vs_close_pct")) is not None
+        else _percent_change(night_close, previous_day_close),
+        "return_vs_settlement_pct": item.get("return_vs_settlement_pct")
+        if _finite_number(item.get("return_vs_settlement_pct")) is not None
+        else _percent_change(night_close, previous_day_settlement),
+        "volume": item.get("volume"),
+        "open_interest": item.get("open_interest"),
+        "delta_open_interest": item.get("delta_open_interest"),
+        "session_start": item.get("session_start")
+        or item.get("session_window_start"),
+        "session_end": item.get("session_end") or item.get("session_window_end"),
+        "source_timestamp": item.get("source_timestamp"),
+        "source": {
+            "provider": source.get("provider") or item.get("source_provider"),
+            "endpoint": source.get("endpoint") or item.get("source_endpoint"),
+            "code": source.get("code") or item.get("source_code"),
+        },
+        "quality_state": item.get("quality_state"),
+    }
+
+
 def _night_session_view(
     snapshot: Mapping[str, Any], status: Mapping[str, Any]
 ) -> dict[str, Any]:
-    """Compact only timestamp-validated night quotes for report consumers."""
+    """Build a compact product index over the canonical night-session file."""
 
-    records = [
-        {
-            key: item.get(key)
-            for key in (
-                "trading_date",
-                "night_session_date",
-                "source_timestamp",
-                "exchange",
-                "product",
-                "contract",
-                "open",
-                "high",
-                "low",
-                "night_close",
-                "pre_settlement",
-                "prior_eod_settlement",
-                "night_return_pct",
-                "volume",
-                "turnover",
-                "open_interest",
-                "source_provider",
-                "source_endpoint",
-                "quality_state",
-            )
+    grouped: dict[tuple[str, str], list[Mapping[str, Any]]] = defaultdict(list)
+    for item in _list(snapshot.get("records")):
+        if not isinstance(item, Mapping) or item.get("record_state") != "night_session":
+            continue
+        exchange = str(item.get("exchange") or "").upper()
+        product = str(item.get("product") or "").upper()
+        if exchange and product:
+            grouped[(exchange, product)].append(item)
+
+    def rank(item: Mapping[str, Any]) -> tuple[float, float, str]:
+        volume = _finite_number(item.get("volume"))
+        open_interest = _finite_number(item.get("open_interest"))
+        return (
+            -(volume if volume is not None else -1.0),
+            -(open_interest if open_interest is not None else -1.0),
+            str(item.get("contract") or ""),
+        )
+
+    products: dict[str, dict[str, Any]] = {}
+    for (exchange, product), contracts in sorted(grouped.items()):
+        representative = sorted(contracts, key=rank)[0]
+        product_key = f"{exchange}:{product}"
+        products[product_key] = {
+            "product_key": product_key,
+            "exchange": exchange,
+            "product": product,
+            "fresh_contract_count": len(contracts),
+            "selection_basis": "highest_night_volume_then_open_interest",
+            "representative_contract": _night_contract_summary(representative),
         }
-        for item in _list(snapshot.get("records"))
-        if isinstance(item, Mapping) and item.get("record_state") == "night_session"
-    ]
+
+    session_start_date = (
+        snapshot.get("session_start_date")
+        or snapshot.get("night_session_date")
+        or status.get("session_start_date")
+        or status.get("night_session_date")
+    )
+    session_end_date = (
+        snapshot.get("session_end_date")
+        or status.get("session_end_date")
+        or snapshot.get("trading_date")
+        or status.get("trading_date")
+    )
     return {
+        "source_path": "data/night_session/latest.json",
+        "summary_only": True,
         "trading_date": snapshot.get("trading_date") or status.get("trading_date"),
-        "night_session_date": snapshot.get("night_session_date")
-        or status.get("night_session_date"),
+        "night_session_date": session_start_date,
+        "session_start_date": session_start_date,
+        "session_end_date": session_end_date,
         "generated_at": snapshot.get("generated_at") or status.get("generated_at"),
         "data_fresh": status.get("data_fresh"),
         "validation_passed": status.get("validation_passed"),
         "published": status.get("published"),
         "coverage": snapshot.get("coverage") or status.get("coverage"),
-        "session_window_start": snapshot.get("session_window_start"),
-        "session_window_end": snapshot.get("session_window_end"),
-        "records": records,
+        "coverage_complete": status.get("coverage_complete"),
+        "coverage_warnings": list(status.get("coverage_warnings") or []),
+        "session_start": snapshot.get("session_start")
+        or snapshot.get("session_window_start"),
+        "session_end": snapshot.get("session_end")
+        or snapshot.get("session_window_end"),
+        "record_count": sum(len(items) for items in grouped.values()),
+        "product_count": len(products),
+        "products": products,
     }
 
 
@@ -661,6 +754,8 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         limitations.append("external_module_not_fresh")
     if not night_session_view.get("data_fresh"):
         limitations.append("night_session_module_not_fresh")
+    if night_session_view.get("coverage_complete") is not True:
+        limitations.append("night_session_coverage_incomplete")
     if not _list(futures.get("proxy_basis")):
         limitations.append("basis_not_available_in_futures_snapshot")
     if not _list(futures.get("member_rankings")):

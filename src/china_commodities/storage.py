@@ -20,7 +20,7 @@ from .models import PipelineResult
 
 DEFAULT_HISTORY_LIMIT = 20
 DEFAULT_SNAPSHOT_LIMIT = 20
-DEFAULT_NIGHT_SESSION_HISTORY_LIMIT = 20
+DEFAULT_NIGHT_SESSION_SNAPSHOT_LIMIT = 20
 SNAPSHOT_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}\.json$")
 
 
@@ -35,111 +35,6 @@ def _coverage_scope(result: PipelineResult) -> dict[str, Any]:
 
 def _mapping(value: Any) -> dict[str, Any]:
     return dict(value) if isinstance(value, Mapping) else {}
-
-
-def _night_session_contracts(snapshot: Mapping[str, Any]) -> list[dict[str, Any]]:
-    """Return only timestamp-validated, compact night-session contract rows."""
-
-    fields = (
-        "trading_date",
-        "night_session_date",
-        "source_timestamp",
-        "exchange",
-        "product",
-        "contract",
-        "open",
-        "high",
-        "low",
-        "night_close",
-        "settlement",
-        "pre_settlement",
-        "volume",
-        "turnover",
-        "open_interest",
-        "night_return_pct",
-        "source_provider",
-        "source_endpoint",
-        "quality_state",
-    )
-    contracts = [
-        {field: item.get(field) for field in fields}
-        for item in snapshot.get("records") or []
-        if isinstance(item, Mapping) and item.get("record_state") == "night_session"
-    ]
-    return sorted(
-        contracts,
-        key=lambda item: (
-            str(item.get("exchange") or ""),
-            str(item.get("product") or ""),
-            str(item.get("contract") or ""),
-        ),
-    )
-
-
-def _night_session_overlay(
-    snapshot: Mapping[str, Any], status: Mapping[str, Any]
-) -> dict[str, Any] | None:
-    """Build an explicit session overlay without relabeling it as daily EOD."""
-
-    if (
-        snapshot.get("frequency") != "night_session_snapshot"
-        or status.get("data_fresh") is not True
-        or status.get("validation_passed") is not True
-        or status.get("published") is not True
-    ):
-        return None
-    trading_date = str(snapshot.get("trading_date") or status.get("trading_date") or "")
-    night_session_date = str(
-        snapshot.get("night_session_date") or status.get("night_session_date") or ""
-    )
-    contracts = _night_session_contracts(snapshot)
-    if not trading_date or not night_session_date or not contracts:
-        return None
-    coverage = _mapping(snapshot.get("coverage")) or _mapping(status.get("coverage"))
-    return {
-        "schema_version": 1,
-        "trading_date": trading_date,
-        "night_session_date": night_session_date,
-        "generated_at": snapshot.get("generated_at") or status.get("generated_at"),
-        "timezone": snapshot.get("timezone") or "Asia/Shanghai",
-        "frequency": "night_session_snapshot",
-        "data_fresh": True,
-        "validation_passed": True,
-        "published": True,
-        "coverage": coverage,
-        "coverage_complete": status.get("coverage_complete"),
-        "coverage_warnings": list(status.get("coverage_warnings") or []),
-        "session_window_start": snapshot.get("session_window_start"),
-        "session_window_end": snapshot.get("session_window_end"),
-        "source": _mapping(snapshot.get("source")),
-        "record_count": len(contracts),
-        "records": contracts,
-        "is_separate_from_daily_eod": True,
-        "daily_metrics_unchanged": True,
-    }
-
-
-def _night_session_context(overlay: Mapping[str, Any]) -> dict[str, Any]:
-    """Small provenance view suitable for status and metadata artifacts."""
-
-    return {key: value for key, value in overlay.items() if key != "records"}
-
-
-def _copy_verified_night_session(
-    payload: dict[str, Any],
-    previous: Mapping[str, Any],
-    *,
-    previous_key: str = "night_session",
-    output_key: str = "night_session",
-) -> dict[str, Any]:
-    overlay = _mapping(previous.get(previous_key))
-    if (
-        overlay.get("trading_date")
-        and overlay.get("data_fresh") is True
-        and overlay.get("published") is True
-    ):
-        payload[output_key] = overlay
-    return payload
 
 
 def json_safe(value: Any) -> Any:
@@ -505,17 +400,17 @@ def publish_night_session_derivatives(
     *,
     snapshot: Mapping[str, Any] | None = None,
     status: Mapping[str, Any] | None = None,
-    history_limit: int = DEFAULT_NIGHT_SESSION_HISTORY_LIMIT,
+    history_limit: int = DEFAULT_NIGHT_SESSION_SNAPSHOT_LIMIT,
 ) -> dict[str, Any]:
-    """Project one verified night snapshot into all top-level read artifacts.
+    """Archive one verified night snapshot and remove deprecated EOD copies.
 
-    The daily EOD payloads keep their own date and calculation semantics.  The
-    night data is an explicit overlay, so report/radar consumers can use it
-    immediately without treating it as a daily settlement replacement.
+    ``data/night_session`` is the canonical night-session product.  Daily EOD
+    artifacts intentionally remain free of intraday/session rows; report input
+    builds its compact reference directly from the canonical source.
     """
 
     if history_limit < 1:
-        raise ValueError("night-session history limit must be positive")
+        raise ValueError("night-session snapshot limit must be positive")
     root = Path(data_dir)
     night_root = root / "night_session"
     source_snapshot = _mapping(
@@ -528,72 +423,82 @@ def publish_night_session_derivatives(
         if status is not None
         else read_json(night_root / "last_run_status.json", default={})
     )
-    overlay = _night_session_overlay(source_snapshot, source_status)
-    if overlay is None:
+    trading_date = str(
+        source_snapshot.get("trading_date") or source_status.get("trading_date") or ""
+    )
+    session_start_date = str(
+        source_snapshot.get("session_start_date")
+        or source_snapshot.get("night_session_date")
+        or source_status.get("session_start_date")
+        or source_status.get("night_session_date")
+        or ""
+    )
+    valid_records = [
+        item
+        for item in source_snapshot.get("records") or []
+        if isinstance(item, Mapping) and item.get("record_state") == "night_session"
+    ]
+    if (
+        source_snapshot.get("frequency") != "night_session_snapshot"
+        or source_status.get("data_fresh") is not True
+        or source_status.get("validation_passed") is not True
+        or source_status.get("published") is not True
+        or not trading_date
+        or not session_start_date
+        or not valid_records
+        or SNAPSHOT_NAME.fullmatch(f"{trading_date}.json") is None
+    ):
         return {
             "published": False,
             "reason": "no verified timestamp-validated night-session snapshot",
             "updated_files": [],
         }
-
-    summary = _night_session_context(overlay)
     updated_files: list[str] = []
 
-    def publish_overlay(relative: str, *, key: str, value: Mapping[str, Any]) -> None:
-        payload = _mapping(read_json(root / relative, default={}))
-        payload.setdefault("schema_version", 1)
-        payload[key] = dict(value)
-        if write_json_if_changed(root / relative, payload):
-            updated_files.append(relative)
+    archive_path = night_root / f"{trading_date}.json"
+    if write_json_if_changed(archive_path, source_snapshot):
+        updated_files.append(archive_path.relative_to(root).as_posix())
 
-    publish_overlay("latest.json", key="night_session", value=overlay)
-    publish_overlay("market_state_latest.json", key="night_session", value=overlay)
-    publish_overlay("radar_latest.json", key="night_session", value=overlay)
-    publish_overlay("last_run_status.json", key="night_session", value=summary)
-    publish_overlay("contract_meta.json", key="night_session_snapshot", value=summary)
-
-    history_path = root / "radar_history.json"
-    history = _mapping(read_json(history_path, default={"schema_version": 1, "records": []}))
-    daily_records = [
-        dict(record)
-        for record in history.get("records") or []
-        if isinstance(record, Mapping)
-    ]
-    night_records = [
-        dict(record)
-        for record in history.get("night_session_records") or []
-        if isinstance(record, Mapping)
-        and str(record.get("trading_date") or "") != overlay["trading_date"]
-    ]
-    night_records.append(
-        {
-            "record_type": "night_session",
-            **summary,
-            "contracts": overlay["records"],
-        }
+    dated_snapshots = sorted(
+        path
+        for path in night_root.glob("*.json")
+        if SNAPSHOT_NAME.fullmatch(path.name)
     )
-    night_records.sort(key=lambda record: str(record.get("trading_date") or ""))
-    history_payload = {
-        "schema_version": history.get("schema_version", 1),
-        "records": daily_records,
-        "night_session_records": night_records[-history_limit:],
+    for obsolete in dated_snapshots[:-history_limit]:
+        obsolete.unlink()
+        updated_files.append(obsolete.relative_to(root).as_posix())
+
+    legacy_fields = {
+        "latest.json": ("night_session",),
+        "market_state_latest.json": ("night_session",),
+        "radar_latest.json": ("night_session",),
+        "last_run_status.json": ("night_session",),
+        "contract_meta.json": ("night_session_snapshot",),
+        "radar_history.json": ("night_session_records",),
     }
-    if write_json_if_changed(history_path, history_payload):
-        updated_files.append("radar_history.json")
+    for relative, fields in legacy_fields.items():
+        path = root / relative
+        payload = _mapping(read_json(path, default={}))
+        if not payload or not any(field in payload for field in fields):
+            continue
+        cleaned = dict(payload)
+        for field in fields:
+            cleaned.pop(field, None)
+        if write_json_if_changed(path, cleaned):
+            updated_files.append(relative)
 
     return {
         "published": True,
-        "trading_date": overlay["trading_date"],
-        "night_session_date": overlay["night_session_date"],
-        "valid_contract_count": overlay["record_count"],
+        "trading_date": trading_date,
+        "night_session_date": session_start_date,
+        "valid_contract_count": len(valid_records),
+        "canonical_snapshot": archive_path.relative_to(root).as_posix(),
         "updated_files": updated_files,
     }
 
 
 def publish_status(result: PipelineResult, data_dir: Path) -> None:
-    previous = _mapping(read_json(data_dir / "last_run_status.json", default={}))
-    payload = _copy_verified_night_session(result.status_dict(), previous)
-    write_json_if_changed(data_dir / "last_run_status.json", payload)
+    write_json_if_changed(data_dir / "last_run_status.json", result.status_dict())
 
 
 def publish_raw_options(result: PipelineResult, data_dir: Path) -> Path | None:
@@ -620,20 +525,9 @@ def _publish_artifacts(
 ) -> None:
     if history_limit < 1 or snapshot_limit < 1:
         raise ValueError("history and snapshot limits must be positive")
-    previous_latest = _mapping(read_json(data_dir / "latest.json", default={}))
-    previous_radar = _mapping(read_json(data_dir / "radar_latest.json", default={}))
-    previous_contract_meta = _mapping(read_json(data_dir / "contract_meta.json", default={}))
-    previous_market_state = _mapping(
-        read_json(data_dir / "market_state_latest.json", default={})
-    )
-    snapshot = _copy_verified_night_session(_snapshot_payload(result), previous_latest)
-    radar_payload = _copy_verified_night_session(_radar_payload(result), previous_radar)
-    contract_meta_payload = _copy_verified_night_session(
-        _contract_meta(result),
-        previous_contract_meta,
-        previous_key="night_session_snapshot",
-        output_key="night_session_snapshot",
-    )
+    snapshot = _snapshot_payload(result)
+    radar_payload = _radar_payload(result)
+    contract_meta_payload = _contract_meta(result)
     append_futures_history(result, data_dir)
     write_json_if_changed(data_dir / "latest.json", snapshot)
     write_json_if_changed(data_dir / "radar_latest.json", radar_payload)
@@ -658,11 +552,8 @@ def _publish_artifacts(
         if SNAPSHOT_NAME.fullmatch(path.name)
     )
     retained_snapshots = [read_json(path) for path in retained_snapshot_files]
-    market_state = _copy_verified_night_session(
-        build_market_state(
-            [payload for payload in retained_snapshots if isinstance(payload, dict)]
-        ),
-        previous_market_state,
+    market_state = build_market_state(
+        [payload for payload in retained_snapshots if isinstance(payload, dict)]
     )
     write_json_if_changed(data_dir / "market_state_latest.json", market_state)
 
@@ -681,9 +572,6 @@ def _publish_artifacts(
         "schema_version": current.get("schema_version", 1),
         "records": records[-history_limit:],
     }
-    night_history = current.get("night_session_records")
-    if isinstance(night_history, list):
-        history_payload["night_session_records"] = night_history
     write_json_if_changed(history_path, history_payload)
 
 

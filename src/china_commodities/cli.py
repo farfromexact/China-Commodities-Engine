@@ -17,12 +17,20 @@ from .collection_cache import (
 )
 from .foundation import run_foundation
 from .history_storage import rebuild_futures_history_from_snapshots
-from .night_session import collect_night_session
+from .night_session import (
+    collect_night_session,
+    normalize_night_session_snapshot,
+    normalize_night_session_status,
+)
 from .pipeline import run_pipeline
 from .quality import validate_snapshot
 from .reporting import publish_report_input
 from .source_registry import load_source_registry
-from .storage import publish_night_session_derivatives, read_json
+from .storage import (
+    publish_night_session_derivatives,
+    read_json,
+    write_json_if_changed,
+)
 
 
 def _today_shanghai() -> str:
@@ -387,6 +395,17 @@ def _night_session(args: argparse.Namespace) -> int:
         status = read_json(
             Path(args.data_dir) / "night_session" / "last_run_status.json", default={}
         ) or {}
+        daily_snapshot = read_json(Path(args.data_dir) / "latest.json", default={}) or {}
+        snapshot = normalize_night_session_snapshot(
+            snapshot, daily_snapshot=daily_snapshot
+        )
+        status = normalize_night_session_status(status, snapshot)
+        write_json_if_changed(
+            Path(args.data_dir) / "night_session" / "latest.json", snapshot
+        )
+        write_json_if_changed(
+            Path(args.data_dir) / "night_session" / "last_run_status.json", status
+        )
         derivatives = publish_night_session_derivatives(
             args.data_dir,
             snapshot=snapshot,

@@ -175,9 +175,11 @@ class ReportingInputTests(unittest.TestCase):
                 {
                     "trading_date": "2026-08-26",
                     "night_session_date": "2026-08-25",
+                    "session_start_date": "2026-08-25",
+                    "session_end_date": "2026-08-26",
                     "generated_at": "2026-08-26T06:03:00+08:00",
-                    "session_window_start": "2026-08-25T20:00:00+08:00",
-                    "session_window_end": "2026-08-26T03:45:00+08:00",
+                    "session_start": "2026-08-25T20:00:00+08:00",
+                    "session_end": "2026-08-26T03:45:00+08:00",
                     "coverage": {"night_session_contract_count": 1},
                     "records": [
                         {
@@ -189,7 +191,13 @@ class ReportingInputTests(unittest.TestCase):
                             "product": "CU",
                             "contract": "CU2609",
                             "night_close": 80400,
-                            "night_return_pct": 0.5,
+                            "prior_eod_close": 80100,
+                            "prior_eod_settlement": 80000,
+                            "volume": 1200,
+                            "open_interest": 200000,
+                            "source_provider": "ifind_http",
+                            "source_endpoint": "real_time_quotation",
+                            "quality_state": "fresh",
                         },
                         {
                             "record_state": "outside_night_window",
@@ -206,6 +214,7 @@ class ReportingInputTests(unittest.TestCase):
                     "data_fresh": True,
                     "validation_passed": True,
                     "published": True,
+                    "coverage_complete": True,
                 },
             )
 
@@ -216,8 +225,18 @@ class ReportingInputTests(unittest.TestCase):
             self.assertEqual(output["requested_date"], "2026-08-25")
             self.assertEqual(output["frequency"], "EOD+night_session")
             self.assertTrue(output["intraday"])
-            self.assertEqual(output["night_session"]["records"][0]["contract"], "CU2609")
-            self.assertEqual(len(output["night_session"]["records"]), 1)
+            self.assertTrue(output["night_session"]["summary_only"])
+            self.assertNotIn("records", output["night_session"])
+            self.assertEqual(output["night_session"]["session_start_date"], "2026-08-25")
+            self.assertEqual(output["night_session"]["session_end_date"], "2026-08-26")
+            contract = output["night_session"]["products"]["SHFE:CU"][
+                "representative_contract"
+            ]
+            self.assertEqual(contract["contract"], "CU2609")
+            self.assertAlmostEqual(
+                contract["return_vs_close_pct"], (80400 / 80100 - 1) * 100
+            )
+            self.assertAlmostEqual(contract["return_vs_settlement_pct"], 0.5)
 
     def test_reconciles_same_date_published_options_into_root_status(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

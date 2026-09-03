@@ -450,7 +450,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(market_state["trade_date"], "2026-08-14")
             self.assertTrue(market_state["quality"]["exact_contract_only"])
 
-    def test_daily_eod_publish_preserves_verified_night_session_overlay(self) -> None:
+    def test_daily_eod_publish_keeps_night_session_as_a_separate_artifact(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
             root = Path(directory)
             first = run_pipeline(
@@ -495,10 +495,32 @@ class PipelineTests(unittest.TestCase):
                 "coverage_warnings": ["partial coverage accepted"],
                 "coverage": {"night_session_contract_count": 1},
             }
+            for relative, key in (
+                ("latest.json", "night_session"),
+                ("radar_latest.json", "night_session"),
+                ("market_state_latest.json", "night_session"),
+                ("last_run_status.json", "night_session"),
+                ("contract_meta.json", "night_session_snapshot"),
+            ):
+                path = root / relative
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                payload[key] = {"trading_date": "2026-08-14"}
+                path.write_text(json.dumps(payload), encoding="utf-8")
+            history_path = root / "radar_history.json"
+            history_payload = json.loads(history_path.read_text(encoding="utf-8"))
+            history_payload["night_session_records"] = [
+                {"trading_date": "2026-08-14"}
+            ]
+            history_path.write_text(json.dumps(history_payload), encoding="utf-8")
+
             derived = publish_night_session_derivatives(
                 root, snapshot=snapshot, status=status
             )
             self.assertTrue(derived["published"])
+            self.assertEqual(
+                derived["canonical_snapshot"], "night_session/2026-08-14.json"
+            )
+            self.assertTrue((root / "night_session" / "2026-08-14.json").exists())
 
             second = run_pipeline(
                 "2026-08-14",
@@ -516,15 +538,11 @@ class PipelineTests(unittest.TestCase):
                 ("contract_meta.json", "night_session_snapshot"),
             ):
                 payload = json.loads((root / relative).read_text(encoding="utf-8"))
-                self.assertEqual(payload[key]["trading_date"], "2026-08-14")
+                self.assertNotIn(key, payload)
 
             history = json.loads((root / "radar_history.json").read_text(encoding="utf-8"))
             self.assertEqual(len(history["records"]), 1)
-            self.assertEqual(len(history["night_session_records"]), 1)
-            self.assertEqual(
-                history["night_session_records"][0]["contracts"][0]["contract"],
-                "RB2610",
-            )
+            self.assertNotIn("night_session_records", history)
 
     def test_partial_failure_preserves_no_false_snapshot(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:

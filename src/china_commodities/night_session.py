@@ -42,6 +42,7 @@ NIGHT_SESSION_FIELDS: tuple[str, ...] = (
 NIGHT_SESSION_BATCH_SIZE = 100
 NIGHT_SESSION_HISTORY_DAYS = 252
 NIGHT_SESSION_TIMEZONE = "Asia/Shanghai"
+NIGHT_SESSION_SCHEMA_VERSION = 2
 _NIGHT_WINDOW_START = time(20, 0)
 _NIGHT_WINDOW_END = time(3, 45)
 _RESOLVED_STATES = frozenset(
@@ -59,6 +60,22 @@ def _number(value: Any) -> float | None:
         return None
     result = float(converted)
     return result if math.isfinite(result) else None
+
+
+def _first_number(*values: Any) -> float | None:
+    for value in values:
+        numeric = _number(value)
+        if numeric is not None:
+            return numeric
+    return None
+
+
+def _return_pct(value: Any, reference: Any) -> float | None:
+    numerator = _number(value)
+    denominator = _number(reference)
+    if numerator is None or denominator is None or denominator <= 0:
+        return None
+    return (numerator / denominator - 1.0) * 100.0
 
 
 def _timestamp(value: Any) -> datetime | None:
@@ -125,6 +142,11 @@ def _universe_from_daily_snapshot(snapshot: Mapping[str, Any]) -> list[dict[str,
                 "prior_eod_trade_date": str(raw.get("trade_date") or snapshot.get("trade_date") or ""),
                 "prior_eod_settlement": _number(raw.get("settle")),
                 "prior_eod_close": _number(raw.get("close")),
+                "previous_day_settlement": _number(raw.get("settle")),
+                "previous_day_close": _number(raw.get("close")),
+                "previous_day_open_interest": _first_number(
+                    raw.get("open_interest"), raw.get("openInterest")
+                ),
             }
         )
     return sorted(
@@ -178,6 +200,7 @@ def _cache_records(
 ) -> dict[tuple[str, str], dict[str, Any]]:
     selected: dict[tuple[str, str], dict[str, Any]] = {}
     for relative in (
+        f"night_session/{trading_date}.json",
         "night_session/latest.json",
         "night_session/attempt_latest.json",
     ):
@@ -213,19 +236,31 @@ def _record_from_quote(
     base = {
         "trading_date": trading_date,
         "night_session_date": session_date,
+        "session_start_date": session_date,
+        "session_end_date": trading_date,
         "timezone": NIGHT_SESSION_TIMEZONE,
         "frequency": "night_session_snapshot",
         "session_window_start": window_start.isoformat(),
         "session_window_end": window_end.isoformat(),
+        "session_start": window_start.isoformat(),
+        "session_end": window_end.isoformat(),
         "exchange": context["exchange"],
         "product": context["product"],
         "contract": context["contract"],
         "source_code": context["source_code"],
         "source_provider": "ifind_http",
         "source_endpoint": "real_time_quotation",
+        "source": {
+            "provider": "ifind_http",
+            "endpoint": "real_time_quotation",
+            "code": context["source_code"],
+        },
         "prior_eod_trade_date": context.get("prior_eod_trade_date") or None,
         "prior_eod_settlement": context.get("prior_eod_settlement"),
         "prior_eod_close": context.get("prior_eod_close"),
+        "previous_day_settlement": context.get("previous_day_settlement"),
+        "previous_day_close": context.get("previous_day_close"),
+        "previous_day_open_interest": context.get("previous_day_open_interest"),
         "source_timestamp": None,
         "open": None,
         "high": None,
@@ -236,7 +271,10 @@ def _record_from_quote(
         "volume": None,
         "turnover": None,
         "open_interest": None,
+        "delta_open_interest": None,
         "night_return_pct": None,
+        "return_vs_close_pct": None,
+        "return_vs_settlement_pct": None,
         "record_state": None,
         "quality_state": None,
         "missing_reason": None,
@@ -321,11 +359,216 @@ def _record_from_quote(
             }
         )
         return base
-    denominator = base["pre_settlement"] or base["prior_eod_settlement"]
-    if denominator is not None and denominator > 0:
-        base["night_return_pct"] = (base["night_close"] / denominator - 1.0) * 100.0
+    base["return_vs_close_pct"] = _return_pct(
+        base["night_close"], base["previous_day_close"]
+    )
+    base["return_vs_settlement_pct"] = _return_pct(
+        base["night_close"],
+        _first_number(
+            base["previous_day_settlement"],
+            base["prior_eod_settlement"],
+            base["pre_settlement"],
+        ),
+    )
+    # Preserve the legacy calculation for existing consumers.  New report
+    # consumers must use the explicit close- and settlement-relative fields.
+    base["night_return_pct"] = _return_pct(
+        base["night_close"],
+        _first_number(base["pre_settlement"], base["prior_eod_settlement"]),
+    )
+    if (
+        base["open_interest"] is not None
+        and base["previous_day_open_interest"] is not None
+    ):
+        base["delta_open_interest"] = (
+            base["open_interest"] - base["previous_day_open_interest"]
+        )
     base.update({"record_state": "night_session", "quality_state": "fresh"})
     return base
+
+
+def normalize_night_session_snapshot(
+    snapshot: Mapping[str, Any],
+    *,
+    daily_snapshot: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Upgrade one night-session payload to the explicit v2 data contract.
+
+    This is intentionally local-only: it can enrich a cached snapshot from the
+    matching daily EOD artifact without making another vendor request.  That
+    makes dated archives reproducible across the v1-to-v2 transition.
+    """
+
+    payload = dict(snapshot)
+    trading_date = str(payload.get("trading_date") or "")
+    if not trading_date:
+        return payload
+    try:
+        inferred_session_date, inferred_start, inferred_end = _night_window(trading_date)
+    except ValueError:
+        return payload
+
+    session_start_date = str(
+        payload.get("session_start_date")
+        or payload.get("night_session_date")
+        or inferred_session_date
+    )
+    session_end_date = str(payload.get("session_end_date") or trading_date)
+    session_start = str(
+        payload.get("session_start")
+        or payload.get("session_window_start")
+        or inferred_start.isoformat()
+    )
+    session_end = str(
+        payload.get("session_end")
+        or payload.get("session_window_end")
+        or inferred_end.isoformat()
+    )
+    daily_context = {
+        (str(item["exchange"]), str(item["contract"])): item
+        for item in _universe_from_daily_snapshot(_mapping(daily_snapshot))
+    }
+    records: list[dict[str, Any]] = []
+    for raw in payload.get("records") or []:
+        if not isinstance(raw, Mapping):
+            continue
+        record = dict(raw)
+        key = (
+            str(record.get("exchange") or "").upper(),
+            str(record.get("contract") or "").upper(),
+        )
+        context = daily_context.get(key, {})
+        record["trading_date"] = str(record.get("trading_date") or trading_date)
+        record["night_session_date"] = str(
+            record.get("night_session_date") or session_start_date
+        )
+        record["session_start_date"] = str(
+            record.get("session_start_date") or session_start_date
+        )
+        record["session_end_date"] = str(
+            record.get("session_end_date") or session_end_date
+        )
+        record["session_start"] = str(
+            record.get("session_start")
+            or record.get("session_window_start")
+            or session_start
+        )
+        record["session_end"] = str(
+            record.get("session_end")
+            or record.get("session_window_end")
+            or session_end
+        )
+        record["session_window_start"] = record["session_start"]
+        record["session_window_end"] = record["session_end"]
+        record["previous_day_close"] = _first_number(
+            record.get("previous_day_close"),
+            record.get("prior_eod_close"),
+            context.get("previous_day_close"),
+        )
+        record["previous_day_settlement"] = _first_number(
+            record.get("previous_day_settlement"),
+            record.get("prior_eod_settlement"),
+            context.get("previous_day_settlement"),
+            record.get("pre_settlement"),
+        )
+        record["previous_day_open_interest"] = _first_number(
+            record.get("previous_day_open_interest"),
+            context.get("previous_day_open_interest"),
+        )
+        record["prior_eod_close"] = _first_number(
+            record.get("prior_eod_close"), record.get("previous_day_close")
+        )
+        record["prior_eod_settlement"] = _first_number(
+            record.get("prior_eod_settlement"),
+            record.get("previous_day_settlement"),
+        )
+        source = record.get("source")
+        if not isinstance(source, Mapping):
+            source = {}
+        record["source"] = {
+            "provider": source.get("provider") or record.get("source_provider"),
+            "endpoint": source.get("endpoint") or record.get("source_endpoint"),
+            "code": source.get("code") or record.get("source_code"),
+        }
+        if record.get("record_state") == "night_session":
+            record["return_vs_close_pct"] = _return_pct(
+                record.get("night_close"), record.get("previous_day_close")
+            )
+            record["return_vs_settlement_pct"] = _return_pct(
+                record.get("night_close"), record.get("previous_day_settlement")
+            )
+            if _number(record.get("night_return_pct")) is None:
+                record["night_return_pct"] = _return_pct(
+                    record.get("night_close"),
+                    _first_number(
+                        record.get("pre_settlement"),
+                        record.get("previous_day_settlement"),
+                    ),
+                )
+            if (
+                _number(record.get("open_interest")) is not None
+                and _number(record.get("previous_day_open_interest")) is not None
+            ):
+                record["delta_open_interest"] = (
+                    _number(record.get("open_interest"))
+                    - _number(record.get("previous_day_open_interest"))
+                )
+            else:
+                record["delta_open_interest"] = None
+        else:
+            record.setdefault("return_vs_close_pct", None)
+            record.setdefault("return_vs_settlement_pct", None)
+            record.setdefault("delta_open_interest", None)
+        records.append(record)
+
+    payload.update(
+        {
+            "schema_version": NIGHT_SESSION_SCHEMA_VERSION,
+            "trading_date": trading_date,
+            # Retained as a compatibility alias for the session start date.
+            "night_session_date": session_start_date,
+            "session_start_date": session_start_date,
+            "session_end_date": session_end_date,
+            "session_start": session_start,
+            "session_end": session_end,
+            "session_window_start": session_start,
+            "session_window_end": session_end,
+            "timezone": payload.get("timezone") or NIGHT_SESSION_TIMEZONE,
+            "frequency": "night_session_snapshot",
+            "return_unit": "percent",
+            "records": records,
+        }
+    )
+    return payload
+
+
+def normalize_night_session_status(
+    status: Mapping[str, Any], snapshot: Mapping[str, Any]
+) -> dict[str, Any]:
+    """Align status metadata with the canonical snapshot date semantics."""
+
+    payload = dict(status)
+    trading_date = str(snapshot.get("trading_date") or payload.get("trading_date") or "")
+    session_start_date = str(
+        snapshot.get("session_start_date")
+        or snapshot.get("night_session_date")
+        or payload.get("session_start_date")
+        or payload.get("night_session_date")
+        or ""
+    )
+    session_end_date = str(
+        snapshot.get("session_end_date") or payload.get("session_end_date") or trading_date
+    )
+    payload.update(
+        {
+            "schema_version": NIGHT_SESSION_SCHEMA_VERSION,
+            "trading_date": trading_date,
+            "night_session_date": session_start_date,
+            "session_start_date": session_start_date,
+            "session_end_date": session_end_date,
+        }
+    )
+    return payload
 
 
 def _coverage(records: Sequence[Mapping[str, Any]], request_count: int) -> dict[str, Any]:
@@ -385,9 +628,11 @@ def collect_night_session(
 
     if not universe:
         status = {
-            "schema_version": 1,
+            "schema_version": NIGHT_SESSION_SCHEMA_VERSION,
             "trading_date": target,
             "night_session_date": session_date,
+            "session_start_date": session_date,
+            "session_end_date": target,
             "generated_at": generated_at,
             "data_fresh": False,
             "validation_passed": False,
@@ -397,12 +642,19 @@ def collect_night_session(
             "previous_valid_snapshot_retained": bool(prior_latest),
         }
         snapshot = {
-            "schema_version": 1,
+            "schema_version": NIGHT_SESSION_SCHEMA_VERSION,
             "trading_date": target,
             "night_session_date": session_date,
+            "session_start_date": session_date,
+            "session_end_date": target,
             "generated_at": generated_at,
             "timezone": NIGHT_SESSION_TIMEZONE,
             "frequency": "night_session_snapshot",
+            "session_start": window_start.isoformat(),
+            "session_end": window_end.isoformat(),
+            "session_window_start": window_start.isoformat(),
+            "session_window_end": window_end.isoformat(),
+            "return_unit": "percent",
             "records": [],
             "coverage": status["coverage"],
         }
@@ -466,17 +718,22 @@ def collect_night_session(
             f"{coverage['unresolved_contract_count']} concrete contracts are unresolved"
         )
     snapshot = {
-        "schema_version": 1,
+        "schema_version": NIGHT_SESSION_SCHEMA_VERSION,
         "trading_date": target,
         "night_session_date": session_date,
+        "session_start_date": session_date,
+        "session_end_date": target,
         "generated_at": generated_at,
         "timezone": NIGHT_SESSION_TIMEZONE,
         "frequency": "night_session_snapshot",
         "intraday_used": True,
+        "session_start": window_start.isoformat(),
+        "session_end": window_end.isoformat(),
         "session_window_start": window_start.isoformat(),
         "session_window_end": window_end.isoformat(),
         "reference_eod_trade_date": daily_snapshot.get("trade_date"),
         "source": {"provider": "ifind_http", "endpoint": "real_time_quotation"},
+        "return_unit": "percent",
         "coverage": coverage,
         "records": records,
         "limitations": {
@@ -485,11 +742,16 @@ def collect_night_session(
             "requires_vendor_timestamp_in_completed_session_window": True,
         },
     }
+    snapshot = normalize_night_session_snapshot(
+        snapshot, daily_snapshot=daily_snapshot
+    )
     published = bool(coverage["night_session_contract_count"])
     status = {
-        "schema_version": 1,
+        "schema_version": NIGHT_SESSION_SCHEMA_VERSION,
         "trading_date": target,
         "night_session_date": session_date,
+        "session_start_date": session_date,
+        "session_end_date": target,
         "generated_at": generated_at,
         "data_fresh": data_fresh,
         "validation_passed": not validation_errors,
@@ -500,6 +762,7 @@ def collect_night_session(
         "validation_errors": validation_errors,
         "previous_valid_snapshot_retained": bool(prior_latest and not published),
     }
+    status = normalize_night_session_status(status, snapshot)
     derivatives: dict[str, Any] = {}
     if publish:
         write_json_if_changed(night_root / "attempt_latest.json", snapshot)
@@ -530,5 +793,8 @@ __all__ = [
     "NIGHT_SESSION_BATCH_SIZE",
     "NIGHT_SESSION_FIELDS",
     "NIGHT_SESSION_HISTORY_DAYS",
+    "NIGHT_SESSION_SCHEMA_VERSION",
     "collect_night_session",
+    "normalize_night_session_snapshot",
+    "normalize_night_session_status",
 ]
