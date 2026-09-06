@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "trade_date": "2026-09-04",
-  "generated_at": "2026-09-05T22:20:36+00:00",
+  "trade_date": "2026-09-06",
+  "generated_at": "2026-09-06T11:04:11+00:00",
   "source_provider": "ifind_http",
   "universe_source": "mixed_contract_directories",
   "universe_sources": [],
@@ -104,7 +104,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:AP; fallback quote failed: IFindHTTPError: iFinD HTTP 401: {\"errorcode\":-1303,\"errmsg\":\"Device exceed limit.\",\"tables\":[],\"datatype\":[],\"inputParams\":{},\"perf\":0,\"dataVol\":0}"
     },
     {
       "exchange": "CZCE",
