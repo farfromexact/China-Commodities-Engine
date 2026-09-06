@@ -2,7 +2,7 @@
   "schema_version": 2,
   "snapshot_schema_version": 1,
   "trade_date": "2026-09-04",
-  "generated_at": "2026-09-04T22:03:12+00:00",
+  "generated_at": "2026-09-06T21:59:25+00:00",
   "source_provider": "ifind_http",
   "universe_source": "mixed_contract_directories",
   "universe_sources": [
@@ -1046,7 +1046,7 @@
   "full_snapshot": {
     "path": "snapshots/2026-09-04.json.gz",
     "record_count": 19394,
-    "sha256": "d133e11372e36f80cbed7a8377ec8afee17f9efef60d7cadc6720515021950fa",
+    "sha256": "becee5f2664d1a5fde7b20414a24465549bb4da8ea3f1265430812f0aacf0166",
     "retention_trading_days": 20
   },
   "shards": [
@@ -1328,14 +1328,14 @@
       "product": "LC",
       "path": "latest_shards/2026-09-04/GFEX/LC.json.gz",
       "record_count": 1502,
-      "sha256": "2c680da644c1b5684b5eef5ba71e713f8a264ad73f8224126f33e859eab6736c"
+      "sha256": "52ce6c249bd182844fee25cfe34babc4c6b46387e0b640dfd3d328c0305a52f9"
     },
     {
       "exchange": "GFEX",
       "product": "PD",
       "path": "latest_shards/2026-09-04/GFEX/PD.json.gz",
       "record_count": 764,
-      "sha256": "758366da17b5f59d798be75fa370d2502ef5d155da3ee049515386d064ee847a"
+      "sha256": "ac23cadb15e926208a3034ea0bffb1bcfe69b357717e8f10042e9665c3018fca"
     },
     {
       "exchange": "GFEX",
@@ -1356,7 +1356,7 @@
       "product": "SI",
       "path": "latest_shards/2026-09-04/GFEX/SI.json.gz",
       "record_count": 630,
-      "sha256": "cecf485898fe0f2d3022116353847aa4690032a202764b3c302092ccd2276a79"
+      "sha256": "0e0e8d65b382357f6751bafcaca517d5dc67a44b9bfdca0831422e2539c738a3"
     },
     {
       "exchange": "INE",
