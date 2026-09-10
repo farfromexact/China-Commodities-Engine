@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "run_date": "2026-09-10",
-  "generated_at": "2026-09-10T22:57:41.606722+08:00",
+  "generated_at": "2026-09-11T06:00:51.166292+08:00",
   "primary_provider": "ifind",
   "akshare_version": "1.18.94",
   "data_fresh": true,
@@ -15,8 +15,8 @@
     "warehouse": "partial_error_with_carry_forward",
     "basis": "unavailable",
     "member_rankings": "unavailable",
-    "options_chain": "verified_vendor_full_chain",
-    "options_surface": "surface_ready"
+    "options_chain": "partial_chain",
+    "options_surface": "not_ready"
   },
   "quality_metrics": {
     "source_date_match_pct": 100.0,
@@ -38,9 +38,9 @@
     "coverage_penalty": false,
     "included_exchange_count": 5,
     "options_chain_data_fresh": true,
-    "options_full_product_scope_verified": true,
-    "options_full_chain_verified": true,
-    "options_surface_ready": true,
+    "options_full_product_scope_verified": false,
+    "options_full_chain_verified": false,
+    "options_surface_ready": false,
     "options_positioning_ready": false,
     "options_execution_ready": false
   },
@@ -73,7 +73,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:57:50.734653+08:00",
+      "fetched_at": "2026-09-11T06:00:59.695293+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "d78fd345e575556f52e2f1fc4ad564035c44f9b642cc88b5c5ac521e439e6e03",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -93,7 +93,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:57:53.456654+08:00",
+      "fetched_at": "2026-09-11T06:01:01.513276+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "9f48dde4d69f25cabf57dbab50e7d2f54eff6a6353ba1499b8118fb31795e1e4",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -113,7 +113,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:58:02.256465+08:00",
+      "fetched_at": "2026-09-11T06:01:08.596336+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "2f2c8af181ea9c879e39d9b683a3cd3bf64f245af8962059b9d353607e288999",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -133,7 +133,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:58:11.384746+08:00",
+      "fetched_at": "2026-09-11T06:01:17.345092+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "0c4e932d1f9e8446a9aab00ec91cadfab632d36d8cc437fa5d32503b0c0ad2c8",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -153,7 +153,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:58:13.899937+08:00",
+      "fetched_at": "2026-09-11T06:01:18.928751+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "91fe24dca05b1a743a3be92b69866178bc4ed1f559999e54abf398f0246f383d",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -204,7 +204,7 @@
       "state": "ok",
       "trade_date": "2026-09-10",
       "source_function": "collect_ifind_options.py",
-      "records": 24154,
+      "records": 19238,
       "error": null,
       "upstream_source": "iFinD Quant API",
       "is_fresh": true,
@@ -213,7 +213,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T14:58:39+00:00",
+      "fetched_at": "2026-09-10T22:01:42+00:00",
       "source_endpoint": "collect_ifind_options.py",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -253,7 +253,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:58:16.933954+08:00",
+      "fetched_at": "2026-09-11T06:01:20.538621+08:00",
       "source_endpoint": "futures_contract_info_shfe",
       "raw_payload_sha256": "7557693b81db3e9067535380c8e5e26a145c1144390ad0f4f53f563de990d800",
       "schema_signature": "16e32fdc8a53419141e48af17984ced61238dde5dc2974094389725bb932e004"
@@ -273,7 +273,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:58:18.766857+08:00",
+      "fetched_at": "2026-09-11T06:01:22.615352+08:00",
       "source_endpoint": "futures_contract_info_ine",
       "raw_payload_sha256": "0fe431aee780ced9b7a85417095a4f714d18a1d78950fce1cc14e45e216b10e2",
       "schema_signature": "4d9f7ff45700b3258d3afdf4170eaae0867f67ec5667b17ffc9827bdb5034394"
@@ -293,7 +293,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-09-10T22:58:21.816242+08:00",
+      "fetched_at": "2026-09-11T06:01:26.378202+08:00",
       "source_endpoint": "futures_contract_info_dce",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -313,7 +313,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:58:25.446906+08:00",
+      "fetched_at": "2026-09-11T06:01:29.036073+08:00",
       "source_endpoint": "futures_contract_info_czce",
       "raw_payload_sha256": "d5a03b917ce87f60088acc61a1da58683cdc3b75659c7cd787e186ab77038347",
       "schema_signature": "2d3de8eb6df57fb7689dd7f2a1a76e4d7a283e3817539b3cf492512a8d98a2a2"
@@ -333,7 +333,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": null,
       "source_date_match": false,
-      "fetched_at": "2026-09-10T22:58:27.173636+08:00",
+      "fetched_at": "2026-09-11T06:01:30.740477+08:00",
       "source_endpoint": "futures_contract_info_gfex",
       "raw_payload_sha256": "3f15c5cdf21d253a024a7312574bafc94eb3644d1d8eb949f052b8f19aa76b2d",
       "schema_signature": "b48e14460e9a8d6afb5a3dbf5f6dfef80a1ae097a0ca8e225a845a25caf544e9"
@@ -345,7 +345,7 @@
       "trade_date": "2026-09-10",
       "source_function": "futures_shfe_warehouse_receipt",
       "records": 0,
-      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+      "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
       "upstream_source": "SHFE",
       "is_fresh": false,
       "is_proxy": false,
@@ -353,7 +353,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-09-10T22:58:29.138351+08:00",
+      "fetched_at": "2026-09-11T06:01:35.268899+08:00",
       "source_endpoint": "futures_shfe_warehouse_receipt",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -373,7 +373,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-09-10T22:58:29.912880+08:00",
+      "fetched_at": "2026-09-11T06:01:36.133869+08:00",
       "source_endpoint": "futures_warehouse_receipt_dce",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -393,7 +393,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": "2026-09-10",
       "source_date_match": true,
-      "fetched_at": "2026-09-10T22:58:36.050299+08:00",
+      "fetched_at": "2026-09-11T06:01:39.106158+08:00",
       "source_endpoint": "futures_warehouse_receipt_czce",
       "raw_payload_sha256": "6dbf9a7d2bd66413236eb932d5c2e8c9bab99dcc93652d144db386a9c5c01659",
       "schema_signature": "242b61ed6c8aa193512c2ed0ffc8c2fa985c3849133cf86ba20a669adca8400f"
@@ -413,7 +413,7 @@
       "requested_trade_date": "2026-09-10",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-09-10T22:58:37.482311+08:00",
+      "fetched_at": "2026-09-11T06:01:39.613686+08:00",
       "source_endpoint": "futures_gfex_warehouse_receipt",
       "raw_payload_sha256": null,
       "schema_signature": null

@@ -3,7 +3,7 @@
   "domain": "physical",
   "provider": "akshare",
   "requested_date": "2026-09-10",
-  "generated_at": "2026-09-10T23:18:08.048603+08:00",
+  "generated_at": "2026-09-11T06:18:10.034887+08:00",
   "timezone": "Asia/Shanghai",
   "vendor": "AKShare",
   "akshare_version": "1.18.94",
@@ -1568,7 +1568,7 @@
       "carried_from_trade_date": "2026-09-01",
       "current_trade_date": "2026-09-10",
       "current_collection_state": "error",
-      "carry_forward_reason": "current_module_error"
+      "carry_forward_reason": "same_trade_date_degraded_repeat"
     },
     {
       "trade_date": "2026-09-01",
@@ -1584,7 +1584,7 @@
       "carried_from_trade_date": "2026-09-01",
       "current_trade_date": "2026-09-10",
       "current_collection_state": "error",
-      "carry_forward_reason": "current_module_error"
+      "carry_forward_reason": "same_trade_date_degraded_repeat"
     }
   ],
   "promotion": {
