@@ -1,26 +1,22 @@
 {
   "schema_version": 1,
-  "trade_date": "2026-09-12",
-  "generated_at": "2026-09-12T11:03:58+00:00",
+  "trade_date": "2026-09-13",
+  "generated_at": "2026-09-13T11:01:45+00:00",
   "source_provider": "ifind_http",
-  "universe_source": "openctp_contract_directory",
-  "universe_sources": [
-    "openctp_contract_directory"
-  ],
+  "universe_source": "mixed_contract_directories",
+  "universe_sources": [],
   "data_fresh": false,
   "coverage": {
     "expected_product_count": 64,
     "attempted_product_count": 64,
-    "successful_product_count": 1,
-    "failed_product_count": 63,
+    "successful_product_count": 0,
+    "failed_product_count": 64,
     "skipped_product_count": 0,
-    "product_coverage": 0.015625,
+    "product_coverage": 0.0,
     "minimum_product_coverage": 0.75,
     "scope_complete": false,
     "publish_eligible": false,
-    "successful_products": [
-      "INE:SC"
-    ],
+    "successful_products": [],
     "failed_products": [
       "CZCE:AP",
       "CZCE:CF",
@@ -68,6 +64,7 @@
       "GFEX:SI",
       "INE:BC",
       "INE:NR",
+      "INE:SC",
       "SHFE:AD",
       "SHFE:AG",
       "SHFE:AL",
@@ -88,8 +85,8 @@
     ],
     "skipped_products": []
   },
-  "universe_contract_count": 336,
-  "quote_contract_count": 336,
+  "universe_contract_count": 0,
+  "quote_contract_count": 0,
   "duplicate_contract_count": 0,
   "global_error": null,
   "exchange_errors": {},
@@ -106,7 +103,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:AP; fallback collection failed: IFindOptionDataError: iFinD option quote AP611C6300.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:AP; fallback collection failed: IFindOptionDataError: iFinD option quote AP611C6300.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -120,7 +117,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:CF; fallback collection failed: IFindOptionDataError: iFinD option quote CF611C14000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:CF; fallback collection failed: IFindOptionDataError: iFinD option quote CF611C14000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -134,7 +131,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:CJ; fallback collection failed: IFindOptionDataError: iFinD option quote CJ612C10000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:CJ; fallback collection failed: IFindOptionDataError: iFinD option quote CJ612C10000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -148,7 +145,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:FG; fallback collection failed: IFindOptionDataError: iFinD option quote FG611C1000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:FG; fallback collection failed: IFindOptionDataError: iFinD option quote FG611C1000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -162,7 +159,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:MA; fallback collection failed: IFindOptionDataError: iFinD option quote MA611C2100.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:MA; fallback collection failed: IFindOptionDataError: iFinD option quote MA611C2100.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -176,7 +173,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:OI; fallback collection failed: IFindOptionDataError: iFinD option quote OI611C10000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:OI; fallback collection failed: IFindOptionDataError: iFinD option quote OI611C10000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -190,7 +187,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PF; fallback collection failed: IFindOptionDataError: iFinD option quote PF611C6000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PF; fallback collection failed: IFindOptionDataError: iFinD option quote PF611C6000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -204,7 +201,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PK; fallback collection failed: IFindOptionDataError: iFinD option quote PK611C7200.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PK; fallback collection failed: IFindOptionDataError: iFinD option quote PK611C7200.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -218,7 +215,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PL; fallback collection failed: IFindOptionDataError: iFinD option quote PL611C10000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PL; fallback collection failed: IFindOptionDataError: iFinD option quote PL611C10000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -232,7 +229,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PR; fallback collection failed: IFindOptionDataError: iFinD option quote PR611C5800.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PR; fallback collection failed: IFindOptionDataError: iFinD option quote PR611C5800.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -246,7 +243,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PX; fallback collection failed: IFindOptionDataError: iFinD option quote PX611C10000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PX; fallback collection failed: IFindOptionDataError: iFinD option quote PX611C10000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -260,7 +257,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:RM; fallback collection failed: IFindOptionDataError: iFinD option quote RM611C1950.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:RM; fallback collection failed: IFindOptionDataError: iFinD option quote RM611C1950.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -274,7 +271,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SA; fallback collection failed: IFindOptionDataError: iFinD option quote SA611C1000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SA; fallback collection failed: IFindOptionDataError: iFinD option quote SA611C1000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -288,7 +285,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SF; fallback collection failed: IFindOptionDataError: iFinD option quote SF611C5000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SF; fallback collection failed: IFindOptionDataError: iFinD option quote SF611C5000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -302,7 +299,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SH; fallback collection failed: IFindOptionDataError: iFinD option quote SH611C1640.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SH; fallback collection failed: IFindOptionDataError: iFinD option quote SH611C1640.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -316,7 +313,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SM; fallback collection failed: IFindOptionDataError: iFinD option quote SM611C5100.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SM; fallback collection failed: IFindOptionDataError: iFinD option quote SM611C5100.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -330,7 +327,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SR; fallback collection failed: IFindOptionDataError: iFinD option quote SR611C4600.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SR; fallback collection failed: IFindOptionDataError: iFinD option quote SR611C4600.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -344,7 +341,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:TA; fallback collection failed: IFindOptionDataError: iFinD option quote TA611C4750.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:TA; fallback collection failed: IFindOptionDataError: iFinD option quote TA611C4750.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -358,7 +355,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:UR; fallback collection failed: IFindOptionDataError: iFinD option quote UR611C1520.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:UR; fallback collection failed: IFindOptionDataError: iFinD option quote UR611C1520.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "CZCE",
@@ -372,7 +369,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:ZC; fallback collection failed: IFindOptionDataError: iFinD option quote ZC611C1000.CZC has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:ZC; fallback collection failed: IFindOptionDataError: iFinD option quote ZC611C1000.CZC has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -386,7 +383,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:A; fallback collection failed: IFindOptionDataError: iFinD option quote A2611-C-3700.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:A; fallback collection failed: IFindOptionDataError: iFinD option quote A2611-C-3700.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -400,7 +397,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:B; fallback collection failed: IFindOptionDataError: iFinD option quote B2610-C-3100.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:B; fallback collection failed: IFindOptionDataError: iFinD option quote B2610-C-3100.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -414,7 +411,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\")); fallback collection failed: IFindOptionDataError: iFinD option quote BZ2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "ConnectionError: HTTPSConnectionPool(host='www.dce.com.cn', port=443): Max retries exceeded with url: /dcereport/publicweb/dailystat/dayQuotes (Caused by NewConnectionError(\"HTTPSConnection(host='www.dce.com.cn', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\")); fallback collection failed: IFindOptionDataError: iFinD option quote BZ2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -428,7 +425,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:C; fallback collection failed: IFindOptionDataError: iFinD option quote C2611-C-2000.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:C; fallback collection failed: IFindOptionDataError: iFinD option quote C2611-C-2000.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -442,7 +439,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:CS; fallback collection failed: IFindOptionDataError: iFinD option quote CS2611-C-2300.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:CS; fallback collection failed: IFindOptionDataError: iFinD option quote CS2611-C-2300.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -456,7 +453,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:EB; fallback collection failed: IFindOptionDataError: iFinD option quote EB2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:EB; fallback collection failed: IFindOptionDataError: iFinD option quote EB2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -470,7 +467,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:EG; fallback collection failed: IFindOptionDataError: iFinD option quote EG2610-C-3200.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:EG; fallback collection failed: IFindOptionDataError: iFinD option quote EG2610-C-3200.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -484,7 +481,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:I; fallback collection failed: IFindOptionDataError: iFinD option quote I2610-C-600.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:I; fallback collection failed: IFindOptionDataError: iFinD option quote I2610-C-600.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -498,7 +495,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:JD; fallback collection failed: IFindOptionDataError: iFinD option quote JD2610-C-3100.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:JD; fallback collection failed: IFindOptionDataError: iFinD option quote JD2610-C-3100.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -512,7 +509,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:JM; fallback collection failed: IFindOptionDataError: iFinD option quote JM2610-C-1000.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:JM; fallback collection failed: IFindOptionDataError: iFinD option quote JM2610-C-1000.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -526,7 +523,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:L; fallback collection failed: IFindOptionDataError: iFinD option quote L2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:L; fallback collection failed: IFindOptionDataError: iFinD option quote L2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -540,7 +537,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:LG; fallback collection failed: IFindOptionDataError: iFinD option quote LG2611-C-700.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:LG; fallback collection failed: IFindOptionDataError: iFinD option quote LG2611-C-700.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -554,7 +551,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:LH; fallback collection failed: IFindOptionDataError: iFinD option quote LH2611-C-10400.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:LH; fallback collection failed: IFindOptionDataError: iFinD option quote LH2611-C-10400.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -568,7 +565,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:M; fallback collection failed: IFindOptionDataError: iFinD option quote M2611-C-2500.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:M; fallback collection failed: IFindOptionDataError: iFinD option quote M2611-C-2500.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -582,7 +579,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:P; fallback collection failed: IFindOptionDataError: iFinD option quote P2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:P; fallback collection failed: IFindOptionDataError: iFinD option quote P2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -596,7 +593,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:PG; fallback collection failed: IFindOptionDataError: iFinD option quote PG2610-C-3700.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:PG; fallback collection failed: IFindOptionDataError: iFinD option quote PG2610-C-3700.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -610,7 +607,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:PP; fallback collection failed: IFindOptionDataError: iFinD option quote PP2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:PP; fallback collection failed: IFindOptionDataError: iFinD option quote PP2610-C-10000.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -624,7 +621,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:V; fallback collection failed: IFindOptionDataError: iFinD option quote V2610-C-3950.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:V; fallback collection failed: IFindOptionDataError: iFinD option quote V2610-C-3950.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "DCE",
@@ -638,7 +635,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:Y; fallback collection failed: IFindOptionDataError: iFinD option quote Y2611-C-10000.DCE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for DCE:Y; fallback collection failed: IFindOptionDataError: iFinD option quote Y2611-C-10000.DCE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "GFEX",
@@ -652,7 +649,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:LC; fallback collection failed: IFindOptionDataError: iFinD option quote LC2611-C-100000.GFE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:LC; fallback collection failed: IFindOptionDataError: iFinD option quote LC2611-C-100000.GFE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "GFEX",
@@ -666,7 +663,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PD; fallback collection failed: IFindOptionDataError: iFinD option quote PD2612-C-212.GFE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PD; fallback collection failed: IFindOptionDataError: iFinD option quote PD2612-C-212.GFE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "GFEX",
@@ -680,7 +677,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PS; fallback collection failed: IFindOptionDataError: iFinD option quote PS2611-C-28000.GFE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PS; fallback collection failed: IFindOptionDataError: iFinD option quote PS2611-C-28000.GFE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "GFEX",
@@ -694,7 +691,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PT; fallback collection failed: IFindOptionDataError: iFinD option quote PT2612-C-284.GFE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PT; fallback collection failed: IFindOptionDataError: iFinD option quote PT2612-C-284.GFE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "GFEX",
@@ -708,7 +705,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:SI; fallback collection failed: IFindOptionDataError: iFinD option quote SI2611-C-10000.GFE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:SI; fallback collection failed: IFindOptionDataError: iFinD option quote SI2611-C-10000.GFE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "INE",
@@ -722,7 +719,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for INE:BC; fallback collection failed: IFindOptionDataError: iFinD option quote BC2610P110000.INE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for INE:BC; fallback collection failed: IFindOptionDataError: iFinD option quote BC2610C100000.INE has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "INE",
@@ -736,21 +733,21 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for INE:NR; fallback collection failed: IFindOptionDataError: iFinD option quote NR2610C12200.INE has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for INE:NR; fallback collection failed: IFindOptionDataError: iFinD option quote NR2610C12200.INE has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "INE",
       "product": "SC",
       "symbol": "原油期权",
-      "status": "success",
-      "contract_count": 336,
-      "source_trade_date": "2026-09-12",
-      "quote_coverage_complete": true,
-      "universe_source": "openctp_contract_directory",
-      "fallback_used": true,
+      "status": "failed",
+      "contract_count": 0,
+      "source_trade_date": null,
+      "quote_coverage_complete": false,
+      "universe_source": null,
+      "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for INE:SC"
+      "detail": "IFindOptionDataError: exchange option directory was empty for INE:SC; fallback collection failed: IFindOptionDataError: iFinD option quote SC2611C390.INE has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -764,7 +761,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AD; fallback collection failed: IFindOptionDataError: iFinD option quote AD2611P25200.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AD; fallback collection failed: IFindOptionDataError: iFinD option quote AD2610C20000.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -778,7 +775,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AG; fallback collection failed: IFindOptionDataError: iFinD option quote AG2610C28000.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AG; fallback collection failed: IFindOptionDataError: iFinD option quote AG2610C10000.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -792,7 +789,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AL; fallback collection failed: IFindOptionDataError: iFinD option quote AL2612P24600.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AL; fallback collection failed: IFindOptionDataError: iFinD option quote AL2610C19100.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -806,7 +803,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AO; fallback collection failed: IFindOptionDataError: iFinD option quote AO2612P2700.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AO; fallback collection failed: IFindOptionDataError: iFinD option quote AO2610C2250.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -820,7 +817,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AU; fallback collection failed: IFindOptionDataError: iFinD option quote AU2610C1440.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AU; fallback collection failed: IFindOptionDataError: iFinD option quote AU2610C1000.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -834,7 +831,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BR; fallback collection failed: IFindOptionDataError: iFinD option quote BR2610C10000.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BR; fallback collection failed: IFindOptionDataError: iFinD option quote BR2610C10000.SHF has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -848,7 +845,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BU; fallback collection failed: IFindOptionDataError: iFinD option quote BU2610C2900.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BU; fallback collection failed: IFindOptionDataError: iFinD option quote BU2610C2900.SHF has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -862,7 +859,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:CU; fallback collection failed: IFindOptionDataError: iFinD option quote CU2704P122000.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:CU; fallback collection failed: IFindOptionDataError: iFinD option quote CU2610C100000.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -876,7 +873,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:FU; fallback collection failed: IFindOptionDataError: iFinD option quote FU2610C2200.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:FU; fallback collection failed: IFindOptionDataError: iFinD option quote FU2610C2200.SHF has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -890,7 +887,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:NI; fallback collection failed: IFindOptionDataError: iFinD option quote NI2701P134000.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:NI; fallback collection failed: IFindOptionDataError: iFinD option quote NI2610C102000.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -904,7 +901,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:OP; fallback collection failed: IFindOptionDataError: iFinD option quote OP2610C3550.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:OP; fallback collection failed: IFindOptionDataError: iFinD option quote OP2610C3550.SHF has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -918,7 +915,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:PB; fallback collection failed: IFindOptionDataError: iFinD option quote PB2611P17400.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:PB; fallback collection failed: IFindOptionDataError: iFinD option quote PB2610C13200.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -932,7 +929,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RB; fallback collection failed: IFindOptionDataError: iFinD option quote RB2610C2600.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RB; fallback collection failed: IFindOptionDataError: iFinD option quote RB2610C2600.SHF has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -946,7 +943,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RU; fallback collection failed: IFindOptionDataError: iFinD option quote RU2610C14500.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RU; fallback collection failed: IFindOptionDataError: iFinD option quote RU2610C14500.SHF has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -960,7 +957,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SN; fallback collection failed: IFindOptionDataError: iFinD option quote SN2610P485000.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SN; fallback collection failed: IFindOptionDataError: iFinD option quote SN2610C315000.SHF has source date 2026-09-12; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -974,7 +971,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SP; fallback collection failed: IFindOptionDataError: iFinD option quote SP2610C4250.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SP; fallback collection failed: IFindOptionDataError: iFinD option quote SP2610C4250.SHF has source date 2026-09-11; requested 2026-09-13"
     },
     {
       "exchange": "SHFE",
@@ -988,11 +985,9 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:ZN; fallback collection failed: IFindOptionDataError: iFinD option quote ZN2612P29000.SHF has source date 2026-09-11; requested 2026-09-12"
+      "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:ZN; fallback collection failed: IFindOptionDataError: iFinD option quote ZN2610C20400.SHF has source date 2026-09-12; requested 2026-09-13"
     }
   ],
-  "attempt_published": true,
-  "attempt_path": "data/options/attempt_latest.json.gz",
-  "attempt_record_count": 336,
+  "attempt_published": false,
   "published": false
 }
