@@ -15,6 +15,7 @@ on:
         options:
           - full
           - night_session_only
+          - exchange_backup
 permissions:
   contents: write
 
@@ -24,6 +25,7 @@ concurrency:
 
 jobs:
   collect:
+    if: ${{ inputs.collection_mode != 'exchange_backup' }}
     runs-on: ubuntu-latest
     timeout-minutes: 55
 
@@ -144,3 +146,43 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore(data): update daily commodity snapshots"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+  exchange-backup:
+    if: ${{ inputs.collection_mode == 'exchange_backup' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install backup dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Test backup and failure recovery
+        run: python -m unittest discover -s tests -p 'test_exchange_backup.py' -v
+      - name: Collect independent exchange EOD backup
+        env:
+          REQUESTED_DATE: ${{ inputs.trade_date }}
+        shell: bash
+        run: |
+          if [[ -z "$REQUESTED_DATE" ]]; then
+            REQUESTED_DATE=$(python -c 'import json; print(json.load(open("data/options/latest.json"))["trade_date"])')
+          fi
+          python -u scripts/collect_exchange_backup.py --date "$REQUESTED_DATE"
+      - name: Upload backup report and source audit manifests
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: exchange-backup-${{ github.run_id }}
+          path: |
+            data/backup/reports/
+            data/backup/last_run_status.json
+            data/backup/raw/*/*.json
+          if-no-files-found: warn
+          retention-days: 14
