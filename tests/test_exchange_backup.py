@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import gzip
 import json
 from pathlib import Path
@@ -12,7 +13,7 @@ from china_commodities.collectors.exchange_eod_adapter import (
 )
 from china_commodities.exchange_backup import (
     basic_summaries, collect_backup, compare_ifind, enrich_options,
-    publish_backup, select_option_products,
+    ensure_completed_eod, publish_backup, select_option_products,
 )
 from china_commodities.option_surface import build_option_surface
 
@@ -39,6 +40,14 @@ def snapshot(rows=None):
 
 
 class ExchangeDateAndSchemaTests(unittest.TestCase):
+    def test_current_day_before_eod_and_future_date_are_rejected(self):
+        now = datetime(2026, 9, 16, 8, tzinfo=timezone.utc)
+        for day in ("2026-09-16", "2026-09-17"):
+            with self.assertRaisesRegex(ValueError, "completed EOD"):
+                ensure_completed_eod(day, now=now)
+        ensure_completed_eod("2026-09-15", now=now)
+        ensure_completed_eod("2026-09-16", now=now.replace(hour=11))
+
     def test_shfe_rejects_stale_or_missing_report_date(self):
         for day in ("20260914", None):
             with self.assertRaisesRegex(ValueError, "report_date"):

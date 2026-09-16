@@ -1,5 +1,10 @@
 # Independent exchange EOD backup experiment
 
+试验结论（2026-09-16）：本地两个交易日及 GitHub Runner 均跑通，独立覆盖
+45/64 个目标期权品种（70.3%），大商所 19 个品种受 HTTP 412 阻断，尚未达到
+80% 替代目标。已取得行情的合约支持基础成交持仓分析；Greeks 可按显式假设
+计算，但尚未通过模型精度验收。全部试验输出与生产 iFinD 数据分开保存。
+
 This branch adds an independently collected commodity futures/options backup.
 It uses no iFinD credentials and does not modify the production iFinD snapshots.
 The existing daily workflow has an explicit `exchange_backup` dispatch mode;
@@ -80,6 +85,9 @@ for American exercise. Unknown inputs or failed inversion leave model output
 unavailable. A model result is not a validation of iFinD's proprietary Greeks;
 tree convergence and pricing-assumption sensitivity need further assessment.
 The default run makes no interest-rate assumption and calculates no model Greeks.
+Future dates and current-day requests before 18:15 Asia/Shanghai are rejected
+before downloading. Model-scenario artifacts explicitly require further model
+validation even when the existing per-series completeness gate passes.
 
 ## Outputs and selection
 
@@ -131,6 +139,42 @@ Validation: 192 unit tests passed after initial implementation, including
 stale-source rejection, exchange isolation, no-trade normalization, raw replay
 integrity, missing-data PCR behavior, source labeling and failure/recovery.
 Subsequent model/GitHub trials and final validation are recorded separately.
+
+## Completed follow-up validation
+
+The independent GitHub Runner run succeeded at implementation commit `0c551d5`:
+https://github.com/farfromexact/China-Commodities-Engine/actions/runs/35074747043
+The production `collect` job was skipped, and no iFinD token was requested.
+Runner results matched the local 45/64 product coverage; DCE also returned 412.
+A green observation workflow does not mean the 80% acceptance gate passed.
+Final local regression: **193 tests passed**. The strict `--require-80` replay
+returned native exit code **2** and did not publish a backup `latest`.
+
+Offline replay reproduced every option record, futures record and coverage
+metric exactly. SHA-256 checks cover raw quote files and OpenCTP metadata.
+The collected 587 futures matched 587 of 801 iFinD futures for the same day
+(73.2834%). Among paired option settlements, SHFE, INE and GFEX matched within
+rtol=1e-4 / atol=1e-6; CZCE matched only 7.2719%. Price/time/model conventions
+remain an investigation item, not an excuse to overwrite either source.
+
+The explicit 2% rate scenario computed model Greeks for 15,783 of 15,788
+collected contracts (99.9683%). All returned numbers were finite; no Gamma or
+Vega was below -1e-8. The existing completeness gate could construct 214/214
+observed series in this scenario. This is conditional calculation coverage,
+not 99.97% of the full market and not proof of agreement with iFinD.
+
+A deterministic 20-contract sensitivity sample changed the risk tree from
+100 to 200 steps. Median absolute Delta change was 0.0180, maximum 0.0330;
+maximum absolute Gamma change was 0.00672. Existing IV inversion remains
+capped at 80 steps, so unchanged IV in this check is not convergence evidence.
+**Model qualification has not passed**; no model output is counted as an
+observed vendor Greek or used to enable production takeover.
+
+The next work item is an independently authorized DCE data route (or a second
+vendor), then same-period convention reconciliation and model convergence.
+The current experiment provides a reproducible partial backup, not an 80%
+replacement certification. Final compact evidence is stored alongside this
+document in `experiments/exchange-backup-final-20260916.json`.
 
 References:
 - https://akshare.akfamily.xyz/data/option/option.html

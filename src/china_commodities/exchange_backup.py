@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
-from datetime import date, datetime, timezone
+from datetime import date, datetime, time, timedelta, timezone
 import hashlib
 import json
 from pathlib import Path
@@ -28,6 +28,14 @@ from .storage import read_json, write_json_atomic, write_json_gzip_atomic
 CORE_FIELDS = ("settle", "volume", "open_interest", "underlying_settle")
 IFIND_FIELDS = ("close", "open", "high", "low", "settle", "pre_settle", "volume",
                 "turnover", "open_interest", "iv_percent", "delta", "gamma", "vega", "theta", "rho")
+
+
+def ensure_completed_eod(trade_date: str, *, now: datetime | None = None) -> None:
+    shanghai = timezone(timedelta(hours=8))
+    current = (now or datetime.now(timezone.utc)).astimezone(shanghai)
+    requested = date.fromisoformat(trade_date)
+    if requested > current.date() or (requested == current.date() and current.time() < time(18, 15)):
+        raise ValueError("Use a completed EOD date; current-day collection opens at 18:15 Asia/Shanghai")
 
 
 def valid_field(row: dict, field: str) -> bool:
@@ -169,6 +177,9 @@ def collect_backup(trade_date: str, root: Path, *, catalog: ProductCatalog | Non
                    model_workers: int = 1,
                    progress: Callable[[str], None] = print) -> dict:
     trade_date = date.fromisoformat(trade_date).isoformat()
+    ensure_completed_eod(trade_date)
+    if risk_free_rate is not None and (not rate_source or not -0.1 <= risk_free_rate <= 1):
+        raise ValueError("model rate needs a named source and a plausible decimal annual rate")
     root = Path(root)
     catalog = catalog or load_catalog()
     client = client or ExchangeEODClient(root / "raw" / trade_date)
@@ -229,6 +240,8 @@ def collect_backup(trade_date: str, root: Path, *, catalog: ProductCatalog | Non
         "records": options, "futures": futures, "coverage": coverage, "source_statuses": statuses,
         "capabilities": capabilities(options), "basic_summaries": basic_summaries(options),
         "metadata_error": metadata_error,
+        "model_scenario_only": risk_free_rate is not None,
+        "model_qualified_for_production": False,
         "limitations": ["Exchange backup is independently evaluated; not an iFinD-equivalent certification.",
                         "GFEX uses a response query-date echo; SHFE/INE/CZCE use published report dates.",
                         "Turnover is converted from CNY 10000; single/double-sided volume conventions require comparison.",
@@ -311,6 +324,7 @@ def publish_backup(snapshot: dict, root: Path, *, baseline: dict | None = None) 
     effective = select_option_products(baseline, snapshot, trade_date)
     write_json_gzip_atomic(root / "effective_latest.json.gz", effective)
     surface = build_option_surface(snapshot)
+    surface["model_validation_required"] = bool(snapshot.get("model_scenario_only"))
     write_json_gzip_atomic(root / "surface_attempt_latest.json.gz", surface)
     # Last valid backup survives a later failed attempt or historical replay.
     previous = read_json(root / "latest.json.gz", default={})
