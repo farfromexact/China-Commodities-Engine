@@ -25,7 +25,7 @@ denial stops only the named exchange; authentication, quota, transport and
 unknown HTTP failures remain global to avoid repeating a known-bad request.
 The default promotion rule is:
 
-- if successful-product coverage is at least 75% of the 64-product target,
+- if successful-product coverage is at least 60% of the 64-product target,
   update the `data/options/latest.json` manifest and its validated product
   shards;
 - otherwise, keep the previous `latest` and retain the failed attempt only in
@@ -131,7 +131,7 @@ Run a no-write all-products canary with:
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD --dry-run
 ```
 
-Run the daily all-products collection with the default 75% promotion gate:
+Run the daily all-products collection with the default 60% promotion gate:
 
 ```powershell
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD

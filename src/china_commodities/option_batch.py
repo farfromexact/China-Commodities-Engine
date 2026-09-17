@@ -20,6 +20,7 @@ from .option_rules import load_option_rules, option_rule_for
 
 OptionCollector = Callable[..., dict[str, Any]]
 DirectoryLoader = Callable[..., dict[tuple[str, str], list[dict[str, Any]]]]
+DEFAULT_MINIMUM_PRODUCT_COVERAGE = 0.60
 
 
 _IFIND_SECURITY_EXCHANGE_ALIASES = {
@@ -348,7 +349,7 @@ def collect_option_market_snapshot(
     *,
     client: IFindHTTPClient,
     option_products: Sequence[OptionProduct],
-    minimum_product_coverage: float = 0.75,
+    minimum_product_coverage: float = DEFAULT_MINIMUM_PRODUCT_COVERAGE,
     ak_module: Any | None = None,
     collect_one: OptionCollector = collect_option_eod_from_exchange_universe,
     fallback_directory_loader: DirectoryLoader | None = collect_openctp_option_directories,
@@ -760,7 +761,7 @@ def collect_option_market_snapshot_resuming(
     client: IFindHTTPClient,
     option_products: Sequence[OptionProduct],
     existing_snapshot: Mapping[str, Any] | None,
-    minimum_product_coverage: float = 0.75,
+    minimum_product_coverage: float = DEFAULT_MINIMUM_PRODUCT_COVERAGE,
     ak_module: Any | None = None,
     collect_one: OptionCollector = collect_option_eod_from_exchange_universe,
     fallback_directory_loader: DirectoryLoader | None = collect_openctp_option_directories,

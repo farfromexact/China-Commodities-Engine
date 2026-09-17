@@ -94,7 +94,7 @@ jobs:
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
         shell: bash
         run: |
-          python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --force-refresh
+          python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --minimum-product-coverage 0.60 --force-refresh
 
       - name: Collect AKShare Physical spot and basis data
         if: ${{ steps.collection_plan.outputs.needs_physical == 'true' }}

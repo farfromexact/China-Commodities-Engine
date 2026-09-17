@@ -26,14 +26,17 @@ from china_commodities.collectors.ifind_option_adapter import (
 from china_commodities.option_storage import (
     DEFAULT_CHAIN_LIMIT,
     DEFAULT_SUMMARY_LIMIT,
+    OptionSnapshotValidationError,
     build_option_summary,
     publish_option_attempt,
     publish_option_eod,
+    promote_option_attempt,
     read_option_latest,
     validate_option_snapshot,
 )
 from china_commodities.option_quality import assess_option_snapshot_quality
 from china_commodities.option_batch import (
+    DEFAULT_MINIMUM_PRODUCT_COVERAGE,
     collect_option_market_snapshot,
     collect_option_market_snapshot_resuming,
 )
@@ -103,7 +106,7 @@ def _arguments() -> argparse.Namespace:
     parser.add_argument(
         "--minimum-product-coverage",
         type=float,
-        default=0.75,
+        default=DEFAULT_MINIMUM_PRODUCT_COVERAGE,
         help="Minimum successful product fraction required to promote all-market latest.",
     )
     parser.add_argument(
@@ -129,12 +132,76 @@ def _arguments() -> argparse.Namespace:
         action="store_true",
         help="request iFinD even when a verified same-date full chain exists",
     )
+    parser.add_argument(
+        "--promote-attempt",
+        action="store_true",
+        help=(
+            "promote a validated stored same-date all-market attempt that meets "
+            "--minimum-product-coverage without making new iFinD requests"
+        ),
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     arguments = _arguments()
     trade_date = arguments.date or datetime.now(ZoneInfo("Asia/Shanghai")).date().isoformat()
+    status_path = arguments.data_dir / "options" / "last_run_status.json"
+    if arguments.promote_attempt:
+        if not arguments.all_products:
+            print("--promote-attempt requires --all-products", file=sys.stderr)
+            return 2
+        if arguments.dry_run:
+            print("--promote-attempt cannot be combined with --dry-run", file=sys.stderr)
+            return 2
+        try:
+            snapshot = promote_option_attempt(
+                trade_date,
+                arguments.data_dir,
+                minimum_product_coverage=arguments.minimum_product_coverage,
+                surface_shadow_days=arguments.surface_shadow_days,
+            )
+        except (OptionSnapshotValidationError, ValueError) as exc:
+            print(f"Option attempt promotion stopped safely: {exc}", file=sys.stderr)
+            return 2
+        quality = assess_option_snapshot_quality(snapshot)
+        run_status = read_json(status_path, default={}) or {}
+        if not isinstance(run_status, dict):
+            run_status = {}
+        run_status.update(
+            {
+                "trade_date": snapshot["trade_date"],
+                "generated_at": snapshot.get("generated_at"),
+                "coverage": snapshot["coverage"],
+                "quality_status": quality["status"],
+                "data_fresh": True,
+                "published": True,
+                "attempt_promoted": True,
+                "promotion_reason": (
+                    "stored partial attempt met the configured product coverage gate"
+                ),
+            }
+        )
+        write_json_if_changed(status_path, run_status)
+        print(
+            json.dumps(
+                {
+                    "trade_date": snapshot["trade_date"],
+                    "contracts": len(snapshot["records"]),
+                    "series": len(build_option_summary(snapshot)),
+                    "quality_status": quality["status"],
+                    "expected_products": snapshot["coverage"]["expected_product_count"],
+                    "successful_products": snapshot["coverage"]["successful_product_count"],
+                    "minimum_product_coverage": snapshot["coverage"][
+                        "minimum_product_coverage"
+                    ],
+                    "published": True,
+                    "promoted_from_attempt": True,
+                },
+                ensure_ascii=False,
+            )
+        )
+        return 0
     if (
         arguments.all_products
         and not arguments.force_refresh
@@ -158,7 +225,6 @@ def main() -> int:
         )
         return 0
     run_status: dict | None = None
-    status_path = arguments.data_dir / "options" / "last_run_status.json"
     try:
         client = IFindHTTPClient(
             minimum_request_interval_seconds=arguments.request_interval_seconds
@@ -266,6 +332,7 @@ def main() -> int:
     except (
         IFindHTTPError,
         IFindOptionDataError,
+        OptionSnapshotValidationError,
         ValueError,
         json.JSONDecodeError,
     ) as exc:

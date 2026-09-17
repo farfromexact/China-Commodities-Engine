@@ -8,6 +8,7 @@ from china_commodities.option_storage import (
     OptionSnapshotValidationError,
     publish_option_attempt,
     publish_option_eod,
+    promote_option_attempt,
     read_option_latest,
 )
 from china_commodities.storage import read_json, write_json_if_changed
@@ -228,6 +229,60 @@ class OptionStorageTests(unittest.TestCase):
             self.assertEqual(stored_attempt["quality"]["status"], "partial_chain")
             self.assertEqual(promoted_surface["trade_date"], "2026-08-18")
             self.assertEqual(attempted_surface["trade_date"], "2026-08-19")
+
+    def test_promotes_same_date_partial_attempt_under_revised_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            data_dir = Path(temporary)
+            publish_option_eod(snapshot("2026-08-18"), data_dir, surface_shadow_days=1)
+            attempt = snapshot("2026-08-19", "attempt")
+            attempt["coverage"] = {
+                "expected_product_count": 64,
+                "successful_product_count": 45,
+                "product_coverage": 45 / 64,
+                "minimum_product_coverage": 0.75,
+                "scope_complete": False,
+                "publish_eligible": False,
+            }
+            publish_option_attempt(attempt, data_dir, surface_shadow_days=1)
+
+            promoted = promote_option_attempt(
+                "2026-08-19",
+                data_dir,
+                minimum_product_coverage=0.60,
+                surface_shadow_days=1,
+            )
+
+            latest = read_option_latest(data_dir)
+            stored_attempt = read_json(
+                data_dir / "options" / "attempt_latest.json.gz"
+            )
+            self.assertEqual(promoted["coverage"]["minimum_product_coverage"], 0.60)
+            self.assertTrue(promoted["coverage"]["publish_eligible"])
+            self.assertEqual(latest["trade_date"], "2026-08-19")
+            self.assertEqual(latest["quality"]["status"], "partial_chain")
+            self.assertFalse(stored_attempt["attempt_only"])
+            self.assertTrue(stored_attempt["promotion_eligible"])
+
+    def test_refuses_to_promote_attempt_below_revised_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            data_dir = Path(temporary)
+            attempt = snapshot("2026-08-19")
+            attempt["coverage"] = {
+                "expected_product_count": 64,
+                "successful_product_count": 45,
+                "product_coverage": 45 / 64,
+                "minimum_product_coverage": 0.75,
+                "scope_complete": False,
+                "publish_eligible": False,
+            }
+            publish_option_attempt(attempt, data_dir, surface_shadow_days=1)
+
+            with self.assertRaisesRegex(OptionSnapshotValidationError, "below"):
+                promote_option_attempt(
+                    "2026-08-19",
+                    data_dir,
+                    minimum_product_coverage=0.75,
+                )
 
 
 if __name__ == "__main__":

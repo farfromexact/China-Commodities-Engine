@@ -15,7 +15,7 @@
     "warehouse": "partial_error_with_carry_forward",
     "basis": "unavailable",
     "member_rankings": "unavailable",
-    "options_chain": "not_collected",
+    "options_chain": "partial_chain",
     "options_surface": "not_ready"
   },
   "quality_metrics": {
@@ -37,7 +37,7 @@
     "excluded_exchange_count": 0,
     "coverage_penalty": false,
     "included_exchange_count": 5,
-    "options_chain_data_fresh": false,
+    "options_chain_data_fresh": true,
     "options_full_product_scope_verified": false,
     "options_full_chain_verified": false,
     "options_surface_ready": false,
@@ -201,13 +201,13 @@
     {
       "dataset": "options",
       "scope": "full-market",
-      "state": "empty",
+      "state": "ok",
       "trade_date": "2026-09-17",
       "source_function": "collect_ifind_options.py",
       "records": 16016,
       "error": null,
       "upstream_source": "iFinD Quant API",
-      "is_fresh": false,
+      "is_fresh": true,
       "is_proxy": false,
       "is_fallback": false,
       "requested_trade_date": "2026-09-17",

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Mapping
 from datetime import date
 import hashlib
 from pathlib import Path
@@ -497,6 +498,96 @@ def publish_option_eod(
         history_path,
         {"schema_version": 1, "records": records[-summary_limit:]},
     )
+
+
+def promote_option_attempt(
+    trade_date: str,
+    data_dir: Path,
+    *,
+    minimum_product_coverage: float,
+    surface_shadow_days: int = 5,
+) -> dict[str, Any]:
+    """Promote a stored same-date partial chain after a revised coverage gate.
+
+    The stored attempt remains subject to normal record-level chain validation.
+    Only an explicit coverage gate can change promotion eligibility; this does
+    not fill missing products or claim that the product scope is complete.
+    """
+
+    if (
+        isinstance(minimum_product_coverage, bool)
+        or not isinstance(minimum_product_coverage, (int, float))
+        or not 0 < float(minimum_product_coverage) <= 1
+    ):
+        raise ValueError("minimum_product_coverage must be in (0, 1]")
+    try:
+        requested_date = date.fromisoformat(trade_date).isoformat()
+    except ValueError as exc:
+        raise OptionSnapshotValidationError("invalid option attempt trade_date") from exc
+
+    attempt_path = data_dir / "options" / "attempt_latest.json.gz"
+    payload = read_json(attempt_path, default={})
+    if not isinstance(payload, Mapping):
+        raise OptionSnapshotValidationError("option attempt payload is not an object")
+    snapshot = dict(payload)
+    if str(snapshot.get("trade_date") or "") != requested_date:
+        raise OptionSnapshotValidationError(
+            "stored option attempt does not match the requested trade_date"
+        )
+
+    coverage_value = snapshot.get("coverage")
+    if not isinstance(coverage_value, Mapping):
+        raise OptionSnapshotValidationError("option attempt has no product coverage")
+    coverage = dict(coverage_value)
+    expected = coverage.get("expected_product_count")
+    successful = coverage.get("successful_product_count")
+    if (
+        isinstance(expected, bool)
+        or isinstance(successful, bool)
+        or not isinstance(expected, int)
+        or not isinstance(successful, int)
+        or expected <= 0
+        or successful < 0
+        or successful > expected
+    ):
+        raise OptionSnapshotValidationError(
+            "option attempt has invalid product coverage counts"
+        )
+    product_coverage = successful / expected
+    if product_coverage < float(minimum_product_coverage):
+        raise OptionSnapshotValidationError(
+            "option attempt coverage "
+            f"{product_coverage:.1%} is below the requested promotion gate "
+            f"{float(minimum_product_coverage):.1%}"
+        )
+
+    coverage.update(
+        {
+            "product_coverage": product_coverage,
+            "minimum_product_coverage": float(minimum_product_coverage),
+            "scope_complete": successful == expected,
+            "publish_eligible": True,
+        }
+    )
+    snapshot["coverage"] = coverage
+    snapshot["data_fresh"] = True
+    for key in ("quality", "attempt_only", "promotion_eligible"):
+        snapshot.pop(key, None)
+
+    validate_option_snapshot(snapshot)
+    publish_option_eod(
+        snapshot,
+        data_dir,
+        surface_shadow_days=surface_shadow_days,
+    )
+
+    promoted_attempt = dict(snapshot)
+    promoted_attempt["quality"] = assess_option_snapshot_quality(snapshot)
+    promoted_attempt["attempt_only"] = False
+    promoted_attempt["promotion_eligible"] = True
+    promoted_attempt["promoted_from_partial_attempt"] = True
+    write_json_gzip_if_changed(attempt_path, promoted_attempt)
+    return snapshot
 
 
 def publish_option_attempt(

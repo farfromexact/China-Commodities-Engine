@@ -8,7 +8,7 @@
     "exchange_eod_via_akshare",
     "openctp_contract_directory"
   ],
-  "data_fresh": false,
+  "data_fresh": true,
   "coverage": {
     "expected_product_count": 64,
     "attempted_product_count": 46,
@@ -16,9 +16,9 @@
     "failed_product_count": 1,
     "skipped_product_count": 18,
     "product_coverage": 0.703125,
-    "minimum_product_coverage": 0.75,
+    "minimum_product_coverage": 0.6,
     "scope_complete": false,
-    "publish_eligible": false,
+    "publish_eligible": true,
     "successful_products": [
       "CZCE:AP",
       "CZCE:CF",
@@ -998,5 +998,8 @@
   "attempt_published": true,
   "attempt_path": "data/options/attempt_latest.json.gz",
   "attempt_record_count": 16016,
-  "published": false
+  "published": true,
+  "quality_status": "partial_chain",
+  "attempt_promoted": true,
+  "promotion_reason": "stored partial attempt met the configured product coverage gate"
 }

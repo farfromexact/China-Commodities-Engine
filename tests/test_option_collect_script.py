@@ -4,6 +4,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from china_commodities.collectors.ifind_option_adapter import IFindOptionDataError
 
@@ -33,6 +34,15 @@ class OptionCollectScriptTests(unittest.TestCase):
             path.write_text(json.dumps(payload), encoding="utf-8")
             reports = load_reports(path)
         self.assertEqual(reports[0].report_name, "p_verified")
+
+    def test_all_market_default_coverage_is_sixty_percent(self) -> None:
+        from scripts.collect_ifind_options import _arguments
+
+        with patch("sys.argv", ["collect_ifind_options.py", "--all-products"]):
+            arguments = _arguments()
+
+        self.assertEqual(arguments.minimum_product_coverage, 0.60)
+        self.assertFalse(arguments.promote_attempt)
 
 
 if __name__ == "__main__":

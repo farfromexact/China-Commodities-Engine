@@ -43,7 +43,7 @@ class WorkflowScheduleTests(unittest.TestCase):
         )
         self.assertEqual(
             workflow.count(
-                'python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --force-refresh'
+                'python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --minimum-product-coverage 0.60 --force-refresh'
             ),
             1,
         )

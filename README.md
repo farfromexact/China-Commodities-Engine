@@ -9,7 +9,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - 合约层：具体合约的交易日、开高低收、结算价、成交量、持仓量和成交额；连续主力仅用于研究，交易应落到具体合约。
 - 期限结构层：主力与次主力、跨期价差、曲线变化和换月标记。
 - 交割与现货层：仓单、库存、现货价格和基差，并保留地区、品质、单位、税口径和价格时点。
-- 期权层：按目标目录逐品种尝试采集商品期权。目标目录为64个已上市品种；优先使用交易所 EOD 合约目录，经 AKShare 适配，网页受阻时才使用一次性 OpenCTP 当前合约字典作为显式后备；逐合约报价、源日期、IV 和 vendor Greeks 均由 iFinD 验证。单品种失败隔离并写入 `data/options/last_run_status.json`；成功品种覆盖率达到默认75%才允许更新 `data/options/latest.json`，低于门槛则保留上一份。部分覆盖只能标记为 `partial_chain`，不能声称全市场完整；到期日与标的键完整、源日期100%匹配且 IV 覆盖率至少80%时可以生成 EOD 曲面，OI 覆盖率至少90%才标记 `positioning_ready`，bid-ask 只阻断 `execution_ready`，不阻断曲面。
+- 期权层：按目标目录逐品种尝试采集商品期权。目标目录为64个已上市品种；优先使用交易所 EOD 合约目录，经 AKShare 适配，网页受阻时才使用一次性 OpenCTP 当前合约字典作为显式后备；逐合约报价、源日期、IV 和 vendor Greeks 均由 iFinD 验证。单品种失败隔离并写入 `data/options/last_run_status.json`；成功品种覆盖率达到默认60%才允许更新 `data/options/latest.json`，低于门槛则保留上一份。部分覆盖只能标记为 `partial_chain`，不能声称全市场完整；到期日与标的键完整、源日期100%匹配且 IV 覆盖率至少80%时可以生成 EOD 曲面，OI 覆盖率至少90%才标记 `positioning_ready`，bid-ask 只阻断 `execution_ready`，不阻断曲面。
 - 数据质量层：来源、抓取时间、交易日、状态、新鲜度、回退标记和错误信息。
 
 数据新鲜度按模块独立判断。失败或陈旧数据必须显式标记，不能伪造交易日，也不能让未经验证的陈旧数据进入当日异常扫描；快照在校验通过后才进入历史产物。
@@ -47,7 +47,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/snapshots/YYYY-MM-DD.json`：通过校验的日级快照。
 - `data/options/latest.json`：最近一次达到发布门槛的商品期权小型索引；只保留一个交易日的元数据、质量字段、总记录数、整链压缩快照入口和品种分片清单，不再内嵌逐合约记录。
 - `data/options/latest_shards/YYYY-MM-DD/EXCHANGE/PRODUCT.json.gz`：索引引用的当日逐品种压缩链；目录只保留 `latest` 对应的一个交易日，便于选择性读取并避免每日重写50MB级 JSON。
-- `data/options/attempt_latest.json.gz`：最近一次通过逐合约校验、但可能未达到75%提升门槛的压缩部分链；必须同时读取其中的 `coverage`、`attempt_only` 和 `promotion_eligible`，不得当作全市场 `latest`。
+- `data/options/attempt_latest.json.gz`：最近一次通过逐合约校验、但可能未达到60%提升门槛的压缩部分链；必须同时读取其中的 `coverage`、`attempt_only` 和 `promotion_eligible`，不得当作全市场 `latest`。
 - `data/options/quality_latest.json`：期权链、覆盖范围、曲面、模型 Greeks 和执行价格的独立就绪状态。
 - `data/options/surface_latest.json`：严格按交易所、品种、标的期货合约和到期日分组的已提升 EOD 曲面。
 - `data/options/surface_attempt_latest.json.gz`、`surface_last_run_status.json` 和 `surface_shadow_state.json`：当次曲面、质量门槛和可配置的影子运行状态；失败不会覆盖上一份有效曲面。生产工作流在完成历史初始化后使用 `--surface-shadow-days 1`，首个通过全部曲面质量门槛的EOD日期即可提升。
@@ -58,7 +58,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 期权采集使用独立目录，但每日最后的 `report-input` 步骤会把同交易日、已发布的期权链状态回写到根级 `data/last_run_status.json`、`data/latest.json` 和 `data/radar_latest.json`。这只同步链条采集状态；`surface_ready`、`positioning_ready` 和 `execution_ready` 仍然分别由期权质量文件决定。
 
-正式 JSON 历史统一滚动保留最近20个交易日：`data/snapshots/` 保存完整日盘快照，`data/night_session/YYYY-MM-DD.json` 保存完整夜盘快照，两者按各自的当前交易日去重。`latest.json` 始终仅指向最近一个已验证的日盘 EOD；夜盘只能从 `data/night_session/latest.json` 读取。夜盘 Parquet 和日盘期货 Parquet 均保留最近252个交易日。晨间缓存命中时会补齐夜盘的按日归档和清理旧版顶层复制，但不会发起额外供应商请求或制造无意义的 Git 提交。商品期权的整链压缩快照和紧凑摘要同样只滚动保留最近20个成功发布交易日，`latest_shards` 只保留当前一天；低于75%覆盖率的尝试不会覆盖上一份 `latest`，也不会缩短有效历史窗口。商品期权 Parquet 使用逐日分区并滚动保留最近252个交易日，旧分区删除前不会用新数据覆盖其他日期。
+正式 JSON 历史统一滚动保留最近20个交易日：`data/snapshots/` 保存完整日盘快照，`data/night_session/YYYY-MM-DD.json` 保存完整夜盘快照，两者按各自的当前交易日去重。`latest.json` 始终仅指向最近一个已验证的日盘 EOD；夜盘只能从 `data/night_session/latest.json` 读取。夜盘 Parquet 和日盘期货 Parquet 均保留最近252个交易日。晨间缓存命中时会补齐夜盘的按日归档和清理旧版顶层复制，但不会发起额外供应商请求或制造无意义的 Git 提交。商品期权的整链压缩快照和紧凑摘要同样只滚动保留最近20个成功发布交易日，`latest_shards` 只保留当前一天；低于60%覆盖率的尝试不会覆盖上一份 `latest`，也不会缩短有效历史窗口。商品期权 Parquet 使用逐日分区并滚动保留最近252个交易日，旧分区删除前不会用新数据覆盖其他日期。
 
 `market_state_latest.json` 的历史收益只复利同一个具体合约每天已发布的结算收益，不把换月前后的两个主力价格拼成连续涨跌。它同时给出 1/3/5/20 日收益、20日实现波动率、成交量与持仓量 z-score、持仓变化、`volume/OI`、价仓四象限线索、近次月价差 z-score，以及主力/曲线合约对换月标记。观察不足时字段保持 `null` 并披露实际样本数；价仓四象限只是归因线索，不是“新多”“新空”的事实。
 
@@ -95,7 +95,7 @@ Physical 通过 AKShare 的 `futures_spot_price` 直接读取 100ppi 现货/基�
 
 具体期权合约目录优先来自交易所 EOD，经 AKShare 适配；若交易所网页在 GitHub Runner 被阻断，则整批只下载一次 OpenCTP 当前有效合约字典，并仅把它用于合约发现和到期日元数据。逐合约的收盘/结算、成交量、持仓量、标的结算价、源日期、IV 和 vendor Greeks 仍来自 iFinD，缺一合约即阻断该品种。目录来源和行情来源必须分别标记，不能把 OpenCTP 或 AKShare 的目录写成 iFinD 行情。
 
-默认只有成功品种覆盖率 `>=75%` 才允许更新 `data/options/latest.json`；低于门槛时保留上一份有效 `latest`，但把已经通过逐合约校验的当次部分链压缩保存为 `data/options/attempt_latest.json.gz`，并记录本次尝试和失败原因。达到门槛但未覆盖全部目标品种时，质量状态必须为 `partial_chain`，不能声称全市场完整。曲面按每个到期日独立校验：源日期匹配100%、分组键完整且 IV 覆盖率至少80%；OI 覆盖率至少90%才可用于持仓分析。缺少 bid-ask 时曲面仍可发布，但 `execution_ready=false`，不得给出执行建议。
+默认只有成功品种覆盖率 `>=60%` 才允许更新 `data/options/latest.json`；低于门槛时保留上一份有效 `latest`，但把已经通过逐合约校验的当次部分链压缩保存为 `data/options/attempt_latest.json.gz`，并记录本次尝试和失败原因。达到门槛但未覆盖全部目标品种时，质量状态必须为 `partial_chain`，不能声称全市场完整。曲面按每个到期日独立校验：源日期匹配100%、分组键完整且 IV 覆盖率至少80%；OI 覆盖率至少90%才可用于持仓分析。缺少 bid-ask 时曲面仍可发布，但 `execution_ready=false`，不得给出执行建议。
 
 GitHub Action 从仓库 Secret `IFIND_REFRESH_TOKEN` 注入凭据。换取的 access token 会先加入 GitHub 日志脱敏规则，再写入当次 Runner 的临时 `GITHUB_ENV`，供期货和期权共用；token 和原始 iFinD 响应都不会写入仓库。公开仓库发布前必须确认 iFinD 商业数据的再分发许可，未确认时不得把原始商业数据当作可公开分发资产。
 
@@ -130,7 +130,7 @@ python -m china_commodities.cli validate
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD --dry-run
 ```
 
-正式执行全品种逐品种采集，默认成功品种覆盖率门槛为75%；是否更新 `latest` 由该门槛和质量校验共同决定：
+正式执行全品种逐品种采集，默认成功品种覆盖率门槛为60%；是否更新 `latest` 由该门槛和质量校验共同决定：
 
 ```powershell
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD
