@@ -208,8 +208,14 @@ def _build_one_surface(
         "source_date": trade_date if source_coverage == 1.0 else None,
         "observation_date": trade_date if source_coverage == 1.0 else None,
         "timezone": "Asia/Shanghai",
-        "vendor": "iFinD",
-        "original_source": "iFinD Quant API quotes",
+        "vendor": (
+            "iFinD" if all(str(row.get("source_provider", "")).startswith("ifind") for row in records)
+            else ",".join(sorted({str(row.get("source_provider") or "unknown") for row in records}))
+        ),
+        "original_source": (
+            "iFinD Quant API quotes" if all(str(row.get("source_provider", "")).startswith("ifind") for row in records)
+            else "Explicit per-record sources; see source_provider and source_date_basis"
+        ),
         "metadata_sources": metadata_sources,
         "frequency": "EOD",
         "quality_state": "ready" if surface_ready else "not_ready",

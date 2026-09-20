@@ -1,0 +1,656 @@
+{
+  "environment": "local Windows Python 3.12.8",
+  "baseline_commit": "97eeb9d",
+  "runs": [
+    {
+      "schema_version": 1,
+      "trade_date": "2026-09-15",
+      "generated_at": "2026-09-16T08:26:10.819709+00:00",
+      "source_provider": "exchange_eod",
+      "collection_mode": "exchange_eod_backup_shadow",
+      "intraday": false,
+      "coverage": {
+        "expected_product_count": 64,
+        "observed_product_count": 45,
+        "successful_product_count": 45,
+        "product_coverage": 0.703125,
+        "successful_products": [
+          "CZCE:AP",
+          "CZCE:CF",
+          "CZCE:CJ",
+          "CZCE:FG",
+          "CZCE:MA",
+          "CZCE:OI",
+          "CZCE:PF",
+          "CZCE:PK",
+          "CZCE:PL",
+          "CZCE:PR",
+          "CZCE:PX",
+          "CZCE:RM",
+          "CZCE:SA",
+          "CZCE:SF",
+          "CZCE:SH",
+          "CZCE:SM",
+          "CZCE:SR",
+          "CZCE:TA",
+          "CZCE:UR",
+          "CZCE:ZC",
+          "GFEX:LC",
+          "GFEX:PD",
+          "GFEX:PS",
+          "GFEX:PT",
+          "GFEX:SI",
+          "INE:BC",
+          "INE:NR",
+          "INE:SC",
+          "SHFE:AD",
+          "SHFE:AG",
+          "SHFE:AL",
+          "SHFE:AO",
+          "SHFE:AU",
+          "SHFE:BR",
+          "SHFE:BU",
+          "SHFE:CU",
+          "SHFE:FU",
+          "SHFE:NI",
+          "SHFE:OP",
+          "SHFE:PB",
+          "SHFE:RB",
+          "SHFE:RU",
+          "SHFE:SN",
+          "SHFE:SP",
+          "SHFE:ZN"
+        ],
+        "failed_products": [
+          "DCE:A",
+          "DCE:B",
+          "DCE:BZ",
+          "DCE:C",
+          "DCE:CS",
+          "DCE:EB",
+          "DCE:EG",
+          "DCE:I",
+          "DCE:JD",
+          "DCE:JM",
+          "DCE:L",
+          "DCE:LG",
+          "DCE:LH",
+          "DCE:M",
+          "DCE:P",
+          "DCE:PG",
+          "DCE:PP",
+          "DCE:V",
+          "DCE:Y"
+        ],
+        "unexpected_products": [
+          "INE:LU",
+          "SHFE:HC",
+          "SHFE:SS"
+        ],
+        "minimum_product_coverage": 0.8,
+        "scope_complete": false,
+        "publish_eligible": false
+      },
+      "source_statuses": [
+        {
+          "exchange": "SHFE",
+          "kind": "futures",
+          "status": "ok",
+          "contracts": 238,
+          "date_basis": "report_date"
+        },
+        {
+          "exchange": "SHFE",
+          "kind": "options",
+          "status": "ok",
+          "contracts": 6596,
+          "date_basis": "report_date"
+        },
+        {
+          "exchange": "INE",
+          "kind": "futures",
+          "status": "ok",
+          "contracts": 63,
+          "date_basis": "report_date"
+        },
+        {
+          "exchange": "INE",
+          "kind": "options",
+          "status": "ok",
+          "contracts": 876,
+          "date_basis": "report_date"
+        },
+        {
+          "exchange": "DCE",
+          "kind": "futures",
+          "status": "failed",
+          "contracts": 0,
+          "error": "HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+        },
+        {
+          "exchange": "DCE",
+          "kind": "options",
+          "status": "failed",
+          "contracts": 0,
+          "error": "HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+        },
+        {
+          "exchange": "CZCE",
+          "kind": "futures",
+          "status": "ok",
+          "contracts": 238,
+          "date_basis": "report_title"
+        },
+        {
+          "exchange": "CZCE",
+          "kind": "options",
+          "status": "ok",
+          "contracts": 4830,
+          "date_basis": "report_title"
+        },
+        {
+          "exchange": "GFEX",
+          "kind": "futures",
+          "status": "ok",
+          "contracts": 48,
+          "date_basis": "response_query_date_echo"
+        },
+        {
+          "exchange": "GFEX",
+          "kind": "options",
+          "status": "ok",
+          "contracts": 3772,
+          "date_basis": "response_query_date_echo"
+        }
+      ],
+      "capabilities": {
+        "contracts": 15788,
+        "core_field_coverage": 1.0,
+        "fields": {
+          "close": 0.8344312135799341,
+          "open": 0.36572080060805673,
+          "high": 0.36572080060805673,
+          "low": 0.36572080060805673,
+          "settle": 1.0,
+          "pre_settle": 1.0,
+          "volume": 1.0,
+          "turnover": 1.0,
+          "open_interest": 1.0,
+          "iv_percent": 0.5448441854573094,
+          "delta": 1.0,
+          "gamma": 0.0,
+          "vega": 0.0,
+          "theta": 0.0,
+          "rho": 0.0,
+          "underlying_settle": 1.0
+        },
+        "expiry_coverage": 1.0,
+        "model_greeks_coverage": 0.0,
+        "intraday_available": false,
+        "executable_bid_ask_available": false,
+        "dealer_gamma_direction_known": false
+      },
+      "metadata_error": null,
+      "limitations": [
+        "Exchange backup is independently evaluated; not an iFinD-equivalent certification.",
+        "GFEX uses a response query-date echo; SHFE/INE/CZCE use published report dates.",
+        "Turnover is converted from CNY 10000; single/double-sided volume conventions require comparison.",
+        "Missing IV, metadata or Greeks remain unavailable; no dealer position direction is inferred.",
+        "Current OpenCTP metadata cannot reconstruct a point-in-time historical universe."
+      ],
+      "comparison": {
+        "status": "compared",
+        "trade_date": "2026-09-15",
+        "ifind_contracts": 18936,
+        "backup_contracts": 15788,
+        "matched_contracts": 10672,
+        "contract_coverage_vs_ifind": 0.563582594000845,
+        "core_field_coverage_vs_ifind": 0.5492231740961231,
+        "fields": {
+          "close": {
+            "ifind_nonnull": 9705,
+            "backup_nonnull_on_ifind_contracts": 5181,
+            "availability_vs_ifind": 0.5338485316846986,
+            "agreement_rtol_1e_4_atol_1e_6": 0.6068326577880718,
+            "median_absolute_difference": 0.0
+          },
+          "open": {
+            "ifind_nonnull": 6547,
+            "backup_nonnull_on_ifind_contracts": 3704,
+            "availability_vs_ifind": 0.5657553077745532,
+            "agreement_rtol_1e_4_atol_1e_6": 0.5494060475161987,
+            "median_absolute_difference": 0.0
+          },
+          "high": {
+            "ifind_nonnull": 6546,
+            "backup_nonnull_on_ifind_contracts": 3704,
+            "availability_vs_ifind": 0.565841735410938,
+            "agreement_rtol_1e_4_atol_1e_6": 0.5434665226781857,
+            "median_absolute_difference": 0.0
+          },
+          "low": {
+            "ifind_nonnull": 6546,
+            "backup_nonnull_on_ifind_contracts": 3704,
+            "availability_vs_ifind": 0.565841735410938,
+            "agreement_rtol_1e_4_atol_1e_6": 0.5629049676025918,
+            "median_absolute_difference": 0.0
+          },
+          "settle": {
+            "ifind_nonnull": 16430,
+            "backup_nonnull_on_ifind_contracts": 8166,
+            "availability_vs_ifind": 0.4970176506390749,
+            "agreement_rtol_1e_4_atol_1e_6": 0.7361009061964242,
+            "median_absolute_difference": 0.0
+          },
+          "pre_settle": {
+            "ifind_nonnull": 18936,
+            "backup_nonnull_on_ifind_contracts": 10672,
+            "availability_vs_ifind": 0.563582594000845,
+            "agreement_rtol_1e_4_atol_1e_6": 0.3818403298350825,
+            "median_absolute_difference": 4.0
+          },
+          "volume": {
+            "ifind_nonnull": 6551,
+            "backup_nonnull_on_ifind_contracts": 3881,
+            "availability_vs_ifind": 0.592428636849336,
+            "agreement_rtol_1e_4_atol_1e_6": 0.3591857768616336,
+            "median_absolute_difference": 12.0
+          },
+          "turnover": {
+            "ifind_nonnull": 6551,
+            "backup_nonnull_on_ifind_contracts": 3881,
+            "availability_vs_ifind": 0.592428636849336,
+            "agreement_rtol_1e_4_atol_1e_6": 0.24014429270806492,
+            "median_absolute_difference": 6200.0
+          },
+          "open_interest": {
+            "ifind_nonnull": 13179,
+            "backup_nonnull_on_ifind_contracts": 7541,
+            "availability_vs_ifind": 0.5721981940966689,
+            "agreement_rtol_1e_4_atol_1e_6": 0.7624983423949079,
+            "median_absolute_difference": 0.0
+          },
+          "iv_percent": {
+            "ifind_nonnull": 18506,
+            "backup_nonnull_on_ifind_contracts": 8468,
+            "availability_vs_ifind": 0.45758132497568355,
+            "agreement_rtol_1e_4_atol_1e_6": 0.0008266414737836561,
+            "median_absolute_difference": 4.2194629999999975
+          },
+          "delta": {
+            "ifind_nonnull": 18506,
+            "backup_nonnull_on_ifind_contracts": 10538,
+            "availability_vs_ifind": 0.5694369393710148,
+            "agreement_rtol_1e_4_atol_1e_6": 0.0278041374074777,
+            "median_absolute_difference": 0.025871000000000033
+          },
+          "gamma": {
+            "ifind_nonnull": 18227,
+            "backup_nonnull_on_ifind_contracts": 0,
+            "availability_vs_ifind": 0.0,
+            "agreement_rtol_1e_4_atol_1e_6": null,
+            "median_absolute_difference": null
+          },
+          "vega": {
+            "ifind_nonnull": 18506,
+            "backup_nonnull_on_ifind_contracts": 0,
+            "availability_vs_ifind": 0.0,
+            "agreement_rtol_1e_4_atol_1e_6": null,
+            "median_absolute_difference": null
+          },
+          "theta": {
+            "ifind_nonnull": 18366,
+            "backup_nonnull_on_ifind_contracts": 0,
+            "availability_vs_ifind": 0.0,
+            "agreement_rtol_1e_4_atol_1e_6": null,
+            "median_absolute_difference": null
+          },
+          "rho": {
+            "ifind_nonnull": 18506,
+            "backup_nonnull_on_ifind_contracts": 0,
+            "availability_vs_ifind": 0.0,
+            "agreement_rtol_1e_4_atol_1e_6": null,
+            "median_absolute_difference": null
+          }
+        },
+        "model_outputs_counted_as_vendor_fields": false,
+        "note": "Availability is not accuracy. Compare close/settlement and timestamps before interpreting disagreement."
+      },
+      "promoted": false,
+      "previous_valid_retained": false,
+      "futures_contract_count": 587,
+      "surface": {
+        "series_count": 214,
+        "surface_ready_count": 132,
+        "positioning_ready_count": 132,
+        "execution_ready_count": 0
+      },
+      "effective_product_count": 52
+    },
+    {
+      "schema_version": 1,
+      "trade_date": "2026-09-14",
+      "generated_at": "2026-09-16T08:30:30.532632+00:00",
+      "source_provider": "exchange_eod",
+      "collection_mode": "exchange_eod_backup_shadow",
+      "intraday": false,
+      "coverage": {
+        "expected_product_count": 64,
+        "observed_product_count": 45,
+        "successful_product_count": 45,
+        "product_coverage": 0.703125,
+        "successful_products": [
+          "CZCE:AP",
+          "CZCE:CF",
+          "CZCE:CJ",
+          "CZCE:FG",
+          "CZCE:MA",
+          "CZCE:OI",
+          "CZCE:PF",
+          "CZCE:PK",
+          "CZCE:PL",
+          "CZCE:PR",
+          "CZCE:PX",
+          "CZCE:RM",
+          "CZCE:SA",
+          "CZCE:SF",
+          "CZCE:SH",
+          "CZCE:SM",
+          "CZCE:SR",
+          "CZCE:TA",
+          "CZCE:UR",
+          "CZCE:ZC",
+          "GFEX:LC",
+          "GFEX:PD",
+          "GFEX:PS",
+          "GFEX:PT",
+          "GFEX:SI",
+          "INE:BC",
+          "INE:NR",
+          "INE:SC",
+          "SHFE:AD",
+          "SHFE:AG",
+          "SHFE:AL",
+          "SHFE:AO",
+          "SHFE:AU",
+          "SHFE:BR",
+          "SHFE:BU",
+          "SHFE:CU",
+          "SHFE:FU",
+          "SHFE:NI",
+          "SHFE:OP",
+          "SHFE:PB",
+          "SHFE:RB",
+          "SHFE:RU",
+          "SHFE:SN",
+          "SHFE:SP",
+          "SHFE:ZN"
+        ],
+        "failed_products": [
+          "DCE:A",
+          "DCE:B",
+          "DCE:BZ",
+          "DCE:C",
+          "DCE:CS",
+          "DCE:EB",
+          "DCE:EG",
+          "DCE:I",
+          "DCE:JD",
+          "DCE:JM",
+          "DCE:L",
+          "DCE:LG",
+          "DCE:LH",
+          "DCE:M",
+          "DCE:P",
+          "DCE:PG",
+          "DCE:PP",
+          "DCE:V",
+          "DCE:Y"
+        ],
+        "unexpected_products": [
+          "INE:LU",
+          "SHFE:HC",
+          "SHFE:SS"
+        ],
+        "minimum_product_coverage": 0.8,
+        "scope_complete": false,
+        "publish_eligible": false
+      },
+      "source_statuses": [
+        {
+          "exchange": "SHFE",
+          "kind": "futures",
+          "status": "ok",
+          "contracts": 238,
+          "date_basis": "report_date"
+        },
+        {
+          "exchange": "SHFE",
+          "kind": "options",
+          "status": "ok",
+          "contracts": 6512,
+          "date_basis": "report_date"
+        },
+        {
+          "exchange": "INE",
+          "kind": "futures",
+          "status": "ok",
+          "contracts": 63,
+          "date_basis": "report_date"
+        },
+        {
+          "exchange": "INE",
+          "kind": "options",
+          "status": "ok",
+          "contracts": 864,
+          "date_basis": "report_date"
+        },
+        {
+          "exchange": "DCE",
+          "kind": "futures",
+          "status": "failed",
+          "contracts": 0,
+          "error": "HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+        },
+        {
+          "exchange": "DCE",
+          "kind": "options",
+          "status": "failed",
+          "contracts": 0,
+          "error": "HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+        },
+        {
+          "exchange": "CZCE",
+          "kind": "futures",
+          "status": "ok",
+          "contracts": 239,
+          "date_basis": "report_title"
+        },
+        {
+          "exchange": "CZCE",
+          "kind": "options",
+          "status": "ok",
+          "contracts": 4782,
+          "date_basis": "report_title"
+        },
+        {
+          "exchange": "GFEX",
+          "kind": "futures",
+          "status": "ok",
+          "contracts": 48,
+          "date_basis": "response_query_date_echo"
+        },
+        {
+          "exchange": "GFEX",
+          "kind": "options",
+          "status": "ok",
+          "contracts": 3766,
+          "date_basis": "response_query_date_echo"
+        }
+      ],
+      "capabilities": {
+        "contracts": 15642,
+        "core_field_coverage": 1.0,
+        "fields": {
+          "close": 0.8462472829561437,
+          "open": 0.3840301751694157,
+          "high": 0.3840301751694157,
+          "low": 0.3840301751694157,
+          "settle": 1.0,
+          "pre_settle": 1.0,
+          "volume": 1.0,
+          "turnover": 1.0,
+          "open_interest": 1.0,
+          "iv_percent": 0.5464774325533819,
+          "delta": 1.0,
+          "gamma": 0.0,
+          "vega": 0.0,
+          "theta": 0.0,
+          "rho": 0.0,
+          "underlying_settle": 1.0
+        },
+        "expiry_coverage": 1.0,
+        "model_greeks_coverage": 0.0,
+        "intraday_available": false,
+        "executable_bid_ask_available": false,
+        "dealer_gamma_direction_known": false
+      },
+      "metadata_error": null,
+      "limitations": [
+        "Exchange backup is independently evaluated; not an iFinD-equivalent certification.",
+        "GFEX uses a response query-date echo; SHFE/INE/CZCE use published report dates.",
+        "Turnover is converted from CNY 10000; single/double-sided volume conventions require comparison.",
+        "Missing IV, metadata or Greeks remain unavailable; no dealer position direction is inferred.",
+        "Current OpenCTP metadata cannot reconstruct a point-in-time historical universe."
+      ],
+      "comparison": {
+        "status": "compared",
+        "trade_date": "2026-09-14",
+        "ifind_contracts": 18862,
+        "backup_contracts": 15642,
+        "matched_contracts": 10600,
+        "contract_coverage_vs_ifind": 0.5619764606086312,
+        "core_field_coverage_vs_ifind": 0.5497644021591955,
+        "fields": {
+          "close": {
+            "ifind_nonnull": 9381,
+            "backup_nonnull_on_ifind_contracts": 5278,
+            "availability_vs_ifind": 0.5626265856518495,
+            "agreement_rtol_1e_4_atol_1e_6": 0.6222053808260705,
+            "median_absolute_difference": 0.0
+          },
+          "open": {
+            "ifind_nonnull": 6882,
+            "backup_nonnull_on_ifind_contracts": 3961,
+            "availability_vs_ifind": 0.5755594303981401,
+            "agreement_rtol_1e_4_atol_1e_6": 0.552890684170664,
+            "median_absolute_difference": 0.0
+          },
+          "high": {
+            "ifind_nonnull": 6882,
+            "backup_nonnull_on_ifind_contracts": 3961,
+            "availability_vs_ifind": 0.5755594303981401,
+            "agreement_rtol_1e_4_atol_1e_6": 0.5586972986619541,
+            "median_absolute_difference": 0.0
+          },
+          "low": {
+            "ifind_nonnull": 6882,
+            "backup_nonnull_on_ifind_contracts": 3961,
+            "availability_vs_ifind": 0.5755594303981401,
+            "agreement_rtol_1e_4_atol_1e_6": 0.5829336026255996,
+            "median_absolute_difference": 0.0
+          },
+          "settle": {
+            "ifind_nonnull": 16537,
+            "backup_nonnull_on_ifind_contracts": 8275,
+            "availability_vs_ifind": 0.5003930579911713,
+            "agreement_rtol_1e_4_atol_1e_6": 0.7238670694864048,
+            "median_absolute_difference": 0.0
+          },
+          "pre_settle": {
+            "ifind_nonnull": 18862,
+            "backup_nonnull_on_ifind_contracts": 10600,
+            "availability_vs_ifind": 0.5619764606086312,
+            "agreement_rtol_1e_4_atol_1e_6": 0.38301886792452833,
+            "median_absolute_difference": 4.0
+          },
+          "volume": {
+            "ifind_nonnull": 6895,
+            "backup_nonnull_on_ifind_contracts": 4099,
+            "availability_vs_ifind": 0.5944887599709935,
+            "agreement_rtol_1e_4_atol_1e_6": 0.36008782629909736,
+            "median_absolute_difference": 14.0
+          },
+          "turnover": {
+            "ifind_nonnull": 6895,
+            "backup_nonnull_on_ifind_contracts": 4099,
+            "availability_vs_ifind": 0.5944887599709935,
+            "agreement_rtol_1e_4_atol_1e_6": 0.240546474749939,
+            "median_absolute_difference": 8000.0
+          },
+          "open_interest": {
+            "ifind_nonnull": 13097,
+            "backup_nonnull_on_ifind_contracts": 7478,
+            "availability_vs_ifind": 0.5709704512483775,
+            "agreement_rtol_1e_4_atol_1e_6": 0.762369617544798,
+            "median_absolute_difference": 0.0
+          },
+          "iv_percent": {
+            "ifind_nonnull": 18432,
+            "backup_nonnull_on_ifind_contracts": 8414,
+            "availability_vs_ifind": 0.4564887152777778,
+            "agreement_rtol_1e_4_atol_1e_6": 0.0021392916567625386,
+            "median_absolute_difference": 3.725927000000002
+          },
+          "delta": {
+            "ifind_nonnull": 18432,
+            "backup_nonnull_on_ifind_contracts": 10466,
+            "availability_vs_ifind": 0.5678168402777778,
+            "agreement_rtol_1e_4_atol_1e_6": 0.02016051977832983,
+            "median_absolute_difference": 0.023433000000000037
+          },
+          "gamma": {
+            "ifind_nonnull": 18294,
+            "backup_nonnull_on_ifind_contracts": 0,
+            "availability_vs_ifind": 0.0,
+            "agreement_rtol_1e_4_atol_1e_6": null,
+            "median_absolute_difference": null
+          },
+          "vega": {
+            "ifind_nonnull": 18432,
+            "backup_nonnull_on_ifind_contracts": 0,
+            "availability_vs_ifind": 0.0,
+            "agreement_rtol_1e_4_atol_1e_6": null,
+            "median_absolute_difference": null
+          },
+          "theta": {
+            "ifind_nonnull": 18409,
+            "backup_nonnull_on_ifind_contracts": 0,
+            "availability_vs_ifind": 0.0,
+            "agreement_rtol_1e_4_atol_1e_6": null,
+            "median_absolute_difference": null
+          },
+          "rho": {
+            "ifind_nonnull": 18432,
+            "backup_nonnull_on_ifind_contracts": 0,
+            "availability_vs_ifind": 0.0,
+            "agreement_rtol_1e_4_atol_1e_6": null,
+            "median_absolute_difference": null
+          }
+        },
+        "model_outputs_counted_as_vendor_fields": false,
+        "note": "Availability is not accuracy. Compare close/settlement and timestamps before interpreting disagreement."
+      },
+      "promoted": false,
+      "previous_valid_retained": false,
+      "futures_contract_count": 588,
+      "surface": {
+        "series_count": 213,
+        "surface_ready_count": 132,
+        "positioning_ready_count": 132,
+        "execution_ready_count": 0
+      },
+      "effective_product_count": 52
+    }
+  ]
+}

@@ -2,6 +2,8 @@
 
 China Commodities Engine 是一个面向中国商品期货的每日数据 bot 项目骨架。它的职责是采集、标准化、校验并保存可审计的数据，供后续雷达、研究和交易分析使用；数据引擎本身不把单日涨跌直接解释为交易结论。
 
+独立交易所日终备份试验见 [备份方案与实测结果](docs/EXCHANGE_BACKUP.md)。运行入口为 `python scripts/collect_exchange_backup.py --date YYYY-MM-DD`，结果单独保存到 `data/backup/`；GitHub Actions 可选择 `exchange_backup` 模式。当前实测覆盖 45/64 个目标期权品种，尚未达到 80% 门槛，生产链路继续使用 iFinD。
+
 ## 数据层级
 
 数据设计按以下层级组织：

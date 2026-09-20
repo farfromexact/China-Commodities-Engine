@@ -1,0 +1,488 @@
+{
+  "experiment_date": "2026-09-16",
+  "branch": "codex/exchange-eod-backup",
+  "base_commit": "97eeb9d",
+  "runtime_implementation_commit": "0c551d5",
+  "production_data_modified": false,
+  "independent_80_percent_target_met": false,
+  "local": {
+    "trade_date": "2026-09-15",
+    "products": 45,
+    "catalog_products": 64,
+    "catalog_coverage": 0.703125,
+    "option_contracts": 15788,
+    "futures_contracts": 587,
+    "core_fields_on_observed_contracts": 1.0,
+    "observed_iv_coverage": 0.5448441854573094,
+    "model_greeks_coverage": 0.0,
+    "ifind_contracts": 18936,
+    "matched_contracts": 10672,
+    "contract_coverage_vs_ifind": 0.563582594000845,
+    "core_field_coverage_vs_ifind": 0.5492231740961231,
+    "surfaces": {
+      "series_count": 214,
+      "surface_ready_count": 132,
+      "positioning_ready_count": 132,
+      "execution_ready_count": 0
+    },
+    "promoted": false,
+    "failed_sources": [
+      {
+        "exchange": "DCE",
+        "kind": "futures",
+        "status": "failed",
+        "contracts": 0,
+        "error": "ValueError: archived failure: HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+      },
+      {
+        "exchange": "DCE",
+        "kind": "options",
+        "status": "failed",
+        "contracts": 0,
+        "error": "ValueError: archived failure: HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+      }
+    ]
+  },
+  "second_date": {
+    "trade_date": "2026-09-14",
+    "products": 45,
+    "catalog_products": 64,
+    "catalog_coverage": 0.703125,
+    "option_contracts": 15642,
+    "futures_contracts": 588,
+    "core_fields_on_observed_contracts": 1.0,
+    "observed_iv_coverage": 0.5464774325533819,
+    "model_greeks_coverage": 0.0,
+    "ifind_contracts": 18862,
+    "matched_contracts": 10600,
+    "contract_coverage_vs_ifind": 0.5619764606086312,
+    "core_field_coverage_vs_ifind": 0.5497644021591955,
+    "surfaces": {
+      "series_count": 213,
+      "surface_ready_count": 132,
+      "positioning_ready_count": 132,
+      "execution_ready_count": 0
+    },
+    "promoted": false,
+    "failed_sources": [
+      {
+        "exchange": "DCE",
+        "kind": "futures",
+        "status": "failed",
+        "contracts": 0,
+        "error": "HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+      },
+      {
+        "exchange": "DCE",
+        "kind": "options",
+        "status": "failed",
+        "contracts": 0,
+        "error": "HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+      }
+    ]
+  },
+  "github": {
+    "url": "https://github.com/farfromexact/China-Commodities-Engine/actions/runs/35074747043",
+    "conclusion": "success",
+    "production_job": "skipped",
+    "ifind_credentials_used": false,
+    "result": {
+      "trade_date": "2026-09-15",
+      "products": 45,
+      "catalog_products": 64,
+      "catalog_coverage": 0.703125,
+      "option_contracts": 15788,
+      "futures_contracts": 587,
+      "core_fields_on_observed_contracts": 1.0,
+      "observed_iv_coverage": 0.5448441854573094,
+      "model_greeks_coverage": 0.0,
+      "ifind_contracts": 18936,
+      "matched_contracts": 10672,
+      "contract_coverage_vs_ifind": 0.563582594000845,
+      "core_field_coverage_vs_ifind": 0.5492231740961231,
+      "surfaces": {
+        "series_count": 214,
+        "surface_ready_count": 132,
+        "positioning_ready_count": 132,
+        "execution_ready_count": 0
+      },
+      "promoted": false,
+      "failed_sources": [
+        {
+          "exchange": "DCE",
+          "kind": "futures",
+          "status": "failed",
+          "contracts": 0,
+          "error": "HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+        },
+        {
+          "exchange": "DCE",
+          "kind": "options",
+          "status": "failed",
+          "contracts": 0,
+          "error": "HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+        }
+      ]
+    }
+  },
+  "offline_replay": {
+    "options_identical": true,
+    "futures_identical": true,
+    "coverage_identical": true,
+    "baseline_sha256": "ff9b8f7cf8a3864b2deeef1054f731b4ab418136341298e6643f4a7d6a33d305"
+  },
+  "model_scenario": {
+    "rate": 0.02,
+    "rate_source": "experiment_assumption_annual_2pct_not_observed",
+    "tree_steps": 100,
+    "iv_inversion_max_tree_steps": 80,
+    "model_workers": 4,
+    "modeled_contracts": 15783,
+    "observed_contracts": 15788,
+    "finite_models": 15783,
+    "gamma_below_minus_1e_8": 0,
+    "vega_below_minus_1e_8": 0,
+    "iv_range_percent": [
+      3.048873,
+      499.23872217860384
+    ],
+    "result": {
+      "trade_date": "2026-09-15",
+      "products": 45,
+      "catalog_products": 64,
+      "catalog_coverage": 0.703125,
+      "option_contracts": 15788,
+      "futures_contracts": 587,
+      "core_fields_on_observed_contracts": 1.0,
+      "observed_iv_coverage": 0.5448441854573094,
+      "model_greeks_coverage": 0.999683303775019,
+      "ifind_contracts": 18936,
+      "matched_contracts": 10672,
+      "contract_coverage_vs_ifind": 0.563582594000845,
+      "core_field_coverage_vs_ifind": 0.5492231740961231,
+      "surfaces": {
+        "series_count": 214,
+        "surface_ready_count": 214,
+        "positioning_ready_count": 214,
+        "execution_ready_count": 0
+      },
+      "promoted": false,
+      "failed_sources": [
+        {
+          "exchange": "DCE",
+          "kind": "futures",
+          "status": "failed",
+          "contracts": 0,
+          "error": "ValueError: archived failure: HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+        },
+        {
+          "exchange": "DCE",
+          "kind": "options",
+          "status": "failed",
+          "contracts": 0,
+          "error": "ValueError: archived failure: HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+        }
+      ]
+    },
+    "qualified_for_production": false,
+    "sensitivity": {
+      "sample_count": 20,
+      "selection": "20 evenly spaced contracts from exchange/contract sorted modeled records",
+      "rate": 0.02,
+      "rate_source": "experiment_assumption_annual_2pct_not_observed",
+      "tree_steps": [
+        100,
+        200
+      ],
+      "summary": {
+        "iv_percent": {
+          "median_absolute_change": 0.0,
+          "max_absolute_change": 0.0
+        },
+        "delta": {
+          "median_absolute_change": 0.018002769779710437,
+          "max_absolute_change": 0.03297420148519259
+        },
+        "gamma": {
+          "median_absolute_change": 4.591717440327974e-06,
+          "max_absolute_change": 0.006718542746563
+        },
+        "vega_per_vol_point": {
+          "median_absolute_change": 0.09337158328283657,
+          "max_absolute_change": 22.68096914142461
+        },
+        "theta_per_calendar_day": {
+          "median_absolute_change": 0.023025598608649167,
+          "max_absolute_change": 3.927291734220944
+        },
+        "rho_per_rate_point": {
+          "median_absolute_change": 0.00148127439680934,
+          "max_absolute_change": 0.12571584163106309
+        }
+      },
+      "records": [
+        {
+          "contract": "AP611C6300",
+          "exchange": "CZCE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.0,
+            "gamma": 0.0,
+            "vega_per_vol_point": 0.0008904604001145344,
+            "theta_per_calendar_day": 0.0,
+            "rho_per_rate_point": 0.0009301653960847034
+          }
+        },
+        {
+          "contract": "FG611P1000",
+          "exchange": "CZCE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.018689684507647075,
+            "gamma": 2.0638116167558552e-05,
+            "vega_per_vol_point": 0.057923891525746285,
+            "theta_per_calendar_day": 0.0327572415489783,
+            "rho_per_rate_point": 0.0006778708339396644
+          }
+        },
+        {
+          "contract": "OI701MSC10600",
+          "exchange": "CZCE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.020639083305466155,
+            "gamma": 2.1727274098518823e-07,
+            "vega_per_vol_point": 0.5184038315739912,
+            "theta_per_calendar_day": 0.08420573590163372,
+            "rho_per_rate_point": 0.0005775953776492315
+          }
+        },
+        {
+          "contract": "PX611P7300",
+          "exchange": "CZCE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.003123943259277272,
+            "gamma": 7.340147426115126e-11,
+            "vega_per_vol_point": 0.12638866317706654,
+            "theta_per_calendar_day": 0.014781808542433605,
+            "rho_per_rate_point": 1.62400933181317e-05
+          }
+        },
+        {
+          "contract": "SA703P1100",
+          "exchange": "CZCE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.029807739884898266,
+            "gamma": 0.006718542746563,
+            "vega_per_vol_point": 0.05229648804424869,
+            "theta_per_calendar_day": 0.004784104223872987,
+            "rho_per_rate_point": 0.0007882304556261488
+          }
+        },
+        {
+          "contract": "SR703C4900",
+          "exchange": "CZCE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.006035363380595071,
+            "gamma": 3.191144081780425e-05,
+            "vega_per_vol_point": 0.10675943301475854,
+            "theta_per_calendar_day": 0.01055042223322289,
+            "rho_per_rate_point": 0.00500576046738388
+          }
+        },
+        {
+          "contract": "ZC612C1040",
+          "exchange": "CZCE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.02030432445455682,
+            "gamma": 1.063019421653357e-05,
+            "vega_per_vol_point": 0.07998373355091459,
+            "theta_per_calendar_day": 0.038017938143941166,
+            "rho_per_rate_point": 0.00015502164158931464
+          }
+        },
+        {
+          "contract": "LC2703C182000",
+          "exchange": "GFEX",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.02460813784608623,
+            "gamma": 1.8651874761334917e-09,
+            "vega_per_vol_point": 22.68096914142461,
+            "theta_per_calendar_day": 3.927291734220944,
+            "rho_per_rate_point": 0.12571584163106309
+          }
+        },
+        {
+          "contract": "PD2612P568",
+          "exchange": "GFEX",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.0037190722513584795,
+            "gamma": 0.00021244583298354116,
+            "vega_per_vol_point": 0.009596292809590068,
+            "theta_per_calendar_day": 0.006623475430330927,
+            "rho_per_rate_point": 0.0020323833975339767
+          }
+        },
+        {
+          "contract": "PS2702P44000",
+          "exchange": "GFEX",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.020713310175246025,
+            "gamma": 7.317727495260759e-07,
+            "vega_per_vol_point": 1.6738952731120662,
+            "theta_per_calendar_day": 0.26540930294868303,
+            "rho_per_rate_point": 0.03561484871443099
+          }
+        },
+        {
+          "contract": "PT2706C424",
+          "exchange": "GFEX",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.010888784300428944,
+            "gamma": 0.00011266432392484008,
+            "vega_per_vol_point": 0.0016036804021268836,
+            "theta_per_calendar_day": 0.0001308207656762761,
+            "rho_per_rate_point": 0.0004928757743769552
+          }
+        },
+        {
+          "contract": "BC2611C96000",
+          "exchange": "INE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.03206218250978826,
+            "gamma": 3.9639025775873594e-05,
+            "vega_per_vol_point": 2.6098443450594004,
+            "theta_per_calendar_day": 0.5748292832777224,
+            "rho_per_rate_point": 0.01497456110200801
+          }
+        },
+        {
+          "contract": "AG2610C10600",
+          "exchange": "SHFE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.0,
+            "gamma": 0.0,
+            "vega_per_vol_point": 0.0,
+            "theta_per_calendar_day": 0.0,
+            "rho_per_rate_point": 0.0
+          }
+        },
+        {
+          "contract": "AG2612C14300",
+          "exchange": "SHFE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.01918668064053597,
+            "gamma": 1.2563277183524107e-06,
+            "vega_per_vol_point": 0.45530022685647964,
+            "theta_per_calendar_day": 0.17310581809533687,
+            "rho_per_rate_point": 0.005547357519162688
+          }
+        },
+        {
+          "contract": "AG2704C16600",
+          "exchange": "SHFE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.03297420148519259,
+            "gamma": 3.367478039377432e-05,
+            "vega_per_vol_point": 0.8921291591475438,
+            "theta_per_calendar_day": 0.10953881466343773,
+            "rho_per_rate_point": 0.08869149831639334
+          }
+        },
+        {
+          "contract": "AO2612C2900",
+          "exchange": "SHFE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.02092268714730866,
+            "gamma": 3.2176883558046118e-06,
+            "vega_per_vol_point": 0.16040954544573793,
+            "theta_per_calendar_day": 0.03126938867486473,
+            "rho_per_rate_point": 1.6068364388388545e-05
+          }
+        },
+        {
+          "contract": "AU2704C1176",
+          "exchange": "SHFE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.009687104191536872,
+            "gamma": 5.6204175680512715e-06,
+            "vega_per_vol_point": 0.06952875119192825,
+            "theta_per_calendar_day": 0.005565549903902678,
+            "rho_per_rate_point": 0.00045649261240754413
+          }
+        },
+        {
+          "contract": "BU2701P4450",
+          "exchange": "SHFE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.011512276656917342,
+            "gamma": 3.5630173126046754e-06,
+            "vega_per_vol_point": 0.011147758082984183,
+            "theta_per_calendar_day": 0.0020126700639480077,
+            "rho_per_rate_point": 0.005896590920940525
+          }
+        },
+        {
+          "contract": "FU2701C3450",
+          "exchange": "SHFE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.0015169962694494554,
+            "gamma": 2.6455079761839036e-06,
+            "vega_per_vol_point": 0.007496011466173513,
+            "theta_per_calendar_day": 0.0024419621148581427,
+            "rho_per_rate_point": 0.0033515157473402724
+          }
+        },
+        {
+          "contract": "RU2611C16500",
+          "exchange": "SHFE",
+          "differences": {
+            "iv_percent": 0.0,
+            "delta": 0.0173158550517738,
+            "gamma": 0.0013916490557665901,
+            "vega_per_vol_point": 0.6054126209651258,
+            "theta_per_calendar_day": 0.5371732754645109,
+            "rho_per_rate_point": 0.006372298754513395
+          }
+        }
+      ],
+      "limitation": "Sensitivity diagnostic only; not an accuracy or convergence certification. IV inversion remains capped at 80 steps in the existing model."
+    }
+  },
+  "futures_comparison": {
+    "ifind_contracts": 801,
+    "backup_contracts": 587,
+    "matched_contracts": 587,
+    "contract_coverage": 0.7328339575530587
+  },
+  "validation": {
+    "unit_tests_passed": 193,
+    "strict_80_percent_cli_expected_exit": 2,
+    "strict_80_percent_promotion": false,
+    "strict_80_percent_cli_observed_exit": 2
+  },
+  "limits": [
+    "All 19 DCE option products blocked by HTTP 412 in both local and GitHub environments.",
+    "Only two dates tested; ten-day shadow qualification not complete.",
+    "Date/time, volume conventions and model differences prevent equivalence claims.",
+    "Current contract directory is not a point-in-time historical universe.",
+    "GFEX date evidence is a response query echo.",
+    "No independent night snapshot, intraday path or executable bid/ask backup."
+  ]
+}
