@@ -1,33 +1,31 @@
 {
   "schema_version": 2,
-  "trading_date": "2026-09-21",
-  "night_session_date": "2026-09-20",
-  "session_start_date": "2026-09-20",
-  "session_end_date": "2026-09-21",
-  "generated_at": "2026-09-21T06:04:08.355809+08:00",
-  "data_fresh": false,
-  "validation_passed": false,
-  "published": false,
+  "trading_date": "2026-09-22",
+  "night_session_date": "2026-09-21",
+  "session_start_date": "2026-09-21",
+  "session_end_date": "2026-09-22",
+  "generated_at": "2026-09-22T06:01:25.174313+08:00",
+  "data_fresh": true,
+  "validation_passed": true,
+  "published": true,
   "coverage": {
     "selected_contract_count": 806,
     "request_contract_count": 806,
     "cache_hit_count": 0,
-    "night_session_contract_count": 0,
-    "outside_night_window_count": 592,
-    "no_night_trade_count": 0,
+    "night_session_contract_count": 423,
+    "outside_night_window_count": 165,
+    "no_night_trade_count": 4,
     "missing_timestamp_count": 0,
     "missing_price_count": 0,
     "missing_quote_count": 0,
     "query_error_count": 214,
     "unresolved_contract_count": 214,
-    "night_session_coverage_pct": 0.0
+    "night_session_coverage_pct": 52.4814
   },
   "coverage_complete": false,
   "coverage_warnings": [
     "214 concrete contracts are unresolved"
   ],
-  "validation_errors": [
-    "no concrete contract has a quote in the completed night-session window"
-  ],
-  "previous_valid_snapshot_retained": true
+  "validation_errors": [],
+  "previous_valid_snapshot_retained": false
 }
