@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "trade_date": "2026-09-24",
-  "generated_at": "2026-09-24T11:03:37+00:00",
+  "generated_at": "2026-09-24T22:33:01+00:00",
   "source_provider": "ifind_http",
   "universe_source": "mixed_contract_directories",
   "universe_sources": [
@@ -904,11 +904,11 @@
       "contract_count": 56,
       "source_trade_date": "2026-09-24",
       "quote_coverage_complete": true,
-      "universe_source": "openctp_contract_directory",
-      "fallback_used": true,
-      "metadata_enrichment_used": false,
+      "universe_source": "exchange_eod_via_akshare",
+      "fallback_used": false,
+      "metadata_enrichment_used": true,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: IFindOptionDataError: exchange option directory was empty for SHFE:OP"
+      "detail": null
     },
     {
       "exchange": "SHFE",
