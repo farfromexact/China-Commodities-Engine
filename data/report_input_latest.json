@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-27T08:25:48.605250+08:00",
+  "generated_at": "2026-09-27T19:05:04.604652+08:00",
   "requested_date": "2026-09-24",
   "timezone": "Asia/Shanghai",
   "frequency": "EOD",
@@ -39,7 +39,7 @@
       ],
       "source_date_min": "2026-08-28",
       "source_date_max": "2026-09-24",
-      "generated_at": "2026-09-27T08:21:02.216076+08:00",
+      "generated_at": "2026-09-27T19:00:49.101168+08:00",
       "data_fresh": false,
       "validation_passed": null,
       "published": null
@@ -59,13 +59,13 @@
     },
     {
       "module": "external",
-      "requested_date": "2026-09-25",
+      "requested_date": "2026-09-27",
       "source_dates": [
         "2026-09-25"
       ],
       "source_date_min": "2026-09-25",
       "source_date_max": "2026-09-25",
-      "generated_at": "2026-09-27T06:41:31.305082+08:00",
+      "generated_at": "2026-09-27T19:04:39.833285+08:00",
       "data_fresh": true,
       "validation_passed": true,
       "published": true
@@ -6205,8 +6205,8 @@
     "provider_consensus_missing_reason": "an independent second provider is not configured"
   },
   "external": {
-    "requested_date": "2026-09-25",
-    "generated_at": "2026-09-27T06:41:31.305082+08:00",
+    "requested_date": "2026-09-27",
+    "generated_at": "2026-09-27T19:04:39.833285+08:00",
     "data_fresh": true,
     "validation_passed": true,
     "published": true,
@@ -6227,7 +6227,7 @@
       {
         "key": "WTI",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6240,7 +6240,7 @@
       {
         "key": "BRENT",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6253,7 +6253,7 @@
       {
         "key": "DUBAI_OMAN",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "unavailable",
         "permission_status": "not_available",
         "current_permission_status": "unavailable",
@@ -6264,7 +6264,7 @@
       {
         "key": "SINGAPORE_HSFO",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "unavailable",
         "permission_status": "not_available",
         "current_permission_status": "unavailable",
@@ -6275,7 +6275,7 @@
       {
         "key": "SINGAPORE_VLSFO",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "unavailable",
         "permission_status": "not_available",
         "current_permission_status": "unavailable",
@@ -6286,7 +6286,7 @@
       {
         "key": "LME_CU",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6299,7 +6299,7 @@
       {
         "key": "LME_AL",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6312,7 +6312,7 @@
       {
         "key": "LME_ZN",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6325,7 +6325,7 @@
       {
         "key": "LME_NI",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6338,7 +6338,7 @@
       {
         "key": "COMEX_AU",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6351,7 +6351,7 @@
       {
         "key": "COMEX_AG",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6364,7 +6364,7 @@
       {
         "key": "SGX_IRON_ORE",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6377,7 +6377,7 @@
       {
         "key": "CBOT_SOYBEAN",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6390,7 +6390,7 @@
       {
         "key": "CBOT_SOYMEAL",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6403,7 +6403,7 @@
       {
         "key": "CBOT_SOYBEAN_OIL",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6416,7 +6416,7 @@
       {
         "key": "CBOT_CORN",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6429,7 +6429,7 @@
       {
         "key": "CBOT_WHEAT",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6442,7 +6442,7 @@
       {
         "key": "BMD_PALM",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6455,7 +6455,7 @@
       {
         "key": "ICE_SUGAR",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6468,7 +6468,7 @@
       {
         "key": "ICE_COTTON",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "configured",
         "permission_status": "public",
         "current_permission_status": "available",
@@ -6481,7 +6481,7 @@
       {
         "key": "USDCNH",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "unavailable",
         "permission_status": "not_available",
         "current_permission_status": "unavailable",
@@ -6492,7 +6492,7 @@
       {
         "key": "DXY",
         "exchange": null,
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "mapping_status": "unavailable",
         "permission_status": "not_available",
         "current_permission_status": "unavailable",
@@ -6509,7 +6509,7 @@
         "exchange": null,
         "target": "WTI",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:CL",
@@ -6540,7 +6540,7 @@
         "exchange": null,
         "target": "BRENT",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:OIL",
@@ -6571,7 +6571,7 @@
         "exchange": null,
         "target": "LME_CU",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:CAD",
@@ -6602,7 +6602,7 @@
         "exchange": null,
         "target": "LME_AL",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:AHD",
@@ -6633,7 +6633,7 @@
         "exchange": null,
         "target": "LME_ZN",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:ZSD",
@@ -6664,7 +6664,7 @@
         "exchange": null,
         "target": "LME_NI",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:NID",
@@ -6695,7 +6695,7 @@
         "exchange": null,
         "target": "COMEX_AU",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:GC",
@@ -6726,7 +6726,7 @@
         "exchange": null,
         "target": "COMEX_AG",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:SI",
@@ -6757,7 +6757,7 @@
         "exchange": null,
         "target": "SGX_IRON_ORE",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:FEF",
@@ -6788,7 +6788,7 @@
         "exchange": null,
         "target": "CBOT_SOYBEAN",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:S",
@@ -6819,7 +6819,7 @@
         "exchange": null,
         "target": "CBOT_SOYMEAL",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:SM",
@@ -6850,7 +6850,7 @@
         "exchange": null,
         "target": "CBOT_SOYBEAN_OIL",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:BO",
@@ -6881,7 +6881,7 @@
         "exchange": null,
         "target": "CBOT_CORN",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:C",
@@ -6912,7 +6912,7 @@
         "exchange": null,
         "target": "CBOT_WHEAT",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:W",
@@ -6943,7 +6943,7 @@
         "exchange": null,
         "target": "BMD_PALM",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:FCPO",
@@ -6974,7 +6974,7 @@
         "exchange": null,
         "target": "ICE_SUGAR",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:RS",
@@ -7005,7 +7005,7 @@
         "exchange": null,
         "target": "ICE_COTTON",
         "metric": "close",
-        "requested_date": "2026-09-25",
+        "requested_date": "2026-09-27",
         "source_date": "2026-09-25",
         "observation_date": "2026-09-25",
         "indicator_id": "AKSHARE:SINA:CT",
@@ -18331,8 +18331,8 @@
     },
     "futures_status": {
       "schema_version": 1,
-      "run_date": "2026-09-25",
-      "generated_at": "2026-09-27T08:21:02.216076+08:00",
+      "run_date": "2026-09-27",
+      "generated_at": "2026-09-27T19:00:49.101168+08:00",
       "primary_provider": "ifind",
       "akshare_version": "1.18.97",
       "data_fresh": false,
@@ -18409,7 +18409,7 @@
           "dataset": "futures",
           "scope": "SHFE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "cmd_history_quotation",
           "records": 0,
           "error": "IFindHTTPError: iFinD history response missing columns: time",
@@ -18417,10 +18417,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:06.726949+08:00",
+          "fetched_at": "2026-09-27T19:00:53.518285+08:00",
           "source_endpoint": "cmd_history_quotation",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18429,7 +18429,7 @@
           "dataset": "futures",
           "scope": "INE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "cmd_history_quotation",
           "records": 0,
           "error": "IFindHTTPError: iFinD history response missing columns: time",
@@ -18437,10 +18437,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:07.775702+08:00",
+          "fetched_at": "2026-09-27T19:00:54.495904+08:00",
           "source_endpoint": "cmd_history_quotation",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18449,7 +18449,7 @@
           "dataset": "futures",
           "scope": "DCE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "cmd_history_quotation",
           "records": 0,
           "error": "IFindHTTPError: iFinD history response missing columns: time",
@@ -18457,10 +18457,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:12.049575+08:00",
+          "fetched_at": "2026-09-27T19:00:58.178741+08:00",
           "source_endpoint": "cmd_history_quotation",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18469,7 +18469,7 @@
           "dataset": "futures",
           "scope": "CZCE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "cmd_history_quotation",
           "records": 0,
           "error": "IFindHTTPError: iFinD history response missing columns: time",
@@ -18477,10 +18477,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:17.379072+08:00",
+          "fetched_at": "2026-09-27T19:01:02.928774+08:00",
           "source_endpoint": "cmd_history_quotation",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18489,7 +18489,7 @@
           "dataset": "futures",
           "scope": "GFEX",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "cmd_history_quotation",
           "records": 0,
           "error": "IFindHTTPError: iFinD history response missing columns: time",
@@ -18497,10 +18497,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:18.438030+08:00",
+          "fetched_at": "2026-09-27T19:01:03.794828+08:00",
           "source_endpoint": "cmd_history_quotation",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18509,7 +18509,7 @@
           "dataset": "basis",
           "scope": "full-market",
           "state": "skipped",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "not_yet_mapped",
           "records": 0,
           "error": "iFinD report/indicator mapping and entitlement are not yet verified for this module",
@@ -18517,7 +18517,7 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
           "fetched_at": null,
@@ -18529,7 +18529,7 @@
           "dataset": "member_rankings",
           "scope": "full-market",
           "state": "skipped",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "not_yet_mapped",
           "records": 0,
           "error": "iFinD report/indicator mapping and entitlement are not yet verified for this module",
@@ -18537,7 +18537,7 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
           "fetched_at": null,
@@ -18549,7 +18549,7 @@
           "dataset": "options",
           "scope": "full-market",
           "state": "empty",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "collect_ifind_options.py",
           "records": 0,
           "error": null,
@@ -18557,10 +18557,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
-          "source_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
+          "source_trade_date": "2026-09-27",
           "source_date_match": true,
-          "fetched_at": "2026-09-25T21:11:07+00:00",
+          "fetched_at": "2026-09-27T11:01:17+00:00",
           "source_endpoint": "collect_ifind_options.py",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18569,7 +18569,7 @@
           "dataset": "option_volatility",
           "scope": "full-market",
           "state": "skipped",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "not_yet_mapped",
           "records": 0,
           "error": "iFinD report/indicator mapping and entitlement are not yet verified for this module",
@@ -18577,7 +18577,7 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
           "fetched_at": null,
@@ -18589,7 +18589,7 @@
           "dataset": "contract_info",
           "scope": "SHFE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_contract_info_shfe",
           "records": 0,
           "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
@@ -18597,10 +18597,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:19.495817+08:00",
+          "fetched_at": "2026-09-27T19:01:04.764774+08:00",
           "source_endpoint": "futures_contract_info_shfe",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18609,7 +18609,7 @@
           "dataset": "contract_info",
           "scope": "INE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_contract_info_ine",
           "records": 0,
           "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
@@ -18617,10 +18617,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:20.594967+08:00",
+          "fetched_at": "2026-09-27T19:01:06.405883+08:00",
           "source_endpoint": "futures_contract_info_ine",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18629,7 +18629,7 @@
           "dataset": "contract_info",
           "scope": "DCE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_contract_info_dce",
           "records": 0,
           "error": "RuntimeError: DCE contract info failed through both the current official portal and the AKShare compatibility route; portal: RuntimeError: DCE contract info official routes failed; current route after 2 attempts: HTTPError: 412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/tradepara/contractInfo; legacy route: ConnectionError: HTTPConnectionPool(host='portal.dce.com.cn', port=80): Max retries exceeded with url: /publicweb/businessguidelines/queryContractInfo.html?contractInformation.variety=all&contractInformation.trade_type=0 (Caused by NameResolutionError(\"HTTPConnection(host='portal.dce.com.cn', port=80): Failed to resolve 'portal.dce.com.cn' ([Errno -5] No address associated with hostname)\")); AKShare: JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
@@ -18637,10 +18637,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:24.278606+08:00",
+          "fetched_at": "2026-09-27T19:01:09.305723+08:00",
           "source_endpoint": "futures_contract_info_dce",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18649,7 +18649,7 @@
           "dataset": "contract_info",
           "scope": "CZCE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_contract_info_czce",
           "records": 0,
           "error": "ParseError: mismatched tag: line 5, column 2",
@@ -18657,10 +18657,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:26.775964+08:00",
+          "fetched_at": "2026-09-27T19:01:11.072560+08:00",
           "source_endpoint": "futures_contract_info_czce",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18669,7 +18669,7 @@
           "dataset": "contract_info",
           "scope": "GFEX",
           "state": "ok",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_contract_info_gfex",
           "records": 48,
           "error": null,
@@ -18677,10 +18677,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": false,
-          "fetched_at": "2026-09-27T08:21:28.487425+08:00",
+          "fetched_at": "2026-09-27T19:01:12.458827+08:00",
           "source_endpoint": "futures_contract_info_gfex",
           "raw_payload_sha256": "4a0786f781078b1411d095910846aad867f16636793ed17e1356f40b511e4278",
           "schema_signature": "b48e14460e9a8d6afb5a3dbf5f6dfef80a1ae097a0ca8e225a845a25caf544e9"
@@ -18689,7 +18689,7 @@
           "dataset": "warehouse",
           "scope": "SHFE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_shfe_warehouse_receipt",
           "records": 0,
           "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
@@ -18697,10 +18697,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:29.223280+08:00",
+          "fetched_at": "2026-09-27T19:01:13.072073+08:00",
           "source_endpoint": "futures_shfe_warehouse_receipt",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18709,7 +18709,7 @@
           "dataset": "warehouse",
           "scope": "DCE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_warehouse_receipt_dce",
           "records": 0,
           "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
@@ -18717,10 +18717,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:29.647815+08:00",
+          "fetched_at": "2026-09-27T19:01:14.347888+08:00",
           "source_endpoint": "futures_warehouse_receipt_dce",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18729,7 +18729,7 @@
           "dataset": "warehouse",
           "scope": "CZCE",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_warehouse_receipt_czce",
           "records": 0,
           "error": "ValueError: Excel file format cannot be determined, you must specify an engine manually.",
@@ -18737,10 +18737,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:31.328286+08:00",
+          "fetched_at": "2026-09-27T19:01:15.812370+08:00",
           "source_endpoint": "futures_warehouse_receipt_czce",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18749,7 +18749,7 @@
           "dataset": "warehouse",
           "scope": "GFEX",
           "state": "error",
-          "trade_date": "2026-09-25",
+          "trade_date": "2026-09-27",
           "source_function": "futures_gfex_warehouse_receipt",
           "records": 0,
           "error": "KeyError: \"['增减'] not in index\"",
@@ -18757,10 +18757,10 @@
           "is_fresh": false,
           "is_proxy": false,
           "is_fallback": false,
-          "requested_trade_date": "2026-09-25",
+          "requested_trade_date": "2026-09-27",
           "source_trade_date": null,
           "source_date_match": null,
-          "fetched_at": "2026-09-27T08:21:32.502835+08:00",
+          "fetched_at": "2026-09-27T19:01:16.834459+08:00",
           "source_endpoint": "futures_gfex_warehouse_receipt",
           "raw_payload_sha256": null,
           "schema_signature": null
@@ -18771,8 +18771,8 @@
       "schema_version": 1,
       "domain": "physical",
       "provider": "akshare",
-      "requested_date": "2026-09-25",
-      "generated_at": "2026-09-26T05:15:59.509677+08:00",
+      "requested_date": "2026-09-27",
+      "generated_at": "2026-09-27T19:04:39.254050+08:00",
       "data_fresh": false,
       "coverage": {
         "target_count": 20,
@@ -18798,8 +18798,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.JM.akshare_100ppi_spot",
@@ -18811,8 +18811,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.J.akshare_100ppi_spot",
@@ -18824,8 +18824,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.RB.akshare_100ppi_spot",
@@ -18837,8 +18837,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.HC.akshare_100ppi_spot",
@@ -18850,8 +18850,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.FG.akshare_100ppi_spot",
@@ -18863,8 +18863,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.SA.akshare_100ppi_spot",
@@ -18876,8 +18876,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.SC.akshare_100ppi_spot",
@@ -18889,8 +18889,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.FU.akshare_100ppi_spot",
@@ -18902,8 +18902,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.LU.akshare_100ppi_spot",
@@ -18915,8 +18915,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.MA.akshare_100ppi_spot",
@@ -18928,8 +18928,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.TA.akshare_100ppi_spot",
@@ -18941,8 +18941,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.PX.akshare_100ppi_spot",
@@ -18954,8 +18954,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.CU.akshare_100ppi_spot",
@@ -18967,8 +18967,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.AL.akshare_100ppi_spot",
@@ -18980,8 +18980,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.LC.akshare_100ppi_spot",
@@ -18993,8 +18993,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.SI.akshare_100ppi_spot",
@@ -19006,8 +19006,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.M.akshare_100ppi_spot",
@@ -19019,8 +19019,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.Y.akshare_100ppi_spot",
@@ -19032,8 +19032,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "physical.P.akshare_100ppi_spot",
@@ -19045,8 +19045,8 @@
           "detail": "ValueError: AKShare futures_spot_price response is missing symbol/spot_price",
           "cache_hit": false,
           "request_made": true,
-          "query_start_date": "2026-09-25",
-          "query_end_date": "2026-09-25"
+          "query_start_date": "2026-09-27",
+          "query_end_date": "2026-09-27"
         }
       ],
       "validation_passed": false,
@@ -19127,7 +19127,7 @@
           "2026-08-19"
         ],
         "consecutive_pass_count": 1,
-        "last_attempt_date": "2026-09-25",
+        "last_attempt_date": "2026-09-27",
         "last_attempt_validation_passed": false,
         "out_of_order_attempt": false,
         "promotion_allowed": false
@@ -19138,8 +19138,8 @@
       "schema_version": 1,
       "domain": "external",
       "provider": "akshare",
-      "requested_date": "2026-09-25",
-      "generated_at": "2026-09-27T06:41:31.305082+08:00",
+      "requested_date": "2026-09-27",
+      "generated_at": "2026-09-27T19:04:39.833285+08:00",
       "data_fresh": true,
       "coverage": {
         "target_count": 22,
@@ -19166,7 +19166,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "1996-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.BRENT.akshare_oil_close",
@@ -19179,7 +19179,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.LME_CU.akshare_cad_close",
@@ -19192,7 +19192,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.LME_AL.akshare_ahd_close",
@@ -19205,7 +19205,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.LME_ZN.akshare_zsd_close",
@@ -19218,7 +19218,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.LME_NI.akshare_nid_close",
@@ -19231,7 +19231,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.COMEX_AU.akshare_gc_close",
@@ -19244,7 +19244,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.COMEX_AG.akshare_si_close",
@@ -19257,7 +19257,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.SGX_IRON_ORE.akshare_fef_close",
@@ -19270,7 +19270,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2022-12-02",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.CBOT_SOYBEAN.akshare_s_close",
@@ -19283,7 +19283,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.CBOT_SOYMEAL.akshare_sm_close",
@@ -19296,7 +19296,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.CBOT_SOYBEAN_OIL.akshare_bo_close",
@@ -19309,7 +19309,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.CBOT_CORN.akshare_c_close",
@@ -19322,7 +19322,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.CBOT_WHEAT.akshare_w_close",
@@ -19335,7 +19335,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2016-09-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.BMD_PALM.akshare_fcpo_close",
@@ -19348,7 +19348,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2020-01-06",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.ICE_SUGAR.akshare_rs_close",
@@ -19361,7 +19361,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2019-06-27",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         },
         {
           "series_key": "external.ICE_COTTON.akshare_ct_close",
@@ -19374,7 +19374,7 @@
           "cache_hit": false,
           "request_made": true,
           "query_start_date": "2019-04-22",
-          "query_end_date": "2026-09-25"
+          "query_end_date": "2026-09-27"
         }
       ],
       "validation_passed": true,
@@ -19389,7 +19389,7 @@
           "2026-08-19"
         ],
         "consecutive_pass_count": 1,
-        "last_attempt_date": "2026-09-25",
+        "last_attempt_date": "2026-09-27",
         "last_attempt_validation_passed": true,
         "out_of_order_attempt": false,
         "promotion_allowed": true
@@ -19431,8 +19431,8 @@
     },
     "options_status": {
       "schema_version": 1,
-      "trade_date": "2026-09-25",
-      "generated_at": "2026-09-25T21:11:07+00:00",
+      "trade_date": "2026-09-27",
+      "generated_at": "2026-09-27T11:01:17+00:00",
       "source_provider": "ifind_http",
       "universe_source": "mixed_contract_directories",
       "universe_sources": [],
@@ -19537,7 +19537,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:AP; fallback collection failed: IFindOptionDataError: iFinD option quote AP611C6300.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:AP; fallback collection failed: IFindOptionDataError: iFinD option quote AP611C6300.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19551,7 +19551,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:CF; fallback collection failed: IFindOptionDataError: iFinD option quote CF611C14000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:CF; fallback collection failed: IFindOptionDataError: iFinD option quote CF611C14000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19565,7 +19565,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:CJ; fallback collection failed: IFindOptionDataError: iFinD option quote CJ612C10000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:CJ; fallback collection failed: IFindOptionDataError: iFinD option quote CJ612C10000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19579,7 +19579,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:FG; fallback collection failed: IFindOptionDataError: iFinD option quote FG611C1000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:FG; fallback collection failed: IFindOptionDataError: iFinD option quote FG611C1000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19593,7 +19593,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:MA; fallback collection failed: IFindOptionDataError: iFinD option quote MA611C2100.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:MA; fallback collection failed: IFindOptionDataError: iFinD option quote MA611C2100.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19607,7 +19607,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:OI; fallback collection failed: IFindOptionDataError: iFinD option quote OI611C10000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:OI; fallback collection failed: IFindOptionDataError: iFinD option quote OI611C10000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19621,7 +19621,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PF; fallback collection failed: IFindOptionDataError: iFinD option quote PF611C6000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PF; fallback collection failed: IFindOptionDataError: iFinD option quote PF611C6000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19635,7 +19635,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PK; fallback collection failed: IFindOptionDataError: iFinD option quote PK611C7000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PK; fallback collection failed: IFindOptionDataError: iFinD option quote PK611C7000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19649,7 +19649,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PL; fallback collection failed: IFindOptionDataError: iFinD option quote PL611C10000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PL; fallback collection failed: IFindOptionDataError: iFinD option quote PL611C10000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19663,7 +19663,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PR; fallback collection failed: IFindOptionDataError: iFinD option quote PR611C5800.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PR; fallback collection failed: IFindOptionDataError: iFinD option quote PR611C5800.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19677,7 +19677,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PX; fallback collection failed: IFindOptionDataError: iFinD option quote PX611C10000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:PX; fallback collection failed: IFindOptionDataError: iFinD option quote PX611C10000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19691,7 +19691,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:RM; fallback collection failed: IFindOptionDataError: iFinD option quote RM611C1950.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:RM; fallback collection failed: IFindOptionDataError: iFinD option quote RM611C1950.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19705,7 +19705,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SA; fallback collection failed: IFindOptionDataError: iFinD option quote SA611C1000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SA; fallback collection failed: IFindOptionDataError: iFinD option quote SA611C1000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19719,7 +19719,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SF; fallback collection failed: IFindOptionDataError: iFinD option quote SF611C5000.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SF; fallback collection failed: IFindOptionDataError: iFinD option quote SF611C5000.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19733,7 +19733,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SH; fallback collection failed: IFindOptionDataError: iFinD option quote SH611C1640.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SH; fallback collection failed: IFindOptionDataError: iFinD option quote SH611C1640.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19747,7 +19747,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SM; fallback collection failed: IFindOptionDataError: iFinD option quote SM611C5100.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SM; fallback collection failed: IFindOptionDataError: iFinD option quote SM611C5100.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19761,7 +19761,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SR; fallback collection failed: IFindOptionDataError: iFinD option quote SR611C4600.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:SR; fallback collection failed: IFindOptionDataError: iFinD option quote SR611C4600.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19775,7 +19775,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:TA; fallback collection failed: IFindOptionDataError: iFinD option quote TA611C4750.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:TA; fallback collection failed: IFindOptionDataError: iFinD option quote TA611C4750.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19789,7 +19789,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:UR; fallback collection failed: IFindOptionDataError: iFinD option quote UR611C1520.CZC has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:UR; fallback collection failed: IFindOptionDataError: iFinD option quote UR611C1520.CZC has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "CZCE",
@@ -19803,7 +19803,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:ZC; fallback collection failed: IFindOptionDataError: iFinD option quote ZC611C1000.CZC has source date 2026-09-23; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for CZCE:ZC; fallback collection failed: IFindOptionDataError: iFinD option quote ZC611C1000.CZC has source date 2026-09-23; requested 2026-09-27"
         },
         {
           "exchange": "DCE",
@@ -20083,7 +20083,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:LC; fallback collection failed: IFindOptionDataError: iFinD option quote LC2611-C-100000.GFE has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:LC; fallback collection failed: IFindOptionDataError: iFinD option quote LC2611-C-100000.GFE has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "GFEX",
@@ -20097,7 +20097,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PD; fallback collection failed: IFindOptionDataError: iFinD option quote PD2612-C-212.GFE has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PD; fallback collection failed: IFindOptionDataError: iFinD option quote PD2612-C-212.GFE has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "GFEX",
@@ -20111,7 +20111,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PS; fallback collection failed: IFindOptionDataError: iFinD option quote PS2611-C-28000.GFE has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PS; fallback collection failed: IFindOptionDataError: iFinD option quote PS2611-C-28000.GFE has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "GFEX",
@@ -20125,7 +20125,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PT; fallback collection failed: IFindOptionDataError: iFinD option quote PT2612-C-284.GFE has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:PT; fallback collection failed: IFindOptionDataError: iFinD option quote PT2612-C-284.GFE has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "GFEX",
@@ -20139,7 +20139,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:SI; fallback collection failed: IFindOptionDataError: iFinD option quote SI2611-C-10000.GFE has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for GFEX:SI; fallback collection failed: IFindOptionDataError: iFinD option quote SI2611-C-10000.GFE has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "INE",
@@ -20153,7 +20153,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for INE:BC; fallback collection failed: IFindOptionDataError: iFinD option quote BC2611C100000.INE has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for INE:BC; fallback collection failed: IFindOptionDataError: iFinD option quote BC2611C100000.INE has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "INE",
@@ -20167,7 +20167,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for INE:NR; fallback collection failed: IFindOptionDataError: iFinD option quote NR2611C12400.INE has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for INE:NR; fallback collection failed: IFindOptionDataError: iFinD option quote NR2611C12400.INE has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "INE",
@@ -20181,7 +20181,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for INE:SC; fallback collection failed: IFindOptionDataError: iFinD option quote SC2611C1000.INE has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for INE:SC; fallback collection failed: IFindOptionDataError: iFinD option quote SC2611C1000.INE has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20195,7 +20195,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AD; fallback collection failed: IFindOptionDataError: iFinD option quote AD2611C20400.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AD; fallback collection failed: IFindOptionDataError: iFinD option quote AD2611C20400.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20209,7 +20209,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AG; fallback collection failed: IFindOptionDataError: iFinD option quote AG2611C10800.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AG; fallback collection failed: IFindOptionDataError: iFinD option quote AG2611C10800.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20223,7 +20223,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AL; fallback collection failed: IFindOptionDataError: iFinD option quote AL2611C19100.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AL; fallback collection failed: IFindOptionDataError: iFinD option quote AL2611C19100.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20237,7 +20237,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AO; fallback collection failed: IFindOptionDataError: iFinD option quote AO2611C2250.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AO; fallback collection failed: IFindOptionDataError: iFinD option quote AO2611C2250.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20251,7 +20251,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AU; fallback collection failed: IFindOptionDataError: iFinD option quote AU2611C1000.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:AU; fallback collection failed: IFindOptionDataError: iFinD option quote AU2611C1000.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20265,7 +20265,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BR; fallback collection failed: IFindOptionDataError: iFinD option quote BR2611C10000.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BR; fallback collection failed: IFindOptionDataError: iFinD option quote BR2611C10000.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20279,7 +20279,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BU; fallback collection failed: IFindOptionDataError: iFinD option quote BU2611C3150.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:BU; fallback collection failed: IFindOptionDataError: iFinD option quote BU2611C3150.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20293,7 +20293,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:CU; fallback collection failed: IFindOptionDataError: iFinD option quote CU2611C100000.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:CU; fallback collection failed: IFindOptionDataError: iFinD option quote CU2611C100000.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20307,7 +20307,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:FU; fallback collection failed: IFindOptionDataError: iFinD option quote FU2611C2200.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:FU; fallback collection failed: IFindOptionDataError: iFinD option quote FU2611C2200.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20321,7 +20321,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:NI; fallback collection failed: IFindOptionDataError: iFinD option quote NI2611C102000.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:NI; fallback collection failed: IFindOptionDataError: iFinD option quote NI2611C102000.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20335,7 +20335,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:OP; fallback collection failed: IFindOptionDataError: iFinD option quote OP2611C3500.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:OP; fallback collection failed: IFindOptionDataError: iFinD option quote OP2611C3500.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20349,7 +20349,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:PB; fallback collection failed: IFindOptionDataError: iFinD option quote PB2611C13600.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:PB; fallback collection failed: IFindOptionDataError: iFinD option quote PB2611C13600.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20363,7 +20363,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RB; fallback collection failed: IFindOptionDataError: iFinD option quote RB2611C2750.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RB; fallback collection failed: IFindOptionDataError: iFinD option quote RB2611C2750.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20377,7 +20377,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RU; fallback collection failed: IFindOptionDataError: iFinD option quote RU2611C15500.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:RU; fallback collection failed: IFindOptionDataError: iFinD option quote RU2611C15500.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20391,7 +20391,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SN; fallback collection failed: IFindOptionDataError: iFinD option quote SN2611C320000.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SN; fallback collection failed: IFindOptionDataError: iFinD option quote SN2611C320000.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20405,7 +20405,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SP; fallback collection failed: IFindOptionDataError: iFinD option quote SP2611C4150.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:SP; fallback collection failed: IFindOptionDataError: iFinD option quote SP2611C4150.SHF has source date 2026-09-24; requested 2026-09-27"
         },
         {
           "exchange": "SHFE",
@@ -20419,7 +20419,7 @@
           "fallback_used": false,
           "metadata_enrichment_used": false,
           "metadata_enrichment_error": null,
-          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:ZN; fallback collection failed: IFindOptionDataError: iFinD option quote ZN2611C21000.SHF has source date 2026-09-24; requested 2026-09-25"
+          "detail": "IFindOptionDataError: exchange option directory was empty for SHFE:ZN; fallback collection failed: IFindOptionDataError: iFinD option quote ZN2611C21000.SHF has source date 2026-09-24; requested 2026-09-27"
         }
       ],
       "attempt_published": false,
