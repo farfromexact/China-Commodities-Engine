@@ -1,15 +1,14 @@
 {
   "schema_version": 1,
-  "trade_date": "2026-09-24",
-  "generated_at": "2026-09-24T11:03:37+00:00",
+  "trade_date": "2026-09-28",
+  "generated_at": "2026-09-28T10:59:38+00:00",
   "status": "partial_surface",
-  "series_count": 176,
-  "surface_ready_count": 172,
-  "positioning_ready_count": 42,
+  "series_count": 206,
+  "surface_ready_count": 202,
+  "positioning_ready_count": 52,
   "execution_ready_count": 0,
-  "published": false,
-  "attempt_only": true,
-  "previous_valid_surface_retained": true,
+  "published": true,
+  "previous_valid_surface_retained": false,
   "shadow_state": {
     "schema_version": 1,
     "required_pass_days": 1,
@@ -19,7 +18,7 @@
       "2026-08-20"
     ],
     "consecutive_pass_count": 1,
-    "last_attempt_date": "2026-09-24",
+    "last_attempt_date": "2026-09-28",
     "last_attempt_validation_passed": true,
     "out_of_order_attempt": false,
     "promotion_allowed": true
