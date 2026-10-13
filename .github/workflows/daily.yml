@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -135,17 +137,21 @@ jobs:
         run: python -m china_commodities.cli validate
 
       - name: Commit and push data changes
+        id: publish_data
         shell: bash
         run: |
-          git add data/
-          if git diff --cached --quiet; then
-            echo "No data changes to commit."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore(data): update daily commodity snapshots"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          python scripts/publish_data.py --branch "${GITHUB_REF_NAME}" --recovery-dir "${RUNNER_TEMP}/commodity-data-recovery"
+
+      - name: Preserve unpublished data patch
+        if: ${{ failure() && steps.publish_data.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: commodity-data-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/commodity-data-recovery/
+          if-no-files-found: warn
+          retention-days: 14
 
   exchange-backup:
     if: ${{ inputs.collection_mode == 'exchange_backup' }}
