@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "run_date": "2026-10-12",
-  "generated_at": "2026-10-12T18:58:19.318960+08:00",
+  "generated_at": "2026-10-13T09:04:22.511676+08:00",
   "primary_provider": "ifind",
   "akshare_version": "1.18.97",
   "data_fresh": true,
@@ -73,7 +73,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:58:25.103388+08:00",
+      "fetched_at": "2026-10-13T09:04:27.629237+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "c3fef410c78079ac1d23f63149380835a202a01ba5ef0e7383d0590decd162e2",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -93,7 +93,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:58:26.526238+08:00",
+      "fetched_at": "2026-10-13T09:04:28.862474+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "4ce512ac2de1782e6f1a13ebefd56b252221c1b00e2d4409f00c9e5746211513",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -113,7 +113,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:58:31.385743+08:00",
+      "fetched_at": "2026-10-13T09:04:33.644974+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "4333bc9ff643da08db58c7517c816b7e0124fecea79fe158838808c419219787",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -133,7 +133,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:58:38.057481+08:00",
+      "fetched_at": "2026-10-13T09:04:39.530806+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "abd7fd6bf7e0959a9799f6b1936d244fe7c0e2261d8dc8ce639734380f9ff79b",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -153,7 +153,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:58:39.429794+08:00",
+      "fetched_at": "2026-10-13T09:04:40.795534+08:00",
       "source_endpoint": "cmd_history_quotation",
       "raw_payload_sha256": "6f31a95ff9f7213c1940d5babdff8f85a90a2fc88460b49b71ef2752a8f9b18a",
       "schema_signature": "f85aa68892bd8d939779c7c6def2eb8205e459c7086a68f6c64f010cf0552d2c"
@@ -204,7 +204,7 @@
       "state": "empty",
       "trade_date": "2026-10-12",
       "source_function": "collect_ifind_options.py",
-      "records": 13604,
+      "records": 0,
       "error": null,
       "upstream_source": "iFinD Quant API",
       "is_fresh": false,
@@ -213,7 +213,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T10:59:22+00:00",
+      "fetched_at": "2026-10-13T01:05:05+00:00",
       "source_endpoint": "collect_ifind_options.py",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -253,7 +253,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:58:40.518546+08:00",
+      "fetched_at": "2026-10-13T09:04:42.452971+08:00",
       "source_endpoint": "futures_contract_info_shfe",
       "raw_payload_sha256": "b2c388f7a8402eb61cd6d728fb8da681943ad6a5f25b3870ee63a54c39ce5227",
       "schema_signature": "16e32fdc8a53419141e48af17984ced61238dde5dc2974094389725bb932e004"
@@ -273,7 +273,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:58:41.657332+08:00",
+      "fetched_at": "2026-10-13T09:04:44.792310+08:00",
       "source_endpoint": "futures_contract_info_ine",
       "raw_payload_sha256": "bb6cfc0bd9f45c4396b8238bf7a0309e97670a75ed95e45509366a0128de404f",
       "schema_signature": "4d9f7ff45700b3258d3afdf4170eaae0867f67ec5667b17ffc9827bdb5034394"
@@ -293,7 +293,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-10-12T18:58:46.890463+08:00",
+      "fetched_at": "2026-10-13T09:04:49.359746+08:00",
       "source_endpoint": "futures_contract_info_dce",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -313,7 +313,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:58:50.017845+08:00",
+      "fetched_at": "2026-10-13T09:04:53.349725+08:00",
       "source_endpoint": "futures_contract_info_czce",
       "raw_payload_sha256": "e718c53833908bce3a3a6b697ee12df09fe37b888c55e61a96898e2e00f00871",
       "schema_signature": "2d3de8eb6df57fb7689dd7f2a1a76e4d7a283e3817539b3cf492512a8d98a2a2"
@@ -333,7 +333,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": null,
       "source_date_match": false,
-      "fetched_at": "2026-10-12T18:58:51.821129+08:00",
+      "fetched_at": "2026-10-13T09:04:56.478581+08:00",
       "source_endpoint": "futures_contract_info_gfex",
       "raw_payload_sha256": "4a0786f781078b1411d095910846aad867f16636793ed17e1356f40b511e4278",
       "schema_signature": "b48e14460e9a8d6afb5a3dbf5f6dfef80a1ae097a0ca8e225a845a25caf544e9"
@@ -345,7 +345,7 @@
       "trade_date": "2026-10-12",
       "source_function": "futures_shfe_warehouse_receipt",
       "records": 0,
-      "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
       "upstream_source": "SHFE",
       "is_fresh": false,
       "is_proxy": false,
@@ -353,7 +353,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-10-12T18:58:56.186803+08:00",
+      "fetched_at": "2026-10-13T09:04:57.282874+08:00",
       "source_endpoint": "futures_shfe_warehouse_receipt",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -373,7 +373,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-10-12T18:58:59.126883+08:00",
+      "fetched_at": "2026-10-13T09:04:57.974565+08:00",
       "source_endpoint": "futures_warehouse_receipt_dce",
       "raw_payload_sha256": null,
       "schema_signature": null
@@ -393,7 +393,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": "2026-10-12",
       "source_date_match": true,
-      "fetched_at": "2026-10-12T18:59:02.491710+08:00",
+      "fetched_at": "2026-10-13T09:05:00.950769+08:00",
       "source_endpoint": "futures_warehouse_receipt_czce",
       "raw_payload_sha256": "6328beb727e4d45a80748a68a1cfdf3de0a26c2bf912748b0b4da821ffa78c7b",
       "schema_signature": "e1bc70fa4669dbfcb18614f68d31cbc3cca052d69b595e996ca2a00ad4f4aceb"
@@ -405,7 +405,7 @@
       "trade_date": "2026-10-12",
       "source_function": "futures_gfex_warehouse_receipt",
       "records": 0,
-      "error": "ChunkedEncodingError: (\"Connection broken: ConnectionResetError(104, 'Connection reset by peer')\", ConnectionResetError(104, 'Connection reset by peer'))",
+      "error": "KeyError: \"['whType', '增减'] not in index\"",
       "upstream_source": "GFEX",
       "is_fresh": false,
       "is_proxy": false,
@@ -413,7 +413,7 @@
       "requested_trade_date": "2026-10-12",
       "source_trade_date": null,
       "source_date_match": null,
-      "fetched_at": "2026-10-12T18:59:19.881031+08:00",
+      "fetched_at": "2026-10-13T09:05:03.324887+08:00",
       "source_endpoint": "futures_gfex_warehouse_receipt",
       "raw_payload_sha256": null,
       "schema_signature": null
