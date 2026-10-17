@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "trade_date": "2026-10-16",
+  "generated_at": "2026-10-17T11:14:11.473168+00:00",
+  "mode": "advisory_independent_exchange_eod",
+  "ifind_requests": 0,
+  "state": "partial",
+  "all_compared_prices_equal": false,
+  "exchanges": [
+    {
+      "exchange": "SHFE",
+      "state": "matched",
+      "official_contracts": 238,
+      "vendor_contracts": 238,
+      "matched_contracts": 238,
+      "vendor_only_count": 0,
+      "official_only_count": 0,
+      "fields": {
+        "settle": {
+          "comparable": 238,
+          "different": 0,
+          "equal": 238,
+          "absolute_tolerance": 1e-06
+        },
+        "close": {
+          "comparable": 238,
+          "different": 0,
+          "equal": 238,
+          "absolute_tolerance": 1e-06
+        },
+        "pre_settle": {
+          "comparable": 238,
+          "different": 0,
+          "equal": 238,
+          "absolute_tolerance": 1e-06
+        }
+      },
+      "differences": [],
+      "differences_truncated": false,
+      "source_date_basis": [
+        "report_date"
+      ]
+    },
+    {
+      "exchange": "INE",
+      "state": "matched",
+      "official_contracts": 63,
+      "vendor_contracts": 63,
+      "matched_contracts": 63,
+      "vendor_only_count": 0,
+      "official_only_count": 0,
+      "fields": {
+        "settle": {
+          "comparable": 63,
+          "different": 0,
+          "equal": 63,
+          "absolute_tolerance": 1e-06
+        },
+        "close": {
+          "comparable": 63,
+          "different": 0,
+          "equal": 63,
+          "absolute_tolerance": 1e-06
+        },
+        "pre_settle": {
+          "comparable": 63,
+          "different": 0,
+          "equal": 63,
+          "absolute_tolerance": 1e-06
+        }
+      },
+      "differences": [],
+      "differences_truncated": false,
+      "source_date_basis": [
+        "report_date"
+      ]
+    },
+    {
+      "exchange": "DCE",
+      "state": "source_error",
+      "error": "412 Client Error: Precondition Failed for url: http://www.dce.com.cn/dcereport/publicweb/dailystat/dayQuotes"
+    },
+    {
+      "exchange": "CZCE",
+      "state": "matched",
+      "official_contracts": 243,
+      "vendor_contracts": 243,
+      "matched_contracts": 243,
+      "vendor_only_count": 0,
+      "official_only_count": 0,
+      "fields": {
+        "settle": {
+          "comparable": 243,
+          "different": 0,
+          "equal": 243,
+          "absolute_tolerance": 1e-06
+        },
+        "close": {
+          "comparable": 182,
+          "different": 0,
+          "equal": 182,
+          "absolute_tolerance": 1e-06
+        },
+        "pre_settle": {
+          "comparable": 243,
+          "different": 0,
+          "equal": 243,
+          "absolute_tolerance": 1e-06
+        }
+      },
+      "differences": [],
+      "differences_truncated": false,
+      "source_date_basis": [
+        "report_title"
+      ]
+    },
+    {
+      "exchange": "GFEX",
+      "state": "source_error",
+      "error": "522 Server Error: Connection Timeout with Origin Server for url: http://www.gfex.com.cn/u/interfacesWebTiDayQuotes/loadList"
+    }
+  ],
+  "blocks_publication": false,
+  "limitations": [
+    "No source replacement or full-market certification.",
+    "Volume/OI/turnover conventions are not compared.",
+    "Date-echo evidence is weaker than a dated exchange report."
+  ]
+}
