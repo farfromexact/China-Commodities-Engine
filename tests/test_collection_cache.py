@@ -236,7 +236,7 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertEqual(morning["execution_profile"], "completed_eod_recovery")
             self.assertEqual(
                 morning["domestic_date_policy"],
-                "previous_completed_weekday_eod",
+                "previous_completed_trading_day_eod",
             )
             self.assertEqual(
                 morning["external_date_policy"],

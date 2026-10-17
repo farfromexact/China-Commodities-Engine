@@ -11,7 +11,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - 合约层：具体合约的交易日、开高低收、结算价、成交量、持仓量和成交额；连续主力仅用于研究，交易应落到具体合约。
 - 期限结构层：主力与次主力、跨期价差、曲线变化和换月标记。
 - 交割与现货层：仓单、库存、现货价格和基差，并保留地区、品质、单位、税口径和价格时点。
-- 期权层：按目标目录逐品种尝试采集商品期权。目标目录为64个已上市品种；优先使用交易所 EOD 合约目录，经 AKShare 适配，网页受阻时才使用一次性 OpenCTP 当前合约字典作为显式后备；逐合约报价、源日期、IV 和 vendor Greeks 均由 iFinD 验证。单品种失败隔离并写入 `data/options/last_run_status.json`；成功品种覆盖率达到默认60%才允许更新 `data/options/latest.json`，低于门槛则保留上一份。部分覆盖只能标记为 `partial_chain`，不能声称全市场完整；到期日与标的键完整、源日期100%匹配且 IV 覆盖率至少80%时可以生成 EOD 曲面，OI 覆盖率至少90%才标记 `positioning_ready`，bid-ask 只阻断 `execution_ready`，不阻断曲面。
+- 期权层：按目标目录逐品种采集核心样本，默认每品种一个活跃 series，最多15对平值附近 C/P 合约，预算约为目录合约数的10%，每合约10个字段。目录优先来自交易所 EOD，经 AKShare 适配；网页受阻时可使用 OpenCTP 当前字典。只要取得日期及结构合格的非空记录即可发布，缺少其他品种或分析指标不会阻止发布。`core_available` 只代表核心数据可读，完整曲面、持仓结构与执行能力另行判断。详见 [核心期权采集与发布](docs/options-core.md)。
 - 数据质量层：来源、抓取时间、交易日、状态、新鲜度、回退标记和错误信息。
 
 数据新鲜度按模块独立判断。失败或陈旧数据必须显式标记，不能伪造交易日，也不能让未经验证的陈旧数据进入当日异常扫描；快照在校验通过后才进入历史产物。
@@ -47,12 +47,12 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/external/latest.json`、`attempt_latest.json` 和 `history.parquet`：固定海外标的日频序列；连续或远月上下文序列不得直接进入进口平价。
 - `data/last_run_status.json`：日盘期货及独立日频模块的状态、错误和新鲜度；夜盘状态在 `data/night_session/last_run_status.json`。
 - `data/snapshots/YYYY-MM-DD.json`：通过校验的日级快照。
-- `data/options/latest.json`：最近一次达到发布门槛的商品期权小型索引；只保留一个交易日的元数据、质量字段、总记录数、整链压缩快照入口和品种分片清单，不再内嵌逐合约记录。
+- `data/options/latest.json`：最近一次取得有效数据的商品期权小型索引。默认 `core_v1` 只采集每品种一个活跃 series 的核心行权价；有合格记录即发布，不要求最低品种覆盖率。`collection_scope`、`collection_plans` 和质量字段明确记录采集范围，不代表完整链。
 - `data/options/latest_shards/YYYY-MM-DD/EXCHANGE/PRODUCT.json.gz`：索引引用的当日逐品种压缩链；目录只保留 `latest` 对应的一个交易日，便于选择性读取并避免每日重写50MB级 JSON。
-- `data/options/attempt_latest.json.gz`：最近一次通过逐合约校验、但可能未达到60%提升门槛的压缩部分链；必须同时读取其中的 `coverage`、`attempt_only` 和 `promotion_eligible`，不得当作全市场 `latest`。
+- `data/options/attempt_latest.json.gz`：显式设置非零覆盖门槛时可能产生的部分链尝试；也可能是旧运行遗留文件。必须读取自身日期、`coverage`、`attempt_only` 和 `promotion_eligible`，不得当作最新正式数据。
 - `data/options/quality_latest.json`：期权链、覆盖范围、曲面、模型 Greeks 和执行价格的独立就绪状态。
-- `data/options/surface_latest.json`：严格按交易所、品种、标的期货合约和到期日分组的已提升 EOD 曲面。
-- `data/options/surface_attempt_latest.json.gz`、`surface_last_run_status.json` 和 `surface_shadow_state.json`：当次曲面、质量门槛和可配置的影子运行状态；失败不会覆盖上一份有效曲面。生产工作流在完成历史初始化后使用 `--surface-shadow-days 1`，首个通过全部曲面质量门槛的EOD日期即可提升。
+- `data/options/surface_latest.json`：按交易所、品种、标的和到期日分组的 EOD 摘要。核心采样模式随有效记录同步发布；即使 IV、到期日或偏度不可用也保留摘要并标空。`core_atm_ready` 与完整 `surface_ready` 分开，采样不证明完整曲面或持仓结构。
+- `data/options/surface_attempt_latest.json.gz`、`surface_last_run_status.json` 和 `surface_shadow_state.json`：当次摘要与质量状态。核心模式发布不受曲面影子门槛约束；显式 `--option-profile full` 仍保留原曲面质量提升机制。
 - `data/options/history/year=YYYY/month=MM/YYYY-MM-DD.parquet`：已提升 EOD 期权链的逐日 Parquet 分区；同日重跑按交易所和合约去重，滚动保留最近252个交易日。
 - `data/options/last_run_status.json`：每个目标品种的尝试结果、错误、源日期、成功覆盖率和是否允许提升 `latest`。
 - `data/options/snapshots/YYYY-MM-DD.json.gz`：达到发布门槛后保存的压缩逐合约期权快照。
@@ -60,7 +60,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 期权采集使用独立目录，但每日最后的 `report-input` 步骤会把同交易日、已发布的期权链状态回写到根级 `data/last_run_status.json`、`data/latest.json` 和 `data/radar_latest.json`。这只同步链条采集状态；`surface_ready`、`positioning_ready` 和 `execution_ready` 仍然分别由期权质量文件决定。
 
-正式 JSON 历史统一滚动保留最近20个交易日：`data/snapshots/` 保存完整日盘快照，`data/night_session/YYYY-MM-DD.json` 保存完整夜盘快照，两者按各自的当前交易日去重。`latest.json` 始终仅指向最近一个已验证的日盘 EOD；夜盘只能从 `data/night_session/latest.json` 读取。夜盘 Parquet 和日盘期货 Parquet 均保留最近252个交易日。晨间缓存命中时会补齐夜盘的按日归档和清理旧版顶层复制，但不会发起额外供应商请求或制造无意义的 Git 提交。商品期权的整链压缩快照和紧凑摘要同样只滚动保留最近20个成功发布交易日，`latest_shards` 只保留当前一天；低于60%覆盖率的尝试不会覆盖上一份 `latest`，也不会缩短有效历史窗口。商品期权 Parquet 使用逐日分区并滚动保留最近252个交易日，旧分区删除前不会用新数据覆盖其他日期。
+正式 JSON 历史统一滚动保留最近20个交易日：`data/snapshots/` 保存完整日盘快照，`data/night_session/YYYY-MM-DD.json` 保存完整夜盘快照，两者按各自的当前交易日去重。`latest.json` 始终仅指向最近一个已验证的日盘 EOD；夜盘只能从 `data/night_session/latest.json` 读取。夜盘 Parquet 和日盘期货 Parquet 均保留最近252个交易日。晨间缓存命中时会补齐夜盘的按日归档和清理旧版顶层复制，但不会发起额外供应商请求或制造无意义的 Git 提交。商品期权的压缩快照和紧凑摘要同样只滚动保留最近20个成功发布交易日，`latest_shards` 只保留当前一天；默认任何非空合格核心样本都可发布，空结果保留上一份。商品期权 Parquet 使用逐日分区并滚动保留最近252个交易日，保留采样范围标记。
 
 `market_state_latest.json` 的历史收益只复利同一个具体合约每天已发布的结算收益，不把换月前后的两个主力价格拼成连续涨跌。它同时给出 1/3/5/20 日收益、20日实现波动率、成交量与持仓量 z-score、持仓变化、`volume/OI`、价仓四象限线索、近次月价差 z-score，以及主力/曲线合约对换月标记。观察不足时字段保持 `null` 并披露实际样本数；价仓四象限只是归因线索，不是“新多”“新空”的事实。
 
@@ -70,7 +70,11 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 核心期货的自动发布采用 **iFinD-primary** 原则：上期所、上期能源、大商所、郑商所和广期所的具体商品期货日终行情统一从 iFinD Quant API 提取，AKShare 不参与核心期货正式行情。商品期权是明确标记的例外：交易所 EOD 合约目录经 AKShare 适配，受阻时使用 OpenCTP 目录后备；逐合约报价、源日期、IV 和 vendor Greeks 仍由 iFinD 提供。任何来源切换都必须保留来源、时间和口径标记，不得静默混合。
 
-本仓库不建设分钟、逐笔或逐笔盘口历史，但建设一个正式的**夜盘收盘快照层**：晨间在日盘开盘前从 iFinD 读取具体期货合约的最新报价，并且只有供应商时间戳落在昨晚已结束的夜盘窗口时才写入 `data/night_session/`。日期语义固定为：`trading_date` 是夜盘所属的当前交易日，`session_start_date` 是前一自然日，`session_end_date` 是当前交易日；`night_session_date` 保留为 `session_start_date` 的兼容别名。例如 9 月 2 日晚至 9 月 3 日凌晨的夜盘对应 `trading_date=2026-09-03`。每个具体合约保存夜盘 OHLC、`night_close`、上一日 `close` 与 `settlement`、相对两者的独立收益率、成交量、持仓、可用时的夜盘持仓变化、会话起止、源时间戳和质量状态。夜盘不和 `data/latest.json` 的日盘 EOD 混合，也不把日盘报价伪装成夜盘。晚间任务更新当天国内日盘 EOD；晨间仍会复核最近一个已完成工作日的国内 EOD，并更新已经完成收盘的海外日频序列。Physical 与 External 的生产链路直接使用 AKShare：Physical 读取 100ppi 现货/基差表，External 读取 Sina 海外期货日线；两者均不申请或使用 iFinD token。期权曲面按用户批准的生产配置在首个通过全部质量门槛的 EOD 日期直接提升。失败尝试仍只更新 `attempt_latest`、`last_run_status` 与 shadow state，绝不覆盖上一份有效快照。
+本仓库不建设分钟、逐笔或逐笔盘口历史；夜盘层是**会话结束后取得的供应商最新报价快照**，不是已核验的交易所夜盘收盘价。`night_last_price` 为明确字段，`night_close` 保留为兼容别名；供应商时间戳须落在该会话窗口，但时间戳不自动等于最后成交时间。OHLC/成交量保留供应商值并标记 `vendor_realtime_unverified_session_scope`，不宣称纯夜盘口径。`trading_date` 按交易日历归属，`session_start_date`、`session_end_date` 是真实自然日期：例如2026-10-16周五晚至17日凌晨属于19日周一交易日。节前停夜盘不请求；当前维护2025—2026日历，超出范围显式失败。夜盘与 `data/latest.json` 的日终层分开保存，缺失或失败不覆盖最后有效快照。
+
+每日新增独立官方期货核对：复用已取得的 iFinD 数据，仅下载五所公开日终文件，按同日期、同准确合约核对结算价、收盘价、前结算价。结果保存到 `data/crosschecks/futures_latest.json`，报告入口带紧凑状态。差异及单所失败只提示、不阻断发布、不静默切换主源；成交量、持仓、金额因口径差异暂不比较。原始官方响应保存在忽略目录 `tmp/exchange-crosscheck/raw/`。
+
+Physical 与 External 使用 AKShare 的100ppi与Sina接口，不使用 iFinD token。核心期权有效记录可立即发布，ATM/偏度能力分别判断，不能将低门槛发布理解为完整曲面已就绪。
 
 ### iFinD 主源接入
 
@@ -97,7 +101,7 @@ Physical 通过 AKShare 的 `futures_spot_price` 直接读取 100ppi 现货/基�
 
 具体期权合约目录优先来自交易所 EOD，经 AKShare 适配；若交易所网页在 GitHub Runner 被阻断，则整批只下载一次 OpenCTP 当前有效合约字典，并仅把它用于合约发现和到期日元数据。逐合约的收盘/结算、成交量、持仓量、标的结算价、源日期、IV 和 vendor Greeks 仍来自 iFinD，缺一合约即阻断该品种。目录来源和行情来源必须分别标记，不能把 OpenCTP 或 AKShare 的目录写成 iFinD 行情。
 
-默认只有成功品种覆盖率 `>=60%` 才允许更新 `data/options/latest.json`；低于门槛时保留上一份有效 `latest`，但把已经通过逐合约校验的当次部分链压缩保存为 `data/options/attempt_latest.json.gz`，并记录本次尝试和失败原因。达到门槛但未覆盖全部目标品种时，质量状态必须为 `partial_chain`，不能声称全市场完整。曲面按每个到期日独立校验：源日期匹配100%、分组键完整且 IV 覆盖率至少80%；OI 覆盖率至少90%才可用于持仓分析。缺少 bid-ask 时曲面仍可发布，但 `execution_ready=false`，不得给出执行建议。
+默认 `--minimum-product-coverage 0`：非空合格核心样本即可更新 `data/options/latest.json`，源日期错配和结构无效的记录单独记原因。IV、OI、到期日等分析字段缺失不阻断发布。核心样本标记为 `core_available`，不宣称完整链；ATM 和合格偏度按 series 独立判断，单月平值样本不支持全链持仓或期限结构结论。只有显式设置非零覆盖门槛才可能将有效结果留在 attempt 层。
 
 GitHub Action 从仓库 Secret `IFIND_REFRESH_TOKEN` 注入凭据。换取的 access token 会先加入 GitHub 日志脱敏规则，再写入当次 Runner 的临时 `GITHUB_ENV`，供期货和期权共用；token 和原始 iFinD 响应都不会写入仓库。公开仓库发布前必须确认 iFinD 商业数据的再分发许可，未确认时不得把原始商业数据当作可公开分发资产。
 
@@ -132,15 +136,17 @@ python -m china_commodities.cli validate
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD --dry-run
 ```
 
-正式执行全品种逐品种采集，默认成功品种覆盖率门槛为60%；是否更新 `latest` 由该门槛和质量校验共同决定：
+正式执行全品种核心采样，默认成功品种覆盖率门槛为0，有合格记录即可发布：
 
 ```powershell
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD
 ```
 
-GitHub Actions 在北京时间**06:03** 和 **18:03** 定时触发，也保留 `workflow_dispatch` 供手工运行。**06:03 的主任务是提取前一晚夜盘**：夜盘按当前交易日键存储，并以供应商源时间戳严格验证；它还会复核最近一个已完成工作日的国内 EOD 和已完成海外日频。**18:03 的主任务是提取当日日盘 EOD**；但由于国内 EOD 就绪边界仍为 18:15，若任务在 18:15 前实际开始，会自动采用最近一个已完成工作日的恢复策略，避免请求未收盘的当天日盘，任务在 18:15 后启动时才请求当日 EOD。External 在晨间只以最近完成交易日为请求日，晚间才尝试当日可用序列。手工 `full` 在北京时间 18:15 前会自动采用“已完成 EOD”日期策略；对历史日期或 18:15 后的当日手工运行才请求该日期的完整 EOD。夜盘按“可用即发布”处理：无夜盘或整晚无成交的具体合约会保留显式状态，不阻断已有有效夜盘记录，也不会造成重复请求。期权模块单品种失败写入 `data/options/last_run_status.json`；日盘期货、夜盘快照、Physical、External、期权链和期权曲面的提升规则彼此隔离。只有达到各自发布门槛且确有变化的文件才会提交和推送。
+GitHub Actions 当前为 **dispatch-only**，没有 GitHub cron；外部自动化通过桥接工作流触发，06:03/18:03是约定的北京时间窗口，不是本仓库保证的触发时间。晨间采集完成的夜盘，并按国内交易日历复核最近 EOD；普通周六晨间夜盘归属下周一。国内休市日不套用到海外市场，External 的工作日请求提示与源日期验证独立保留。当日 `full` 工作流在18:00—18:15到达等待步骤时，先有界等待至18:15，再规划当日采集，避免18:03误采前一日；历史请求、夜盘专用和其他时段不等待。外部调度本身未被此代码修改。
 
-每次生产 Action 都会在 `full` 模式下强制执行期货、期权、Physical 和 External 四个模块，即使同一请求日期已经存在已验证快照；定时任务通过 `--force-refresh` 绕过 CLI、期权脚本和模块级缓存，确保每次都形成一次新的采集尝试。`night_session_only` 仍是只采夜盘的独立探针模式。18:15 前的运行仍按最近一个已完成工作日处理国内 EOD，避免请求尚未收盘的当日日盘。
+夜盘及核心期权均按有效记录可用即发布，缺字段或局部失败保留说明，不以整体覆盖率扣住有效数据；日期、来源、合约身份仍须正确。各模块日期和能力状态独立，不以单所权限失败概括全市场。
+
+每次生产 Action 的 `full` 工作流模式仍检查期货、期权、Physical 和 External 四个模块。期货、Physical 和 External 保留原强制刷新行为；期权使用 `--option-profile core`，同日复用成功记录，只补缺失核心合约，显式 `--force-refresh` 才重新请求。工作流模式 `full` 不表示期权全链；全链需显式 `--option-profile full`。`night_session_only` 仍是只采夜盘的独立探针模式。非晚间等待窗口的18:15前当日请求，按最近已完成国内交易日恢复；尚未完成的当天 EOD 不冒充可用。
 
 Physical 每次以一个 AKShare 批量请求获取 100ppi 现货/基差表；External 对每条已配置海外合约读取公开日线。`last_run_status.json` 的每个 series 状态会记录 `request_made`、`query_start_date`、`query_end_date`、源日期和陈旧状态，便于审计实际请求范围。生产工作流以 `--shadow-days 1` 在通过校验后立即提升 AKShare 快照；无数据或无法精确映射的目标会保留显式状态。
 

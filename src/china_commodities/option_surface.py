@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections import defaultdict
 from datetime import date
 import math
+import re
 from typing import Any, Mapping
 
 
@@ -25,6 +26,10 @@ def _number(value: Any, *, positive: bool = False) -> float | None:
 
 
 def _selected(record: Mapping[str, Any], field: str) -> float | None:
+    if (record.get("collection_scope") == "core_v1"
+            and _number(record.get("settle"), positive=True) is None
+            and _number(record.get("close"), positive=True) is None):
+        return None
     if field == "iv_percent":
         direct = _number(record.get(field), positive=True)
         if direct is not None:
@@ -94,17 +99,17 @@ def _nearest_delta_iv(
             continue
         delta = _selected(record, "delta")
         iv = _selected(record, "iv_percent")
-        if delta is not None and iv is not None:
+        if delta is not None and iv is not None and abs(delta - target) <= 0.05:
             candidates.append((abs(delta - target), iv))
     return min(candidates, default=(0.0, None), key=lambda value: value[0])[1]
 
 
 def _build_one_surface(
-    key: tuple[str, str, str, str],
+    key: tuple[str, str, str, str, str],
     records: list[Mapping[str, Any]],
     trade_date: str,
 ) -> dict[str, Any]:
-    exchange, product, underlying, expiry_raw = key
+    exchange, product, underlying, expiry_raw, series_type = key
     expiry = _valid_date(expiry_raw)
     count = len(records)
     calls = [record for record in records if str(record.get("option_type")).upper() == "C"]
@@ -171,6 +176,7 @@ def _build_one_surface(
         if call_25 is not None and put_25 is not None and atm_iv is not None
         else None
     )
+    core_mode = any(r.get("collection_scope") == "core_v1" for r in records)
 
     limitations: list[str] = []
     if not exchange or not product or not underlying or expiry is None:
@@ -188,6 +194,20 @@ def _build_one_surface(
     surface_ready = not limitations
     positioning_ready = bool(surface_ready and oi_coverage >= OPEN_INTEREST_THRESHOLD)
     execution_ready = bool(surface_ready and bid_ask_coverage >= BID_ASK_THRESHOLD)
+    core_atm_ready = bool(core_mode and source_coverage == 1 and expiry and expiry > trade_date
+                          and underlying_settle is not None and atm_iv is not None
+                          and len(atm_values) == 2 and not duplicate_strike_sides)
+    skew_ready = bool(rr25 is not None and source_coverage == 1 and expiry
+                      and expiry > trade_date and not duplicate_strike_sides)
+    if core_mode:
+        surface_ready = positioning_ready = execution_ready = False
+        if not core_atm_ready:
+            atm_iv = None
+        if not skew_ready:
+            rr25 = None
+        if not core_atm_ready or not skew_ready:
+            bf25 = None
+        limitations.append("sampled core strikes; full surface and positioning are not established")
     if oi_coverage < OPEN_INTEREST_THRESHOLD:
         limitations.append(
             f"positioning_ready blocked: open_interest_coverage={oi_coverage:.4f} "
@@ -200,6 +220,10 @@ def _build_one_surface(
         )
     return {
         "exchange": exchange,
+        "series_type": series_type,
+        "analytics_scope": "sampled_strikes" if core_mode else "collected_chain",
+        "core_atm_ready": core_atm_ready,
+        "skew_ready": skew_ready,
         "product": product,
         "underlying_contract": underlying,
         "expiry_date": expiry,
@@ -218,7 +242,7 @@ def _build_one_surface(
         ),
         "metadata_sources": metadata_sources,
         "frequency": "EOD",
-        "quality_state": "ready" if surface_ready else "not_ready",
+        "quality_state": "core_ready" if core_atm_ready else "ready" if surface_ready else "not_ready",
         "missing_reason": "; ".join(limitations) if not surface_ready else None,
         "contract_count": count,
         "call_contract_count": len(calls),
@@ -245,7 +269,7 @@ def build_option_surface(snapshot: Mapping[str, Any]) -> dict[str, Any]:
     """Build surfaces without ever mixing underlying contracts or expiries."""
 
     trade_date = str(snapshot.get("trade_date") or "")
-    groups: dict[tuple[str, str, str, str], list[Mapping[str, Any]]] = defaultdict(list)
+    groups: dict[tuple[str, str, str, str, str], list[Mapping[str, Any]]] = defaultdict(list)
     for record in snapshot.get("records") or []:
         if not isinstance(record, Mapping):
             continue
@@ -254,6 +278,7 @@ def build_option_surface(snapshot: Mapping[str, Any]) -> dict[str, Any]:
             str(record.get("product") or "").upper(),
             str(record.get("underlying_contract") or "").upper(),
             str(record.get("expiry_date") or ""),
+            "monthly_average" if re.search(r"\dMS[CP]", str(record.get("contract") or "").upper().replace("-", "")) else "standard",
         )
         groups[key].append(record)
     surfaces = [
@@ -269,8 +294,13 @@ def build_option_surface(snapshot: Mapping[str, Any]) -> dict[str, Any]:
         status = "partial_surface"
     else:
         status = "unavailable"
+    if snapshot.get("collection_scope") == "core_v1" and surfaces:
+        status = "core_available"
     return {
         "schema_version": 1,
+        "collection_scope": snapshot.get("collection_scope", "full"),
+        "core_atm_ready_count": sum(s["core_atm_ready"] for s in surfaces),
+        "skew_ready_count": sum(s["skew_ready"] for s in surfaces),
         "trade_date": trade_date,
         "generated_at": snapshot.get("generated_at"),
         "source_provider": snapshot.get("source_provider"),
@@ -279,7 +309,7 @@ def build_option_surface(snapshot: Mapping[str, Any]) -> dict[str, Any]:
         "frequency": "EOD",
         "collection_mode": "end_of_day",
         "intraday": False,
-        "grouping_key": ["exchange", "product", "underlying_contract", "expiry_date"],
+        "grouping_key": ["exchange", "product", "underlying_contract", "expiry_date", "series_type"],
         "series_count": len(surfaces),
         "surface_ready_count": ready_count,
         "positioning_ready_count": positioning_count,

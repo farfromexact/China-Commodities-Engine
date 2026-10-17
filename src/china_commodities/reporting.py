@@ -64,6 +64,20 @@ def _read(root: Path, relative: str, default: Any = None) -> Any:
     return read_json(root / relative, default=default)
 
 
+def _futures_crosscheck_view(root: Path, futures_date: str | None) -> dict[str, Any]:
+    report = _mapping(_read(root, "crosschecks/futures_latest.json", {}))
+    if not report:
+        return {"state": "unavailable", "blocks_publication": False}
+    return {
+        "source_path": "data/crosschecks/futures_latest.json",
+        "trade_date": report.get("trade_date"), "state": report.get("state"),
+        "matches_futures_date": report.get("trade_date") == futures_date,
+        "blocks_publication": False,
+        "exchanges": [{k: v for k, v in row.items() if k != "differences"}
+                      for row in report.get("exchanges", [])],
+    }
+
+
 def _trade_date(payload: Mapping[str, Any], fallback: str | None = None) -> str | None:
     for field in ("trading_date", "trade_date", "requested_date", "run_date"):
         value = payload.get(field)
@@ -126,6 +140,10 @@ def _merge_options_status(
         chain_quality = "verified_vendor_full_chain"
         module_state = "ok"
         module_error = None
+    elif quality_status == "core_available":
+        chain_quality = "core_available"
+        module_state = "ok"
+        module_error = None
     elif quality_status == "partial_chain" or not full_scope:
         chain_quality = "partial_chain"
         module_state = "ok"
@@ -146,7 +164,7 @@ def _merge_options_status(
     source_date_match = option_quality.get("source_date_match_pct") == 1.0
     module = {
         "dataset": "options",
-        "scope": "full-market",
+        "scope": "core_sample" if option_latest.get("collection_scope") == "core_v1" else "full-market",
         "state": module_state,
         "trade_date": requested_date,
         "source_function": "collect_ifind_options.py",
@@ -168,7 +186,7 @@ def _merge_options_status(
     modules = [dict(item) for item in _list(merged.get("modules")) if isinstance(item, Mapping)]
     replaced = False
     for index, item in enumerate(modules):
-        if item.get("dataset") == "options" and item.get("scope") == "full-market":
+        if item.get("dataset") == "options" and item.get("scope") in {"full-market", "core_sample"}:
             modules[index] = module
             replaced = True
             break
@@ -353,6 +371,9 @@ def _compact_surface(surface: Mapping[str, Any]) -> dict[str, Any]:
             "timezone",
             "frequency",
             "quality_state",
+            "analytics_scope",
+            "core_atm_ready",
+            "skew_ready",
             "missing_reason",
             "contract_count",
             "call_contract_count",
@@ -577,6 +598,10 @@ def _night_contract_summary(item: Mapping[str, Any]) -> dict[str, Any]:
         "night_high": item.get("high"),
         "night_low": item.get("low"),
         "night_close": night_close,
+        "night_last_price": night_close,
+        "price_semantics": "vendor_latest_trade_asof_snapshot",
+        "ohlcv_scope": "vendor_realtime_unverified_session_scope",
+        "official_night_close_verified": False,
         "previous_day_close": previous_day_close,
         "previous_day_settlement": previous_day_settlement,
         "return_vs_close_pct": item.get("return_vs_close_pct")
@@ -633,7 +658,7 @@ def _night_session_view(
             "exchange": exchange,
             "product": product,
             "fresh_contract_count": len(contracts),
-            "selection_basis": "highest_night_volume_then_open_interest",
+            "selection_basis": "highest_vendor_snapshot_volume_then_open_interest",
             "representative_contract": _night_contract_summary(representative),
         }
 
@@ -651,6 +676,9 @@ def _night_session_view(
     )
     return {
         "source_path": "data/night_session/latest.json",
+        "price_semantics": "vendor_latest_trade_asof_snapshot",
+        "ohlcv_scope": "vendor_realtime_unverified_session_scope",
+        "official_night_close_verified": False,
         "summary_only": True,
         "trading_date": snapshot.get("trading_date") or status.get("trading_date"),
         "night_session_date": session_start_date,
@@ -852,7 +880,16 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         "physical": physical_view,
         "external": external_view,
         "night_session": night_session_view,
+        "futures_crosscheck": _futures_crosscheck_view(root, futures.get("trade_date")),
         "options": {
+            "collection_scope": options_latest.get("collection_scope", "full"),
+            "analytics_scope": options_quality.get("analytics_scope", "collected_chain"),
+            "core_atm_ready_count": options_surface.get("core_atm_ready_count"),
+            "skew_ready_count": options_surface.get("skew_ready_count"),
+            "collection_plans": [
+                {k: v for k, v in plan.items() if k != "selected_directory"}
+                for plan in options_latest.get("collection_plans", [])
+            ],
             "trade_date": options_surface.get("trade_date") or options_latest.get("trade_date"),
             "generated_at": options_surface.get("generated_at") or options_latest.get("generated_at"),
             "record_count": options_quality.get("record_count") or options_latest.get("record_count"),

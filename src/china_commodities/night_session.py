@@ -10,7 +10,7 @@ quote; derived top-level artifacts carry the data under an explicit
 
 from __future__ import annotations
 
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime, time
 import math
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -21,6 +21,7 @@ import pandas as pd
 from .collectors.ifind_adapter import contract_to_ifind_code
 from .collectors.ifind_http_adapter import IFindHTTPClient, IFindHTTPError
 from .history_storage import append_parquet_history
+from .trading_calendar import CALENDAR_VERSION, night_session_dates
 from .storage import (
     publish_night_session_derivatives,
     read_json,
@@ -96,10 +97,13 @@ def _timestamp(value: Any) -> datetime | None:
 
 def _night_window(trading_date: str) -> tuple[str, datetime, datetime]:
     target = date.fromisoformat(trading_date)
-    session_date = target - timedelta(days=1)
+    dates = night_session_dates(target)
+    if dates is None:
+        raise ValueError(f"no scheduled night session for {trading_date}")
+    session_date, end_date = dates
     zone = ZoneInfo(NIGHT_SESSION_TIMEZONE)
     start = datetime.combine(session_date, _NIGHT_WINDOW_START, tzinfo=zone)
-    end = datetime.combine(target, _NIGHT_WINDOW_END, tzinfo=zone)
+    end = datetime.combine(end_date, _NIGHT_WINDOW_END, tzinfo=zone)
     return session_date.isoformat(), start, end
 
 
@@ -237,7 +241,12 @@ def _record_from_quote(
         "trading_date": trading_date,
         "night_session_date": session_date,
         "session_start_date": session_date,
-        "session_end_date": trading_date,
+        "session_end_date": window_end.date().isoformat(),
+        "calendar_version": CALENDAR_VERSION,
+        "price_semantics": "vendor_latest_trade_asof_snapshot",
+        "timestamp_semantics": "vendor_quote_timestamp_not_verified_last_trade_time",
+        "ohlcv_scope": "vendor_realtime_unverified_session_scope",
+        "official_night_close_verified": False,
         "timezone": NIGHT_SESSION_TIMEZONE,
         "frequency": "night_session_snapshot",
         "session_window_start": window_start.isoformat(),
@@ -309,6 +318,7 @@ def _record_from_quote(
             "high": _number(quote.get("high")),
             "low": _number(quote.get("low")),
             "night_close": _number(quote.get("latest")),
+            "night_last_price": _number(quote.get("latest")),
             "settlement": _number(quote.get("settlement")),
             "pre_settlement": _number(quote.get("preSettlement")),
             "volume": _number(quote.get("volume")),
@@ -413,7 +423,7 @@ def normalize_night_session_snapshot(
         or payload.get("night_session_date")
         or inferred_session_date
     )
-    session_end_date = str(payload.get("session_end_date") or trading_date)
+    session_end_date = str(payload.get("session_end_date") or inferred_end.date().isoformat())
     session_start = str(
         payload.get("session_start")
         or payload.get("session_window_start")
@@ -433,6 +443,10 @@ def normalize_night_session_snapshot(
         if not isinstance(raw, Mapping):
             continue
         record = dict(raw)
+        record["night_last_price"] = record.get("night_close")
+        record["price_semantics"] = "vendor_latest_trade_asof_snapshot"
+        record["ohlcv_scope"] = "vendor_realtime_unverified_session_scope"
+        record["official_night_close_verified"] = False
         key = (
             str(record.get("exchange") or "").upper(),
             str(record.get("contract") or "").upper(),
@@ -618,12 +632,37 @@ def collect_night_session(
     """
 
     target = date.fromisoformat(trading_date).isoformat()
+    if night_session_dates(date.fromisoformat(target)) is None:
+        status = {"schema_version": NIGHT_SESSION_SCHEMA_VERSION, "trading_date": target,
+                  "calendar_version": CALENDAR_VERSION, "collection_state": "no_scheduled_night_session",
+                  "published": False, "data_fresh": False, "validation_passed": True,
+                  "coverage": _coverage([], 0), "generated_at": (now or datetime.now(ZoneInfo(NIGHT_SESSION_TIMEZONE))).isoformat()}
+        if publish:
+            write_json_if_changed(Path(data_dir) / "night_session/last_run_status.json", status)
+        return {"snapshot": {"trading_date": target, "records": []}, "status": status, "derivatives": {}}
     session_date, window_start, window_end = _night_window(target)
+    collected_at = now or datetime.now(ZoneInfo(NIGHT_SESSION_TIMEZONE))
+    if collected_at.tzinfo is None:
+        collected_at = collected_at.replace(tzinfo=ZoneInfo(NIGHT_SESSION_TIMEZONE))
+    if collected_at < window_end:
+        status = {"schema_version": NIGHT_SESSION_SCHEMA_VERSION, "trading_date": target,
+                  "collection_state": "session_not_completed", "published": False,
+                  "data_fresh": False, "validation_passed": False, "coverage": _coverage([], 0),
+                  "generated_at": collected_at.isoformat()}
+        if publish:
+            write_json_if_changed(Path(data_dir) / "night_session/last_run_status.json", status)
+        return {"snapshot": {"trading_date": target, "records": []}, "status": status, "derivatives": {}}
     root = Path(data_dir)
     night_root = root / "night_session"
     prior_latest = _mapping(read_json(night_root / "latest.json", default={}))
     daily_snapshot = _mapping(read_json(root / "latest.json", default={}))
     universe = _universe_from_daily_snapshot(daily_snapshot)
+    for context in universe:
+        if context.get("prior_eod_trade_date") != session_date:
+            # A later EOD must not become the reference for a replayed night.
+            for field in ("previous_day_close", "previous_day_settlement", "previous_day_open_interest",
+                          "prior_eod_close", "prior_eod_settlement"):
+                context[field] = None
     generated_at = (now or datetime.now(ZoneInfo(NIGHT_SESSION_TIMEZONE))).isoformat()
 
     if not universe:
@@ -632,7 +671,7 @@ def collect_night_session(
             "trading_date": target,
             "night_session_date": session_date,
             "session_start_date": session_date,
-            "session_end_date": target,
+            "session_end_date": window_end.date().isoformat(),
             "generated_at": generated_at,
             "data_fresh": False,
             "validation_passed": False,
@@ -646,7 +685,7 @@ def collect_night_session(
             "trading_date": target,
             "night_session_date": session_date,
             "session_start_date": session_date,
-            "session_end_date": target,
+            "session_end_date": window_end.date().isoformat(),
             "generated_at": generated_at,
             "timezone": NIGHT_SESSION_TIMEZONE,
             "frequency": "night_session_snapshot",
@@ -664,6 +703,9 @@ def collect_night_session(
         return {"snapshot": snapshot, "status": status}
 
     cached = _cache_records(root, target) if not force_refresh else {}
+    cached = {k: r for k, r in cached.items()
+              if r.get("calendar_version") == CALENDAR_VERSION
+              and r.get("session_start_date") == session_date}
     request_contexts = [
         context
         for context in universe
@@ -722,7 +764,11 @@ def collect_night_session(
         "trading_date": target,
         "night_session_date": session_date,
         "session_start_date": session_date,
-        "session_end_date": target,
+        "session_end_date": window_end.date().isoformat(),
+        "calendar_version": CALENDAR_VERSION,
+        "price_semantics": "vendor_latest_trade_asof_snapshot",
+        "ohlcv_scope": "vendor_realtime_unverified_session_scope",
+        "official_night_close_verified": False,
         "generated_at": generated_at,
         "timezone": NIGHT_SESSION_TIMEZONE,
         "frequency": "night_session_snapshot",

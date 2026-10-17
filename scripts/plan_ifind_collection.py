@@ -15,6 +15,9 @@ from china_commodities.collection_cache import (
     verified_night_session_available,
     verified_option_chain_available,
 )
+from china_commodities.trading_calendar import (
+    CALENDAR_VERSION, is_trading_day, previous_trading_day, next_trading_day, night_session_dates,
+)
 
 
 EVENING_SCHEDULE = "3 10 * * *"
@@ -24,16 +27,12 @@ DOMESTIC_EOD_READY_AT = time(18, 15)
 
 
 def _previous_weekday(value: date) -> str:
-    """Return the prior Monday-Friday date for a completed domestic EOD retry.
+    """Compatibility name; domestic dates now use the maintained holiday calendar."""
+    return previous_trading_day(value).isoformat()
 
-    At 06:03 Shanghai time the current domestic daytime EOD is not closed, so
-    the daily retry must target the previous completed weekday.  Night-session
-    collection has its own current-trading-date key and is not derived here.
-    Exchange holidays still fail closed in the normal validation path; a future
-    official calendar can refine this fallback without changing the workflow
-    contract.
-    """
 
+def _previous_external_weekday(value: date) -> str:
+    # Only a request hint: overseas source dates remain independently validated.
     cursor = value - timedelta(days=1)
     while cursor.weekday() >= 5:
         cursor -= timedelta(days=1)
@@ -95,7 +94,7 @@ def plan_collection(
         and now_shanghai.time() < DOMESTIC_EOD_READY_AT
     )
     scheduled_non_trading_day = bool(
-        is_scheduled and target_date.weekday() >= 5
+        (is_scheduled or is_manual) and not is_trading_day(target_date)
     )
     if mode == "night_session_only":
         execution_profile = "night_session_only"
@@ -113,7 +112,7 @@ def plan_collection(
     run_night_session = bool(
         mode == "night_session_only"
         or scheduled_morning
-        or manual_before_current_eod
+        or (manual_before_current_eod and now_shanghai.time() < time(9, 0))
     )
     run_domestic = bool((is_manual or is_scheduled) and mode == "full")
     run_external = bool((is_manual or is_scheduled) and mode == "full")
@@ -123,11 +122,14 @@ def plan_collection(
         else target_date.isoformat()
     )
     external_trade_date = (
-        _previous_weekday(target_date)
+        _previous_external_weekday(target_date)
         if completed_eod_recovery
         else target_date.isoformat()
     )
-    night_trading_date = target_date.isoformat()
+    night_day = next_trading_day(target_date, inclusive=True)
+    night_trading_date = night_day.isoformat()
+    night_dates = night_session_dates(night_day)
+    run_night_session = run_night_session and night_dates is not None
     needs_night_session = bool(
         run_night_session
         and not verified_night_session_available(data_dir, night_trading_date)
@@ -164,13 +166,15 @@ def plan_collection(
         )
     return {
         "requested_date": target_date.isoformat(),
+        "calendar_version": CALENDAR_VERSION,
+        "night_calendar_state": "scheduled" if night_dates else "no_scheduled_night_session",
         "collection_mode": mode,
         "execution_profile": execution_profile,
         "domestic_trade_date": domestic_trade_date,
         "external_trade_date": external_trade_date,
         "night_trading_date": night_trading_date,
         "domestic_date_policy": (
-            "previous_completed_weekday_eod"
+            "previous_completed_trading_day_eod"
             if completed_eod_recovery
             else "requested_date_eod"
         ),

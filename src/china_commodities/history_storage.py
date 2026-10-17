@@ -293,6 +293,8 @@ def _option_history_rows(snapshot: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "underlying_settle": record.get("underlying_settle"),
                 "source_date_match": record.get("source_date_match"),
                 "greeks_quality": greek_map.get("quality"),
+                "collection_scope": snapshot.get("collection_scope", "full"),
+                "analytics_scope": record.get("analytics_scope", "collected_chain"),
                 "greeks_source": greek_map.get("selected_source"),
                 "iv_percent": selected_map.get("iv_percent", record.get("iv_percent")),
                 "delta": selected_map.get("delta"),
