@@ -35,13 +35,14 @@ class OptionCollectScriptTests(unittest.TestCase):
             reports = load_reports(path)
         self.assertEqual(reports[0].report_name, "p_verified")
 
-    def test_all_market_default_coverage_is_sixty_percent(self) -> None:
+    def test_default_is_budgeted_core_and_any_valid_product_can_publish(self) -> None:
         from scripts.collect_ifind_options import _arguments
 
         with patch("sys.argv", ["collect_ifind_options.py", "--all-products"]):
             arguments = _arguments()
 
-        self.assertEqual(arguments.minimum_product_coverage, 0.60)
+        self.assertEqual(arguments.minimum_product_coverage, 0.0)
+        self.assertEqual(arguments.option_profile, "core")
         self.assertFalse(arguments.promote_attempt)
 
 

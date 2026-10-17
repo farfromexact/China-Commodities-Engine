@@ -41,6 +41,7 @@ from china_commodities.option_batch import (
     collect_option_market_snapshot_resuming,
 )
 from china_commodities.option_rules import load_option_rules, option_rule_for
+from china_commodities.option_core import CORE_PROFILE, CoreOptionCollector
 from china_commodities.storage import read_json, write_json_if_changed
 
 
@@ -87,6 +88,10 @@ def _arguments() -> argparse.Namespace:
     parser.add_argument("--product", default="CU")
     parser.add_argument("--symbol", default="铜期权")
     parser.add_argument(
+        "--option-profile", choices=("core", "full"), default="core",
+        help="core: one active series, up to 30 contracts and about 10%% of the directory; full: explicit full-chain collection.",
+    )
+    parser.add_argument(
         "--all-products",
         action="store_true",
         help="Attempt every commodity-option product in the catalog.",
@@ -107,7 +112,7 @@ def _arguments() -> argparse.Namespace:
         "--minimum-product-coverage",
         type=float,
         default=DEFAULT_MINIMUM_PRODUCT_COVERAGE,
-        help="Minimum successful product fraction required to promote all-market latest.",
+        help="Minimum successful product fraction; 0 publishes any non-empty validated result.",
     )
     parser.add_argument(
         "--request-interval-seconds",
@@ -119,7 +124,7 @@ def _arguments() -> argparse.Namespace:
     parser.add_argument(
         "--surface-shadow-days",
         type=int,
-        default=5,
+        default=1,
         help="Validated EOD dates required before surface_latest is promoted.",
     )
     parser.add_argument(
@@ -204,6 +209,7 @@ def main() -> int:
         return 0
     if (
         arguments.all_products
+        and arguments.option_profile == "full"
         and not arguments.force_refresh
         and not arguments.dry_run
         and verified_option_chain_available(arguments.data_dir, trade_date)
@@ -226,6 +232,8 @@ def main() -> int:
         return 0
     run_status: dict | None = None
     try:
+        if arguments.universe_source == "data-pool" and arguments.option_profile != "full":
+            raise IFindOptionDataError("data-pool is not budgeted; explicitly select --option-profile full")
         client = IFindHTTPClient(
             minimum_request_interval_seconds=arguments.request_interval_seconds
         )
@@ -244,11 +252,27 @@ def main() -> int:
             catalog = load_catalog(arguments.catalog)
             rules = load_option_rules(arguments.option_rules)
             existing_snapshot = None
-            if not arguments.force_refresh:
+            if not arguments.force_refresh and arguments.option_profile == "full":
                 candidate = read_option_latest(arguments.data_dir, default={}) or {}
-                if candidate.get("trade_date") == trade_date:
+                if candidate.get("trade_date") == trade_date and candidate.get("collection_scope") != CORE_PROFILE:
                     existing_snapshot = candidate
-            if existing_snapshot is not None:
+            if arguments.option_profile == "core":
+                collector = CoreOptionCollector(
+                    futures_snapshot=read_json(arguments.data_dir / "latest.json", default={}),
+                    previous_snapshot=read_option_latest(arguments.data_dir, default={}),
+                    force_refresh=arguments.force_refresh,
+                )
+                snapshot, run_status = collect_option_market_snapshot(
+                    trade_date, client=client, option_products=catalog.options,
+                    minimum_product_coverage=arguments.minimum_product_coverage,
+                    option_rules=rules, collect_one=collector,
+                    enrich_missing_metadata=True, collection_scope=CORE_PROFILE,
+                )
+                plans = list(collector.plans.values())
+                run_status["collection_plans"] = plans
+                if snapshot is not None:
+                    snapshot["collection_plans"] = plans
+            elif existing_snapshot is not None:
                 snapshot, run_status = collect_option_market_snapshot_resuming(
                     trade_date,
                     client=client,
@@ -300,7 +324,14 @@ def main() -> int:
                 arguments.product,
                 rules=rules,
             )
-            snapshot = collect_option_eod_from_exchange_universe(
+            collect_single = collect_option_eod_from_exchange_universe
+            if arguments.option_profile == "core":
+                collect_single = CoreOptionCollector(
+                    futures_snapshot=read_json(arguments.data_dir / "latest.json", default={}),
+                    previous_snapshot=read_option_latest(arguments.data_dir, default={}),
+                    force_refresh=arguments.force_refresh,
+                )
+            snapshot = collect_single(
                 trade_date,
                 client=client,
                 universes=[
@@ -312,6 +343,8 @@ def main() -> int:
                     )
                 ],
             )
+            if arguments.option_profile == "core":
+                snapshot["collection_plans"] = list(collect_single.plans.values())
             for record in snapshot["records"]:
                 record["exercise_style_rule_source_url"] = rule["source_url"]
                 record["exercise_style_rules_as_of_date"] = rule["rules_as_of_date"]

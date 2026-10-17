@@ -20,7 +20,7 @@ from .option_rules import load_option_rules, option_rule_for
 
 OptionCollector = Callable[..., dict[str, Any]]
 DirectoryLoader = Callable[..., dict[tuple[str, str], list[dict[str, Any]]]]
-DEFAULT_MINIMUM_PRODUCT_COVERAGE = 0.60
+DEFAULT_MINIMUM_PRODUCT_COVERAGE = 0.0
 
 
 _IFIND_SECURITY_EXCHANGE_ALIASES = {
@@ -355,6 +355,7 @@ def collect_option_market_snapshot(
     fallback_directory_loader: DirectoryLoader | None = collect_openctp_option_directories,
     option_rules: dict[str, Any] | None = None,
     enrich_missing_metadata: bool | None = None,
+    collection_scope: str = "full",
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     """Attempt every catalog product and return a promotable snapshot plus status.
 
@@ -365,8 +366,9 @@ def collect_option_market_snapshot(
     """
 
     requested_date = date.fromisoformat(trade_date).isoformat()
-    if not 0 < minimum_product_coverage <= 1:
-        raise ValueError("minimum_product_coverage must be in (0, 1]")
+    if not 0 <= minimum_product_coverage <= 1:
+        raise ValueError("minimum_product_coverage must be in [0, 1]")
+    core_mode = collection_scope == "core_v1"
     products = _sorted_products(option_products)
     rules = option_rules or load_option_rules()
     should_enrich_metadata = (
@@ -576,7 +578,7 @@ def collect_option_market_snapshot(
                         fallback_directory_error
                         or f"OpenCTP did not resolve expiry for {unresolved} contract(s)"
                     )
-            if product_snapshot.get("quote_coverage_complete") is not True:
+            if not core_mode and product_snapshot.get("quote_coverage_complete") is not True:
                 raise IFindOptionDataError(
                     f"option collector returned incomplete quotes for {_product_key(product)}"
                 )
@@ -585,7 +587,8 @@ def collect_option_market_snapshot(
             if (
                 not isinstance(product_universe_count, int)
                 or isinstance(product_universe_count, bool)
-                or product_universe_count != len(product_records)
+                or (product_universe_count < len(product_records) if core_mode
+                    else product_universe_count != len(product_records))
             ):
                 raise IFindOptionDataError(
                     f"option collector returned inconsistent counts for {_product_key(product)}"
@@ -641,7 +644,7 @@ def collect_option_market_snapshot(
                 "success",
                 contract_count=len(product_records),
                 source_trade_date=requested_date,
-                quote_coverage_complete=True,
+                quote_coverage_complete=product_snapshot.get("quote_coverage_complete") is True,
                 universe_source=product_snapshot.get("universe_source"),
                 fallback_used=fallback_used,
                 metadata_enrichment_used=metadata_enrichment_used,
@@ -714,6 +717,7 @@ def collect_option_market_snapshot(
         "schema_version": 1,
         "trade_date": requested_date,
         "generated_at": generated_at,
+        "collection_scope": collection_scope,
         "source_provider": "ifind_http",
         "universe_source": aggregate_universe_source,
         "universe_sources": universe_sources,
@@ -733,13 +737,14 @@ def collect_option_market_snapshot(
         "schema_version": 1,
         "trade_date": requested_date,
         "generated_at": generated_at,
+        "collection_scope": collection_scope,
         "source_provider": "ifind_http",
         "universe_source": aggregate_universe_source,
         "universe_sources": universe_sources,
         "universe_contract_count": universe_contract_count,
         "quote_contract_count": len(records),
         "quote_coverage_complete": len(records) == universe_contract_count,
-        "collection_mode": "end_of_day_full_market",
+        "collection_mode": "end_of_day_core" if core_mode else "end_of_day_full_market",
         "intraday": False,
         "coverage": coverage,
         "product_statuses": statuses,
@@ -771,8 +776,8 @@ def collect_option_market_snapshot_resuming(
     """Reuse verified same-date products and request only missing/failed products."""
 
     requested_date = date.fromisoformat(trade_date).isoformat()
-    if not 0 < minimum_product_coverage <= 1:
-        raise ValueError("minimum_product_coverage must be in (0, 1]")
+    if not 0 <= minimum_product_coverage <= 1:
+        raise ValueError("minimum_product_coverage must be in [0, 1]")
     products = _sorted_products(option_products)
     reused_records, reused_statuses = _reusable_same_date_products(
         requested_date,

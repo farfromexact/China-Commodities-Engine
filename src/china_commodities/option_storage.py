@@ -6,6 +6,7 @@ from collections import defaultdict
 from collections.abc import Mapping
 from datetime import date
 import hashlib
+import math
 from pathlib import Path
 from pathlib import PurePosixPath
 import re
@@ -309,7 +310,7 @@ def validate_option_snapshot(snapshot: dict[str, Any]) -> None:
                 f"option record {contract} has invalid option_type"
             )
         strike = record.get("strike")
-        if not isinstance(strike, (int, float)) or strike <= 0:
+        if isinstance(strike, bool) or not isinstance(strike, (int, float)) or not math.isfinite(strike) or strike <= 0:
             raise OptionSnapshotValidationError(
                 f"option record {contract} has invalid strike"
             )
@@ -329,6 +330,10 @@ def validate_option_snapshot(snapshot: dict[str, Any]) -> None:
                 f"option record {contract} has no explicit Greeks quality"
             )
     quality = assess_option_snapshot_quality(snapshot)
+    if snapshot.get("collection_scope") == "core_v1":
+        if quality["status"] != "core_available":
+            raise OptionSnapshotValidationError("core records failed source/date/identity validation")
+        return
     if quality["full_chain_verified"] is not True:
         detail = "; ".join(quality["limitations"][:3])
         raise OptionSnapshotValidationError(
@@ -355,6 +360,12 @@ def build_option_summary(snapshot: dict[str, Any]) -> list[dict[str, Any]]:
         put_volume = sum(float(item.get("volume") or 0) for item in puts)
         call_oi = sum(float(item.get("open_interest") or 0) for item in calls)
         put_oi = sum(float(item.get("open_interest") or 0) for item in puts)
+        core = snapshot.get("collection_scope") == "core_v1"
+        if core:
+            if any(item.get("volume") is None for item in records):
+                call_volume = put_volume = None
+            if any(item.get("open_interest") is None for item in records):
+                call_oi = put_oi = None
         forward_values = [
             float(item["underlying_settle"])
             for item in records
@@ -383,6 +394,7 @@ def build_option_summary(snapshot: dict[str, Any]) -> list[dict[str, Any]]:
                 "product": product,
                 "underlying_contract": underlying,
                 "expiry_date": expiry,
+                "analytics_scope": "sampled_strikes" if core else "collected_chain",
                 "contract_count": len(records),
                 "call_contract_count": len(calls),
                 "put_contract_count": len(puts),
@@ -451,7 +463,9 @@ def publish_option_eod(
     )
     write_json_gzip_if_changed(root / "surface_attempt_latest.json.gz", surface)
     write_json_if_changed(root / "surface_shadow_state.json", surface_shadow)
-    surface_published = bool(surface_shadow["promotion_allowed"])
+    # Core observations are published even when no analytical metric is ready.
+    # Never leave the report joining a new core chain to an old full surface.
+    surface_published = snapshot.get("collection_scope") == "core_v1" or bool(surface_shadow["promotion_allowed"])
     if surface_published:
         write_json_if_changed(root / "surface_latest.json", surface)
     write_json_if_changed(
@@ -517,9 +531,9 @@ def promote_option_attempt(
     if (
         isinstance(minimum_product_coverage, bool)
         or not isinstance(minimum_product_coverage, (int, float))
-        or not 0 < float(minimum_product_coverage) <= 1
+        or not 0 <= float(minimum_product_coverage) <= 1
     ):
-        raise ValueError("minimum_product_coverage must be in (0, 1]")
+        raise ValueError("minimum_product_coverage must be in [0, 1]")
     try:
         requested_date = date.fromisoformat(trade_date).isoformat()
     except ValueError as exc:

@@ -1,194 +1,34 @@
-name: Split EOD China Commodities Data
-
+name: Isolated Core Options Live Comparison
 on:
   workflow_dispatch:
-    inputs:
-      trade_date:
-        description: "Optional trade date (YYYY-MM-DD); defaults to runner date"
-        required: false
-        type: string
-      collection_mode:
-        description: "full automatically uses completed EOD before 18:15 BJT and current EOD after; night_session_only is a safe night-data canary"
-        required: false
-        default: full
-        type: choice
-        options:
-          - full
-          - night_session_only
-          - exchange_backup
 permissions:
-  contents: write
-
+  contents: read
 concurrency:
-  group: daily-china-commodities
+  group: isolated-core-options-comparison
   cancel-in-progress: false
-
 jobs:
-  collect:
-    if: ${{ inputs.collection_mode != 'exchange_backup' }}
+  compare:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: requirements.txt
-
-      - name: Install dependencies
-        run: python -m pip install -r requirements.txt
-
-      - name: Install project
-        run: python -m pip install --no-deps -e .
-
-      - name: Run unit tests
-        run: python -m unittest discover -s tests -v
-
-      - name: Plan forced collection
-        id: collection_plan
-        env:
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
-          GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
-          TRADE_DATE: ${{ inputs.trade_date }}
-          COLLECTION_MODE: ${{ inputs.collection_mode || 'full' }}
-          FORCE_REFRESH: "true"
-        run: python scripts/plan_ifind_collection.py
-
-      - name: Acquire one shared iFinD access token
-        if: ${{ steps.collection_plan.outputs.needs_ifind == 'true' }}
-        env:
-          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
-        run: python scripts/export_ifind_access_token.py
-
-      - name: Collect or sync completed domestic night-session futures snapshot
-        if: ${{ steps.collection_plan.outputs.run_night_session == 'true' }}
-        continue-on-error: true
-        env:
-          NIGHT_TRADING_DATE: ${{ steps.collection_plan.outputs.night_trading_date }}
-          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
-        shell: bash
-        run: |
-          python -m china_commodities.cli night-session --trade-date "${NIGHT_TRADING_DATE}"
-
-      - name: Collect verified full-market iFinD futures
-        if: ${{ steps.collection_plan.outputs.needs_futures == 'true' }}
-        env:
-          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
-          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
-        shell: bash
-        run: |
-          if [[ -z "${IFIND_REFRESH_TOKEN}" ]]; then
-            echo "IFIND_REFRESH_TOKEN secret is required." >&2
-            exit 1
-          fi
-          python -m china_commodities.cli run --date "${DOMESTIC_TRADE_DATE}" --provider ifind --skip-options --force-refresh
-
-      - name: Collect all catalog commodity option chains
-        if: ${{ steps.collection_plan.outputs.needs_options == 'true' }}
-        continue-on-error: true
-        env:
-          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
-          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
-        shell: bash
-        run: |
-          python scripts/collect_ifind_options.py --all-products --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --minimum-product-coverage 0.60 --force-refresh
-
-      - name: Collect AKShare Physical spot and basis data
-        if: ${{ steps.collection_plan.outputs.needs_physical == 'true' }}
-        continue-on-error: true
-        env:
-          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
-        shell: bash
-        run: |
-          python -m china_commodities.cli foundation --provider akshare --scope physical --date "${DOMESTIC_TRADE_DATE}" --shadow-days 1 --force-refresh
-
-      - name: Collect AKShare overseas daily series
-        if: ${{ steps.collection_plan.outputs.needs_external == 'true' }}
-        continue-on-error: true
-        env:
-          EXTERNAL_TRADE_DATE: ${{ steps.collection_plan.outputs.external_trade_date }}
-        shell: bash
-        run: |
-          python -m china_commodities.cli foundation --provider akshare --scope external --date "${EXTERNAL_TRADE_DATE}" --shadow-days 1 --force-refresh
-
-      - name: Rebuild local futures history and report input
-        run: python -m china_commodities.cli report-input --repair-futures-history
-
-      - name: Upload raw diagnostic data
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: commodity-options-${{ github.run_id }}
-          path: |
-            data/raw/
-            data/scoped/*/raw/
-          if-no-files-found: ignore
-          retention-days: 14
-
-      - name: Validate full-market snapshot
-        if: ${{ steps.collection_plan.outputs.validate_full_market == 'true' }}
-        run: python -m china_commodities.cli validate
-
-      - name: Commit and push data changes
-        id: publish_data
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          python scripts/publish_data.py --branch "${GITHUB_REF_NAME}" --recovery-dir "${RUNNER_TEMP}/commodity-data-recovery"
-
-      - name: Preserve unpublished data patch
-        if: ${{ failure() && steps.publish_data.outcome == 'failure' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: commodity-data-recovery-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/commodity-data-recovery/
-          if-no-files-found: warn
-          retention-days: 14
-
-  exchange-backup:
-    if: ${{ inputs.collection_mode == 'exchange_backup' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: read
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
           cache: pip
-          cache-dependency-path: requirements.txt
-      - name: Install backup dependencies
-        run: |
-          python -m pip install -r requirements.txt
-          python -m pip install --no-deps -e .
-      - name: Test backup and failure recovery
-        run: python -m unittest discover -s tests -p 'test_exchange_backup.py' -v
-      - name: Collect independent exchange EOD backup
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pip install --no-deps -e .
+      - name: Validate core behavior
+        run: python -m unittest discover -s tests -p 'test_option_*.py' -q
+      - name: Run one measured core collection
         env:
-          REQUESTED_DATE: ${{ inputs.trade_date }}
-        shell: bash
-        run: |
-          if [[ -z "$REQUESTED_DATE" ]]; then
-            REQUESTED_DATE=$(python -c 'import json; print(json.load(open("data/options/latest.json"))["trade_date"])')
-          fi
-          python -u scripts/collect_exchange_backup.py --date "$REQUESTED_DATE"
-      - name: Upload backup report and source audit manifests
+          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
+        run: python -u scripts/compare_option_core.py --output tmp/core-live-trial/output
+      - name: Upload comparison and isolated data
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: exchange-backup-${{ github.run_id }}
-          path: |
-            data/backup/reports/
-            data/backup/last_run_status.json
-            data/backup/raw/*/*.json
-          if-no-files-found: warn
+          name: core-options-live-comparison
+          path: tmp/core-live-trial/output/
           retention-days: 14
+          if-no-files-found: warn

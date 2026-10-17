@@ -126,6 +126,10 @@ def _merge_options_status(
         chain_quality = "verified_vendor_full_chain"
         module_state = "ok"
         module_error = None
+    elif quality_status == "core_available":
+        chain_quality = "core_available"
+        module_state = "ok"
+        module_error = None
     elif quality_status == "partial_chain" or not full_scope:
         chain_quality = "partial_chain"
         module_state = "ok"
@@ -146,7 +150,7 @@ def _merge_options_status(
     source_date_match = option_quality.get("source_date_match_pct") == 1.0
     module = {
         "dataset": "options",
-        "scope": "full-market",
+        "scope": "core_sample" if option_latest.get("collection_scope") == "core_v1" else "full-market",
         "state": module_state,
         "trade_date": requested_date,
         "source_function": "collect_ifind_options.py",
@@ -168,7 +172,7 @@ def _merge_options_status(
     modules = [dict(item) for item in _list(merged.get("modules")) if isinstance(item, Mapping)]
     replaced = False
     for index, item in enumerate(modules):
-        if item.get("dataset") == "options" and item.get("scope") == "full-market":
+        if item.get("dataset") == "options" and item.get("scope") in {"full-market", "core_sample"}:
             modules[index] = module
             replaced = True
             break
@@ -353,6 +357,9 @@ def _compact_surface(surface: Mapping[str, Any]) -> dict[str, Any]:
             "timezone",
             "frequency",
             "quality_state",
+            "analytics_scope",
+            "core_atm_ready",
+            "skew_ready",
             "missing_reason",
             "contract_count",
             "call_contract_count",
@@ -853,6 +860,14 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         "external": external_view,
         "night_session": night_session_view,
         "options": {
+            "collection_scope": options_latest.get("collection_scope", "full"),
+            "analytics_scope": options_quality.get("analytics_scope", "collected_chain"),
+            "core_atm_ready_count": options_surface.get("core_atm_ready_count"),
+            "skew_ready_count": options_surface.get("skew_ready_count"),
+            "collection_plans": [
+                {k: v for k, v in plan.items() if k != "selected_directory"}
+                for plan in options_latest.get("collection_plans", [])
+            ],
             "trade_date": options_surface.get("trade_date") or options_latest.get("trade_date"),
             "generated_at": options_surface.get("generated_at") or options_latest.get("generated_at"),
             "record_count": options_quality.get("record_count") or options_latest.get("record_count"),

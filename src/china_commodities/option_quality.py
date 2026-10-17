@@ -436,7 +436,21 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
         status = "chain_only"
     else:
         status = "invalid"
+    core_mode = snapshot.get("collection_scope") == "core_v1"
+    if core_mode:
+        valid_core = bool(record_count > 0 and all_contracts_present
+                          and unique_contract_count == record_count
+                          and provider_bad_count == 0 and source_date_bad_count == 0)
+        status = "core_available" if valid_core else "invalid"
+        full_chain_verified = False
+        surface_ready = positioning_ready = execution_ready = False
+        model_greeks_ready = False
+        # Report vendor availability separately; it is not proof of a full chain.
+        vendor_risk_available = valid_core and vendor_greeks_coverage >= _THRESHOLD
+        limitations.append("core sample: unselected contracts are intentional; no full-chain positioning inference")
     return {
+        "collection_scope": snapshot.get("collection_scope", "full"),
+        "analytics_scope": "sampled_strikes" if core_mode else "collected_chain",
         "trade_date": _normalized_date(trade_date),
         "record_count": record_count,
         "unique_contract_count": unique_contract_count,
