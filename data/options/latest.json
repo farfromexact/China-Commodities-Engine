@@ -2,7 +2,7 @@
   "schema_version": 2,
   "snapshot_schema_version": 1,
   "trade_date": "2026-10-16",
-  "generated_at": "2026-10-17T22:09:41+00:00",
+  "generated_at": "2026-10-18T10:57:33+00:00",
   "collection_scope": "core_v1",
   "source_provider": "ifind_http",
   "universe_source": "core_directory_selection",
@@ -651,10 +651,10 @@
       "source_trade_date": "2026-10-16",
       "quote_coverage_complete": true,
       "universe_source": "core_directory_selection",
-      "fallback_used": true,
+      "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: KeyError: \"['隐含波动率'] not in index\""
+      "detail": null
     },
     {
       "exchange": "GFEX",
@@ -665,10 +665,10 @@
       "source_trade_date": "2026-10-16",
       "quote_coverage_complete": true,
       "universe_source": "core_directory_selection",
-      "fallback_used": true,
+      "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: KeyError: \"['隐含波动率'] not in index\""
+      "detail": null
     },
     {
       "exchange": "GFEX",
@@ -679,10 +679,10 @@
       "source_trade_date": "2026-10-16",
       "quote_coverage_complete": true,
       "universe_source": "core_directory_selection",
-      "fallback_used": true,
+      "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: KeyError: \"['隐含波动率'] not in index\""
+      "detail": null
     },
     {
       "exchange": "GFEX",
@@ -693,10 +693,10 @@
       "source_trade_date": "2026-10-16",
       "quote_coverage_complete": true,
       "universe_source": "core_directory_selection",
-      "fallback_used": true,
+      "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: KeyError: \"['隐含波动率'] not in index\""
+      "detail": null
     },
     {
       "exchange": "GFEX",
@@ -707,10 +707,10 @@
       "source_trade_date": "2026-10-16",
       "quote_coverage_complete": true,
       "universe_source": "core_directory_selection",
-      "fallback_used": true,
+      "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: KeyError: \"['隐含波动率'] not in index\""
+      "detail": null
     },
     {
       "exchange": "INE",
@@ -724,7 +724,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: empty option directory for INE:BC; fallback validation failed: IFindOptionDataError: option collector returned no records for INE:BC"
+      "detail": "IFindOptionDataError: option collector returned no records for INE:BC"
     },
     {
       "exchange": "INE",
@@ -931,10 +931,10 @@
       "source_trade_date": "2026-10-16",
       "quote_coverage_complete": true,
       "universe_source": "core_directory_selection",
-      "fallback_used": true,
+      "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "primary directory failed; fallback used: IFindOptionDataError: empty option directory for SHFE:RB"
+      "detail": null
     },
     {
       "exchange": "SHFE",
@@ -962,7 +962,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: empty option directory for SHFE:SN; fallback validation failed: IFindOptionDataError: option collector returned no records for SHFE:SN"
+      "detail": "IFindOptionDataError: option collector returned no records for SHFE:SN"
     },
     {
       "exchange": "SHFE",
@@ -990,7 +990,7 @@
       "fallback_used": false,
       "metadata_enrichment_used": false,
       "metadata_enrichment_error": null,
-      "detail": "IFindOptionDataError: empty option directory for SHFE:ZN; fallback validation failed: IFindOptionDataError: option collector returned no records for SHFE:ZN"
+      "detail": "IFindOptionDataError: option collector returned no records for SHFE:ZN"
     }
   ],
   "collection_plans": [
@@ -13373,8 +13373,8 @@
       ],
       "product_key": "GFEX:LC",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 30,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 30,
       "returned_contract_count": 30,
       "rejected_contracts": [],
       "request_error": null,
@@ -13831,8 +13831,8 @@
       ],
       "product_key": "GFEX:PD",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 30,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 30,
       "returned_contract_count": 30,
       "rejected_contracts": [],
       "request_error": null,
@@ -14289,8 +14289,8 @@
       ],
       "product_key": "GFEX:PS",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 30,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 30,
       "returned_contract_count": 30,
       "rejected_contracts": [],
       "request_error": null,
@@ -14747,8 +14747,8 @@
       ],
       "product_key": "GFEX:PT",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 30,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 30,
       "returned_contract_count": 30,
       "rejected_contracts": [],
       "request_error": null,
@@ -15205,8 +15205,8 @@
       ],
       "product_key": "GFEX:SI",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 30,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 30,
       "returned_contract_count": 30,
       "rejected_contracts": [],
       "request_error": null,
@@ -21652,8 +21652,8 @@
       ],
       "product_key": "SHFE:BR",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 24,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 24,
       "returned_contract_count": 24,
       "rejected_contracts": [],
       "request_error": null,
@@ -22470,8 +22470,8 @@
       ],
       "product_key": "SHFE:BU",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 30,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 30,
       "returned_contract_count": 30,
       "rejected_contracts": [],
       "request_error": null,
@@ -24257,8 +24257,8 @@
       ],
       "product_key": "SHFE:FU",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 30,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 30,
       "returned_contract_count": 30,
       "rejected_contracts": [],
       "request_error": null,
@@ -24986,8 +24986,8 @@
       ],
       "product_key": "SHFE:OP",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 6,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 6,
       "returned_contract_count": 6,
       "rejected_contracts": [],
       "request_error": null,
@@ -25693,8 +25693,8 @@
       ],
       "product_key": "SHFE:RB",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 14,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 14,
       "returned_contract_count": 14,
       "rejected_contracts": [],
       "request_error": null,
@@ -26199,8 +26199,8 @@
       ],
       "product_key": "SHFE:RU",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 18,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 18,
       "returned_contract_count": 18,
       "rejected_contracts": [],
       "request_error": null,
@@ -27148,8 +27148,8 @@
       ],
       "product_key": "SHFE:SP",
       "trade_date": "2026-10-16",
-      "requested_contract_count": 16,
-      "reused_contract_count": 0,
+      "requested_contract_count": 0,
+      "reused_contract_count": 16,
       "returned_contract_count": 16,
       "rejected_contracts": [],
       "request_error": null,
@@ -27681,7 +27681,7 @@
   "full_snapshot": {
     "path": "snapshots/2026-10-16.json.gz",
     "record_count": 740,
-    "sha256": "7b911d3e7081aba0a0dec6944919de03799278c60821a6947f52703693b2b7e0",
+    "sha256": "87421f79f0e3d5ad1296f12d71dc9f5d6c9a1aa29e97ef196002e487a81b2306",
     "retention_trading_days": 20
   },
   "shards": [
