@@ -3,7 +3,7 @@
   "domain": "external",
   "provider": "akshare",
   "requested_date": "2026-10-19",
-  "generated_at": "2026-10-19T19:08:08.898373+08:00",
+  "generated_at": "2026-10-20T06:06:30.667303+08:00",
   "timezone": "Asia/Shanghai",
   "vendor": "AKShare",
   "akshare_version": "1.18.97",
@@ -319,7 +319,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "NYMEX原油",
-      "value": 98.0,
+      "value": 98.23,
       "unit": "USD/bbl",
       "frequency": "D",
       "vendor": "AKShare",
@@ -335,7 +335,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "58194f3a48b79eb6c5ad0f686ae4a133e125a5c48b690c7af7375928232c56b7"
+      "normalized_value_sha256": "ca3a77c4b142b4051cf79d7ccff6e317885a16cf9b9fdd608047f75996dfa8d2"
     },
     {
       "series_key": "external.BRENT.akshare_oil_close",
@@ -354,7 +354,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "布伦特原油",
-      "value": 108.36,
+      "value": 109.15,
       "unit": "USD/bbl",
       "frequency": "D",
       "vendor": "AKShare",
@@ -370,7 +370,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "a93575179babf01ba8ea15cb53eb77022852cbf194b79f66a0a03b5b9d52f910"
+      "normalized_value_sha256": "40cbccc9fb073a2670cac556451da806f555d26e77c8f1aaa3fe5cb06bc3de1b"
     },
     {
       "series_key": "external.LME_CU.akshare_cad_close",
@@ -389,7 +389,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "LME铜3个月",
-      "value": 14400.0,
+      "value": 14372.0,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -405,7 +405,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "ea99457998b0864619ddc02ee8a197f20005c613de9abe57a7abf272735609a4"
+      "normalized_value_sha256": "70d0f33c754707c082f8cd111791eb65e9f902c3a041c1dceec51bfb9853c798"
     },
     {
       "series_key": "external.LME_AL.akshare_ahd_close",
@@ -424,7 +424,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "LME铝3个月",
-      "value": 3005.0,
+      "value": 3033.0,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -440,7 +440,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "45c903ca4718ca1e161248f3d627247d9283391d93a98f9829f0f99d4e47122f"
+      "normalized_value_sha256": "374607f214b035be6b2da3bf42e6e655fa6b46b2ecd6eff200f3efeb5432343f"
     },
     {
       "series_key": "external.LME_ZN.akshare_zsd_close",
@@ -459,7 +459,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "LME锌3个月",
-      "value": 3738.5,
+      "value": 3726.5,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -475,7 +475,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "96a58962853b622bb0795616d2636a61ef88d2ae0a666a9046cfd09304d0c426"
+      "normalized_value_sha256": "f20bc2439a037c54a91a5e13cc99136a0bc3c6bd350349524d1a0ed696334065"
     },
     {
       "series_key": "external.LME_NI.akshare_nid_close",
@@ -494,7 +494,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "LME镍3个月",
-      "value": 15515.0,
+      "value": 15595.0,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -510,7 +510,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "e375768b4e20a2e9401d818ae186b890978c2ac5a60c4b0841801a12475d6c55"
+      "normalized_value_sha256": "50e3368971fb9d774b8384aaeda9d120be6fc9bdf6df7bceca49ef6dba84dc41"
     },
     {
       "series_key": "external.COMEX_AU.akshare_gc_close",
@@ -529,7 +529,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "COMEX黄金",
-      "value": 4189.9,
+      "value": 4160.2,
       "unit": "USD/troy_oz",
       "frequency": "D",
       "vendor": "AKShare",
@@ -545,7 +545,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "7cfefb7dfd866a502fba7f0a38ec780f7039d60578d5e8f7290bfd21c606304b"
+      "normalized_value_sha256": "bfc64c1acab8500f416b825b6bb50442164ed3a05c404c30ad807a32f9748272"
     },
     {
       "series_key": "external.COMEX_AG.akshare_si_close",
@@ -564,7 +564,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "COMEX白银",
-      "value": 57.74,
+      "value": 57.23,
       "unit": "USD/troy_oz",
       "frequency": "D",
       "vendor": "AKShare",
@@ -580,7 +580,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "f582c985ca0f1f56f05ed8031ed000c3994225fd8c525dc45ed0111459374312"
+      "normalized_value_sha256": "e4156ddf62cff733576bc1c8f28c931d0308b6b3af4b0193a8e02bcdf1dbdf60"
     },
     {
       "series_key": "external.SGX_IRON_ORE.akshare_fef_close",
@@ -599,7 +599,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "新加坡铁矿石",
-      "value": 91.6,
+      "value": 91.7,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -615,7 +615,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "e9a340d394e4f3e789a7359c7ff024b50deb2c08b60a182dad42982d797a37a5"
+      "normalized_value_sha256": "f13c9b05e733a4b37c77b587e48f034e038b81b086e3478f3b35f6b0db333973"
     },
     {
       "series_key": "external.CBOT_SOYBEAN.akshare_s_close",
@@ -634,7 +634,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT黄豆",
-      "value": 1261.75,
+      "value": 1252.75,
       "unit": "USC/bu",
       "frequency": "D",
       "vendor": "AKShare",
@@ -650,7 +650,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "5a18756811047771caf15d92bd03e344f81f5bebe3843a85f310a1f6a9546a3c"
+      "normalized_value_sha256": "21e37fd98de573d9b84838691f3351f3752434bc603037dcf6783d2025984003"
     },
     {
       "series_key": "external.CBOT_SOYMEAL.akshare_sm_close",
@@ -669,7 +669,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT黄豆粉",
-      "value": 345.5,
+      "value": 344.8,
       "unit": "USD/short_ton",
       "frequency": "D",
       "vendor": "AKShare",
@@ -685,7 +685,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "495a3198d0d6df196a71730ed50f9c53af566764cdf691f780e0ea4c3444fcc8"
+      "normalized_value_sha256": "3bd8006132704b8cf22144c36a32531e5f02e0af4b0215542a87af2fd32ce0dd"
     },
     {
       "series_key": "external.CBOT_SOYBEAN_OIL.akshare_bo_close",
@@ -704,7 +704,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT黄豆油",
-      "value": 67.03,
+      "value": 66.68,
       "unit": "USC/lb",
       "frequency": "D",
       "vendor": "AKShare",
@@ -720,7 +720,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "1f1d9011db0558f586d55a0026b8485e81874b62b183f89f51ba03b057497182"
+      "normalized_value_sha256": "2b1aceffb5bef31e9630a7ac24579de48c80414d6b2bbbc32440f2d2eca2ff7b"
     },
     {
       "series_key": "external.CBOT_CORN.akshare_c_close",
@@ -739,7 +739,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT玉米",
-      "value": 473.0,
+      "value": 466.75,
       "unit": "USC/bu",
       "frequency": "D",
       "vendor": "AKShare",
@@ -755,7 +755,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "de29f1343a2e433436e1bccda146828895df966ee5529424457c0d5495be5c6f"
+      "normalized_value_sha256": "480c5cd575cd9047c68c87afa6335c3cf55e53c8085da0038f7bf022d6c4902d"
     },
     {
       "series_key": "external.CBOT_WHEAT.akshare_w_close",
@@ -774,7 +774,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT小麦",
-      "value": 701.25,
+      "value": 696.0,
       "unit": "USC/bu",
       "frequency": "D",
       "vendor": "AKShare",
@@ -790,7 +790,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "75263137af8bfd70b547b079b470ca2998c3a34b420638a516a5ba41f2310399"
+      "normalized_value_sha256": "495a713ddc81d31e03c342491e570638137c4d62546260a8a15dcfc6d1a8c883"
     },
     {
       "series_key": "external.BMD_PALM.akshare_fcpo_close",
@@ -844,7 +844,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "美国原糖",
-      "value": 20.63,
+      "value": 20.58,
       "unit": "USC/lb",
       "frequency": "D",
       "vendor": "AKShare",
@@ -860,7 +860,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "f435fdfcba09cd9370a5a4644fab54f15ac6268d81eb1377193052f5eaef0539"
+      "normalized_value_sha256": "d243b7419c3af0bffdc8ad21fc36ef6147979e80dc7cec8cfde6545c109b2d4d"
     },
     {
       "series_key": "external.ICE_COTTON.akshare_ct_close",
@@ -879,7 +879,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "NYBOT棉花",
-      "value": 80.51,
+      "value": 80.13,
       "unit": "USC/lb",
       "frequency": "D",
       "vendor": "AKShare",
@@ -895,7 +895,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "d7fae87494bd9eceef42c7d90a237817aeb6d8e96d67c7418e7683f3f9982721"
+      "normalized_value_sha256": "b81fb336fc9209495396aac3fb3a9f87236200dcdb6b0f82820ae54b16aab84c"
     }
   ],
   "fundamental_score": null,
