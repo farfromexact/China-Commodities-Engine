@@ -6,6 +6,7 @@ import tempfile
 import unittest
 
 import pandas as pd
+import pyarrow.parquet as pq
 
 from china_commodities.history_storage import (
     append_option_history,
@@ -124,6 +125,14 @@ class HistoryStorageTests(unittest.TestCase):
             self.assertEqual(count, 1)
             self.assertEqual(len(frame), 1)
             self.assertEqual(frame.iloc[0]["settle"], 11.0)
+            physical_columns = pq.ParquetFile(path).schema_arrow.names
+            self.assertNotIn("year", physical_columns)
+            self.assertNotIn("month", physical_columns)
+            # Dataset readers should still derive directory partition keys.
+            dataset = pq.read_table(path.parent.parent.parent).to_pandas()
+            self.assertEqual(len(dataset), 1)
+            self.assertEqual(dataset.iloc[0]["settle"], 11.0)
+            self.assertEqual(int(dataset.iloc[0]["year"]), 2026)
 
     def test_option_history_retains_recent_distinct_trade_dates(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

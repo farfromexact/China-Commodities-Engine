@@ -73,7 +73,7 @@ def append_parquet_history(
     incoming_rows = _normalized_rows(rows)
     if not incoming_rows:
         if destination.exists():
-            return int(len(pd.read_parquet(destination)))
+            return int(pq.ParquetFile(destination).metadata.num_rows)
         return 0
     if (retention_field is None) != (retention_days is None):
         raise ValueError(
@@ -95,7 +95,9 @@ def append_parquet_history(
 
     incoming = pd.DataFrame(incoming_rows)
     if destination.exists():
-        existing = pd.read_parquet(destination)
+        # Read only the physical file: dataset discovery adds Hive directory
+        # keys (year/month), which must not be written back into each partition.
+        existing = pq.ParquetFile(destination).read().to_pandas()
         combined = pd.concat([existing, incoming], ignore_index=True, sort=False)
     else:
         combined = incoming
