@@ -2,7 +2,7 @@
   "schema_version": 2,
   "snapshot_schema_version": 1,
   "trade_date": "2026-10-23",
-  "generated_at": "2026-10-23T22:04:19+00:00",
+  "generated_at": "2026-10-24T11:03:33+00:00",
   "collection_scope": "core_v1",
   "source_provider": "ifind_http",
   "universe_source": "core_directory_selection",
@@ -13279,8 +13279,8 @@
       ],
       "product_key": "CZCE:ZC",
       "trade_date": "2026-10-23",
-      "requested_contract_count": 19,
-      "reused_contract_count": 1,
+      "requested_contract_count": 0,
+      "reused_contract_count": 20,
       "returned_contract_count": 20,
       "rejected_contracts": [],
       "request_error": null,
@@ -23725,7 +23725,7 @@
   "full_snapshot": {
     "path": "snapshots/2026-10-23.json.gz",
     "record_count": 1050,
-    "sha256": "29b7c1e9a7ebaf243e8d4f6b14d226c5a897418edb4d547c283583b5e591204d",
+    "sha256": "571ad88d58dfe723a14e2d1a245b610e30ae96a6fcb89feece4b9a807eb88934",
     "retention_trading_days": 20
   },
   "shards": [
