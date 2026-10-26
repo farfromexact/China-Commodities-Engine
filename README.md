@@ -41,6 +41,8 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 - `data/night_session/last_run_status.json`：夜盘模块独立的新鲜度、覆盖率、校验和错误状态。
 - `data/night_session/history.parquet`：按当前交易日、交易所和具体合约去重的夜盘长期历史。
 - `data/report_input_latest.json`：下游晨报使用的只读汇总层；其中的 `night_session` 只提供按品种压缩的摘要引用和代表合约，完整合约明细仍只在 `data/night_session/latest.json`。
+
+报告输入 schema v3 增加 `execution_prices` 与执行校验边界：产业、现货、库存和基差仍完整用于研究；明确合约的执行计划必须用快照溯源报价，并经过 `china_commodities.execution.gate_card`。可选输入 `data/trade_cards/candidates.json` 的失败卡保留研究、清空执行对象；外部生成器应在发布前调用 `scripts/validate_trade_cards.py`，不能把未校验的自由文本当作执行建议。EOD 校验通过也只代表指定交易日的参考计划，下单前仍需刷新报价。完整结构、调查证据及接入方法见 [SA/JM 价格调查与执行边界](docs/sa-jm-price-rca-20261026.md)。
 - `data/contract_meta.json`：合约乘数、最小变动价位、交易与到期属性等日盘元数据；不承载夜盘快照。
 - `data/history/futures.parquet`：按交易日、交易所和具体合约去重的长期日线历史；不受20日 JSON 窗口限制，可回填252个交易日。
 - `data/physical/latest.json`、`attempt_latest.json` 和 `history.parquet`：20个核心品种的固定指标矩阵、产业序列、官方仓单引用、`Spot - Futures` 基差和显式空值结论。

@@ -1,0 +1,59 @@
+{
+  "trade_date": "2026-10-21",
+  "generated_at": "2026-10-22T06:04:27.342577+08:00",
+  "verified": true,
+  "source": {
+    "provider": "ifind"
+  },
+  "futures_contracts": [
+    {
+      "trade_date": "2026-10-21",
+      "requested_trade_date": "2026-10-21",
+      "source_trade_date": "2026-10-21",
+      "source_date_match": true,
+      "source_date_column": "date",
+      "exchange": "DCE",
+      "product": "JM",
+      "contract": "JM2701",
+      "open": 1408.0,
+      "high": 1427.5,
+      "low": 1400.5,
+      "close": 1410.0,
+      "volume": 482164.0,
+      "open_interest": 431049.0,
+      "turnover": 4086651.5,
+      "settle": 1412.5,
+      "pre_settle": 1408.0,
+      "ohlc_quality": "complete",
+      "close_return_pct": 0.14204545454545858,
+      "settle_return_pct": 0.3196022727272707
+    },
+    {
+      "trade_date": "2026-10-21",
+      "requested_trade_date": "2026-10-21",
+      "source_trade_date": "2026-10-21",
+      "source_date_match": true,
+      "source_date_column": "date",
+      "exchange": "CZCE",
+      "product": "SA",
+      "contract": "SA701",
+      "open": 942.0,
+      "high": 958.0,
+      "low": 941.0,
+      "close": 949.0,
+      "volume": 1054817.0,
+      "open_interest": 1285459.0,
+      "turnover": 2008746.65,
+      "settle": 952.0,
+      "pre_settle": 946.0,
+      "ohlc_quality": "complete",
+      "close_return_pct": 0.3171247357293794,
+      "settle_return_pct": 0.634249471458781
+    }
+  ],
+  "fixture_provenance": {
+    "source_path": "data/snapshots/2026-10-21.json",
+    "full_snapshot_id": "sha256:eaf9e1bc3c369a483d420a5671e267e5a3d064dc82bcd40c4da745a772bcdd09",
+    "note": "Verbatim selected records; reduced fixture for retention-independent regression."
+  }
+}

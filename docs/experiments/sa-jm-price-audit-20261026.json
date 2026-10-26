@@ -1,0 +1,426 @@
+{
+  "archive_commit": "f5556e96934fea2f0a6fa24da50ce56183119857",
+  "first_exact_price_report_commit": "34a5045868d80cb1dceb2be2579edbccf170b824",
+  "first_exact_price_commit_time": "2026-10-23T12:24:39Z",
+  "engine_20261023_blob": "17e27c8304f8f4f9c5217a468e070c079b77c6e4",
+  "inventory": [
+    {
+      "root": "data",
+      "counts": {
+        "files_scanned": 156,
+        "open": 107,
+        "high": 111,
+        "low": 108,
+        "close": 211,
+        "volume": 170,
+        "open_interest": 253,
+        "settle": 216,
+        "pre_settle": 13,
+        "parquet_rows": 632640,
+        "warehouse_quantity": 2,
+        "near_minus_deferred": 6,
+        "warehouse_change": 2,
+        "value": 1,
+        "near_contract_price": 1,
+        "open_interest_change": 7,
+        "strike": 44,
+        "main_volume": 1,
+        "put_open_interest": 4,
+        "call_volume": 1,
+        "underlying_settle": 31,
+        "put_volume": 1,
+        "prior_eod_settlement": 3,
+        "previous_day_settlement": 3,
+        "prior_eod_close": 1,
+        "previous_day_close": 1,
+        "settlement": 2,
+        "pre_settlement": 2,
+        "previous_day_open_interest": 6,
+        "delta_open_interest": 5
+      },
+      "date_range": [
+        "2026-08-14",
+        "2026-10-22"
+      ],
+      "unreadable": [
+        {
+          "file": "data\\backup\\dce-alternatives\\probes\\sina_page.raw",
+          "error": "UnicodeDecodeError"
+        }
+      ]
+    },
+    {
+      "root": ".cache",
+      "counts": {
+        "files_scanned": 121
+      },
+      "date_range": [
+        "2026-09-15",
+        "2026-09-15"
+      ],
+      "unreadable": []
+    },
+    {
+      "root": "automation",
+      "counts": {
+        "files_scanned": 1
+      },
+      "date_range": [],
+      "unreadable": []
+    },
+    {
+      "root": "docs",
+      "counts": {
+        "files_scanned": 7
+      },
+      "date_range": [],
+      "unreadable": []
+    },
+    {
+      "root": "config",
+      "counts": {
+        "files_scanned": 4
+      },
+      "date_range": [],
+      "unreadable": []
+    },
+    {
+      "root": "tmp\\sa-jm-source\\global-cross-asset-radar",
+      "counts": {
+        "files_scanned": 45,
+        "sa2701_day_close": 2,
+        "jm2701_day_close": 2
+      },
+      "date_range": [],
+      "unreadable": []
+    },
+    {
+      "root": "C:\\Users\\macon\\Documents\\Global-Cross-Asset-Radaractions\\reports",
+      "counts": {
+        "files_scanned": 119
+      },
+      "date_range": [],
+      "unreadable": []
+    },
+    {
+      "root": "C:\\Users\\macon\\Documents\\Global-Cross-Asset-Radaractions\\latest",
+      "counts": {
+        "files_scanned": 8
+      },
+      "date_range": [],
+      "unreadable": []
+    }
+  ],
+  "gemini_reports": [
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-16_morning.md",
+      "sha256": "2f2e5745b90704fd0c3d1c4e8a3ccc19fcfd5ee0afe14735568bda6937e53f2f",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-17_evening.md",
+      "sha256": "276fc52c6e4fd5eca5efd164ef3da88e045f9bb7e1e955196eb2cfa5e919a322",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-17_morning.md",
+      "sha256": "deec8a280d45a9fcc4e42a6c888319e468d3eda3656cab3296c64dab5969ea88",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-18_evening.md",
+      "sha256": "0fab587380253bdc69085c245028da3266f2cbb4bfed108f09827fcf0a0251e7",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-18_morning.md",
+      "sha256": "1915f4e5f8a3380e834ec1e20347bbc77fd3fb014dd7382d41426673a95a5692",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-19_evening.md",
+      "sha256": "e8a034694dc4e4447cd0c085b32ea5c720445b436d653ae6ed497d3bc5051452",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-19_morning.md",
+      "sha256": "e7dcc79a334766216547dc0e15bf9ebf5acd59c76ac883688eddbce85b94332f",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-20_morning.md",
+      "sha256": "792901981b35d932dd36962f1e372f92a79523079b34feb9c8294e8162a36391",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-21_evening.md",
+      "sha256": "f1bd0164411e42780903b72f05b9c161d9c913dad40b242c9d363915467bc55d",
+      "exact_price_lines": [],
+      "idea_lines": [
+        61,
+        72,
+        200
+      ]
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-21_morning.md",
+      "sha256": "3d65494b65ca34214737691be5a2b79284d2402138133305af84dcba7f9d9365",
+      "exact_price_lines": [],
+      "idea_lines": [
+        86,
+        88,
+        233,
+        244,
+        252
+      ]
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-22_evening.md",
+      "sha256": "8d8bc42c32754b346eac5157080fb0ac6df6f1231d7219304c26f31d34258590",
+      "exact_price_lines": [],
+      "idea_lines": [
+        78,
+        124,
+        190,
+        203
+      ]
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-22_morning.md",
+      "sha256": "315399b3c5d57c0fb500a260eecf9994753b85005392a6d42dacf9ed68090a02",
+      "exact_price_lines": [],
+      "idea_lines": [
+        70,
+        84,
+        227,
+        265,
+        283,
+        292,
+        302
+      ]
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-23_evening.md",
+      "sha256": "6def2b848819c52155e3e727ebd0f0735f6565196ebd76428ace05aa35b252e8",
+      "exact_price_lines": [
+        13,
+        45,
+        63,
+        120
+      ],
+      "idea_lines": [
+        63,
+        73,
+        116,
+        192,
+        193
+      ]
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-23_morning.md",
+      "sha256": "3bc306bf5e3f403ee170408f518b0f10632f29de341fc9f2d199e338a46894ca",
+      "exact_price_lines": [],
+      "idea_lines": [
+        81,
+        125,
+        213,
+        255,
+        271,
+        279,
+        291
+      ]
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-24_evening.md",
+      "sha256": "b8e84436289f271006215c5767e40398d8356f167b8d848396fa364cb367fb6e",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-24_morning.md",
+      "sha256": "60bbd3351b6d46dcb938904a76ac33273f4d0e015fbe6d404cdc1549478c977a",
+      "exact_price_lines": [],
+      "idea_lines": [
+        80,
+        106,
+        187,
+        200,
+        212
+      ]
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-25_evening.md",
+      "sha256": "78d42d4c4dc6e58ee267a54f82d62ce945000f3ab2ed56e124c14d6eb09aec28",
+      "exact_price_lines": [],
+      "idea_lines": []
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-25_morning.md",
+      "sha256": "6400926547eb0491c5e868b5ea2e3ff263aa9ff2fa61ab654e4b491329b90be4",
+      "exact_price_lines": [
+        46,
+        82,
+        197
+      ],
+      "idea_lines": [
+        10,
+        82,
+        197,
+        248,
+        255
+      ]
+    },
+    {
+      "path": "global-cross-asset-radar\\reports\\2026\\10\\2026-10-26_morning.md",
+      "sha256": "072ede9cecbed1196de6524f63dff4108691be58f47ce816a5361271dfafe9d8",
+      "exact_price_lines": [
+        58,
+        103,
+        151,
+        152
+      ],
+      "idea_lines": [
+        18,
+        103,
+        144,
+        215
+      ]
+    }
+  ],
+  "commodity_card_inventory": [
+    {
+      "report": "2026-10-18_evening.json",
+      "idea_id": "idea_20261017_01",
+      "expression": "多 USO Dec 2026 $162/$180 Bull Call Spread（或多 FU2612 / 空 L2701）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-19_evening.json",
+      "idea_id": "idea_20261017_01",
+      "expression": "多 USO Dec 2026 $162/$180 Call Spread（或多 FU2612 / 空 L2701）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-19_morning.json",
+      "idea_id": "idea_20261017_01",
+      "expression": "多 USO Dec 2026 $162/$180 Bull Call Spread（或多 FU2612 / 空 L2701）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-20_morning.json",
+      "idea_id": "idea_20261017_01",
+      "expression": "多 USO Dec 2026 60/78 Bull Call Spread（内盘备选：多 FU2612 / 空 L2701）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-21_evening.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701 / 空 JM2701（1:1.1 配比跨品种套利）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-21_morning.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701 / 空 JM2701（1:1.1 配比跨品种套利）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-22_evening.json",
+      "idea_id": "idea_20261017_01",
+      "expression": "多 USO Dec 2026 $165/$180 Call Spread 或多 FU2612 / 空 L2701",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-22_evening.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701 / 空 JM2701（1:1.1 跨品种名义配比）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-22_morning.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701 / 空 JM2701（1:1.1 名义配比）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-23_evening.json",
+      "idea_id": "idea_20261017_01",
+      "expression": "多 USO Dec 2026 $165/$180 Call Spread 或多 FU2612 / 空 L2701",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-23_evening.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701 / 空 JM2701（1:1.1 跨品种名义配比）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-23_morning.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701（郑商所，20吨/手）/ 空 JM2701（大商所，60吨/手）（1:1.1 名义配比）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-24_evening.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701（郑商所，20吨/手）/ 空 JM2701（大商所，60吨/手）（5手:2手 即 1:1.1 名义配比）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-24_morning.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701（郑商所，20吨/手）/ 空 JM2701（大商所，60吨/手）（1:1.1 名义配比）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-25_morning.json",
+      "idea_id": "idea_20261017_01",
+      "expression": "多 USO Dec 2026 $165/$180 Call Spread 或内盘多 SC2612 (740-746元区间不追高) / 多 FU2612 空 L2701",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-25_morning.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701（1,488元/吨）/ 空 JM2701（1,222元/吨）（5手:2手名义配比，当前价差266元）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-25_morning.json",
+      "idea_id": "idea_20261024_01",
+      "expression": "多 紫金矿业 (601899.SH) + 洛阳钼业 (603993.SH) 现货组合（或配对多 CU2612）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-26_morning.json",
+      "idea_id": "idea_20261017_01",
+      "expression": "外盘 USO Dec Call Spread / 内盘 SC2612 (732-740元承接) 或多 FU2612 / 空 L2701",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-26_morning.json",
+      "idea_id": "idea_20261021_01",
+      "expression": "多 SA2701 (1,488元) / 空 JM2701 (1,222元)",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    },
+    {
+      "report": "2026-10-26_morning.json",
+      "idea_id": "idea_20261024_01",
+      "expression": "多 60% 紫金矿业 (601899.SH) + 40% 洛阳钼业 (603993.SH)（或多 CU2612）",
+      "execution_provenance": "missing per-leg traceable quote objects; requires revalidation"
+    }
+  ],
+  "limitations": [
+    "Files are archived outputs, not Gemini prompts or retrieval responses.",
+    "One raw backup page is not UTF-8.",
+    "GPT checkout covers older reports; no October 21 report in this checkout.",
+    "Full numeric audit remains in tmp/sa-jm-audit-complete.json; equality does not establish provenance."
+  ]
+}

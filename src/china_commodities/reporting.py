@@ -21,9 +21,10 @@ from typing import Any, Mapping
 from zoneinfo import ZoneInfo
 
 from .storage import read_json, write_json_if_changed
+from .execution import gate_card, quote_book
 
 
-REPORT_SCHEMA_VERSION = 2
+REPORT_SCHEMA_VERSION = 3
 REPORT_INPUT_NAME = "report_input_latest.json"
 
 # This is the approved Physical scope, not the full futures universe.  Keep the
@@ -799,6 +800,19 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         "schema_version": REPORT_SCHEMA_VERSION,
         "generated_at": generated_at,
         "requested_date": requested_date,
+        "execution_prices": quote_book(dict(futures)),
+        "execution_policy": {
+            "output_validator": "china_commodities.execution.gate_card",
+            "default_status": "research_only",
+            "spot_basis_and_continuous_prices": "research_only",
+            "live_orders_require_refreshed_quotes": True,
+            "unvalidated_prose_is_not_an_execution_card": True,
+        },
+        "trade_cards": [
+            gate_card(card, dict(futures), dict(contract_meta), as_of_date=requested_date)
+            for card in _list(_read(root, "trade_cards/candidates.json", []))
+            if isinstance(card, dict)
+        ],
         "timezone": "Asia/Shanghai",
         "frequency": (
             "EOD+night_session"
