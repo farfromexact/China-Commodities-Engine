@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "trade_date": "2026-10-29",
-  "generated_at": "2026-10-29T11:09:50.131195+00:00",
+  "generated_at": "2026-10-29T22:15:18.463360+00:00",
   "mode": "advisory_independent_exchange_eod",
   "ifind_requests": 0,
   "state": "partial",
@@ -116,8 +116,37 @@
     },
     {
       "exchange": "GFEX",
-      "state": "source_error",
-      "error": "522 Server Error: Connection Timeout with Origin Server for url: http://www.gfex.com.cn/u/interfacesWebTiDayQuotes/loadList"
+      "state": "matched",
+      "official_contracts": 48,
+      "vendor_contracts": 48,
+      "matched_contracts": 48,
+      "vendor_only_count": 0,
+      "official_only_count": 0,
+      "fields": {
+        "settle": {
+          "comparable": 48,
+          "different": 0,
+          "equal": 48,
+          "absolute_tolerance": 1e-06
+        },
+        "close": {
+          "comparable": 48,
+          "different": 0,
+          "equal": 48,
+          "absolute_tolerance": 1e-06
+        },
+        "pre_settle": {
+          "comparable": 48,
+          "different": 0,
+          "equal": 48,
+          "absolute_tolerance": 1e-06
+        }
+      },
+      "differences": [],
+      "differences_truncated": false,
+      "source_date_basis": [
+        "response_query_date_echo"
+      ]
     }
   ],
   "blocks_publication": false,
