@@ -2,16 +2,16 @@
   "schema_version": 1,
   "domain": "external",
   "provider": "akshare",
-  "requested_date": "2026-10-30",
-  "generated_at": "2026-11-02T06:02:45.938928+08:00",
-  "data_fresh": true,
+  "requested_date": "2026-11-02",
+  "generated_at": "2026-11-02T19:05:50.139084+08:00",
+  "data_fresh": false,
   "coverage": {
     "target_count": 22,
     "configured_mapping_count": 17,
     "unavailable_mapping_count": 5,
-    "fresh_target_count": 17,
+    "fresh_target_count": 16,
     "stale_target_count": 0,
-    "carried_forward_target_count": 0,
+    "carried_forward_target_count": 1,
     "unavailable_target_count": 5,
     "failed_target_count": 0,
     "series_count": 17,
@@ -24,226 +24,230 @@
       "indicator_id": "AKSHARE:SINA:CL",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "1996-11-04",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.BRENT.akshare_oil_close",
       "indicator_id": "AKSHARE:SINA:OIL",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.LME_CU.akshare_cad_close",
       "indicator_id": "AKSHARE:SINA:CAD",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.LME_AL.akshare_ahd_close",
       "indicator_id": "AKSHARE:SINA:AHD",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.LME_ZN.akshare_zsd_close",
       "indicator_id": "AKSHARE:SINA:ZSD",
-      "state": "ok",
-      "quality_state": "fresh",
+      "state": "collection_error",
+      "quality_state": "carried_forward",
       "source_date": "2026-10-30",
-      "carried_forward": false,
-      "detail": null,
+      "carried_forward": true,
+      "detail": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_start_date": null,
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.LME_NI.akshare_nid_close",
       "indicator_id": "AKSHARE:SINA:NID",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.COMEX_AU.akshare_gc_close",
       "indicator_id": "AKSHARE:SINA:GC",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.COMEX_AG.akshare_si_close",
       "indicator_id": "AKSHARE:SINA:SI",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.SGX_IRON_ORE.akshare_fef_close",
       "indicator_id": "AKSHARE:SINA:FEF",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2022-12-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.CBOT_SOYBEAN.akshare_s_close",
       "indicator_id": "AKSHARE:SINA:S",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.CBOT_SOYMEAL.akshare_sm_close",
       "indicator_id": "AKSHARE:SINA:SM",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.CBOT_SOYBEAN_OIL.akshare_bo_close",
       "indicator_id": "AKSHARE:SINA:BO",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.CBOT_CORN.akshare_c_close",
       "indicator_id": "AKSHARE:SINA:C",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.CBOT_WHEAT.akshare_w_close",
       "indicator_id": "AKSHARE:SINA:W",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2016-11-02",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.BMD_PALM.akshare_fcpo_close",
       "indicator_id": "AKSHARE:SINA:FCPO",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2020-01-06",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.ICE_SUGAR.akshare_rs_close",
       "indicator_id": "AKSHARE:SINA:RS",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2019-06-27",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     },
     {
       "series_key": "external.ICE_COTTON.akshare_ct_close",
       "indicator_id": "AKSHARE:SINA:CT",
       "state": "ok",
       "quality_state": "fresh",
-      "source_date": "2026-10-30",
+      "source_date": "2026-11-02",
       "carried_forward": false,
       "detail": null,
       "cache_hit": false,
       "request_made": true,
       "query_start_date": "2019-04-22",
-      "query_end_date": "2026-10-30"
+      "query_end_date": "2026-11-02"
     }
   ],
-  "validation_passed": true,
-  "validation_errors": [],
-  "published": true,
+  "validation_passed": false,
+  "validation_errors": [
+    "LME_ZN: current collection is carried forward",
+    "external.LME_ZN.akshare_zsd_close: current collection is carried forward",
+    "external.LME_ZN.akshare_zsd_close: current collection state=collection_error"
+  ],
+  "published": false,
   "shadow_state": {
     "schema_version": 1,
     "required_pass_days": 1,
@@ -253,10 +257,10 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 1,
-    "last_attempt_date": "2026-10-30",
-    "last_attempt_validation_passed": true,
+    "last_attempt_date": "2026-11-02",
+    "last_attempt_validation_passed": false,
     "out_of_order_attempt": false,
-    "promotion_allowed": true
+    "promotion_allowed": false
   },
-  "previous_valid_snapshot_retained": false
+  "previous_valid_snapshot_retained": true
 }

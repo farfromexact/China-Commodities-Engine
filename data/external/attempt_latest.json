@@ -2,8 +2,8 @@
   "schema_version": 1,
   "domain": "external",
   "provider": "akshare",
-  "requested_date": "2026-10-30",
-  "generated_at": "2026-10-31T06:04:38.578973+08:00",
+  "requested_date": "2026-11-02",
+  "generated_at": "2026-11-02T19:05:50.139084+08:00",
   "timezone": "Asia/Shanghai",
   "vendor": "AKShare",
   "akshare_version": "1.18.97",
@@ -14,9 +14,9 @@
     "target_count": 22,
     "configured_mapping_count": 17,
     "unavailable_mapping_count": 5,
-    "fresh_target_count": 17,
+    "fresh_target_count": 16,
     "stale_target_count": 0,
-    "carried_forward_target_count": 0,
+    "carried_forward_target_count": 1,
     "unavailable_target_count": 5,
     "failed_target_count": 0,
     "series_count": 17,
@@ -27,7 +27,7 @@
     {
       "key": "WTI",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -40,7 +40,7 @@
     {
       "key": "BRENT",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -53,7 +53,7 @@
     {
       "key": "DUBAI_OMAN",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "unavailable",
       "permission_status": "not_available",
       "current_permission_status": "unavailable",
@@ -64,7 +64,7 @@
     {
       "key": "SINGAPORE_HSFO",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "unavailable",
       "permission_status": "not_available",
       "current_permission_status": "unavailable",
@@ -75,7 +75,7 @@
     {
       "key": "SINGAPORE_VLSFO",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "unavailable",
       "permission_status": "not_available",
       "current_permission_status": "unavailable",
@@ -86,7 +86,7 @@
     {
       "key": "LME_CU",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -99,7 +99,7 @@
     {
       "key": "LME_AL",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -112,20 +112,20 @@
     {
       "key": "LME_ZN",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
-      "current_permission_status": "available",
-      "quality_state": "fresh",
+      "current_permission_status": "collection_error",
+      "quality_state": "carried_forward",
       "series_keys": [
         "external.LME_ZN.akshare_zsd_close"
       ],
-      "missing_reason": null
+      "missing_reason": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
     },
     {
       "key": "LME_NI",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -138,7 +138,7 @@
     {
       "key": "COMEX_AU",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -151,7 +151,7 @@
     {
       "key": "COMEX_AG",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -164,7 +164,7 @@
     {
       "key": "SGX_IRON_ORE",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -177,7 +177,7 @@
     {
       "key": "CBOT_SOYBEAN",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -190,7 +190,7 @@
     {
       "key": "CBOT_SOYMEAL",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -203,7 +203,7 @@
     {
       "key": "CBOT_SOYBEAN_OIL",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -216,7 +216,7 @@
     {
       "key": "CBOT_CORN",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -229,7 +229,7 @@
     {
       "key": "CBOT_WHEAT",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -242,7 +242,7 @@
     {
       "key": "BMD_PALM",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -255,7 +255,7 @@
     {
       "key": "ICE_SUGAR",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -268,7 +268,7 @@
     {
       "key": "ICE_COTTON",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "configured",
       "permission_status": "public",
       "current_permission_status": "available",
@@ -281,7 +281,7 @@
     {
       "key": "USDCNH",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "unavailable",
       "permission_status": "not_available",
       "current_permission_status": "unavailable",
@@ -292,7 +292,7 @@
     {
       "key": "DXY",
       "exchange": null,
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "mapping_status": "unavailable",
       "permission_status": "not_available",
       "current_permission_status": "unavailable",
@@ -309,9 +309,9 @@
       "exchange": null,
       "target": "WTI",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:CL",
       "report_id": null,
@@ -319,7 +319,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "NYMEX原油",
-      "value": 102.94,
+      "value": 99.59,
       "unit": "USD/bbl",
       "frequency": "D",
       "vendor": "AKShare",
@@ -335,7 +335,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "4488e68fd18c7bfe31623f17f8a861b06287169d566eb6d14cbf19836263322d"
+      "normalized_value_sha256": "27dbcb2bfc1eb0b1f6082a10a0b809a5e156df21c93458f99137d9010afdfcc6"
     },
     {
       "series_key": "external.BRENT.akshare_oil_close",
@@ -344,9 +344,9 @@
       "exchange": null,
       "target": "BRENT",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:OIL",
       "report_id": null,
@@ -354,7 +354,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "布伦特原油",
-      "value": 113.4,
+      "value": 108.58,
       "unit": "USD/bbl",
       "frequency": "D",
       "vendor": "AKShare",
@@ -370,7 +370,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "1f03d21a083377b9a130111b5a2a6469a00a9125af2965ae138060002739ff93"
+      "normalized_value_sha256": "a8639da3139bb904ce6136842279844782044c8015eff3da0b1a6b719ea88175"
     },
     {
       "series_key": "external.LME_CU.akshare_cad_close",
@@ -379,9 +379,9 @@
       "exchange": null,
       "target": "LME_CU",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:CAD",
       "report_id": null,
@@ -389,7 +389,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "LME铜3个月",
-      "value": 14129.5,
+      "value": 14260.0,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -405,7 +405,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "55e30aa32cd499954f697673679e58b8892b37b9219f4925ddf95ae86c8a353b"
+      "normalized_value_sha256": "06cec679a88ec99390492edb7a23f9bd90c9ab0d186a512f146eae9dc37683e3"
     },
     {
       "series_key": "external.LME_AL.akshare_ahd_close",
@@ -414,9 +414,9 @@
       "exchange": null,
       "target": "LME_AL",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:AHD",
       "report_id": null,
@@ -424,7 +424,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "LME铝3个月",
-      "value": 3061.0,
+      "value": 3064.5,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -440,7 +440,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "32efb0ae183b68775a89b3d399c2996649e597fb0ddfd890400d21778f7ee191"
+      "normalized_value_sha256": "3bbedd8ab7c22b497a9de3e190db11267973f58f2bd25ce3b70ccc58c9f5196e"
     },
     {
       "series_key": "external.LME_ZN.akshare_zsd_close",
@@ -449,7 +449,7 @@
       "exchange": null,
       "target": "LME_ZN",
       "metric": "close",
-      "requested_date": "2026-10-30",
+      "requested_date": "2026-11-02",
       "source_date": "2026-10-30",
       "observation_date": "2026-10-30",
       "timezone": "Asia/Shanghai",
@@ -457,7 +457,7 @@
       "report_id": null,
       "source_endpoint": "futures_foreign_hist",
       "permission_status": "public",
-      "current_permission_status": "available",
+      "current_permission_status": "collection_error",
       "name": "LME锌3个月",
       "value": 3821.0,
       "unit": "USD/t",
@@ -468,14 +468,14 @@
       "usage": "context_only",
       "contract_kind": "three_month",
       "max_lag_days": 3,
-      "quality_state": "fresh",
-      "missing_reason": null,
-      "current_collection_state": "ok",
-      "carried_forward": false,
-      "carried_from_observation_date": null,
+      "quality_state": "carried_forward",
+      "missing_reason": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+      "current_collection_state": "collection_error",
+      "carried_forward": true,
+      "carried_from_observation_date": "2026-10-30",
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "77e7dc07011931cd2b91a1efdd81ebb588210f6b2b9633273ba2b581817bd105"
+      "normalized_value_sha256": "4bc6afeb8aecb0ddfb5cabfba73179f9187660a1139866db454c9bf44694b40f"
     },
     {
       "series_key": "external.LME_NI.akshare_nid_close",
@@ -484,9 +484,9 @@
       "exchange": null,
       "target": "LME_NI",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:NID",
       "report_id": null,
@@ -494,7 +494,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "LME镍3个月",
-      "value": 15200.0,
+      "value": 15445.0,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -510,7 +510,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "fa54c7e98d7452f101f74908cb2d87f2bfe2727af5d64a4b463ff9ec193c5e98"
+      "normalized_value_sha256": "fffd9914c877b9d2f561cd90bd771c87228c14fc3a4d844ebab516eaa5efc38f"
     },
     {
       "series_key": "external.COMEX_AU.akshare_gc_close",
@@ -519,9 +519,9 @@
       "exchange": null,
       "target": "COMEX_AU",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:GC",
       "report_id": null,
@@ -529,7 +529,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "COMEX黄金",
-      "value": 3884.4,
+      "value": 3908.1,
       "unit": "USD/troy_oz",
       "frequency": "D",
       "vendor": "AKShare",
@@ -545,7 +545,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "844613e17ed37afed4b7bce72b01292fdd4d05ecf317e77e9006eaf49f59d295"
+      "normalized_value_sha256": "5f51dbf75fc1c9701b5c458e6c895bb937521360b858a3ab1bd0bb6b534ae6f8"
     },
     {
       "series_key": "external.COMEX_AG.akshare_si_close",
@@ -554,9 +554,9 @@
       "exchange": null,
       "target": "COMEX_AG",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:SI",
       "report_id": null,
@@ -564,7 +564,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "COMEX白银",
-      "value": 49.13,
+      "value": 50.275,
       "unit": "USD/troy_oz",
       "frequency": "D",
       "vendor": "AKShare",
@@ -580,7 +580,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "a4027732eaa8ba0a0b7310eafec142238226569cbcb698ded4c5e97e3980f6b5"
+      "normalized_value_sha256": "4317f6bd353eda5c86333759fad86906510298e3f9b07b110ad9042ade68f0ec"
     },
     {
       "series_key": "external.SGX_IRON_ORE.akshare_fef_close",
@@ -589,9 +589,9 @@
       "exchange": null,
       "target": "SGX_IRON_ORE",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:FEF",
       "report_id": null,
@@ -599,7 +599,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "新加坡铁矿石",
-      "value": 91.0,
+      "value": 91.15,
       "unit": "USD/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -615,7 +615,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "c08d76dddc3b2cbd2e51656673f254363652618f1869ec526d7d2d58109e5e09"
+      "normalized_value_sha256": "42cf3108482b52de2c1c7136c327301a4d7445b53b31e3b8ce5f21ce886cd9c4"
     },
     {
       "series_key": "external.CBOT_SOYBEAN.akshare_s_close",
@@ -624,9 +624,9 @@
       "exchange": null,
       "target": "CBOT_SOYBEAN",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:S",
       "report_id": null,
@@ -634,7 +634,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT黄豆",
-      "value": 1234.0,
+      "value": 1233.0,
       "unit": "USC/bu",
       "frequency": "D",
       "vendor": "AKShare",
@@ -650,7 +650,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "589ccd75944f8525292274adffb525652a791583b51004807b00423f4e978cdf"
+      "normalized_value_sha256": "80b66524c93f9ebfd684bf40d5ff204e4e14ad8ebc23301e876b5f8bd7973e0d"
     },
     {
       "series_key": "external.CBOT_SOYMEAL.akshare_sm_close",
@@ -659,9 +659,9 @@
       "exchange": null,
       "target": "CBOT_SOYMEAL",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:SM",
       "report_id": null,
@@ -669,7 +669,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT黄豆粉",
-      "value": 324.7,
+      "value": 325.6,
       "unit": "USD/short_ton",
       "frequency": "D",
       "vendor": "AKShare",
@@ -685,7 +685,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "6949c0c72a118e5eb43189029caccd40aaa6bdade37dab3e28c1ff0179160c13"
+      "normalized_value_sha256": "75d7aa8fca57d60b520328cc0a5abcd079698ee36f2820a2e5efbe8ea9fba94f"
     },
     {
       "series_key": "external.CBOT_SOYBEAN_OIL.akshare_bo_close",
@@ -694,9 +694,9 @@
       "exchange": null,
       "target": "CBOT_SOYBEAN_OIL",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:BO",
       "report_id": null,
@@ -704,7 +704,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT黄豆油",
-      "value": 65.8,
+      "value": 65.7,
       "unit": "USC/lb",
       "frequency": "D",
       "vendor": "AKShare",
@@ -720,7 +720,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "cb0fa9ed53f3f7ab4c3a5ae988248cb0a2bdeff0173ab3af6f46e2a00e7f3169"
+      "normalized_value_sha256": "f94ad50d8958cd3f14b3aa53246ecd15adad4ff9e076c9a4e361bf4265fcb9f1"
     },
     {
       "series_key": "external.CBOT_CORN.akshare_c_close",
@@ -729,9 +729,9 @@
       "exchange": null,
       "target": "CBOT_CORN",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:C",
       "report_id": null,
@@ -739,7 +739,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT玉米",
-      "value": 447.5,
+      "value": 450.75,
       "unit": "USC/bu",
       "frequency": "D",
       "vendor": "AKShare",
@@ -755,7 +755,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "fcb5ead48a5272e2ba17ceb5ef0804d1f074e7e40f3208feaf196598b8b471dd"
+      "normalized_value_sha256": "8e58412fc2f30486e40e638c205b1aaf37b0afcde7dd253702e27155ea9b46af"
     },
     {
       "series_key": "external.CBOT_WHEAT.akshare_w_close",
@@ -764,9 +764,9 @@
       "exchange": null,
       "target": "CBOT_WHEAT",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:W",
       "report_id": null,
@@ -774,7 +774,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "CBOT小麦",
-      "value": 603.25,
+      "value": 604.5,
       "unit": "USC/bu",
       "frequency": "D",
       "vendor": "AKShare",
@@ -790,7 +790,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "072d04572b72327e9e011b4f9b103cc20a08b62ff47d3b013cc61f3f43e3776f"
+      "normalized_value_sha256": "d7a483a0fd1f3558f0c2c6b173e0eef9ca0137909363b50dfed8362c6a93af6b"
     },
     {
       "series_key": "external.BMD_PALM.akshare_fcpo_close",
@@ -799,9 +799,9 @@
       "exchange": null,
       "target": "BMD_PALM",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:FCPO",
       "report_id": null,
@@ -809,7 +809,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "马棕油",
-      "value": 4682.0,
+      "value": 4725.0,
       "unit": "MYR/t",
       "frequency": "D",
       "vendor": "AKShare",
@@ -825,7 +825,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "d8894855975926f67c9530a706701a7feba635c22e62dbed8e67bbd119f5f94b"
+      "normalized_value_sha256": "13d4d0723fced1da05280b1115566a773e553e241a2d445aef414d5788856141"
     },
     {
       "series_key": "external.ICE_SUGAR.akshare_rs_close",
@@ -834,9 +834,9 @@
       "exchange": null,
       "target": "ICE_SUGAR",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:RS",
       "report_id": null,
@@ -844,7 +844,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "美国原糖",
-      "value": 19.37,
+      "value": 19.28,
       "unit": "USC/lb",
       "frequency": "D",
       "vendor": "AKShare",
@@ -860,7 +860,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "e80127a4db99add13b307e9b6c0f49d930767cb37d058cfdda4a489174765000"
+      "normalized_value_sha256": "b14cfbe81d81b1a71933a219bce31482ad80ee145a08026281a9fcd5b4f8b20b"
     },
     {
       "series_key": "external.ICE_COTTON.akshare_ct_close",
@@ -869,9 +869,9 @@
       "exchange": null,
       "target": "ICE_COTTON",
       "metric": "close",
-      "requested_date": "2026-10-30",
-      "source_date": "2026-10-30",
-      "observation_date": "2026-10-30",
+      "requested_date": "2026-11-02",
+      "source_date": "2026-11-02",
+      "observation_date": "2026-11-02",
       "timezone": "Asia/Shanghai",
       "indicator_id": "AKSHARE:SINA:CT",
       "report_id": null,
@@ -879,7 +879,7 @@
       "permission_status": "public",
       "current_permission_status": "available",
       "name": "NYBOT棉花",
-      "value": 77.87,
+      "value": 78.54,
       "unit": "USC/lb",
       "frequency": "D",
       "vendor": "AKShare",
@@ -895,7 +895,7 @@
       "carried_from_observation_date": null,
       "is_stale": false,
       "is_fallback": false,
-      "normalized_value_sha256": "93641f02ee25e21b6ef86bda2f911ad00b5ea4edd5d76d5298ef73433f8d344f"
+      "normalized_value_sha256": "80cecdab8c9b81dde5dd21d3002d42e184153bb4c09d3daede70c07eedff26e3"
     }
   ],
   "fundamental_score": null,
@@ -919,9 +919,9 @@
       "2026-08-19"
     ],
     "consecutive_pass_count": 1,
-    "last_attempt_date": "2026-10-30",
-    "last_attempt_validation_passed": true,
+    "last_attempt_date": "2026-11-02",
+    "last_attempt_validation_passed": false,
     "out_of_order_attempt": false,
-    "promotion_allowed": true
+    "promotion_allowed": false
   }
 }
