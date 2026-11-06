@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-11-06T19:15:38.271023+08:00",
+  "generated_at": "2026-11-06T21:02:52.390798+08:00",
   "requested_date": "2026-11-06",
   "execution_prices": {
     "snapshot_id": "sha256:8d1f0c051fd28b2d2b2bfc3528c7a10b3ed0ad1b0234df2d9e8e5b2eddd3d54a",
@@ -19748,9 +19748,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 4.9217788715064215,
-        "3D": 7.509592254962194,
-        "5D": 9.811020835343642,
-        "20D": -10.676109917518929
+        "3D": null,
+        "5D": 5.1250440295878885,
+        "20D": -13.517820921472035
       },
       "realized_vol_20d_annualized_pct": 37.20346320055356,
       "realized_vol_20d_observations": 20,
@@ -19770,7 +19770,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 1,
+        "price_momentum": 0,
         "oi_impulse": 0,
         "curve_pressure": -1,
         "activity": 1,
@@ -19779,9 +19779,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -19796,9 +19798,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.032594524119944346,
-        "3D": 0.6892042770436202,
-        "5D": 0.6562130567693725,
-        "20D": -1.663648447739996
+        "3D": null,
+        "5D": 0.5899705014749346,
+        "20D": -2.6641294005708804
       },
       "realized_vol_20d_annualized_pct": 11.21301962776324,
       "realized_vol_20d_observations": 20,
@@ -19827,9 +19829,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -19844,9 +19848,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 1.953125,
-        "3D": 6.939816419771594,
-        "5D": 5.146097454264242,
-        "20D": -7.554133418020459
+        "3D": null,
+        "5D": 6.011372867587328,
+        "20D": -5.3662073966642465
       },
       "realized_vol_20d_annualized_pct": 26.974983099098395,
       "realized_vol_20d_observations": 20,
@@ -19875,9 +19879,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -19892,9 +19898,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.16466713714420322,
-        "3D": 0.5659868027891424,
-        "5D": 0.8744714248835939,
-        "20D": -1.177528918479731
+        "3D": null,
+        "5D": 0.16466713714420322,
+        "20D": -2.4289642529789157
       },
       "realized_vol_20d_annualized_pct": 9.986031559838805,
       "realized_vol_20d_observations": 20,
@@ -19923,10 +19929,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -19942,9 +19949,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.6772009029345272,
-        "3D": 0.5694519398947939,
-        "5D": 2.5855848207653187,
-        "20D": -3.0183100022196263
+        "3D": null,
+        "5D": 3.121387283236987,
+        "20D": 1.5945330296127658
       },
       "realized_vol_20d_annualized_pct": 15.320710070533279,
       "realized_vol_20d_observations": 20,
@@ -19973,9 +19980,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -19990,7 +19999,7 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.0,
-        "3D": 0.0,
+        "3D": null,
         "5D": 0.0,
         "20D": 0.0
       },
@@ -20021,13 +20030,14 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
           "curve_zscore",
           "near_next_curve_pair",
           "oi_change_zscore",
           "oi_level_zscore",
+          "settlement_return_pct_3D",
           "volume_zscore"
         ],
         "warnings": [
@@ -20046,9 +20056,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.7111935683364212,
-        "3D": -3.161353167770209,
-        "5D": -1.8577014983869544,
-        "20D": 14.259704933564432
+        "3D": null,
+        "5D": -7.276927519491771,
+        "20D": -3.312255344775672
       },
       "realized_vol_20d_annualized_pct": 44.057796670390125,
       "realized_vol_20d_observations": 20,
@@ -20068,7 +20078,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 0,
         "activity": 0,
@@ -20077,9 +20087,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20094,9 +20106,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.8396976929196507,
-        "3D": -3.344200143434617,
-        "5D": -2.5872286320762883,
-        "20D": -2.606297394211532
+        "3D": null,
+        "5D": -4.118504128217582,
+        "20D": -4.174352004659743
       },
       "realized_vol_20d_annualized_pct": 11.823497829399026,
       "realized_vol_20d_observations": 20,
@@ -20116,7 +20128,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": -2,
         "oi_impulse": -1,
         "curve_pressure": null,
         "activity": 0,
@@ -20125,10 +20137,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -20144,9 +20157,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.8955987717502611,
-        "3D": -3.899391632687721,
-        "5D": -2.574346959988927,
-        "20D": 2.5872770421308644
+        "3D": null,
+        "5D": -7.587687902648533,
+        "20D": -6.381435823060189
       },
       "realized_vol_20d_annualized_pct": 27.90050830063626,
       "realized_vol_20d_observations": 20,
@@ -20166,7 +20179,7 @@
         "pair_roll_flag": true
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 1,
         "curve_pressure": 2,
         "activity": 2,
@@ -20175,9 +20188,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
         ]
@@ -20194,9 +20209,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.7164790174002067,
-        "3D": -0.9154445079128992,
-        "5D": 0.10028645561441785,
-        "20D": -2.9586788199236325
+        "3D": null,
+        "5D": -1.572805682394729,
+        "20D": -1.7472777918460358
       },
       "realized_vol_20d_annualized_pct": 7.917425978312222,
       "realized_vol_20d_observations": 20,
@@ -20216,7 +20231,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 0,
@@ -20225,9 +20240,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20242,9 +20259,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -4.475308641975307,
-        "3D": -5.334579217213498,
-        "5D": -2.781975054844399,
-        "20D": 16.219623518150293
+        "3D": null,
+        "5D": -9.033016557264617,
+        "20D": 2.983584738243117
       },
       "realized_vol_20d_annualized_pct": 37.16543724134544,
       "realized_vol_20d_observations": 20,
@@ -20264,7 +20281,7 @@
         "pair_roll_flag": true
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": -1,
         "curve_pressure": null,
         "activity": 0,
@@ -20273,10 +20290,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
@@ -20294,7 +20312,7 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.0,
-        "3D": 0.0,
+        "3D": null,
         "5D": 0.0,
         "20D": 0.0
       },
@@ -20325,13 +20343,14 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
           "curve_zscore",
           "near_next_curve_pair",
           "oi_change_zscore",
           "oi_level_zscore",
+          "settlement_return_pct_3D",
           "volume_zscore"
         ],
         "warnings": [
@@ -20350,9 +20369,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.5364583333333348,
-        "3D": -3.5447385907804385,
-        "5D": -2.1255831997669117,
-        "20D": 4.951846361122936
+        "3D": null,
+        "5D": -8.62735621072982,
+        "20D": -6.757090012330458
       },
       "realized_vol_20d_annualized_pct": 30.961946967538722,
       "realized_vol_20d_observations": 20,
@@ -20372,7 +20391,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 1,
@@ -20381,9 +20400,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20398,9 +20419,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.5838393274170905,
-        "3D": -4.938016445462012,
-        "5D": -5.178426098286959,
-        "20D": 1.7937484533095516
+        "3D": null,
+        "5D": -10.057046270864145,
+        "20D": -10.189873417721518
       },
       "realized_vol_20d_annualized_pct": 35.2610035136114,
       "realized_vol_20d_observations": 20,
@@ -20420,7 +20441,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": -2,
         "oi_impulse": 1,
         "curve_pressure": null,
         "activity": 0,
@@ -20429,10 +20450,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -20448,7 +20470,7 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.0,
-        "3D": 0.0,
+        "3D": null,
         "5D": 0.0,
         "20D": 0.0
       },
@@ -20479,13 +20501,14 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
           "curve_zscore",
           "near_next_curve_pair",
           "oi_change_zscore",
           "oi_level_zscore",
+          "settlement_return_pct_3D",
           "volume_zscore"
         ],
         "warnings": [
@@ -20504,9 +20527,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 1.8357044515832976,
-        "3D": 1.4783734849744379,
-        "5D": 1.5237168153966918,
-        "20D": -2.5685770871106905
+        "3D": null,
+        "5D": -0.8932559178204569,
+        "20D": -6.173361522198729
       },
       "realized_vol_20d_annualized_pct": 14.604483825764467,
       "realized_vol_20d_observations": 20,
@@ -20535,9 +20558,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20552,9 +20577,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.2271062271062227,
-        "3D": -1.515835953950595,
-        "5D": -1.1734390432689978,
-        "20D": -0.24249064858974378
+        "3D": null,
+        "5D": -1.6593727206418718,
+        "20D": -0.7910228108903627
       },
       "realized_vol_20d_annualized_pct": 14.276992531070478,
       "realized_vol_20d_observations": 20,
@@ -20583,9 +20608,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20600,9 +20627,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.8146639511201648,
-        "3D": -2.030437824870057,
-        "5D": -2.72808475795846,
-        "20D": -5.046382638602953
+        "3D": null,
+        "5D": -0.2049180327868827,
+        "20D": -3.6597428288822953
       },
       "realized_vol_20d_annualized_pct": 19.378833717389035,
       "realized_vol_20d_observations": 20,
@@ -20631,9 +20658,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20648,9 +20677,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.14025245441795509,
-        "3D": 0.18241458007837164,
-        "5D": -0.6331817394337969,
-        "20D": -1.0360201918415024
+        "3D": null,
+        "5D": -2.3255813953488413,
+        "20D": -4.895104895104896
       },
       "realized_vol_20d_annualized_pct": 9.960087249916667,
       "realized_vol_20d_observations": 20,
@@ -20670,7 +20699,7 @@
         "pair_roll_flag": true
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": null,
         "activity": 0,
@@ -20679,10 +20708,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
@@ -20700,9 +20730,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.593667546174137,
-        "3D": -1.8597294938918152,
-        "5D": -0.2639527376949391,
-        "20D": -21.151362742816172
+        "3D": null,
+        "5D": 1.6666666666666607,
+        "20D": -17.433676231727123
       },
       "realized_vol_20d_annualized_pct": 22.343822810325733,
       "realized_vol_20d_observations": 20,
@@ -20731,10 +20761,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -20750,9 +20781,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.3424657534246589,
-        "3D": -0.1339955391002845,
-        "5D": -0.6405867013977162,
-        "20D": 1.5223860138103174
+        "3D": null,
+        "5D": -1.0876954452753274,
+        "20D": -0.6147540983606592
       },
       "realized_vol_20d_annualized_pct": 12.390029404060877,
       "realized_vol_20d_observations": 20,
@@ -20781,9 +20812,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20798,9 +20831,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.38073481819912436,
-        "3D": -0.32261451414729025,
-        "5D": -0.5681253158365762,
-        "20D": -1.6489065624035515
+        "3D": null,
+        "5D": -0.6077872744539414,
+        "20D": -4.507299270072995
       },
       "realized_vol_20d_annualized_pct": 14.064410418919673,
       "realized_vol_20d_observations": 20,
@@ -20829,9 +20862,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20846,9 +20881,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.36208031599737067,
-        "3D": -4.0075277017715845,
-        "5D": -3.8040922473096983,
-        "20D": 1.3832429186777517
+        "3D": null,
+        "5D": -8.549848942598192,
+        "20D": -9.695704057279231
       },
       "realized_vol_20d_annualized_pct": 32.80520833978124,
       "realized_vol_20d_observations": 20,
@@ -20868,7 +20903,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 0,
@@ -20877,9 +20912,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20894,9 +20931,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.34582132564842105,
-        "3D": -0.17172159236351625,
-        "5D": 2.123857922906436,
-        "20D": -1.924086615374132
+        "3D": null,
+        "5D": 0.34582132564842105,
+        "20D": -0.11474469305794432
       },
       "realized_vol_20d_annualized_pct": 14.832924287797766,
       "realized_vol_20d_observations": 20,
@@ -20916,7 +20953,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 1,
+        "price_momentum": 0,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 0,
@@ -20925,9 +20962,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -20942,7 +20981,7 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.0,
-        "3D": 0.0,
+        "3D": null,
         "5D": 0.0,
         "20D": 0.0
       },
@@ -20973,13 +21012,14 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
           "curve_zscore",
           "near_next_curve_pair",
           "oi_change_zscore",
           "oi_level_zscore",
+          "settlement_return_pct_3D",
           "volume_zscore"
         ],
         "warnings": [
@@ -20998,7 +21038,7 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.0,
-        "3D": 0.0,
+        "3D": null,
         "5D": 0.0,
         "20D": 0.0
       },
@@ -21029,13 +21069,14 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
           "curve_zscore",
           "near_next_curve_pair",
           "oi_change_zscore",
           "oi_level_zscore",
+          "settlement_return_pct_3D",
           "volume_zscore"
         ],
         "warnings": [
@@ -21054,9 +21095,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.8275596612779101,
-        "3D": -0.4246881730730956,
-        "5D": -2.234476852420042,
-        "20D": -0.0660282821324798
+        "3D": null,
+        "5D": -2.663392519833774,
+        "20D": -4.679985201627823
       },
       "realized_vol_20d_annualized_pct": 14.830610527001205,
       "realized_vol_20d_observations": 20,
@@ -21085,9 +21126,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21102,9 +21145,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.617760617760621,
-        "3D": 0.10160952909532561,
-        "5D": -0.3252094731606592,
-        "20D": -3.6130512174367357
+        "3D": null,
+        "5D": -2.745591939546599,
+        "20D": -7.031061882976164
       },
       "realized_vol_20d_annualized_pct": 11.182189405557342,
       "realized_vol_20d_observations": 20,
@@ -21124,7 +21167,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 0,
         "activity": 0,
@@ -21133,9 +21176,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21150,9 +21195,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -3.0843958712811204,
-        "3D": -4.91529089424162,
-        "5D": -6.579273303592393,
-        "20D": 5.560143159782571
+        "3D": null,
+        "5D": -11.70483460559797,
+        "20D": -10.164340387212967
       },
       "realized_vol_20d_annualized_pct": 39.58587352367394,
       "realized_vol_20d_observations": 20,
@@ -21172,7 +21217,7 @@
         "pair_roll_flag": true
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": -2,
         "oi_impulse": -1,
         "curve_pressure": null,
         "activity": 1,
@@ -21181,10 +21226,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
@@ -21202,9 +21248,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.22401433691756623,
-        "3D": 0.6771387943796725,
-        "5D": 0.5410272953336293,
-        "20D": 0.7225912272439405
+        "3D": null,
+        "5D": 0.49638989169675796,
+        "20D": 2.109124254928929
       },
       "realized_vol_20d_annualized_pct": 8.109406757008594,
       "realized_vol_20d_observations": 20,
@@ -21233,9 +21279,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21250,9 +21298,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.19857029388403724,
-        "3D": 0.8434262000869053,
-        "5D": 1.2914381904750138,
-        "20D": 1.1688587977475517
+        "3D": null,
+        "5D": 1.0454362685967,
+        "20D": 2.949610815239656
       },
       "realized_vol_20d_annualized_pct": 9.062315534451946,
       "realized_vol_20d_observations": 20,
@@ -21272,7 +21320,7 @@
         "pair_roll_flag": true
       },
       "state_vector": {
-        "price_momentum": 1,
+        "price_momentum": 0,
         "oi_impulse": 0,
         "curve_pressure": -1,
         "activity": 0,
@@ -21281,9 +21329,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
         ]
@@ -21300,9 +21350,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.6967126193001114,
-        "3D": -3.2652037386342814,
-        "5D": -4.310480842471531,
-        "20D": 6.293201807714355
+        "3D": null,
+        "5D": -9.587437823076172,
+        "20D": -7.852882703777331
       },
       "realized_vol_20d_annualized_pct": 36.95527034694349,
       "realized_vol_20d_observations": 20,
@@ -21322,7 +21372,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 0,
@@ -21331,9 +21381,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21348,9 +21400,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.7949740725967334,
-        "3D": -4.7617205214787734,
-        "5D": -1.0188931956692016,
-        "20D": 8.593999781058749
+        "3D": null,
+        "5D": -7.824784724822164,
+        "20D": 1.5467106619921678
       },
       "realized_vol_20d_annualized_pct": 32.344610794631315,
       "realized_vol_20d_observations": 20,
@@ -21370,7 +21422,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": -1,
         "curve_pressure": 0,
         "activity": 0,
@@ -21379,9 +21431,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21396,9 +21450,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.363901018922852,
-        "3D": 1.6968308514700325,
-        "5D": 3.0711123494628456,
-        "20D": -2.5615886093083184
+        "3D": null,
+        "5D": 2.1481481481481435,
+        "20D": 0.8778346744696464
       },
       "realized_vol_20d_annualized_pct": 14.7931923889137,
       "realized_vol_20d_observations": 20,
@@ -21427,9 +21481,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21444,9 +21500,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 2.4867724867724927,
-        "3D": 3.060849893349893,
-        "5D": 2.04599830072294,
-        "20D": 0.6377478769460376
+        "3D": null,
+        "5D": 1.3870714472651091,
+        "20D": -2.7610441767068283
       },
       "realized_vol_20d_annualized_pct": 22.856038947646777,
       "realized_vol_20d_observations": 20,
@@ -21475,10 +21531,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -21494,9 +21551,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -2.834689868088691,
-        "3D": -0.029717832529319033,
-        "5D": 3.812965531656154,
-        "20D": -6.996193569253806
+        "3D": null,
+        "5D": 0.9035266686097332,
+        "20D": -5.795918367346942
       },
       "realized_vol_20d_annualized_pct": 28.398802306483866,
       "realized_vol_20d_observations": 20,
@@ -21525,9 +21582,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21542,9 +21601,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 1.3978494623655857,
-        "3D": 2.2038362904255093,
-        "5D": 2.024279304672816,
-        "20D": 0.40148648032463097
+        "3D": null,
+        "5D": -0.42238648363251974,
+        "20D": -6.787479406919273
       },
       "realized_vol_20d_annualized_pct": 29.92945120568262,
       "realized_vol_20d_observations": 20,
@@ -21573,9 +21632,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21590,9 +21651,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -3.7777289699099548,
-        "3D": -5.373928884965784,
-        "5D": -2.4877977677049024,
-        "20D": 9.705692900981155
+        "3D": null,
+        "5D": -7.710132715399198,
+        "20D": -0.21637626693998824
       },
       "realized_vol_20d_annualized_pct": 31.506123476730657,
       "realized_vol_20d_observations": 20,
@@ -21612,7 +21673,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": -2,
         "curve_pressure": -1,
         "activity": 1,
@@ -21621,9 +21682,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21638,9 +21701,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.5653266331658302,
-        "3D": -1.00015958324855,
-        "5D": -1.0619572364425345,
-        "20D": -3.530891961522198
+        "3D": null,
+        "5D": -1.124297314178635,
+        "20D": -4.292623941958884
       },
       "realized_vol_20d_annualized_pct": 5.67241423335696,
       "realized_vol_20d_observations": 20,
@@ -21669,10 +21732,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -21688,9 +21752,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.3829321663019636,
-        "3D": -0.05846036855151615,
-        "5D": -3.6476608307836056,
-        "20D": -15.899084089385951
+        "3D": null,
+        "5D": -3.725078698845752,
+        "20D": -18.444444444444443
       },
       "realized_vol_20d_annualized_pct": 18.65727730426297,
       "realized_vol_20d_observations": 20,
@@ -21719,9 +21783,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21736,9 +21802,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.48138639281130047,
-        "3D": -0.16989393422389698,
-        "5D": -1.258723386483862,
-        "20D": -5.94812803420205
+        "3D": null,
+        "5D": -2.2999369880277287,
+        "20D": -8.498082030097375
       },
       "realized_vol_20d_annualized_pct": 9.718559095409267,
       "realized_vol_20d_observations": 20,
@@ -21758,7 +21824,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": -2,
         "activity": 0,
@@ -21767,9 +21833,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21784,9 +21852,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.541577585236864,
-        "3D": -1.851606884238799,
-        "5D": -2.895065960533927,
-        "20D": -5.739482354267899
+        "3D": null,
+        "5D": -5.025507435145993,
+        "20D": -9.439039536327886
       },
       "realized_vol_20d_annualized_pct": 17.08139591663691,
       "realized_vol_20d_observations": 20,
@@ -21806,7 +21874,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": -2,
         "oi_impulse": 0,
         "curve_pressure": 2,
         "activity": 0,
@@ -21815,9 +21883,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21832,9 +21902,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -4.032027452101805,
-        "3D": -7.286833259422343,
-        "5D": -5.601583389796472,
-        "20D": 11.962627543300265
+        "3D": null,
+        "5D": -13.169469598965067,
+        "20D": -6.79072351062352
       },
       "realized_vol_20d_annualized_pct": 49.06411052471246,
       "realized_vol_20d_observations": 20,
@@ -21854,7 +21924,7 @@
         "pair_roll_flag": true
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": -1,
         "curve_pressure": null,
         "activity": 0,
@@ -21863,10 +21933,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
@@ -21884,9 +21955,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -3.5057412864546333,
-        "3D": -5.323508623438567,
-        "5D": -2.980077150410987,
-        "20D": 15.217524149266982
+        "3D": null,
+        "5D": -8.981117607591294,
+        "20D": 2.28349849202929
       },
       "realized_vol_20d_annualized_pct": 33.95463323031429,
       "realized_vol_20d_observations": 20,
@@ -21906,7 +21977,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": -2,
         "curve_pressure": 2,
         "activity": 1,
@@ -21915,9 +21986,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -21932,9 +22005,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.3910614525139744,
-        "3D": 2.399610528329954,
-        "5D": 2.634876721387558,
-        "20D": 1.1533090132667123
+        "3D": null,
+        "5D": 2.9799426934097317,
+        "20D": 2.3931623931623847
       },
       "realized_vol_20d_annualized_pct": 7.176853274016308,
       "realized_vol_20d_observations": 20,
@@ -21963,10 +22036,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
@@ -21984,9 +22058,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.1408167370750446,
-        "3D": -2.7379430042197006,
-        "5D": -1.1890652738571372,
-        "20D": 4.97403012487907
+        "3D": null,
+        "5D": -5.986779981114254,
+        "20D": 0.6673407482305382
       },
       "realized_vol_20d_annualized_pct": 20.694441642418294,
       "realized_vol_20d_observations": 20,
@@ -22006,7 +22080,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -2,
         "oi_impulse": 0,
         "curve_pressure": 0,
         "activity": -1,
@@ -22015,9 +22089,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22032,9 +22108,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.8077360637087638,
-        "3D": -0.18846524540558907,
-        "5D": -0.15506484336834658,
-        "20D": 0.19138612930411636
+        "3D": null,
+        "5D": -2.7765388046387174,
+        "20D": -3.068371317398555
       },
       "realized_vol_20d_annualized_pct": 12.895139929584055,
       "realized_vol_20d_observations": 20,
@@ -22054,7 +22130,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 0,
@@ -22063,9 +22139,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22080,9 +22158,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 1.255506607929524,
-        "3D": 4.559964902428626,
-        "5D": -2.3774576082031706,
-        "20D": -20.74843932744721
+        "3D": null,
+        "5D": 2.087497224072843,
+        "20D": -22.570321711302
       },
       "realized_vol_20d_annualized_pct": 44.21824859649906,
       "realized_vol_20d_observations": 20,
@@ -22111,9 +22189,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22128,9 +22208,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.4983388704318914,
-        "3D": 6.678432145817892,
-        "5D": 1.105188917548361,
-        "20D": -14.738350534458588
+        "3D": null,
+        "5D": 4.626026805015138,
+        "20D": -11.71105435972274
       },
       "realized_vol_20d_annualized_pct": 41.71667202580636,
       "realized_vol_20d_observations": 20,
@@ -22159,9 +22239,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22176,9 +22258,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.9620826259196358,
-        "3D": 0.1580701061233869,
-        "5D": -4.330500326286558,
-        "20D": -13.276558321537212
+        "3D": null,
+        "5D": 0.12873694750392684,
+        "20D": -12.291692770329533
       },
       "realized_vol_20d_annualized_pct": 26.028281580801078,
       "realized_vol_20d_observations": 20,
@@ -22198,7 +22280,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": 0,
         "oi_impulse": 0,
         "curve_pressure": 0,
         "activity": 0,
@@ -22207,9 +22289,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22224,9 +22308,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.3913630229419707,
-        "3D": 4.0059314622318265,
-        "5D": -1.401655962147652,
-        "20D": -11.405584735513818
+        "3D": null,
+        "5D": 3.7969343270988665,
+        "20D": -9.701492537313428
       },
       "realized_vol_20d_annualized_pct": 38.12245946310446,
       "realized_vol_20d_observations": 20,
@@ -22255,9 +22339,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22272,9 +22358,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.8736167734420541,
-        "3D": -1.4926910862766984,
-        "5D": -0.8670672998731366,
-        "20D": -3.159481423226318
+        "3D": null,
+        "5D": -2.352266207687892,
+        "20D": -4.703247480403139
       },
       "realized_vol_20d_annualized_pct": 13.630884497464812,
       "realized_vol_20d_observations": 20,
@@ -22294,7 +22380,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 0,
         "activity": 1,
@@ -22303,9 +22389,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22320,9 +22408,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.1702688455455967,
-        "3D": -1.8524350621623276,
-        "5D": -2.924593249844676,
-        "20D": -2.5165461228448316
+        "3D": null,
+        "5D": -3.2411230388109002,
+        "20D": -3.648884777469419
       },
       "realized_vol_20d_annualized_pct": 12.622767145598184,
       "realized_vol_20d_observations": 20,
@@ -22351,10 +22439,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -22370,9 +22459,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.5906236919213113,
-        "3D": -5.6510477783448305,
-        "5D": -5.6332292793417,
-        "20D": -22.555478771561422
+        "3D": null,
+        "5D": -11.216012084592142,
+        "20D": -25.695322376738304
       },
       "realized_vol_20d_annualized_pct": 45.21956598215731,
       "realized_vol_20d_observations": 20,
@@ -22392,7 +22481,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 1,
@@ -22401,9 +22490,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22418,9 +22509,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 2.3814288573143827,
-        "3D": -6.951816897200391,
-        "5D": -5.360464974376667,
-        "20D": 14.323204706161196
+        "3D": null,
+        "5D": -17.283751010509295,
+        "20D": -5.9558823529411775
       },
       "realized_vol_20d_annualized_pct": 50.345393579899394,
       "realized_vol_20d_observations": 20,
@@ -22440,7 +22531,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -2,
         "oi_impulse": 0,
         "curve_pressure": null,
         "activity": 2,
@@ -22449,10 +22540,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -22468,9 +22560,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.9675202998126196,
-        "3D": -1.905194892999762,
-        "5D": -3.8830317699690697,
-        "20D": -5.615636693737347
+        "3D": null,
+        "5D": -3.5933660933660905,
+        "20D": -8.829509148997971
       },
       "realized_vol_20d_annualized_pct": 22.417930878933106,
       "realized_vol_20d_observations": 20,
@@ -22499,9 +22591,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22516,9 +22610,9 @@
       "main_contract_roll_flag": true,
       "settlement_return_pct": {
         "1D": 0.19029495718363432,
-        "3D": -4.532189240506234,
-        "5D": -3.465211752274966,
-        "20D": 7.934397731523868
+        "3D": null,
+        "5D": -12.710693561757392,
+        "20D": -9.001872389457011
       },
       "realized_vol_20d_annualized_pct": 44.6446912737727,
       "realized_vol_20d_observations": 20,
@@ -22538,7 +22632,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -2,
         "oi_impulse": 0,
         "curve_pressure": null,
         "activity": 1,
@@ -22547,10 +22641,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "main_contract_roll_current_contract_history_only"
@@ -22568,9 +22663,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.11113580795731881,
-        "3D": 0.3387503210868559,
-        "5D": -0.44702192419466824,
-        "20D": -2.8148141400558324
+        "3D": null,
+        "5D": -1.2497259372944547,
+        "20D": -2.214502822405562
       },
       "realized_vol_20d_annualized_pct": 12.67812073209409,
       "realized_vol_20d_observations": 20,
@@ -22599,9 +22694,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22616,9 +22713,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.42758729907356186,
-        "3D": -0.6352510520641785,
-        "5D": -6.136177985139812,
-        "20D": -17.633163334504253
+        "3D": null,
+        "5D": 1.370415155179372,
+        "20D": -13.59763638862168
       },
       "realized_vol_20d_annualized_pct": 39.94648044446163,
       "realized_vol_20d_observations": 20,
@@ -22638,7 +22735,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": 0,
         "oi_impulse": 0,
         "curve_pressure": -1,
         "activity": 2,
@@ -22647,9 +22744,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22664,9 +22763,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.2824245057571062,
-        "3D": -0.27471337357041214,
-        "5D": -1.2049471262867373,
-        "20D": -2.4049708051716245
+        "3D": null,
+        "5D": -1.2197731649903676,
+        "20D": -0.9867009867009835
       },
       "realized_vol_20d_annualized_pct": 12.39014222184748,
       "realized_vol_20d_observations": 20,
@@ -22695,9 +22794,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22712,9 +22813,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.15151515151514694,
-        "3D": 1.967416694810309,
-        "5D": 1.8495352882267335,
-        "20D": -1.9296682475145377
+        "3D": null,
+        "5D": 2.0061728395061706,
+        "20D": -1.7465626161278336
       },
       "realized_vol_20d_annualized_pct": 15.473230009017819,
       "realized_vol_20d_observations": 20,
@@ -22743,9 +22844,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22760,9 +22863,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.004549280076426854,
-        "3D": 0.3803281484446641,
-        "5D": -0.5611051753390828,
-        "20D": -4.404440874276839
+        "3D": null,
+        "5D": 2.0095138647174826,
+        "20D": -2.2110999888777627
       },
       "realized_vol_20d_annualized_pct": 19.253375529913857,
       "realized_vol_20d_observations": 20,
@@ -22791,9 +22894,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22808,9 +22913,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.5494505494505475,
-        "3D": -5.023149113812686,
-        "5D": -3.6724949559758135,
-        "20D": 2.5652075291559218
+        "3D": null,
+        "5D": -8.204057279236277,
+        "20D": -4.825239715434582
       },
       "realized_vol_20d_annualized_pct": 31.145998291490262,
       "realized_vol_20d_observations": 20,
@@ -22830,7 +22935,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 2,
         "activity": 1,
@@ -22839,9 +22944,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22856,9 +22963,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.6976237192064527,
-        "3D": -6.004055500372118,
-        "5D": -1.0809109856292132,
-        "20D": 12.475257570950472
+        "3D": null,
+        "5D": -12.47117601844735,
+        "20D": 0.5075022065313295
       },
       "realized_vol_20d_annualized_pct": 41.17647844057116,
       "realized_vol_20d_observations": 20,
@@ -22878,7 +22985,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -2,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 0,
@@ -22887,9 +22994,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22904,9 +23013,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.1380737396538776,
-        "3D": -1.6121945350204059,
-        "5D": -2.522191636848503,
-        "20D": -2.504335288000137
+        "3D": null,
+        "5D": -2.8468435160366012,
+        "20D": -3.66602511227202
       },
       "realized_vol_20d_annualized_pct": 11.636256299609707,
       "realized_vol_20d_observations": 20,
@@ -22935,9 +23044,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -22952,9 +23063,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.5572324123519823,
-        "3D": -12.178491686809867,
-        "5D": -10.026409484978627,
-        "20D": 20.837948780300852
+        "3D": null,
+        "5D": -21.195952161913524,
+        "20D": -3.5360360360360388
       },
       "realized_vol_20d_annualized_pct": 61.792961635307556,
       "realized_vol_20d_observations": 20,
@@ -22974,7 +23085,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": -2,
         "oi_impulse": -1,
         "curve_pressure": null,
         "activity": 0,
@@ -22983,10 +23094,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -23002,9 +23114,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.6277463904582614,
-        "3D": 1.2011608451315103,
-        "5D": 1.4244925367821848,
-        "20D": -1.9748658358704652
+        "3D": null,
+        "5D": 0.8493236866939258,
+        "20D": -1.3841894801599475
       },
       "realized_vol_20d_annualized_pct": 8.74601760894067,
       "realized_vol_20d_observations": 20,
@@ -23024,7 +23136,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 1,
+        "price_momentum": 0,
         "oi_impulse": -1,
         "curve_pressure": 1,
         "activity": 1,
@@ -23033,9 +23145,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23050,9 +23164,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 2.144638403990018,
-        "3D": 4.075128293251784,
-        "5D": 3.651304915116893,
-        "20D": 0.158872850834757
+        "3D": null,
+        "5D": 4.676718630207,
+        "20D": 2.7940438346996777
       },
       "realized_vol_20d_annualized_pct": 22.565704508809223,
       "realized_vol_20d_observations": 20,
@@ -23081,9 +23195,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23098,9 +23214,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.05574136008918984,
-        "3D": 0.33488353574304686,
-        "5D": -1.6399966213300754,
-        "20D": -6.05720826131213
+        "3D": null,
+        "5D": 0.1115448968209698,
+        "20D": -5.823714585519413
       },
       "realized_vol_20d_annualized_pct": 7.8211779818782,
       "realized_vol_20d_observations": 20,
@@ -23120,7 +23236,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": 0,
         "oi_impulse": 0,
         "curve_pressure": -2,
         "activity": 1,
@@ -23129,9 +23245,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23146,9 +23264,9 @@
       "main_contract_roll_flag": true,
       "settlement_return_pct": {
         "1D": 0.5350960025181095,
-        "3D": 1.406470122471637,
-        "5D": 0.47156105557732975,
-        "20D": 0.6881612795961223
+        "3D": null,
+        "5D": -0.9305210918114093,
+        "20D": -0.09383797309978625
       },
       "realized_vol_20d_annualized_pct": 10.465598735965488,
       "realized_vol_20d_observations": 20,
@@ -23177,9 +23295,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": [
           "main_contract_roll_current_contract_history_only"
         ]
@@ -23196,9 +23316,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.36303630363037076,
-        "3D": 0.7331389721768833,
-        "5D": 0.6668889629876773,
-        "20D": -1.75609456468373
+        "3D": null,
+        "5D": 0.0658111220796398,
+        "20D": -1.2662337662337708
       },
       "realized_vol_20d_annualized_pct": 8.774746309877305,
       "realized_vol_20d_observations": 20,
@@ -23227,10 +23347,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
@@ -23248,9 +23369,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.68954593453009,
-        "3D": -1.5354102297718275,
-        "5D": -3.4729960749820488,
-        "20D": -4.183113556926665
+        "3D": null,
+        "5D": -2.9197080291970767,
+        "20D": -7.91295746785361
       },
       "realized_vol_20d_annualized_pct": 19.637106328951102,
       "realized_vol_20d_observations": 20,
@@ -23279,9 +23400,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23296,9 +23419,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -2.039488572075132,
-        "3D": -3.0364472782944074,
-        "5D": -7.128551568125485,
-        "20D": -12.781812122213875
+        "3D": null,
+        "5D": -6.443159714717961,
+        "20D": -11.506618285889502
       },
       "realized_vol_20d_annualized_pct": 28.516716437217863,
       "realized_vol_20d_observations": 20,
@@ -23327,9 +23450,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23344,9 +23469,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.6037084950409666,
-        "3D": 1.039411000433077,
-        "5D": 2.730074856891229,
-        "20D": -5.393349553933502
+        "3D": null,
+        "5D": 1.039411000433077,
+        "20D": -4.3068088597210785
       },
       "realized_vol_20d_annualized_pct": 11.032453694714974,
       "realized_vol_20d_observations": 20,
@@ -23366,7 +23491,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 1,
+        "price_momentum": 0,
         "oi_impulse": 0,
         "curve_pressure": -1,
         "activity": 1,
@@ -23375,9 +23500,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23392,9 +23519,9 @@
       "main_contract_roll_flag": true,
       "settlement_return_pct": {
         "1D": 0.8540925266903976,
-        "3D": 3.133627855928789,
-        "5D": 3.6713823400937873,
-        "20D": 1.7389113973507397
+        "3D": null,
+        "5D": 5.001852537977025,
+        "20D": 4.885270170244271
       },
       "realized_vol_20d_annualized_pct": 14.77576449720529,
       "realized_vol_20d_observations": 20,
@@ -23414,7 +23541,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 1,
+        "price_momentum": 2,
         "oi_impulse": 0,
         "curve_pressure": 0,
         "activity": 2,
@@ -23423,9 +23550,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": [
           "main_contract_roll_current_contract_history_only"
         ]
@@ -23442,9 +23571,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.0,
-        "3D": 0.5150951733798204,
-        "5D": 0.30142810195143976,
-        "20D": -1.961233974554466
+        "3D": null,
+        "5D": 0.7912355447352359,
+        "20D": -2.873900293255127
       },
       "realized_vol_20d_annualized_pct": 8.748515573093153,
       "realized_vol_20d_observations": 20,
@@ -23473,10 +23602,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -23492,9 +23622,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.37094884810621176,
-        "3D": -0.8882641165416705,
-        "5D": -0.8308080377686378,
-        "20D": -3.206230025547485
+        "3D": null,
+        "5D": -1.4484356894553851,
+        "20D": -1.4103554868624468
       },
       "realized_vol_20d_annualized_pct": 12.095601700232061,
       "realized_vol_20d_observations": 20,
@@ -23523,9 +23653,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     }
@@ -23542,9 +23674,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.363901018922852,
-        "3D": 1.6968308514700325,
-        "5D": 3.0711123494628456,
-        "20D": -2.5615886093083184
+        "3D": null,
+        "5D": 2.1481481481481435,
+        "20D": 0.8778346744696464
       },
       "realized_vol_20d_annualized_pct": 14.7931923889137,
       "realized_vol_20d_observations": 20,
@@ -23573,9 +23705,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23590,9 +23724,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 1.3978494623655857,
-        "3D": 2.2038362904255093,
-        "5D": 2.024279304672816,
-        "20D": 0.40148648032463097
+        "3D": null,
+        "5D": -0.42238648363251974,
+        "20D": -6.787479406919273
       },
       "realized_vol_20d_annualized_pct": 29.92945120568262,
       "realized_vol_20d_observations": 20,
@@ -23621,9 +23755,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23638,9 +23774,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 2.4867724867724927,
-        "3D": 3.060849893349893,
-        "5D": 2.04599830072294,
-        "20D": 0.6377478769460376
+        "3D": null,
+        "5D": 1.3870714472651091,
+        "20D": -2.7610441767068283
       },
       "realized_vol_20d_annualized_pct": 22.856038947646777,
       "realized_vol_20d_observations": 20,
@@ -23669,10 +23805,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -23688,9 +23825,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.36303630363037076,
-        "3D": 0.7331389721768833,
-        "5D": 0.6668889629876773,
-        "20D": -1.75609456468373
+        "3D": null,
+        "5D": 0.0658111220796398,
+        "20D": -1.2662337662337708
       },
       "realized_vol_20d_annualized_pct": 8.774746309877305,
       "realized_vol_20d_observations": 20,
@@ -23719,10 +23856,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "nearest_next_liquid_pair_roll_detected"
@@ -23740,9 +23878,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.6277463904582614,
-        "3D": 1.2011608451315103,
-        "5D": 1.4244925367821848,
-        "20D": -1.9748658358704652
+        "3D": null,
+        "5D": 0.8493236866939258,
+        "20D": -1.3841894801599475
       },
       "realized_vol_20d_annualized_pct": 8.74601760894067,
       "realized_vol_20d_observations": 20,
@@ -23762,7 +23900,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 1,
+        "price_momentum": 0,
         "oi_impulse": -1,
         "curve_pressure": 1,
         "activity": 1,
@@ -23771,9 +23909,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23788,9 +23928,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.6772009029345272,
-        "3D": 0.5694519398947939,
-        "5D": 2.5855848207653187,
-        "20D": -3.0183100022196263
+        "3D": null,
+        "5D": 3.121387283236987,
+        "20D": 1.5945330296127658
       },
       "realized_vol_20d_annualized_pct": 15.320710070533279,
       "realized_vol_20d_observations": 20,
@@ -23819,9 +23959,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23836,9 +23978,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.8146639511201648,
-        "3D": -2.030437824870057,
-        "5D": -2.72808475795846,
-        "20D": -5.046382638602953
+        "3D": null,
+        "5D": -0.2049180327868827,
+        "20D": -3.6597428288822953
       },
       "realized_vol_20d_annualized_pct": 19.378833717389035,
       "realized_vol_20d_observations": 20,
@@ -23867,9 +24009,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -23884,9 +24028,9 @@
       "main_contract_roll_flag": true,
       "settlement_return_pct": {
         "1D": 0.19029495718363432,
-        "3D": -4.532189240506234,
-        "5D": -3.465211752274966,
-        "20D": 7.934397731523868
+        "3D": null,
+        "5D": -12.710693561757392,
+        "20D": -9.001872389457011
       },
       "realized_vol_20d_annualized_pct": 44.6446912737727,
       "realized_vol_20d_observations": 20,
@@ -23906,7 +24050,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -2,
         "oi_impulse": 0,
         "curve_pressure": null,
         "activity": 1,
@@ -23915,10 +24059,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": [
           "main_contract_roll_current_contract_history_only"
@@ -23936,9 +24081,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.5572324123519823,
-        "3D": -12.178491686809867,
-        "5D": -10.026409484978627,
-        "20D": 20.837948780300852
+        "3D": null,
+        "5D": -21.195952161913524,
+        "20D": -3.5360360360360388
       },
       "realized_vol_20d_annualized_pct": 61.792961635307556,
       "realized_vol_20d_observations": 20,
@@ -23958,7 +24103,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": -2,
         "oi_impulse": -1,
         "curve_pressure": null,
         "activity": 0,
@@ -23967,10 +24112,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -23986,9 +24132,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 2.3814288573143827,
-        "3D": -6.951816897200391,
-        "5D": -5.360464974376667,
-        "20D": 14.323204706161196
+        "3D": null,
+        "5D": -17.283751010509295,
+        "20D": -5.9558823529411775
       },
       "realized_vol_20d_annualized_pct": 50.345393579899394,
       "realized_vol_20d_observations": 20,
@@ -24008,7 +24154,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -2,
         "oi_impulse": 0,
         "curve_pressure": null,
         "activity": 2,
@@ -24017,10 +24163,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -24036,9 +24183,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.7111935683364212,
-        "3D": -3.161353167770209,
-        "5D": -1.8577014983869544,
-        "20D": 14.259704933564432
+        "3D": null,
+        "5D": -7.276927519491771,
+        "20D": -3.312255344775672
       },
       "realized_vol_20d_annualized_pct": 44.057796670390125,
       "realized_vol_20d_observations": 20,
@@ -24058,7 +24205,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 0,
         "activity": 0,
@@ -24067,9 +24214,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -24084,9 +24233,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.36208031599737067,
-        "3D": -4.0075277017715845,
-        "5D": -3.8040922473096983,
-        "20D": 1.3832429186777517
+        "3D": null,
+        "5D": -8.549848942598192,
+        "20D": -9.695704057279231
       },
       "realized_vol_20d_annualized_pct": 32.80520833978124,
       "realized_vol_20d_observations": 20,
@@ -24106,7 +24255,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 0,
@@ -24115,9 +24264,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -24132,9 +24283,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.5838393274170905,
-        "3D": -4.938016445462012,
-        "5D": -5.178426098286959,
-        "20D": 1.7937484533095516
+        "3D": null,
+        "5D": -10.057046270864145,
+        "20D": -10.189873417721518
       },
       "realized_vol_20d_annualized_pct": 35.2610035136114,
       "realized_vol_20d_observations": 20,
@@ -24154,7 +24305,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": -2,
         "oi_impulse": 1,
         "curve_pressure": null,
         "activity": 0,
@@ -24163,10 +24314,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
         "missing_metrics": [
-          "curve_zscore"
+          "curve_zscore",
+          "settlement_return_pct_3D"
         ],
         "warnings": []
       }
@@ -24182,9 +24334,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.1380737396538776,
-        "3D": -1.6121945350204059,
-        "5D": -2.522191636848503,
-        "20D": -2.504335288000137
+        "3D": null,
+        "5D": -2.8468435160366012,
+        "20D": -3.66602511227202
       },
       "realized_vol_20d_annualized_pct": 11.636256299609707,
       "realized_vol_20d_observations": 20,
@@ -24213,9 +24365,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -24230,9 +24384,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 0.2824245057571062,
-        "3D": -0.27471337357041214,
-        "5D": -1.2049471262867373,
-        "20D": -2.4049708051716245
+        "3D": null,
+        "5D": -1.2197731649903676,
+        "20D": -0.9867009867009835
       },
       "realized_vol_20d_annualized_pct": 12.39014222184748,
       "realized_vol_20d_observations": 20,
@@ -24261,9 +24415,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -24278,9 +24434,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": 1.255506607929524,
-        "3D": 4.559964902428626,
-        "5D": -2.3774576082031706,
-        "20D": -20.74843932744721
+        "3D": null,
+        "5D": 2.087497224072843,
+        "20D": -22.570321711302
       },
       "realized_vol_20d_annualized_pct": 44.21824859649906,
       "realized_vol_20d_observations": 20,
@@ -24309,9 +24465,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -24326,9 +24484,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.8736167734420541,
-        "3D": -1.4926910862766984,
-        "5D": -0.8670672998731366,
-        "20D": -3.159481423226318
+        "3D": null,
+        "5D": -2.352266207687892,
+        "20D": -4.703247480403139
       },
       "realized_vol_20d_annualized_pct": 13.630884497464812,
       "realized_vol_20d_observations": 20,
@@ -24348,7 +24506,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 0,
         "activity": 1,
@@ -24357,9 +24515,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -24374,9 +24534,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.48138639281130047,
-        "3D": -0.16989393422389698,
-        "5D": -1.258723386483862,
-        "20D": -5.94812803420205
+        "3D": null,
+        "5D": -2.2999369880277287,
+        "20D": -8.498082030097375
       },
       "realized_vol_20d_annualized_pct": 9.718559095409267,
       "realized_vol_20d_observations": 20,
@@ -24396,7 +24556,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": -2,
         "activity": 0,
@@ -24405,9 +24565,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -24422,9 +24584,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -0.8077360637087638,
-        "3D": -0.18846524540558907,
-        "5D": -0.15506484336834658,
-        "20D": 0.19138612930411636
+        "3D": null,
+        "5D": -2.7765388046387174,
+        "20D": -3.068371317398555
       },
       "realized_vol_20d_annualized_pct": 12.895139929584055,
       "realized_vol_20d_observations": 20,
@@ -24444,7 +24606,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": 0,
+        "price_momentum": -1,
         "oi_impulse": 0,
         "curve_pressure": 1,
         "activity": 0,
@@ -24453,9 +24615,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     },
@@ -24470,9 +24634,9 @@
       "main_contract_roll_flag": false,
       "settlement_return_pct": {
         "1D": -1.541577585236864,
-        "3D": -1.851606884238799,
-        "5D": -2.895065960533927,
-        "20D": -5.739482354267899
+        "3D": null,
+        "5D": -5.025507435145993,
+        "20D": -9.439039536327886
       },
       "realized_vol_20d_annualized_pct": 17.08139591663691,
       "realized_vol_20d_observations": 20,
@@ -24492,7 +24656,7 @@
         "pair_roll_flag": false
       },
       "state_vector": {
-        "price_momentum": -1,
+        "price_momentum": -2,
         "oi_impulse": 0,
         "curve_pressure": 2,
         "activity": 0,
@@ -24501,9 +24665,11 @@
         "trade_recommendation": null
       },
       "quality": {
-        "history_complete": true,
+        "history_complete": false,
         "same_contract_observations": 20,
-        "missing_metrics": [],
+        "missing_metrics": [
+          "settlement_return_pct_3D"
+        ],
         "warnings": []
       }
     }
@@ -34130,12 +34296,23 @@
       "requested": 20,
       "available_trading_days": 20,
       "first_date": "2026-10-08",
-      "last_date": "2026-11-06"
+      "last_date": "2026-11-06",
+      "calendar_version": "domestic_holidays_2025_2026_v1",
+      "return_anchor_dates": {
+        "3D": "2026-11-03",
+        "5D": "2026-10-30",
+        "20D": "2026-10-09"
+      },
+      "missing_trading_dates": [
+        "2026-11-03",
+        "2026-11-04"
+      ],
+      "observed_in_last_20_sessions": 18
     },
     "market_state_quality": {
       "exact_contract_only": true,
       "main_series_spliced": false,
-      "history_complete": true,
+      "history_complete": false,
       "missing_metrics": [
         "basis",
         "commodity_options",
@@ -34144,10 +34321,12 @@
         "near_next_curve_pair",
         "oi_change_zscore",
         "oi_level_zscore",
+        "settlement_return_pct_3D",
         "volume_zscore"
       ],
       "warnings": [
         "main_contract_roll_current_contract_history_only",
+        "missing_trading_day_snapshots",
         "nearest_next_liquid_pair_roll_detected",
         "nearest_next_liquid_pair_unavailable"
       ]

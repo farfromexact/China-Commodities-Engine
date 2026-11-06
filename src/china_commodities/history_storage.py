@@ -9,6 +9,7 @@ from __future__ import annotations
 from collections.abc import Iterable, Mapping, Sequence
 from datetime import date
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -142,6 +143,28 @@ def append_futures_history(result: PipelineResult, data_dir: str | Path) -> int:
         key_fields=("trade_date", "exchange", "contract"),
         sort_fields=("trade_date", "exchange", "contract"),
     )
+
+
+def read_archived_settlements(
+    path: Path, dates: set[str],
+) -> dict[str, dict[tuple[str, str], float]]:
+    """Read verified endpoints for dates missing from the retained JSON snapshots."""
+    if not dates or not path.is_file():
+        return {}
+    columns = ["trade_date", "source_date", "quality_state", "exchange", "contract", "settle"]
+    if not set(columns).issubset(pq.ParquetFile(path).schema_arrow.names):
+        return {}  # Older archives without source-date provenance cannot supply endpoints.
+    table = pq.read_table(path, columns=columns, filters=[("trade_date", "in", sorted(dates))])
+    prices: dict[str, dict[tuple[str, str], float]] = {}
+    for row in table.to_pylist():
+        day, price = row["trade_date"], row["settle"]
+        if row["source_date"] != day or row["quality_state"] != "fresh":
+            continue
+        if price is None or not math.isfinite(price) or price <= 0:
+            continue
+        key = (row["exchange"].upper(), row["contract"].upper())
+        prices.setdefault(day, {})[key] = price
+    return prices
 
 
 def _futures_history_rows(

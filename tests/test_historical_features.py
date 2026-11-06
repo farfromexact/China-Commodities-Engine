@@ -96,8 +96,8 @@ def _snapshot(
 class HistoricalFeaturesTests(unittest.TestCase):
     def test_locks_latest_contract_and_never_splices_daily_main_series(self) -> None:
         snapshots = []
-        for index, day in enumerate(("2026-08-17", "2026-08-18", "2026-08-19")):
-            old_main = index < 2
+        for index, day in enumerate(("2026-08-14", "2026-08-17", "2026-08-18", "2026-08-19")):
+            old_main = index < 3
             main_contract = "RB2609" if old_main else "RB2610"
             old_main_row = _contract_record(
                 day,
@@ -135,7 +135,7 @@ class HistoricalFeaturesTests(unittest.TestCase):
             {item["contract"] for item in product["history_observations"]},
             {"RB2610"},
         )
-        expected = (1.005**3 - 1) * 100
+        expected = (203 / 200 - 1) * 100
         self.assertAlmostEqual(
             product["settlement_return_pct"]["3D"]["value"], expected
         )
@@ -154,7 +154,7 @@ class HistoricalFeaturesTests(unittest.TestCase):
         product = build_market_state(snapshots)["products"][0]
 
         self.assertIsNone(product["settlement_return_pct"]["5D"]["value"])
-        self.assertEqual(product["settlement_return_pct"]["5D"]["observations"], 4)
+        self.assertEqual(product["settlement_return_pct"]["5D"]["observations"], 1)
         self.assertIsNone(product["realized_vol_20d_annualized_pct"])
         self.assertEqual(product["realized_vol_20d_observations"], 4)
         self.assertIsNone(product["volume_zscore"])
@@ -188,15 +188,18 @@ class HistoricalFeaturesTests(unittest.TestCase):
         self.assertIsNone(product["delta_OI_1D"])
         self.assertEqual(product["attribution_clue"], "mixed_or_flat")
 
-    def test_twenty_daily_returns_generate_compounded_return_and_realized_vol(self) -> None:
+    def test_twenty_day_return_uses_extra_endpoint_while_vol_uses_twenty_returns(self) -> None:
         returns = [0.1 * (index + 1) for index in range(20)]
-        snapshots = []
+        snapshots = [_snapshot("2026-07-23", settle=100)]
+        day = date(2026, 7, 23)
         for index, daily_return in enumerate(returns):
-            day = date(2026, 7, 23) + timedelta(days=index)
+            day += timedelta(days=1)
+            while day.weekday() >= 5:
+                day += timedelta(days=1)
             snapshots.append(
                 _snapshot(
                     day.isoformat(),
-                    settle=100 + index,
+                    settle=101 + index,
                     settle_return_pct=daily_return,
                     volume=100 + index * 2,
                     open_interest=200 + index * 3,
@@ -206,15 +209,63 @@ class HistoricalFeaturesTests(unittest.TestCase):
         state = build_market_state(snapshots)
         product = state["products"][0]
         return_20d = product["settlement_return_pct"]["20D"]
-        expected_return = (math.prod(1 + value / 100 for value in returns) - 1) * 100
+        expected_return = 20.0
         expected_vol = stdev(returns) * math.sqrt(252)
 
         self.assertEqual(state["history_window"]["available_trading_days"], 20)
-        self.assertEqual(return_20d["observations"], 20)
+        self.assertEqual(return_20d["observations"], 2)
+        self.assertEqual(return_20d["start_date"], "2026-07-23")
         self.assertAlmostEqual(return_20d["value"], expected_return)
         self.assertEqual(product["realized_vol_20d_observations"], 20)
         self.assertAlmostEqual(product["realized_vol_20d_annualized_pct"], expected_vol)
         json.dumps(state, ensure_ascii=False, allow_nan=False)
+
+    def test_missing_trading_dates_only_block_a_return_with_a_missing_endpoint(self) -> None:
+        prices = {"2026-10-09": 80, "2026-10-30": 100, "2026-11-06": 120}
+        snapshots = []
+        day = date(2026, 10, 8)
+        while day <= date(2026, 11, 6):
+            label = day.isoformat()
+            if day.weekday() < 5 and label not in {"2026-11-03", "2026-11-04"}:
+                snapshots.append(_snapshot(label, settle=prices.get(label, 999)))
+            day += timedelta(days=1)
+        state = build_market_state(snapshots)
+        product = state["products"][0]
+        metrics = product["settlement_return_pct"]
+        self.assertEqual(state["history_window"]["return_anchor_dates"], {
+            "3D": "2026-11-03", "5D": "2026-10-30", "20D": "2026-10-09",
+        })
+        self.assertIsNone(metrics["3D"]["value"])
+        self.assertAlmostEqual(metrics["5D"]["value"], 20)
+        self.assertAlmostEqual(metrics["20D"]["value"], 50)
+        self.assertIn("settlement_return_pct_3D", product["quality"]["missing_metrics"])
+        self.assertNotIn("settlement_return_pct_20D", product["quality"]["missing_metrics"])
+        self.assertFalse(state["quality"]["history_complete"])
+        self.assertEqual(state["history_window"]["available_trading_days"], 20)
+        self.assertEqual(state["history_window"]["observed_in_last_20_sessions"], 18)
+        self.assertEqual(state["history_window"]["missing_trading_dates"],
+                         ["2026-11-03", "2026-11-04"])
+
+    def test_holiday_window_rejects_wrong_exchange_contract_and_stale_settlements(self) -> None:
+        latest = _snapshot("2026-10-09", settle=120)
+        anchor = _snapshot("2026-09-29", settle=100)
+
+        def three_day():
+            return build_market_state([anchor, latest])["products"][0]["settlement_return_pct"]["3D"]
+
+        self.assertEqual(three_day()["start_date"], "2026-09-29")
+        self.assertAlmostEqual(three_day()["value"], 20)
+        row = anchor["futures_contracts"][0]
+        for key, value in (("exchange", "INE"), ("contract", "RB2610"),
+                           ("source_trade_date", "2026-09-28"), ("source_date_match", False),
+                           ("settle", 0), ("settle", None)):
+            with self.subTest(key=key, value=value):
+                original = row[key]
+                row[key] = value
+                self.assertIsNone(three_day()["value"])
+                row[key] = original
+        latest["futures_contracts"][0]["settle"] = None
+        self.assertIsNone(three_day()["value"])
 
     def test_oi_quadrant_is_only_an_attribution_clue(self) -> None:
         first = _snapshot(

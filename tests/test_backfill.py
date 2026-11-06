@@ -75,6 +75,21 @@ class DailyFallbackIFindHTTPClient(RangeIFindHTTPClient):
 
 
 class BackfillTests(unittest.TestCase):
+    def test_published_return_reads_exact_anchor_after_json_retention(self) -> None:
+        client = RangeIFindHTTPClient()
+        client.dates = ("2026-08-14", "2026-08-19")
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
+            run_ifind_backfill(end_date="2026-08-19", days=2, data_dir=directory,
+                               snapshot_limit=1, client=client, request_interval_seconds=0)
+            root = Path(directory)
+            self.assertFalse((root / "snapshots" / "2026-08-14.json").exists())
+            state = json.loads((root / "market_state_latest.json").read_text(encoding="utf-8"))
+            self.assertEqual(len(state["products"]), 5)
+            for product in state["products"]:
+                metric = product["settlement_return_pct"]["3D"]
+                self.assertEqual((metric["start_date"], metric["value"]), ("2026-08-14", 0.0))
+                self.assertIsNone(product["settlement_return_pct"]["5D"]["value"])
+
     def test_parquet_backfill_can_exceed_twenty_day_json_window(self) -> None:
         with tempfile.TemporaryDirectory(dir=Path.cwd()) as directory:
             summary = run_ifind_backfill(

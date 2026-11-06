@@ -14,7 +14,11 @@ import math
 import re
 from datetime import date
 from math import fsum, sqrt
+from pathlib import Path
 from typing import Any, Iterable
+
+from .history_storage import read_archived_settlements
+from .trading_calendar import CALENDAR_VERSION, is_trading_day, previous_trading_day
 
 
 REQUESTED_HISTORY_DAYS = 20
@@ -216,16 +220,19 @@ def _score(standardized_value: float | None) -> int | None:
     return 0
 
 
-def _compound_return(values: list[float]) -> float | None:
-    if not values:
-        return None
-    factor = 1.0
-    for value in values:
-        if not math.isfinite(value):
-            return None
-        factor *= 1.0 + value / 100.0
-    result = (factor - 1.0) * 100.0
-    return result if math.isfinite(result) else None
+def _return_sessions(day: date) -> list[str]:
+    """T, T-1, ..., T-20. Unknown calendar years leave affected windows unavailable."""
+    sessions = []
+    try:
+        if is_trading_day(day):
+            sessions.append(day.isoformat())
+            for _ in range(REQUESTED_HISTORY_DAYS):
+                day = previous_trading_day(day)
+                sessions.append(day.isoformat())
+    except ValueError:
+        # The versioned domestic calendar deliberately has limited coverage.
+        pass
+    return sessions
 
 
 def _component_month(main_contract: dict[str, Any] | None, contract: str | None, trade_date: str) -> str | None:
@@ -373,7 +380,7 @@ def _curve_value(curve: dict[str, Any] | None) -> float | None:
 def _product_missing_metrics(
     observations: list[dict[str, Any]],
     daily_returns: list[float],
-    trailing_returns: list[float],
+    returns: dict[str, dict[str, Any]],
     volume_zscore: float | None,
     oi_level_zscore: float | None,
     delta_oi: float | None,
@@ -386,9 +393,9 @@ def _product_missing_metrics(
     missing: set[str] = set()
     if len(observations) < available_days:
         missing.add("same_contract_history")
-    for horizon in (1, 3, 5, 20):
-        if len(trailing_returns) < horizon:
-            missing.add(f"settlement_return_pct_{horizon}D")
+    for label, metric in returns.items():
+        if metric["value"] is None:
+            missing.add(f"settlement_return_pct_{label}")
     if len(daily_returns) < MIN_REALIZED_VOL_OBSERVATIONS:
         missing.add("realized_vol_20d_annualized_pct")
     if volume_zscore is None:
@@ -442,7 +449,7 @@ def _build_state_vector(
         momentum_raw = five_day
         momentum_standardized = five_day / (daily_std * sqrt(5.0))
         momentum_rule = (
-            "raw_value is 5D compounded settlement return percent; "
+            "raw_value is 5D endpoint settlement return percent; "
             "standardized_value = raw_value / (sample daily settlement return std * sqrt(5)); "
             + STATE_SCORE_RULE
         )
@@ -505,6 +512,9 @@ def _product_record(
     curve_snapshots: list[
         tuple[str, dict[str, Any], dict[tuple[str, str], dict[str, Any]]]
     ],
+    return_anchors: dict[str, str | None],
+    settlements: dict[str, dict[tuple[str, str], float]],
+    history_sessions: set[str],
     available_days: int,
 ) -> tuple[dict[str, Any], set[str]]:
     product_key = _curve_key(latest_curve)
@@ -534,13 +544,30 @@ def _product_record(
     trailing_returns = _trailing_daily_returns(
         observations, snapshot_dates, latest_date
     )
-    return_metrics: dict[str, dict[str, Any]] = {}
-    for label, horizon in (("1D", 1), ("3D", 3), ("5D", 5), ("20D", 20)):
-        usable = trailing_returns[-horizon:]
+    # Keep the published 1D convention (including its percent round trip).
+    one_day = ((1.0 + trailing_returns[-1] / 100.0) - 1.0) * 100.0 if trailing_returns else None
+    return_metrics = {
+        "1D": {
+            "value": one_day,
+            "observations": int(bool(trailing_returns)),
+            "required_observations": 1,
+        }
+    }
+    contract_key = _normalised_key(exchange, current_contract)
+    end_settle = settlements.get(latest_date, {}).get(contract_key)
+    for label, start_date in return_anchors.items():
+        start_settle = settlements.get(start_date, {}).get(contract_key)
+        value = None
+        if start_settle is not None and end_settle is not None:
+            value = _finite_number((end_settle / start_settle - 1.0) * 100.0)
         return_metrics[label] = {
-            "value": _compound_return(usable) if len(usable) >= horizon else None,
-            "observations": len(usable),
-            "required_observations": horizon,
+            "value": value,
+            "start_date": start_date,
+            "end_date": latest_date,
+            "start_settle": start_settle,
+            "end_settle": end_settle,
+            "observations": int(start_settle is not None) + int(end_settle is not None),
+            "required_observations": 2,
         }
 
     realized_values = trailing_returns[-REQUESTED_HISTORY_DAYS:]
@@ -630,7 +657,7 @@ def _product_record(
     missing_metrics = _product_missing_metrics(
         observations,
         daily_returns,
-        trailing_returns,
+        return_metrics,
         volume_zscore,
         oi_level_zscore,
         delta_oi,
@@ -691,7 +718,8 @@ def _product_record(
         "curve": curve_record,
         "state_vector": state_vector,
         "quality": {
-            "history_complete": len(observations) == available_days,
+            "history_complete": len(history_sessions) == REQUESTED_HISTORY_DAYS
+            and history_sessions.issubset(row["trade_date"] for row in observations),
             "same_contract_observations": len(observations),
             "missing_metrics": missing_metrics,
             "warnings": sorted(product_warnings),
@@ -712,7 +740,7 @@ def _json_safe(value: Any) -> Any:
     return value
 
 
-def build_market_state(snapshot_payloads: list[dict]) -> dict:
+def build_market_state(snapshot_payloads: list[dict], *, history_path: Path | None = None) -> dict:
     """Build a current market-state vector from verified daily snapshots.
 
     Eligible snapshots with malformed or duplicate dates raise ``ValueError``
@@ -749,8 +777,15 @@ def build_market_state(snapshot_payloads: list[dict]) -> dict:
     warnings: set[str] = set()
     if ignored_unverified:
         warnings.add("unverified_snapshots_ignored")
+    sessions = _return_sessions(eligible[-1][0])
+    return_anchors = {
+        f"{n}D": sessions[n] if n < len(sessions) else None for n in (3, 5, 20)
+    }
+    history_sessions = set(sessions[:REQUESTED_HISTORY_DAYS])
+    price_dates = {day for day in return_anchors.values() if day is not None}
+    price_dates.add(eligible[-1][1])
+    settlements = {}
     if len(eligible) > REQUESTED_HISTORY_DAYS:
-        eligible = eligible[-REQUESTED_HISTORY_DAYS:]
         warnings.add("input_capped_to_latest_20_verified_days")
 
     calculation_snapshots: list[
@@ -761,14 +796,28 @@ def build_market_state(snapshot_payloads: list[dict]) -> dict:
     ] = []
     duplicate_curve = False
     duplicate_futures = False
-    for _parsed, trade_date, payload in eligible:
-        curves, curve_duplicate = _curve_map(payload)
+    for index, (_parsed, trade_date, payload) in enumerate(eligible):
+        in_window = index >= len(eligible) - REQUESTED_HISTORY_DAYS
+        if not in_window and trade_date not in price_dates:
+            continue
         futures, futures_duplicate = _futures_map(payload)
+        if trade_date in price_dates:
+            settlements[trade_date] = {
+                key: price for key, row in futures.items()
+                if _snapshot_contract_is_fresh(row, trade_date)
+                and (price := _first_number(row, "settle", "settlement")) is not None
+                and price > 0
+            }
+        if not in_window:
+            continue
+        curves, curve_duplicate = _curve_map(payload)
         duplicate_curve = duplicate_curve or curve_duplicate
         duplicate_futures = duplicate_futures or futures_duplicate
         calculation_snapshots.append((trade_date, payload, curves))
         futures_snapshots.append((trade_date, payload, futures))
 
+    if history_path is not None:
+        settlements.update(read_archived_settlements(history_path, price_dates - settlements.keys()))
     latest_date = calculation_snapshots[-1][0]
     latest_curves = calculation_snapshots[-1][2]
     previous_curves = calculation_snapshots[-2][2] if len(calculation_snapshots) > 1 else {}
@@ -784,6 +833,9 @@ def build_market_state(snapshot_payloads: list[dict]) -> dict:
             previous_curve=previous_curve,
             futures_snapshots=futures_snapshots,
             curve_snapshots=calculation_snapshots,
+            return_anchors=return_anchors,
+            settlements=settlements,
+            history_sessions=history_sessions,
             available_days=len(calculation_snapshots),
         )
         products.append(product)
@@ -808,6 +860,11 @@ def build_market_state(snapshot_payloads: list[dict]) -> dict:
         warnings.add("history_window_shorter_than_requested_20_days")
 
     dates = [trade_date for trade_date, _payload, _curves in calculation_snapshots]
+    missing_sessions = sorted(history_sessions.difference(dates))
+    if len(sessions) <= REQUESTED_HISTORY_DAYS:
+        warnings.add("return_calendar_incomplete")
+    if missing_sessions:
+        warnings.add("missing_trading_day_snapshots")
     output = {
         "schema_version": SCHEMA_VERSION,
         "trade_date": latest_date,
@@ -816,9 +873,13 @@ def build_market_state(snapshot_payloads: list[dict]) -> dict:
             "available_trading_days": len(dates),
             "first_date": dates[0],
             "last_date": dates[-1],
+            "calendar_version": CALENDAR_VERSION,
+            "return_anchor_dates": return_anchors,
+            "missing_trading_dates": missing_sessions,
+            "observed_in_last_20_sessions": len(history_sessions) - len(missing_sessions),
         },
         "methodology": {
-            "version": "historical_features_v1",
+            "version": "historical_features_v2",
             "snapshot_selection": (
                 "Only snapshots with verified=true or scope_verified=true are used; "
                 "eligible dates must be unique ISO dates, are sorted ascending, and "
@@ -830,9 +891,9 @@ def build_market_state(snapshot_payloads: list[dict]) -> dict:
                 "daily main contracts are never spliced."
             ),
             "settlement_returns": (
-                "Use the source settle_return_pct when finite; otherwise use settle/pre_settle, "
-                "then same-contract settlement differences. Returns are compounded in percent "
-                "over the trailing valid same-contract daily returns."
+                "1D uses the daily settlement return. 3D/5D/20D use 100 * (settle[T] / "
+                "settle[T-N] - 1) for the same exchange and contract on domestic trading dates. "
+                "Observations count the two positive settlement endpoints; missing endpoints give null."
             ),
             "realized_volatility": (
                 "Use up to the latest 20 same-contract daily settlement returns, sample standard "
@@ -860,7 +921,7 @@ def build_market_state(snapshot_payloads: list[dict]) -> dict:
         "quality": {
             "exact_contract_only": True,
             "main_series_spliced": False,
-            "history_complete": len(dates) == REQUESTED_HISTORY_DAYS,
+            "history_complete": len(history_sessions) == REQUESTED_HISTORY_DAYS and not missing_sessions,
             "missing_metrics": sorted(missing_metrics),
             "warnings": sorted(warnings),
         },

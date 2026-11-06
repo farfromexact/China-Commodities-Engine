@@ -553,7 +553,8 @@ def _publish_artifacts(
     )
     retained_snapshots = [read_json(path) for path in retained_snapshot_files]
     market_state = build_market_state(
-        [payload for payload in retained_snapshots if isinstance(payload, dict)]
+        [payload for payload in retained_snapshots if isinstance(payload, dict)],
+        history_path=data_dir / "history" / "futures.parquet",
     )
     write_json_if_changed(data_dir / "market_state_latest.json", market_state)
 
