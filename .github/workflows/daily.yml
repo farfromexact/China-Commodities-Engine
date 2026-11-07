@@ -1,209 +1,35 @@
-name: Split EOD China Commodities Data
-
+name: Silver research canary (isolated branch)
 on:
   workflow_dispatch:
-    inputs:
-      trade_date:
-        description: "Optional trade date (YYYY-MM-DD); defaults to runner date"
-        required: false
-        type: string
-      collection_mode:
-        description: "full automatically uses completed EOD before 18:15 BJT and current EOD after; night_session_only is a safe night-data canary"
-        required: false
-        default: full
-        type: choice
-        options:
-          - full
-          - night_session_only
-          - exchange_backup
 permissions:
-  contents: write
-
-concurrency:
-  group: daily-china-commodities
-  cancel-in-progress: false
-
+  contents: read
 jobs:
-  collect:
-    if: ${{ inputs.collection_mode != 'exchange_backup' }}
+  canary:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
-
+    timeout-minutes: 10
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: requirements.txt
-
-      - name: Install dependencies
-        run: python -m pip install -r requirements.txt
-
-      - name: Install project
-        run: python -m pip install --no-deps -e .
-
-      - name: Run unit tests
-        run: python -m unittest discover -s tests -v
-
-      - name: Wait for current EOD if the evening trigger is early
-        timeout-minutes: 16
-        env:
-          TRADE_DATE: ${{ inputs.trade_date }}
-          COLLECTION_MODE: ${{ inputs.collection_mode || 'full' }}
-        run: python scripts/wait_for_eod.py
-
-      - name: Plan forced collection
-        id: collection_plan
-        env:
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
-          GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
-          TRADE_DATE: ${{ inputs.trade_date }}
-          COLLECTION_MODE: ${{ inputs.collection_mode || 'full' }}
-          FORCE_REFRESH: "true"
-        run: python scripts/plan_ifind_collection.py
-
-      - name: Acquire one shared iFinD access token
-        if: ${{ steps.collection_plan.outputs.needs_ifind == 'true' }}
+      - name: Probe existing iFinD historical minute entitlement
         env:
           IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
-        run: python scripts/export_ifind_access_token.py
-
-      - name: Collect or sync completed domestic night-session futures snapshot
-        if: ${{ steps.collection_plan.outputs.run_night_session == 'true' }}
-        continue-on-error: true
-        env:
-          NIGHT_TRADING_DATE: ${{ steps.collection_plan.outputs.night_trading_date }}
-          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
-        shell: bash
         run: |
-          python -m china_commodities.cli night-session --trade-date "${NIGHT_TRADING_DATE}"
-
-      - name: Collect verified full-market iFinD futures
-        if: ${{ steps.collection_plan.outputs.needs_futures == 'true' }}
-        env:
-          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
-          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
-        shell: bash
-        run: |
-          if [[ -z "${IFIND_REFRESH_TOKEN}" ]]; then
-            echo "IFIND_REFRESH_TOKEN secret is required." >&2
-            exit 1
-          fi
-          python -m china_commodities.cli run --date "${DOMESTIC_TRADE_DATE}" --provider ifind --skip-options --force-refresh
-
-      - name: Collect budgeted core options across catalog products
-        if: ${{ steps.collection_plan.outputs.needs_options == 'true' }}
-        continue-on-error: true
-        env:
-          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
-          IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}
-        shell: bash
-        run: |
-          python scripts/collect_ifind_options.py --all-products --option-profile core --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --minimum-product-coverage 0
-
-      - name: Collect AKShare Physical spot and basis data
-        if: ${{ steps.collection_plan.outputs.needs_physical == 'true' }}
-        continue-on-error: true
-        env:
-          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
-        shell: bash
-        run: |
-          python -m china_commodities.cli foundation --provider akshare --scope physical --date "${DOMESTIC_TRADE_DATE}" --shadow-days 1 --force-refresh
-
-      - name: Collect AKShare overseas daily series
-        if: ${{ steps.collection_plan.outputs.needs_external == 'true' }}
-        continue-on-error: true
-        env:
-          EXTERNAL_TRADE_DATE: ${{ steps.collection_plan.outputs.external_trade_date }}
-        shell: bash
-        run: |
-          python -m china_commodities.cli foundation --provider akshare --scope external --date "${EXTERNAL_TRADE_DATE}" --shadow-days 1 --force-refresh
-
-      - name: Independently cross-check official futures settlement prices
-        if: ${{ always() && steps.collection_plan.outputs.run_domestic == 'true' }}
-        continue-on-error: true
-        timeout-minutes: 4
-        env:
-          CHECK_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
-        run: python scripts/check_exchange_futures.py --date "$CHECK_TRADE_DATE"
-
-      - name: Rebuild local futures history and report input
-        run: python -m china_commodities.cli report-input --repair-futures-history
-
-      - name: Upload raw diagnostic data
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: commodity-options-${{ github.run_id }}
-          path: |
-            data/raw/
-            data/scoped/*/raw/
-          if-no-files-found: ignore
-          retention-days: 14
-
-      - name: Validate full-market snapshot
-        if: ${{ steps.collection_plan.outputs.validate_full_market == 'true' }}
-        run: python -m china_commodities.cli validate
-
-      - name: Commit and push data changes
-        id: publish_data
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          python scripts/publish_data.py --branch "${GITHUB_REF_NAME}" --recovery-dir "${RUNNER_TEMP}/commodity-data-recovery"
-
-      - name: Preserve unpublished data patch
-        if: ${{ failure() && steps.publish_data.outcome == 'failure' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: commodity-data-recovery-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/commodity-data-recovery/
-          if-no-files-found: warn
-          retention-days: 14
-
-  exchange-backup:
-    if: ${{ inputs.collection_mode == 'exchange_backup' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: requirements.txt
-      - name: Install backup dependencies
-        run: |
-          python -m pip install -r requirements.txt
-          python -m pip install --no-deps -e .
-      - name: Test backup and failure recovery
-        run: python -m unittest discover -s tests -p 'test_exchange_backup.py' -v
-      - name: Collect independent exchange EOD backup
-        env:
-          REQUESTED_DATE: ${{ inputs.trade_date }}
-        shell: bash
-        run: |
-          if [[ -z "$REQUESTED_DATE" ]]; then
-            REQUESTED_DATE=$(python -c 'import json; print(json.load(open("data/options/latest.json"))["trade_date"])')
-          fi
-          python -u scripts/collect_exchange_backup.py --date "$REQUESTED_DATE"
-      - name: Upload backup report and source audit manifests
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: exchange-backup-${{ github.run_id }}
-          path: |
-            data/backup/reports/
-            data/backup/last_run_status.json
-            data/backup/raw/*/*.json
-          if-no-files-found: warn
-          retention-days: 14
+          python - <<'PY'
+          import os, json, urllib.request, time
+          BASE="https://quantapi.51ifind.com/api/v1/"
+          def post(endpoint, payload, headers):
+              req=urllib.request.Request(BASE+endpoint,data=json.dumps(payload).encode() if payload is not None else None,method="POST",headers={"Content-Type":"application/json",**headers})
+              with urllib.request.urlopen(req,timeout=60) as r: return json.load(r)
+          a=post("get_access_token",None,{"refresh_token":os.environ["IFIND_REFRESH_TOKEN"]})
+          token=(a.get("data") or {}).get("access_token")
+          if not token:
+              print(json.dumps({"stage":"authentication","errorcode":a.get("errorcode"),"authenticated":False})); raise SystemExit(1)
+          print("Authenticated; token retained in process memory only.")
+          for code,date in [("AG2612.SHF","2026-11-05"),("AG2512.SHF","2025-11-05"),("AG2312.SHF","2023-11-06"),("AG2112.SHF","2021-11-05")]:
+              p={"codes":code,"indicators":"open,high,low,close,volume","starttime":date+" 09:00:00","endtime":date+" 15:00:00","functionpara":{"Interval":"5","Fill":"Original","CPS":"no"}}
+              try:
+                  d=post("high_frequency",p,{"access_token":token})
+                  tables=d.get("tables") or []
+                  print(json.dumps({"code":code,"date":date,"errorcode":d.get("errorcode"),"errmsg":str(d.get("errmsg",""))[:200],"dataVol":d.get("dataVol"),"tables":[{"code":t.get("thscode"),"rows":len(t.get("time",[])),"first":(t.get("time") or [None])[0],"last":(t.get("time") or [None])[-1],"fields":list((t.get("table") or {}).keys())} for t in tables]},ensure_ascii=False))
+              except Exception as e: print(json.dumps({"code":code,"date":date,"error_type":type(e).__name__}))
+              time.sleep(1)
+          
+          PY
