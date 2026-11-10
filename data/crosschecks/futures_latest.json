@@ -1,79 +1,21 @@
 {
   "schema_version": 1,
-  "trade_date": "2026-11-09",
-  "generated_at": "2026-11-09T11:11:01.673392+00:00",
+  "trade_date": "2026-11-10",
+  "generated_at": "2026-11-10T11:30:37.706206+00:00",
   "mode": "advisory_independent_exchange_eod",
   "ifind_requests": 0,
-  "state": "partial",
+  "state": "unavailable",
   "all_compared_prices_equal": false,
   "exchanges": [
     {
       "exchange": "SHFE",
-      "state": "matched",
-      "official_contracts": 238,
-      "vendor_contracts": 238,
-      "matched_contracts": 238,
-      "vendor_only_count": 0,
-      "official_only_count": 0,
-      "fields": {
-        "settle": {
-          "comparable": 238,
-          "different": 0,
-          "equal": 238,
-          "absolute_tolerance": 1e-06
-        },
-        "close": {
-          "comparable": 238,
-          "different": 0,
-          "equal": 238,
-          "absolute_tolerance": 1e-06
-        },
-        "pre_settle": {
-          "comparable": 238,
-          "different": 0,
-          "equal": 238,
-          "absolute_tolerance": 1e-06
-        }
-      },
-      "differences": [],
-      "differences_truncated": false,
-      "source_date_basis": [
-        "report_date"
-      ]
+      "state": "baseline_unavailable",
+      "official_contracts": 238
     },
     {
       "exchange": "INE",
-      "state": "matched",
-      "official_contracts": 63,
-      "vendor_contracts": 63,
-      "matched_contracts": 63,
-      "vendor_only_count": 0,
-      "official_only_count": 0,
-      "fields": {
-        "settle": {
-          "comparable": 63,
-          "different": 0,
-          "equal": 63,
-          "absolute_tolerance": 1e-06
-        },
-        "close": {
-          "comparable": 63,
-          "different": 0,
-          "equal": 63,
-          "absolute_tolerance": 1e-06
-        },
-        "pre_settle": {
-          "comparable": 63,
-          "different": 0,
-          "equal": 63,
-          "absolute_tolerance": 1e-06
-        }
-      },
-      "differences": [],
-      "differences_truncated": false,
-      "source_date_basis": [
-        "report_date"
-      ]
+      "state": "baseline_unavailable",
+      "official_contracts": 63
     },
     {
       "exchange": "DCE",
@@ -82,71 +24,13 @@
     },
     {
       "exchange": "CZCE",
-      "state": "matched",
-      "official_contracts": 243,
-      "vendor_contracts": 243,
-      "matched_contracts": 243,
-      "vendor_only_count": 0,
-      "official_only_count": 0,
-      "fields": {
-        "settle": {
-          "comparable": 243,
-          "different": 0,
-          "equal": 243,
-          "absolute_tolerance": 1e-06
-        },
-        "close": {
-          "comparable": 183,
-          "different": 0,
-          "equal": 183,
-          "absolute_tolerance": 1e-06
-        },
-        "pre_settle": {
-          "comparable": 243,
-          "different": 0,
-          "equal": 243,
-          "absolute_tolerance": 1e-06
-        }
-      },
-      "differences": [],
-      "differences_truncated": false,
-      "source_date_basis": [
-        "report_title"
-      ]
+      "state": "baseline_unavailable",
+      "official_contracts": 243
     },
     {
       "exchange": "GFEX",
-      "state": "matched",
-      "official_contracts": 48,
-      "vendor_contracts": 48,
-      "matched_contracts": 48,
-      "vendor_only_count": 0,
-      "official_only_count": 0,
-      "fields": {
-        "settle": {
-          "comparable": 48,
-          "different": 0,
-          "equal": 48,
-          "absolute_tolerance": 1e-06
-        },
-        "close": {
-          "comparable": 48,
-          "different": 0,
-          "equal": 48,
-          "absolute_tolerance": 1e-06
-        },
-        "pre_settle": {
-          "comparable": 48,
-          "different": 0,
-          "equal": 48,
-          "absolute_tolerance": 1e-06
-        }
-      },
-      "differences": [],
-      "differences_truncated": false,
-      "source_date_basis": [
-        "response_query_date_echo"
-      ]
+      "state": "baseline_unavailable",
+      "official_contracts": 48
     }
   ],
   "blocks_publication": false,
