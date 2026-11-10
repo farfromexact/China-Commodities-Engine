@@ -3,15 +3,15 @@
   "domain": "external",
   "provider": "akshare",
   "requested_date": "2026-11-10",
-  "generated_at": "2026-11-10T19:10:09.374750+08:00",
-  "data_fresh": false,
+  "generated_at": "2026-11-11T06:09:46.371359+08:00",
+  "data_fresh": true,
   "coverage": {
     "target_count": 22,
     "configured_mapping_count": 17,
     "unavailable_mapping_count": 5,
-    "fresh_target_count": 16,
+    "fresh_target_count": 17,
     "stale_target_count": 0,
-    "carried_forward_target_count": 1,
+    "carried_forward_target_count": 0,
     "unavailable_target_count": 5,
     "failed_target_count": 0,
     "series_count": 17,
@@ -42,7 +42,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -55,20 +55,20 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
       "series_key": "external.LME_AL.akshare_ahd_close",
       "indicator_id": "AKSHARE:SINA:AHD",
-      "state": "collection_error",
-      "quality_state": "carried_forward",
-      "source_date": "2026-11-09",
-      "carried_forward": true,
-      "detail": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
+      "state": "ok",
+      "quality_state": "fresh",
+      "source_date": "2026-11-10",
+      "carried_forward": false,
+      "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": null,
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -81,7 +81,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -94,7 +94,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -107,7 +107,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -120,7 +120,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -146,7 +146,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -159,7 +159,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -172,7 +172,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -185,7 +185,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -198,7 +198,7 @@
       "detail": null,
       "cache_hit": false,
       "request_made": true,
-      "query_start_date": "2016-11-10",
+      "query_start_date": "2016-11-11",
       "query_end_date": "2026-11-10"
     },
     {
@@ -241,13 +241,9 @@
       "query_end_date": "2026-11-10"
     }
   ],
-  "validation_passed": false,
-  "validation_errors": [
-    "LME_AL: current collection is carried forward",
-    "external.LME_AL.akshare_ahd_close: current collection is carried forward",
-    "external.LME_AL.akshare_ahd_close: current collection state=collection_error"
-  ],
-  "published": false,
+  "validation_passed": true,
+  "validation_errors": [],
+  "published": true,
   "shadow_state": {
     "schema_version": 1,
     "required_pass_days": 1,
@@ -258,9 +254,9 @@
     ],
     "consecutive_pass_count": 1,
     "last_attempt_date": "2026-11-10",
-    "last_attempt_validation_passed": false,
+    "last_attempt_validation_passed": true,
     "out_of_order_attempt": false,
-    "promotion_allowed": false
+    "promotion_allowed": true
   },
-  "previous_valid_snapshot_retained": true
+  "previous_valid_snapshot_retained": false
 }
