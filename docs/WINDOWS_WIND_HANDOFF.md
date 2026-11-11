@@ -15,6 +15,7 @@
 - **本仓库的新脚本尚未在Windows实机验收。** trading desk原版Windows验证不等于本仓库已经验收。
 - **每日Wind调度尚未切换。** `.github/workflows/daily.yml` 仍调用旧iFinD路径；本次提交回补结果不会自动改变云端采集方式。
 - **旧iFinD提数已设为idle（用户要求）。** 仓库变量`IFIND_COLLECTION_STATE=idle`；缺省也idle。Bridge不派发，daily手动触发只显示idle，不申请token或改数据。`active`会恢复旧iFinD整套采集，因此Windows Wind部署时不能用修改此变量代替实现Wind入口。独立`exchange_backup`手动模式保留。
+- **远端入口进一步整体关闭（用户明确要求）。** GitHub工作流`chatgpt-trigger.yml`与`daily.yml`均为`disabled_manually`，不再接受自动/手动派发；备份代码也暂不执行。idle开关作为误启用后的二次防护保留。部署Windows时不要自行启用这两个旧工作流；后续调度方式需按用户的新决定配置。
 
 ## Windows首次安装（PowerShell，在本仓库根目录）
 
