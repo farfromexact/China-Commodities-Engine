@@ -24,8 +24,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  idle:
+    if: ${{ vars.IFIND_COLLECTION_STATE != 'active' && inputs.collection_mode != 'exchange_backup' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report idle collection state
+        run: echo 'iFinD collection is idle. No token request, collection or data publication is performed.' >> "$GITHUB_STEP_SUMMARY"
+
   collect:
-    if: ${{ inputs.collection_mode != 'exchange_backup' }}
+    if: ${{ vars.IFIND_COLLECTION_STATE == 'active' && inputs.collection_mode != 'exchange_backup' }}
     runs-on: ubuntu-latest
     timeout-minutes: 55
 

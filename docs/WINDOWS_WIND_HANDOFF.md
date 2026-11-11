@@ -14,6 +14,7 @@
 - 夜盘为上一交易日晚开始的已完成时段，按自然日时间戳跨午夜聚合五分钟线，与前一交易日EOD比较，不混入当天日盘或正在进行的夜盘。
 - **本仓库的新脚本尚未在Windows实机验收。** trading desk原版Windows验证不等于本仓库已经验收。
 - **每日Wind调度尚未切换。** `.github/workflows/daily.yml` 仍调用旧iFinD路径；本次提交回补结果不会自动改变云端采集方式。
+- **旧iFinD提数已设为idle（用户要求）。** 仓库变量`IFIND_COLLECTION_STATE=idle`；缺省也idle。Bridge不派发，daily手动触发只显示idle，不申请token或改数据。`active`会恢复旧iFinD整套采集，因此Windows Wind部署时不能用修改此变量代替实现Wind入口。独立`exchange_backup`手动模式保留。
 
 ## Windows首次安装（PowerShell，在本仓库根目录）
 
