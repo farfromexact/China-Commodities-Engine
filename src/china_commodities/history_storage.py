@@ -291,7 +291,8 @@ def _option_history_rows(snapshot: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "observation_date": record.get("source_trade_date"),
                 "timezone": "Asia/Shanghai",
                 "vendor": record.get("source_provider") or snapshot.get("source_provider"),
-                "original_source": "iFinD Quant API",
+                "original_source": ("Wind Quant API" if (record.get("source_provider") or snapshot.get("source_provider")) == "wind"
+                                    else "iFinD Quant API"),
                 "source_endpoint": record.get("source_endpoint") or "real_time_quotation",
                 "frequency": "EOD",
                 "quality_state": (

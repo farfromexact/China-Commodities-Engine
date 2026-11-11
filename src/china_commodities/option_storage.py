@@ -315,9 +315,9 @@ def validate_option_snapshot(snapshot: dict[str, Any]) -> None:
                 f"option record {contract} has invalid strike"
             )
         provider = str(record.get("source_provider") or "").lower()
-        if not provider.startswith("ifind"):
+        if not (provider.startswith("ifind") or provider == "wind"):
             raise OptionSnapshotValidationError(
-                f"option record {contract} is not sourced from iFinD"
+                f"option record {contract} has unsupported source provider"
             )
         greeks = record.get("greeks")
         if not isinstance(greeks, dict) or greeks.get("quality") not in {

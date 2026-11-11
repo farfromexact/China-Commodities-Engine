@@ -262,7 +262,7 @@ def _build_module_quality(
 
     if result.core_futures_official_complete:
         futures_quality = "verified_official"
-    elif result.scope_verified and result.primary_provider == "ifind":
+    elif result.scope_verified and result.primary_provider in {"ifind", "wind"}:
         futures_quality = "verified_vendor_primary"
     else:
         futures_quality = "partial_or_fallback"
@@ -706,13 +706,16 @@ def run_pipeline(
     ifind_dce_fallback: bool = False,
     ifind_http_client: IFindHTTPClient | None = None,
     ifind_prefetched: Mapping[str, pd.DataFrame] | None = None,
+    wind_prefetched: Mapping[str, pd.DataFrame] | None = None,
     ifind_request_interval_seconds: float = 0.0,
     now: datetime | None = None,
 ) -> PipelineResult:
     normalized_date = iso_date(trade_date)
     normalized_provider = str(provider).strip().lower()
-    if normalized_provider not in {"akshare", "ifind"}:
+    if normalized_provider not in {"akshare", "ifind", "wind"}:
         raise ValueError(f"unsupported data provider: {provider}")
+    if normalized_provider == "wind" and wind_prefetched is None:
+        raise ValueError("Wind requires validated prefetched frames")
     selected_exchanges = _normalize_exchanges(exchanges)
     excluded_exchanges = [
         exchange
@@ -753,7 +756,14 @@ def run_pipeline(
     if normalized_provider == "ifind" and ifind_prefetched is None:
         primary_ifind_client = ifind_http_client or IFindHTTPClient()
     for exchange in selected_exchanges:
-        if normalized_provider == "ifind":
+        if normalized_provider == "wind":
+            frame = wind_prefetched.get(exchange, pd.DataFrame())
+            raw, status = _collect(
+                dataset="futures", scope=exchange, trade_date=normalized_date,
+                source_function="WindPy.wsd", upstream_source="Wind Quant API", is_proxy=False,
+                call=lambda frame=frame: _prefetched_ifind_daily(frame, normalized_date),
+            )
+        elif normalized_provider == "ifind":
             products = catalog.products_for_exchange(exchange)
             if ifind_prefetched is not None:
                 source_frame = ifind_prefetched.get(exchange, pd.DataFrame())
@@ -903,7 +913,7 @@ def run_pipeline(
                 status.records = 0
                 status.error = f"normalization {type(exc).__name__}: {exc}"
 
-    if normalized_provider == "ifind":
+    if normalized_provider in {"ifind", "wind"}:
         skipped_datasets = [
             "basis",
             "member_rankings",
@@ -922,10 +932,10 @@ def run_pipeline(
                     source_function="not_yet_mapped",
                     records=0,
                     error=(
-                        "iFinD report/indicator mapping and entitlement are not yet "
+                        f"{normalized_provider} report/indicator mapping and entitlement are not yet "
                         "verified for this module"
                     ),
-                    upstream_source="iFinD Quant API",
+                    upstream_source="Wind Quant API" if normalized_provider == "wind" else "iFinD Quant API",
                     is_fresh=False,
                     requested_trade_date=normalized_date,
                 )

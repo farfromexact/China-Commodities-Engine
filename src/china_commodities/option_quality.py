@@ -267,7 +267,8 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
         and universe_count == quote_count == record_count
     )
     provider_bad_count = sum(
-        not _text(record.get("source_provider")).lower().startswith("ifind")
+        not (_text(record.get("source_provider")).lower().startswith("ifind")
+             or _text(record.get("source_provider")).lower() == "wind")
         for record in records
     )
     source_date_bad_count = record_count - source_date_match_count
@@ -320,6 +321,7 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
         universe_source
         and universe_source.lower().startswith("ifind")
         and provider_bad_count == 0
+        and all(_text(r.get("source_provider")).lower().startswith("ifind") for r in records)
     )
 
     limitations: list[str] = []
@@ -341,7 +343,7 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
         )
     if provider_bad_count:
         limitations.append(
-            f"{provider_bad_count} record(s) have source_provider not starting with ifind"
+            f"{provider_bad_count} record(s) have unsupported source_provider"
         )
     if source_date_bad_count:
         limitations.append(
@@ -406,9 +408,11 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
             "positioning_ready blocked: "
             f"open_interest_coverage={open_interest_coverage:.4f} < 0.9000"
         )
-    if universe_source and not all_inputs_ifind:
+    all_inputs_wind = bool(universe_source and universe_source.lower().startswith("wind")
+                           and records and all(r.get("source_provider") == "wind" for r in records))
+    if universe_source and not (all_inputs_ifind or all_inputs_wind):
         limitations.append(
-            f"contract universe source is {universe_source}; quotes are iFinD but not all inputs are iFinD"
+            f"contract universe source is {universe_source}; universe and quotes have mixed provenance"
         )
     if product_scope_declared and not full_product_scope_verified:
         limitations.append(
@@ -418,8 +422,10 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
             f"product_coverage={product_coverage:.4f}"
         )
 
+    units_as_reported = all((r.get("greeks") or {}).get("units_as_reported") is not False for r in records)
     limitations.append(
         "vendor risk, when available, uses units_as_reported=true; no unit conversion is inferred"
+        if units_as_reported else "vendor risk units: see per-record explicit conversion metadata"
     )
     limitations.append(
         "dealer_gamma_direction_known=false; dealer Gamma direction is not observed or inferred"
@@ -487,13 +493,14 @@ def assess_option_snapshot_quality(snapshot: dict) -> dict:
         "quote_coverage_complete": snapshot.get("quote_coverage_complete") is True,
         "universe_source": universe_source,
         "all_inputs_ifind": all_inputs_ifind,
+        "all_inputs_wind": all_inputs_wind,
         "full_chain_verified": full_chain_verified,
         "surface_ready": surface_ready,
         "positioning_ready": positioning_ready,
         "execution_ready": execution_ready,
         "model_greeks_ready": model_greeks_ready,
         "vendor_risk_available": vendor_risk_available,
-        "vendor_risk_units_as_reported": True,
+        "vendor_risk_units_as_reported": units_as_reported,
         "dealer_gamma_direction_known": False,
         "status": status,
         "limitations": limitations,

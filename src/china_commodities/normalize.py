@@ -131,7 +131,8 @@ def normalize_futures(
     frame["exchange"] = exchange.upper()
     frame["product"] = raw["variety"].map(_canonical_product)
     frame["contract"] = raw["symbol"].astype(str).str.strip().str.upper()
-    for field in ("source_provider", "source_endpoint", "source_code"):
+    for field in ("source_provider", "source_endpoint", "source_code",
+                  "turnover_unit", "source_turnover", "source_turnover_unit"):
         if field in raw.columns:
             frame[field] = raw[field]
     for column in FUTURES_NUMERIC_COLUMNS:

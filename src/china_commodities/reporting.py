@@ -163,15 +163,16 @@ def _merge_options_status(
         module_records = 0
 
     source_date_match = option_quality.get("source_date_match_pct") == 1.0
+    wind_options = option_latest.get("source_provider") == "wind"
     module = {
         "dataset": "options",
         "scope": "core_sample" if option_latest.get("collection_scope") == "core_v1" else "full-market",
         "state": module_state,
         "trade_date": requested_date,
-        "source_function": "collect_ifind_options.py",
+        "source_function": "WindPy.wsd" if wind_options else "collect_ifind_options.py",
         "records": module_records,
         "error": module_error,
-        "upstream_source": "iFinD Quant API",
+        "upstream_source": "Wind Quant API" if wind_options else "iFinD Quant API",
         "is_fresh": published,
         "is_proxy": False,
         "is_fallback": False,
@@ -179,7 +180,7 @@ def _merge_options_status(
         "source_trade_date": requested_date if source_date_match else None,
         "source_date_match": source_date_match,
         "fetched_at": option_status.get("generated_at"),
-        "source_endpoint": "collect_ifind_options.py",
+        "source_endpoint": "WindPy.wsd" if wind_options else "collect_ifind_options.py",
         "raw_payload_sha256": None,
         "schema_signature": None,
     }
@@ -235,7 +236,7 @@ def reconcile_main_status(data_dir: str | Path = "data") -> bool:
             for item in _list(merged.get("modules"))
             if isinstance(item, Mapping)
             and item.get("dataset") == "options"
-            and item.get("scope") == "full-market"
+            and item.get("scope") in {"full-market", "core_sample"}
         ),
         None,
     )
@@ -265,7 +266,7 @@ def reconcile_main_status(data_dir: str | Path = "data") -> bool:
             for index, item in enumerate(modules):
                 if (
                     item.get("dataset") == "options"
-                    and item.get("scope") == "full-market"
+                    and item.get("scope") in {"full-market", "core_sample"}
                 ):
                     modules[index] = option_module
                     replaced = True
@@ -600,8 +601,8 @@ def _night_contract_summary(item: Mapping[str, Any]) -> dict[str, Any]:
         "night_low": item.get("low"),
         "night_close": night_close,
         "night_last_price": night_close,
-        "price_semantics": "vendor_latest_trade_asof_snapshot",
-        "ohlcv_scope": "vendor_realtime_unverified_session_scope",
+        "price_semantics": item.get("price_semantics") or "vendor_latest_trade_asof_snapshot",
+        "ohlcv_scope": item.get("ohlcv_scope") or "vendor_realtime_unverified_session_scope",
         "official_night_close_verified": False,
         "previous_day_close": previous_day_close,
         "previous_day_settlement": previous_day_settlement,
@@ -659,7 +660,9 @@ def _night_session_view(
             "exchange": exchange,
             "product": product,
             "fresh_contract_count": len(contracts),
-            "selection_basis": "highest_vendor_snapshot_volume_then_open_interest",
+            "selection_basis": ("highest_completed_night_volume_then_open_interest"
+                                if representative.get("ohlcv_scope") == "completed_night_5min_bars"
+                                else "highest_vendor_snapshot_volume_then_open_interest"),
             "representative_contract": _night_contract_summary(representative),
         }
 
@@ -677,8 +680,8 @@ def _night_session_view(
     )
     return {
         "source_path": "data/night_session/latest.json",
-        "price_semantics": "vendor_latest_trade_asof_snapshot",
-        "ohlcv_scope": "vendor_realtime_unverified_session_scope",
+        "price_semantics": snapshot.get("price_semantics") or "vendor_latest_trade_asof_snapshot",
+        "ohlcv_scope": snapshot.get("ohlcv_scope") or "vendor_realtime_unverified_session_scope",
         "official_night_close_verified": False,
         "summary_only": True,
         "trading_date": snapshot.get("trading_date") or status.get("trading_date"),

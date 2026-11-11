@@ -113,7 +113,7 @@ class OptionQualityTests(unittest.TestCase):
         self.assertTrue(result["vendor_risk_units_as_reported"])
         self.assertFalse(result["dealer_gamma_direction_known"])
         self.assertFalse(result["all_inputs_ifind"])
-        self.assertTrue(any("not all inputs are iFinD" in item for item in result["limitations"]))
+        self.assertTrue(any("mixed provenance" in item for item in result["limitations"]))
         self.assertEqual(result["expiry_coverage"], 0.0)
         self.assertEqual(result["exercise_style_coverage"], 0.0)
         self.assertEqual(result["bid_ask_coverage"], 0.0)

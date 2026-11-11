@@ -190,11 +190,11 @@ class OptionStorageTests(unittest.TestCase):
                 ["2026-08-02", "2026-08-03", "2026-08-04"],
             )
 
-    def test_rejects_non_ifind_chain(self) -> None:
+    def test_rejects_unsupported_provider_chain(self) -> None:
         invalid = snapshot("2026-08-18")
         invalid["records"][0]["source_provider"] = "akshare"
         with tempfile.TemporaryDirectory() as temporary:
-            with self.assertRaisesRegex(OptionSnapshotValidationError, "iFinD"):
+            with self.assertRaisesRegex(OptionSnapshotValidationError, "unsupported source provider"):
                 publish_option_eod(invalid, Path(temporary))
 
     def test_partial_attempt_does_not_replace_promoted_latest(self) -> None:

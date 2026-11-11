@@ -444,8 +444,12 @@ def normalize_night_session_snapshot(
             continue
         record = dict(raw)
         record["night_last_price"] = record.get("night_close")
-        record["price_semantics"] = "vendor_latest_trade_asof_snapshot"
-        record["ohlcv_scope"] = "vendor_realtime_unverified_session_scope"
+        historical_bars = (record.get("source_provider") == "wind"
+                           and record.get("source_endpoint") == "WindPy.wsi")
+        record["price_semantics"] = ("last_completed_bar_close" if historical_bars
+                                     else "vendor_latest_trade_asof_snapshot")
+        record["ohlcv_scope"] = ("completed_night_5min_bars" if historical_bars
+                                 else "vendor_realtime_unverified_session_scope")
         record["official_night_close_verified"] = False
         key = (
             str(record.get("exchange") or "").upper(),
