@@ -59,7 +59,8 @@ def build_night(day, universe, prior, cache):
     for code, future in sorted(universe.items()):
         exchange = SUFFIX[code.split('.')[1]]
         contract = code.split('.')[0]
-        ref = previous[(exchange,contract)]
+        # Newly listed contracts have no prior EOD; returns remain unavailable.
+        ref = previous.get((exchange,contract),{})
         context = dict(exchange=exchange,contract=contract,product=future['variety'],source_code=code,
                        prior_eod_trade_date=session_date,prior_eod_settlement=ref.get('settle'),
                        prior_eod_close=ref.get('close'),previous_day_close=ref.get('close'),

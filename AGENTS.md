@@ -9,5 +9,7 @@
 - 用户已要求旧iFinD提数设为 **idle**。仓库变量 `IFIND_COLLECTION_STATE=idle`；未设置变量也默认idle。Bridge不派发，daily手动触发也只报告idle；仅显式设为`active`才会恢复旧采集，不得因配置Windows Wind而误开它。手动交易所备份入口独立保留。此状态不表示Wind自动调度已上线。
 - 用户进一步要求停止远端所有日常取数触发入口：GitHub上的`chatgpt-trigger.yml`和`daily.yml`都已设为`disabled_manually`。上面的idle是二次防护；当前手动备份也不会运行（代码保留）。不要自行重新启用工作流或切换`active`，Windows Wind配置不等于允许恢复远端旧采集。
 - `scripts/backfill_wind_*.py` / `publish_wind_backfill.py` 是本次短窗口补数工具，含806合约稳定目录的限制；`audit_wind.py` 是固定2026-11-11的诊断。后续每日生产必须先实现按目标日目录刷新和动态覆盖检查，不能硬编码沿用此次目录。
+- 新的本地每日入口已实现：`scripts/run_wind_daily.py`，详见[docs/LOCAL_WIND_DAILY.md](docs/LOCAL_WIND_DAILY.md)。逐日目录、断点缓存、漏日整批发布、早间夜盘、自动提交推送及Dot登录通知均走此入口；不要再把上述固定窗口脚本当作每日入口。用户已授权校验后自动推送data。
+- 本地默认disabled，Windows接手后配置独立环境、enabled=true并实机验收，再安装当前用户登录任务。Dot通知协议为`--signal-login`；本机watch收到有效通知后才尝试连接，有看板占用则等待。不要把进程存在当作已登录，不启用远端旧workflow；也不要宣称已替用户开启Dot监控。
 - 本机登录凭据、`.venv`、`.pth`、SDK、原始 `tmp/` 缓存不提交；验证后的规范化 `data/` 按本仓库既有方式提交。推送前核对远端，保留他人提交，不强推。
 - 验证：`python -m unittest discover -s tests -q`；发布后 `python -m china_commodities.cli report-input --repair-futures-history`、`python -m china_commodities.cli validate`。Windows 实机未验证的内容要明确标注。

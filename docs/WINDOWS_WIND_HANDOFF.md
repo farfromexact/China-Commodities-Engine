@@ -1,5 +1,7 @@
 # Windows Wind 接续说明
 
+**最新接续入口：** [本地每日采集与Dot通知](LOCAL_WIND_DAILY.md) 已实现日常逐日目录、漏日补采、早间夜盘和自动推送。明天优先按该文档配置 `run_wind_daily.py` 及当前用户登录任务。下文历史补数工具与原迁移待办保留作背景；远端Actions/Bridge继续关闭，不需要为本地采集恢复远端触发。
+
 2026-11-11交接。用户要求未来在办公Windows电脑使用Wind取数，并保留原trading desk的运行。
 本说明参考 [trading-desk-wind-API](https://github.com/farfromexact/trading-desk-wind-API)
 的 `scripts/configure_wind.py`、`docs/CROSS_PLATFORM.md` 和Windows历史运行记录。
@@ -60,10 +62,10 @@ Windows缺少DLL、位数不匹配或SDK权限问题应通过官方安装修复�
 
 1. 阅读根目录AGENTS.md及本说明，查看远端最新数据日期，避免重拉已发布日期。本次 `tmp/` 原始缓存不在Git中，不要假设Mac缓存已同步。
 2. 按上述配置通过Windows连接与小样本；记录SDK版本、Python位数、实际路径（不要记录凭据）、错误码、日期与数据范围。只修改本仓库。
-3. 将本次补数入口推广为日常入口：按目标交易日调用WSET获取期货目录，校验上市/到期和唯一合约；**移除对固定806合约和固定11月11日诊断文件的依赖**，改用当日目录派生的交易所/品种覆盖门槛。若合约目录在日期区间发生变化，逐日采集目录，不能拿最新目录回填历史。
+3. 日常入口已另行实现为`run_wind_daily.py`：按目标日WSET目录校验上市/到期、唯一合约及配置覆盖，不依赖806合约。Windows需实测此入口，不修改固定日期历史探针来冒充每日逻辑。
 4. 日盘WSD、core期权WSET+WSD、已完成夜盘WSI保持串行并断点缓存。生成到独立staging目录，三层日期/范围均通过后再发布。不能只把iFinD名称换成Wind而继续调用iFinD，也不能为凑齐数据伪造日期或零值。
 5. 按现有发布器生成最新/历史/状态和统一report_input；保留Physical/External及尚未采集辅助层的真实来源与日期。补数脚本用法见 [WIND_CANARY.md](WIND_CANARY.md)，其中命令是本次稳定短窗口的记录，不可直接作为明天日常任务。
-6. 单独验收Windows无人值守条件，然后把现有GPT Automation + Scheduler Bridge指向已验证的Wind采集入口（例如已登录、具备官方SDK的Windows自托管runner）。不要假定GitHub `ubuntu-latest`具备本机Wind桌面授权；本次并未配置runner。保留`workflow_dispatch`、不恢复cron，并避免Mac/Windows两个写入者重复跑同一交易日。
+6. 按用户最新决定，只配置本机当前用户登录任务和Dot通知；远端Bridge/daily继续禁用，不配置远端runner或恢复cron。只启用一台日常采集电脑，避免重复运行与争抢账号。
 7. 测试通过后提交代码与规范化数据，推送前重新同步远端，不强推。将Windows实测结果追加到本文件或新验证记录，明确仍未验证的登录后重启/锁屏/退出用户会话场景。
 
 若需要trading desk上下文，查同名仓库的上述配置文件与跨平台文档；Codex原chat为 `01a1c51b-5a61-75e3-bebd-e33ec78c63cb`（Mac本地host，另一台电脑未必能读取）。必要信息已经写入本仓库，不依赖跨电脑chat可访问。

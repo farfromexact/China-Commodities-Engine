@@ -13,6 +13,7 @@ dependencies = [
     "pandas==3.0.6",
     "pyarrow>=15,<25",
     "requests>=2.31,<3",
+    "tzdata>=2025.2; sys_platform == 'win32'",
 ]
 
 [project.scripts]
