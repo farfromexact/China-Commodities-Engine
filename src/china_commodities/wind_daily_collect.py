@@ -23,6 +23,7 @@ from scripts.publish_wind_backfill import build_night, replace_night_history
 
 SUFFIX = dict(SHFE='SHF', INE='INE', DCE='DCE', CZCE='CZC', GFEX='GFE')
 FIELDS = 'open,high,low,close,settle,pre_settle,volume,oi,amt'
+WIND_NO_DATA_AVAILABLE = -40520007
 
 
 class CachedWind:
@@ -47,6 +48,12 @@ class CachedWind:
         r=getattr(self.client,method)(*args)
         self.last_request=time.monotonic()
         raw=clean(dict(error=r.ErrorCode,codes=list(r.Codes),fields=list(r.Fields),times=list(r.Times),data=r.Data))
+        if method=='wsi' and raw['error']==WIND_NO_DATA_AVAILABLE:
+            # No bars for this contract/session is a valid empty night result.
+            # Keep the vendor code in the raw cache for audit and never fabricate bars.
+            fields=[field.strip().lower() for field in args[1].split(',')]
+            raw=dict(error=0,vendor_error_code=WIND_NO_DATA_AVAILABLE,no_data_available=True,
+                     codes=[args[0]],fields=fields,times=[],data=[[] for _ in fields])
         if raw['error']:
             raise ValueError(f'Wind {method} error {raw["error"]}')
         if method in {'wsd','wsi'} and [str(c).upper() for c in raw['codes']] != [args[0].upper()]:
