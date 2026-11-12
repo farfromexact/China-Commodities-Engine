@@ -134,20 +134,20 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
 
 
 def desk_busy(settings):
+    if os.name=='nt':
+        return _windows_desk_busy(settings['desk_port'])
     try:
         with socket.create_connection((settings['desk_host'],settings['desk_port']),timeout=1):
             return True
     except ConnectionRefusedError:
         return False
     except OSError as exc:
-        if os.name=='nt':
-            return _windows_desk_busy(settings['desk_port'])
         # An ambiguous network/permission error is never permission to start SDK work.
         raise RuntimeError('cannot establish trading desk guard state') from exc
 
 
 def _windows_desk_busy(port):
-    """Use the OS TCP table when Windows denies the loopback socket probe."""
+    """Read the Windows TCP table directly for the local desk guard."""
     if not isinstance(port,int) or isinstance(port,bool) or not 1<=port<=65535:
         raise RuntimeError('cannot establish trading desk guard state: invalid port')
     try:
