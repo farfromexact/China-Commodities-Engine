@@ -1,5 +1,6 @@
 """Local-only supervisor. Dot signals observed login; no remote workflow dispatch."""
 import argparse
+from contextlib import nullcontext
 from datetime import datetime, timedelta
 import json
 import os
@@ -63,7 +64,10 @@ def worker(job_path):
     if not os.environ.get('WIND_DAILY_WORKER_TOKEN') or job['token']!=os.environ['WIND_DAILY_WORKER_TOKEN']:
         raise RuntimeError('worker must be launched by the local supervisor')
     try:
-        with collection_lock():
+        parallel=job.get('settings',{}).get('allow_parallel_collectors',False)
+        with nullcontext() if parallel else collection_lock():
+            if parallel:
+                emit(dict(event='cross_engine_lock_bypassed',allow_parallel_collectors=True))
             _worker_locked(job_path)
     except CollectionBusy as exc:
         state(Path(job['cache'])/'progress.json','waiting_collector',error=str(exc))
@@ -76,7 +80,7 @@ def _worker_locked(job_path):
     settings=job['settings']
     cache=Path(job['cache'])
     progress=cache/'progress.json'
-    # Consume only after the cross-engine lock is held. A busy worker retains the signal.
+    # Consume after admission (lock acquired or explicit parallel mode selected).
     (cache/'login-ready.json').replace(cache/'login-claimed.json')
     pacer=RequestPacer(settings['request_interval_seconds'])
     def available():

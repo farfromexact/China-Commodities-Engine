@@ -15,6 +15,9 @@ class SupervisorTests(unittest.TestCase):
         self.tmp=TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.cache=Path(self.tmp.name)
+        lock_path=patch('china_commodities.wind_coordination.collection_lock_path',return_value=self.cache/'test-collection.lock')
+        lock_path.start()
+        self.addCleanup(lock_path.stop)
         self.settings=dict(DEFAULTS,enabled=True)
         self.work=dict(start_date='2026-11-11',verified_dates=[],has_work=True,full_dates=['2026-11-12'],night_date=None)
         self.publisher=MagicMock()
@@ -92,3 +95,12 @@ class SupervisorTests(unittest.TestCase):
         with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'git',return_value='base'),patch.object(runner.subprocess,'Popen',side_effect=launch):
             self.assertEqual(runner.once(self.settings,self.cache)['phase'],'waiting_collector')
         self.assertTrue((self.cache/'login-ready.json').exists())
+
+    def test_explicit_parallel_mode_runs_even_when_cross_engine_lock_is_held(self):
+        import os
+        from china_commodities.wind_coordination import collection_lock
+        job=self.cache/'job.json'
+        write_json_atomic(job,dict(token='test',cache=str(self.cache),settings=dict(allow_parallel_collectors=True)))
+        with collection_lock(),patch.dict(os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch.object(runner,'_worker_locked') as collect,patch.object(runner,'emit'):
+            runner.worker(job)
+        collect.assert_called_once_with(job)

@@ -31,6 +31,15 @@ Trading Desk 端口监听就等待。`request_interval_seconds` 默认为 2，�
 不关闭、重启、注销 Wind 或 Trading Desk，不取消看板订阅，不恢复远端旧取数。
 SDK 错误、超时、数据校验失败仍停止当前任务/退避，保留缓存，不伪造成功状态。
 
+### 显式跨仓库并行测试模式（11月12日晚用户更新授权）
+
+商品配置可设置 `allow_parallel_collectors=true`，此时商品worker不获取上述跨仓库锁，
+允许与股票采集同时运行；默认false保留兼容。不要删除锁文件，也不更改股票仓库。
+本仓库 `runner.lock` 仍防止两个商品监督进程重复发布，商品内部请求仍串行。
+本次手动任务同时设置 `allow_dashboard=true`、`request_interval_seconds=0`。
+锁绕过记录在worker.log。此开关仅允许并行，不证明多进程并行稳定；
+没有另一个采集任务实际运行时，不得把单任务成功称为并行验收。
+
 ## 小样本验收
 
 股票：`scripts/probe_wind_coexistence.py --date 2026-11-11 --login-confirmed`，

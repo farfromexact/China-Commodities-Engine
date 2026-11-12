@@ -20,3 +20,8 @@
 详见 `docs/WIND_DASHBOARD_COEXISTENCE.md`；默认旧模式保持兼容。
 股票/商品日常原生 worker 已使用同一跨仓库本机用户锁；不得声称覆盖所有旧 backfill 或跨机器。
 不得为了共存关闭/重启/注销看板或 Wind；小样本验收后才把共存模式接入一键启动器。
+
+11月12日晚用户进一步授权商品与其他采集任务并行测试：显式
+`allow_parallel_collectors=true`可让商品worker不持有跨仓库锁；不删除锁文件，
+本仓库重复运行锁保留。用户本次同时选择`request_interval_seconds=0`，即串行但无额外等待。
+默认配置仍保守；未实际观察两库同时取数，不得声称跨采集任务并行已验证。
