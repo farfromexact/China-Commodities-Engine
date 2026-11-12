@@ -6,7 +6,7 @@
 ## 模式与接口
 
 每日配置新增 `allow_dashboard`（默认 false）。设置 true 后，日常采集不会因为
-Trading Desk 端口监听就等待。`request_interval_seconds` 默认为 2，最小为 1 秒，
+Trading Desk 端口监听就等待。`request_interval_seconds` 默认为 2，商品入口最小为 0.2 秒，
 在实际采集子进程中保证每次原生请求结束后留出间隔；不修改已审核股票 profile 的哈希。
 
 股票共存模式使用 `arm --login-confirmed --dashboard-coexistence --minutes 60`，
@@ -20,7 +20,10 @@ Trading Desk 端口监听就等待。`request_interval_seconds` 默认为 2，�
 商品拿不到锁返回 `waiting_collector` 并保留未消费登录通知；股票返回等待状态。
 统一启动器仍按股票、商品顺序调用，不同时启动两个生产采集任务。
 
-锁协议代码位于两库 `wind_coordination.py`，内容保持一致以便每个仓库独立安装。
+锁协议代码位于两库 `wind_coordination.py`，锁路径与获取/释放协议保持一致。
+11月12日用户要求本次商品采集显式使用0.2秒间隔；仅降低商品端配置下限，
+股票端节流和两个入口的默认2秒不变。请求仍串行，0.2秒为请求完成后的最小间隔，
+不保证Wind每秒完成5次请求；遇限流/错误沿用停止及缓存恢复，不绕过供应商限制。
 锁覆盖股票 WindSession、商品每日 worker 和本次商品 probe；没有将旧历史 backfill
 脚本改造成统一队列，不要同时另跑这些旧工具。锁不协调其他电脑或其他 OS 用户。
 

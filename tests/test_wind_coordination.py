@@ -28,9 +28,17 @@ class CoordinationTests(unittest.TestCase):
             self.assertEqual(pacer.next_at,47)
 
     def test_invalid_intervals_are_rejected(self):
-        for value in (0,.5,-1,True,'2',float('nan'),float('inf')):
+        for value in (0,.199,-1,True,'2',float('nan'),float('inf')):
             with self.subTest(value=value),self.assertRaises(ValueError):
                 coordination.RequestPacer(value)
+
+    def test_explicit_fast_interval_still_paces_serial_calls(self):
+        with patch.object(coordination.time,'monotonic',side_effect=[10,11,11.1,12]), patch.object(coordination.time,'sleep') as sleep:
+            pacer=coordination.RequestPacer(.2)
+            with pacer.slot(): pass
+            with pacer.slot(): pass
+            self.assertAlmostEqual(sleep.call_args.args[0],.1)
+            self.assertAlmostEqual(pacer.next_at,12.2)
 
     def test_error_also_enforces_delay(self):
         with patch.object(coordination.time,'monotonic',return_value=10):
