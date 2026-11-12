@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
@@ -128,7 +129,9 @@ def invoke(root, args, log):
     return payload
 
 
-def prepare(roots, run_dir):
+def prepare(roots, run_dir, *, parallel=True, request_interval=0):
+    if isinstance(request_interval, bool) or not isinstance(request_interval, (int, float)) or not math.isfinite(request_interval) or request_interval < 0:
+        raise ValueError("Request interval must be finite and nonnegative")
     configs = {}
     for key, root in roots.items():
         python_for(root)
@@ -148,11 +151,11 @@ def prepare(roots, run_dir):
         # Only this invocation is enabled; do not activate installed background tasks.
         cfg["enabled"] = True
         cfg["allow_dashboard"] = True
-        cfg["request_interval_seconds"] = 0
-        cfg["allow_parallel_collectors"] = True
+        cfg["request_interval_seconds"] = request_interval
+        cfg["allow_parallel_collectors"] = parallel
         if key == "stock":
             cfg["auto_git_push"] = True
-            cfg["batch_size"] = min(20, cfg.get("batch_size", 100))
+            cfg["batch_size"] = min(100, cfg.get("batch_size", 100))
             cfg["ready_file"] = str((run_dir / "stock-ready.json").resolve())
         else:
             cfg["max_days_per_run"] = min(1, cfg.get("max_days_per_run", 5))
@@ -165,7 +168,7 @@ def prepare(roots, run_dir):
 def confirm_login():
     print("\n请确认本机官方 Wind 已登录，API 可用。")
     print("Trading Desk 可以保持运行；请勿在另一台电脑使用同账号同时采集。")
-    print("股票与商品并行采集，各自串行请求、0秒额外等待；保留防重复启动和数据校验。")
+    print("按上方模式运行；保留各自防重复启动和数据校验。")
     if input("输入 YES 开始本轮取数：").strip().upper() != "YES":
         raise RuntimeError("Cancelled; no login signal sent.")
     return time.monotonic()
@@ -213,11 +216,20 @@ def collect_commodities(roots, configs, run_dir, call=invoke):
     return results["commodities"]
 
 
-def collect(roots, configs, run_dir, confirmed_at, call=invoke, confirm=confirm_login):
+def collect(roots, configs, run_dir, confirmed_at, call=invoke, confirm=confirm_login, *, parallel=True):
     # Refresh an old attestation on the foreground thread before either task starts.
     if time.monotonic() - confirmed_at >= 900:
         confirm()
+        confirmed_at = time.monotonic()
     results = {}
+    if not parallel:
+        results["stock"] = collect_stock(roots, configs, run_dir, call)
+        save_json(run_dir / "summary.json", results)
+        if time.monotonic() - confirmed_at >= 900:
+            confirm()
+        results["commodities"] = collect_commodities(roots, configs, run_dir, call)
+        save_json(run_dir / "summary.json", results)
+        return results
     with ThreadPoolExecutor(max_workers=2) as pool:
         pending = {
             pool.submit(collect_stock, roots, configs, run_dir, call): "stock",
@@ -237,13 +249,17 @@ def collect(roots, configs, run_dir, confirmed_at, call=invoke, confirm=confirm_
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Offline preflight only; no login or collection")
+    parser.add_argument("--serial", action="store_true", help="Run the two collectors sequentially and use the cross-engine lock")
+    parser.add_argument("--request-interval", type=float, default=0, help="Extra idle seconds after each request (default: 0)")
     args = parser.parse_args()
+    if not math.isfinite(args.request_interval) or args.request_interval < 0:
+        raise ValueError("Request interval must be finite and nonnegative")
     with single_run():
         roots = repositories()
         run_dir = BASE / "logs" / datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         run_dir.mkdir(parents=True)
         print(f"Logs: {run_dir}", flush=True)
-        configs = prepare(roots, run_dir)
+        configs = prepare(roots, run_dir, parallel=not args.serial, request_interval=args.request_interval)
         if args.check:
             for key, root in roots.items():
                 invoke(root, ["scripts/configure_wind.py", "--check"], run_dir / f"{key}.log")
@@ -259,9 +275,10 @@ def main():
             raise RuntimeError("Commodity Git preflight failed; inspect Git configuration before collecting.")
         if git_check.stdout.strip():
             raise RuntimeError("商品仓库有未提交修改，现有发布器会阻止运行。请先审核、提交并同步本次代码，再启动；启动器不会自动提交代码。")
-        print("并行运行股票、商品各一批；各仓库独立校验，成功后自动提交并推送数据。")
+        print(f"模式：{'串行' if args.serial else '并行'}；额外间隔：{args.request_interval:g} 秒。")
+        print("各仓库独立校验，成功后自动提交并推送数据。")
         confirmed_at = confirm_login()
-        results = collect(roots, configs, run_dir, confirmed_at)
+        results = collect(roots, configs, run_dir, confirmed_at, parallel=not args.serial)
         print("\n=== RESULTS ===")
         for key, result in results.items():
             print(f"{key}: {result.get('state', result.get('phase', 'unknown'))}")

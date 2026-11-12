@@ -72,3 +72,32 @@ class OneClickTests(unittest.TestCase):
         self.assertTrue(DEFAULTS['allow_dashboard'])
         self.assertEqual(DEFAULTS['request_interval_seconds'],0)
         self.assertFalse(DEFAULTS['enabled'])
+
+    def test_explicit_serial_mode_is_ordered_and_independent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            order=[]
+            def invoke(repo,args,log):
+                if 'tick' in args or '--once' in args:
+                    order.append(repo.name)
+                return dict(state='up_to_date',phase='up_to_date')
+            result=launcher.collect(dict(stock=root/'stock',commodities=root/'commodities'),
+                dict(stock=root/'s',commodities=root/'c'),root,time.monotonic(),invoke,parallel=False)
+            self.assertEqual(order,['stock','commodities'])
+            self.assertEqual(len(result),2)
+
+    def test_prepare_can_restore_limited_serial_settings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            roots={key:root/key for key in ('stock','commodities')}
+            launcher.save_json(roots['stock']/'.private-stock-data/wind/local_daily.json',dict(enabled=False,batch_size=100))
+            launcher.save_json(roots['stock']/'.private-stock-data/wind/profile.json',dict(units_verified=True))
+            script=roots['commodities']/'scripts/run_wind_daily.py'
+            script.parent.mkdir(parents=True);script.touch()
+            with patch.object(launcher,'python_for',return_value='python'):
+                configs=launcher.prepare(roots,root/'run',parallel=False,request_interval=2)
+            for path in configs.values():
+                cfg=launcher.read_json(path)
+                self.assertFalse(cfg['allow_parallel_collectors'])
+                self.assertEqual(cfg['request_interval_seconds'],2)
+            self.assertEqual(launcher.read_json(configs['stock'])['batch_size'],100)
