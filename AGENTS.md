@@ -25,3 +25,11 @@
 `allow_parallel_collectors=true`可让商品worker不持有跨仓库锁；不删除锁文件，
 本仓库重复运行锁保留。用户本次同时选择`request_interval_seconds=0`，即串行但无额外等待。
 默认配置仍保守；未实际观察两库同时取数，不得声称跨采集任务并行已验证。
+
+## 2026-11-12 后续默认更新（优先于上述旧默认）
+
+用户要求此后日常默认`allow_dashboard=true`、`allow_parallel_collectors=true`、
+`request_interval_seconds=0`，一键启动器同时运行股票与商品，分别校验和发布。
+本仓库runner.lock、股票daily/session锁和启动器锁仍保留；不启用后台任务或远端触发。
+不改变Trading Desk代码、进程、订阅或登录，不调用stop/cancel/logout。
+启动器维护源在`scripts/wind_oneclick.py`，安装副本及Windows准备包需保持一致。

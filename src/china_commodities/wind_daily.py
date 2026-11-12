@@ -16,8 +16,8 @@ from .trading_calendar import is_trading_day, previous_trading_day, night_sessio
 from .night_session import _night_window
 
 ZONE=ZoneInfo('Asia/Shanghai')
-DEFAULTS=dict(enabled=False,allow_dashboard=False,allow_parallel_collectors=False,start_date=None,eod_ready_time='18:15',poll_seconds=60,
-              retry_seconds=900,max_days_per_run=5,request_interval_seconds=2.,
+DEFAULTS=dict(enabled=False,allow_dashboard=True,allow_parallel_collectors=True,start_date=None,eod_ready_time='18:15',poll_seconds=60,
+              retry_seconds=900,max_days_per_run=5,request_interval_seconds=0.,
               request_timeout_seconds=120,max_run_seconds=7200,login_signal_ttl_seconds=900,
               desk_host='127.0.0.1',desk_port=8765,branch='main',sdk_dir=None,
               include_foundation=True,foundation_timeout_seconds=180,

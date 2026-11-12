@@ -1,5 +1,11 @@
 # 本地Wind每日采集、登录通知与漏日补采
 
+**11月12日晚默认更新：** `allow_dashboard=true`、`allow_parallel_collectors=true`、
+`request_interval_seconds=0`。可与股票采集及看板共存，内部请求仍串行，保留本仓库防重复锁和数据校验。
+一键启动器维护源为`scripts/wind_oneclick.py`，两库同时运行并各自发布；
+下文端口等待及请求间隔描述是旧模式，只有显式关闭共存/并行或配置非零间隔才适用。
+本地enabled仍默认false，不自动安装常驻任务。远端触发继续禁用。
+
 > 2026-11-12 更新：新增用户授权的显式看板共存模式，见 [共存采集](WIND_DASHBOARD_COEXISTENCE.md)。下文端口阻挡/独占条件适用于默认旧模式。
 
 远端 `daily.yml`、`chatgpt-trigger.yml` 继续禁用，`IFIND_COLLECTION_STATE=idle`继续保留。

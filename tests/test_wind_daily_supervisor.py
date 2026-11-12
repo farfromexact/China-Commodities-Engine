@@ -18,7 +18,7 @@ class SupervisorTests(unittest.TestCase):
         lock_path=patch('china_commodities.wind_coordination.collection_lock_path',return_value=self.cache/'test-collection.lock')
         lock_path.start()
         self.addCleanup(lock_path.stop)
-        self.settings=dict(DEFAULTS,enabled=True)
+        self.settings=dict(DEFAULTS,enabled=True,allow_dashboard=False,allow_parallel_collectors=False)
         self.work=dict(start_date='2026-11-11',verified_dates=[],has_work=True,full_dates=['2026-11-12'],night_date=None)
         self.publisher=MagicMock()
         self.publisher.recover.return_value=False
@@ -78,7 +78,7 @@ class SupervisorTests(unittest.TestCase):
         import os
         from china_commodities.wind_coordination import collection_lock
         job=self.cache/'job.json'
-        write_json_atomic(job,dict(token='test',cache=str(self.cache)))
+        write_json_atomic(job,dict(token='test',cache=str(self.cache),settings=dict(allow_parallel_collectors=False)))
         write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
         with collection_lock(),patch.dict(os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch.object(runner,'_worker_locked',side_effect=AssertionError):
             runner.worker(job)

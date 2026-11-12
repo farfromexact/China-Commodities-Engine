@@ -64,7 +64,7 @@ def worker(job_path):
     if not os.environ.get('WIND_DAILY_WORKER_TOKEN') or job['token']!=os.environ['WIND_DAILY_WORKER_TOKEN']:
         raise RuntimeError('worker must be launched by the local supervisor')
     try:
-        parallel=job.get('settings',{}).get('allow_parallel_collectors',False)
+        parallel=job.get('settings',{}).get('allow_parallel_collectors',True)
         with nullcontext() if parallel else collection_lock():
             if parallel:
                 emit(dict(event='cross_engine_lock_bypassed',allow_parallel_collectors=True))
