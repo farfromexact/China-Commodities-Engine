@@ -2,6 +2,8 @@
 
 **最新接续入口：** [本地每日采集与Dot通知](LOCAL_WIND_DAILY.md) 已实现日常逐日目录、漏日补采、早间夜盘和自动推送。明天优先按该文档配置 `run_wind_daily.py` 及当前用户登录任务。下文历史补数工具与原迁移待办保留作背景；远端Actions/Bridge继续关闭，不需要为本地采集恢复远端触发。
 
+Windows 实机阶段记录见 [2026-11-12 Wind API 验证](WIND_VALIDATION_WINDOWS_20261112.md)。
+
 2026-11-11交接。用户要求未来在办公Windows电脑使用Wind取数，并保留原trading desk的运行。
 本说明参考 [trading-desk-wind-API](https://github.com/farfromexact/trading-desk-wind-API)
 的 `scripts/configure_wind.py`、`docs/CROSS_PLATFORM.md` 和Windows历史运行记录。

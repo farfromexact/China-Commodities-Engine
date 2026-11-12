@@ -2,11 +2,11 @@
 
 China Commodities Engine 是一个面向中国商品期货的每日数据 bot 项目骨架。它的职责是采集、标准化、校验并保存可审计的数据，供后续雷达、研究和交易分析使用；数据引擎本身不把单日涨跌直接解释为交易结论。
 
-**Wind迁移 / Windows接续：**先读 [Windows Wind配置与交接](docs/WINDOWS_WIND_HANDOFF.md) 和 [AGENTS.md](AGENTS.md)。本次通过本机官方WindPy补数；云端每日入口尚未切换，不能把旧iFinD工作流当作已部署的Wind定时任务。
+**Wind迁移 / Windows接续：**先读 [Windows Wind配置与交接](docs/WINDOWS_WIND_HANDOFF.md) 和 [AGENTS.md](AGENTS.md)。近期数据已通过本机官方 WindPy 补齐；远端日常取数入口当前关闭，Wind 远端调度尚未部署。
 
 本地每日与开机补采入口：`python scripts/run_wind_daily.py --plan`。完整配置、Windows登录启动和Dot通知协议见 [本地Wind每日采集](docs/LOCAL_WIND_DAILY.md)。远端Bridge与daily继续禁用；本地默认不启用，配置后由本机采集、校验并自动推送。
 
-独立交易所日终备份试验见 [备份方案与实测结果](docs/EXCHANGE_BACKUP.md)。运行入口为 `python scripts/collect_exchange_backup.py --date YYYY-MM-DD`，结果单独保存到 `data/backup/`；GitHub Actions 可选择 `exchange_backup` 模式。当前实测覆盖 45/64 个目标期权品种，尚未达到 80% 门槛，生产链路继续使用 iFinD。
+独立交易所日终备份试验见 [备份方案与实测结果](docs/EXCHANGE_BACKUP.md)。手动运行入口为 `python scripts/collect_exchange_backup.py --date YYYY-MM-DD`，结果单独保存到 `data/backup/`；覆盖仍未达到 80% 门槛，远端 Actions 当前禁用该模式。核心数据后续使用本机官方 WindPy，Windows 配置和验收状态见 [Wind 交接说明](docs/WINDOWS_WIND_HANDOFF.md)。
 
 ## 数据层级
 
@@ -76,7 +76,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 ## 数据源原则
 
-核心期货的自动发布采用 **iFinD-primary** 原则：上期所、上期能源、大商所、郑商所和广期所的具体商品期货日终行情统一从 iFinD Quant API 提取，AKShare 不参与核心期货正式行情。商品期权是明确标记的例外：交易所 EOD 合约目录经 AKShare 适配，受阻时使用 OpenCTP 目录后备；逐合约报价、源日期、IV 和 vendor Greeks 仍由 iFinD 提供。任何来源切换都必须保留来源、时间和口径标记，不得静默混合。
+核心期货、核心期权和夜盘的后续主采集路径为本机官方 WindPy，由 `scripts/run_wind_daily.py` 按交易日串行采集并校验。2026-11-11 最新已发布的三层快照均标记为 Wind 来源。当前本机配置默认关闭，Windows 登录任务尚未安装；远端 `daily.yml` 与 `chatgpt-trigger.yml` 也已禁用，因此这些快照不表示无人值守调度已经上线。Physical 与 External 仍是独立 AKShare 模块。历史 iFinD 适配器仅保留兼容和诊断用途；所有来源仍须记录来源、时间和口径，不得静默混合。
 
 本仓库不建设分钟、逐笔或逐笔盘口历史；夜盘层是**会话结束后取得的供应商最新报价快照**，不是已核验的交易所夜盘收盘价。`night_last_price` 为明确字段，`night_close` 保留为兼容别名；供应商时间戳须落在该会话窗口，但时间戳不自动等于最后成交时间。OHLC/成交量保留供应商值并标记 `vendor_realtime_unverified_session_scope`，不宣称纯夜盘口径。`trading_date` 按交易日历归属，`session_start_date`、`session_end_date` 是真实自然日期：例如2026-10-16周五晚至17日凌晨属于19日周一交易日。节前停夜盘不请求；当前维护2025—2026日历，超出范围显式失败。夜盘与 `data/latest.json` 的日终层分开保存，缺失或失败不覆盖最后有效快照。
 
@@ -84,9 +84,9 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 Physical 与 External 使用 AKShare 的100ppi与Sina接口，不使用 iFinD token。核心期权有效记录可立即发布，ATM/偏度能力分别判断，不能将低门槛发布理解为完整曲面已就绪。
 
-### iFinD 主源接入
+### 遗留 iFinD 采集适配器
 
-正式工作流使用只读的 iFinD HTTP 适配器。系统根据静态品种—交易所目录生成宽范围具体合约候选，通过官方 `cmd_history_quotation` 批量查询，并删除没有任何日终行情字段的未上市或无效代码。这样可以同时保留具体合约和期限结构，又不需要由 AKShare 提供合约列表。refresh token 只从 Secret 读取；每次 Action 只换取一个 access token，并通过 Runner 的临时环境文件在期货和期权步骤间共享，任务结束后随 Runner 销毁。
+以下说明的是旧 iFinD 采集路径及其诊断工具。它不属于新的本机 Wind 日常入口；远端旧工作流保持禁用，`IFIND_COLLECTION_STATE` 缺省为 `idle`。系统根据静态品种—交易所目录生成宽范围具体合约候选，通过官方 `cmd_history_quotation` 批量查询，并删除没有任何日终行情字段的未上市或无效代码。这样可以同时保留具体合约和期限结构，又不需要由 AKShare 提供合约列表。历史 Action 使用的 refresh token 只从 Secret 读取；每次 Action 只换取一个 access token，并通过 Runner 的临时环境文件在期货和期权步骤间共享，任务结束后随 Runner 销毁。
 
 本机安装官方 `iFinDPy` 后，可以用隐藏输入运行窄范围权限探针：
 
@@ -99,19 +99,19 @@ python -X utf8 scripts\shadow_compare_ifind_futures.py
 
 HTTP 探针从隐藏输入或当前进程的 `IFIND_REFRESH_TOKEN` 读取 refresh token；SDK 探针使用 `--provider sdk` 并读取 `IFIND_USERNAME`、`IFIND_PASSWORD`。不要把凭据写入仓库、命令行参数或日志；`.env` 和 `.env.*` 已被忽略。探针只输出登录状态、错误码、返回列、行数和源日期，不保存原始商业数据。
 
-`src/china_commodities/collectors/ifind_http_adapter.py` 将 iFinD 返回值映射到现有期货字段，再经过具体合约、源日期、OHLC、成交量、持仓量和全交易所覆盖校验。iFinD 是当前核心期货行情的主源，但不被标记为交易所官方直连，因此 `core_futures_official_complete` 保持为 `false`，`module_quality.futures` 使用 `verified_vendor_primary`。
+`src/china_commodities/collectors/ifind_http_adapter.py` 保留旧的 iFinD 字段映射与校验逻辑，供兼容调用和诊断使用。Wind 采集使用独立适配器，不把 Wind 结果伪标成 iFinD；`core_futures_official_complete` 仍只代表交易所 EOD 官方接口完整。
 
-Physical 通过 AKShare 的 `futures_spot_price` 直接读取 100ppi 现货/基差日表，覆盖配置中的 20 个国内商品；它是公开现货代理，保留 `basis_quality=C`，不能替代已核验地区、等级、税口径的实货定价。External 通过 AKShare 的 `futures_foreign_hist` 直接读取 Sina 海外期货日线，已配置 WTI、Brent、LME、COMEX、SGX、CBOT、BMD Palm、原糖和棉花等 17 条公开合约。Dubai/Oman、两条新加坡燃料油、USD/CNH 与 DXY 没有精确且稳定的公开 AKShare 路由时，保持显式 `unavailable`，不以近似品种补值。生产任务不依赖自然语言搜索，也不申请 iFinD token；`config/data_foundation.json` 中的 iFinD ID 仅保留给旧快照/诊断兼容，已不作为生产 Physical 或 External 来源。合约参数与仓单由交易所接口经 AKShare 适配，DCE 合约信息优先走当前官方 portal，失败时再走兼容接口并保留明确错误。商品期权按下方独立流程采集，目录优先由交易所 EOD 经 AKShare 适配、受阻时使用 OpenCTP 后备，逐合约字段由 iFinD 提供。
+Physical 通过 AKShare 的 `futures_spot_price` 直接读取 100ppi 现货/基差日表，覆盖配置中的 20 个国内商品；它是公开现货代理，保留 `basis_quality=C`，不能替代已核验地区、等级、税口径的实货定价。External 通过 AKShare 的 `futures_foreign_hist` 直接读取 Sina 海外期货日线，已配置 WTI、Brent、LME、COMEX、SGX、CBOT、BMD Palm、原糖和棉花等 17 条公开合约。Dubai/Oman、两条新加坡燃料油、USD/CNH 与 DXY 没有精确且稳定的公开 AKShare 路由时，保持显式 `unavailable`，不以近似品种补值。生产任务不依赖自然语言搜索或 iFinD token；`config/data_foundation.json` 中的 iFinD ID 仅保留给旧快照/诊断兼容。合约参数与仓单由交易所接口经 AKShare 适配，DCE 合约信息优先走当前官方 portal，失败时再走兼容接口并保留明确错误。商品期权的 Wind 目录和核心报价由本机 Wind API 入口采集，范围标记为 `core_v1`。
 
 ### 商品期权全市场采集（目标范围）
 
-商品期权目标目录为64个已上市品种，其中包含焦煤期权，不包含尚无正式挂牌合约的低硫燃料油期权。每日 GitHub Action 按品种逐一尝试：目录和数据错误隔离到单品种；iFinD 明确返回某交易所行情权限不足时只停止该交易所，继续采集其他交易所；认证、额度、传输及无法识别的 HTTP 错误仍按全局失败停止，避免重复消耗额度。每个品种的目录、源日期、合约数、报价覆盖和错误写入 `data/options/last_run_status.json`。这64个品种是目标范围，不代表已经完成64个品种的实采；实际覆盖必须以 Action 实跑后的状态文件为准。
+商品期权目标目录为64个已上市品种，其中包含焦煤期权，不包含尚无正式挂牌合约的低硫燃料油期权。旧 iFinD 工作流曾按品种隔离目录和报价错误；该工作流目前禁用。Wind 本机入口按 `core_v1` 为配置品种采集核心样本，不宣称完整月份和行权价链；实际覆盖以各交易日发布状态为准。
 
 具体期权合约目录优先来自交易所 EOD，经 AKShare 适配；若交易所网页在 GitHub Runner 被阻断，则整批只下载一次 OpenCTP 当前有效合约字典，并仅把它用于合约发现和到期日元数据。逐合约的收盘/结算、成交量、持仓量、标的结算价、源日期、IV 和 vendor Greeks 仍来自 iFinD，缺一合约即阻断该品种。目录来源和行情来源必须分别标记，不能把 OpenCTP 或 AKShare 的目录写成 iFinD 行情。
 
 默认 `--minimum-product-coverage 0`：非空合格核心样本即可更新 `data/options/latest.json`，源日期错配和结构无效的记录单独记原因。IV、OI、到期日等分析字段缺失不阻断发布。核心样本标记为 `core_available`，不宣称完整链；ATM 和合格偏度按 series 独立判断，单月平值样本不支持全链持仓或期限结构结论。只有显式设置非零覆盖门槛才可能将有效结果留在 attempt 层。
 
-GitHub Action 从仓库 Secret `IFIND_REFRESH_TOKEN` 注入凭据。换取的 access token 会先加入 GitHub 日志脱敏规则，再写入当次 Runner 的临时 `GITHUB_ENV`，供期货和期权共用；token 和原始 iFinD 响应都不会写入仓库。公开仓库发布前必须确认 iFinD 商业数据的再分发许可，未确认时不得把原始商业数据当作可公开分发资产。
+旧 GitHub Action 曾从仓库 Secret `IFIND_REFRESH_TOKEN` 注入凭据；当前禁用的 Wind 本机入口不读取该 token。供应商商业数据的保存和再分发仍须遵守对应许可，本仓库不提交本机 SDK、登录凭据或原始请求缓存。
 
 ## 本地运行
 
@@ -128,7 +128,7 @@ python -m pip install --no-deps -e .
 
 ```powershell
 python -m unittest discover -s tests -v
-python -m china_commodities.cli run --provider ifind --skip-options
+.\.venv\Scripts\python.exe scripts\run_wind_daily.py --plan
 python -m china_commodities.cli foundation --provider akshare --audit-only
 python -m china_commodities.cli foundation --provider akshare --scope physical --date YYYY-MM-DD
 python -m china_commodities.cli foundation --provider akshare --scope external --date YYYY-MM-DD
@@ -150,15 +150,15 @@ python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD --dry-r
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD
 ```
 
-GitHub Actions 当前为 **dispatch-only**，没有 GitHub cron；外部自动化通过桥接工作流触发，06:03/18:03是约定的北京时间窗口，不是本仓库保证的触发时间。晨间采集完成的夜盘，并按国内交易日历复核最近 EOD；普通周六晨间夜盘归属下周一。国内休市日不套用到海外市场，External 的工作日请求提示与源日期验证独立保留。当日 `full` 工作流在18:00—18:15到达等待步骤时，先有界等待至18:15，再规划当日采集，避免18:03误采前一日；历史请求、夜盘专用和其他时段不等待。外部调度本身未被此代码修改。
+GitHub 上的 `chatgpt-trigger.yml` 和 `daily.yml` 当前为 `disabled_manually`，没有远端每日触发。旧桥接和 iFinD 工作流保留在代码中，不能视作当前运行入口。Wind 日常采集由 Windows 本机 `run_wind_daily.py` 管理；启用配置、登录通知及当前用户登录任务见 [本地 Wind 每日采集](docs/LOCAL_WIND_DAILY.md)。
 
 夜盘及核心期权均按有效记录可用即发布，缺字段或局部失败保留说明，不以整体覆盖率扣住有效数据；日期、来源、合约身份仍须正确。各模块日期和能力状态独立，不以单所权限失败概括全市场。
 
-每次生产 Action 的 `full` 工作流模式仍检查期货、期权、Physical 和 External 四个模块。期货、Physical 和 External 保留原强制刷新行为；期权使用 `--option-profile core`，同日复用成功记录，只补缺失核心合约，显式 `--force-refresh` 才重新请求。工作流模式 `full` 不表示期权全链；全链需显式 `--option-profile full`。`night_session_only` 仍是只采夜盘的独立探针模式。非晚间等待窗口的18:15前当日请求，按最近已完成国内交易日恢复；尚未完成的当天 EOD 不冒充可用。
+旧 Action 的 `full` 模式曾检查期货、期权、Physical 和 External 四个模块；当前远端工作流已禁用。Wind 本机入口使用 `core_v1`，并在期货、期权及对应夜盘校验完成后统一发布。非晚间等待窗口的18:15前请求按最近已完成国内交易日规划；尚未完成的当天 EOD 不冒充可用。
 
 Physical 每次以一个 AKShare 批量请求获取 100ppi 现货/基差表；External 对每条已配置海外合约读取公开日线。`last_run_status.json` 的每个 series 状态会记录 `request_made`、`query_start_date`、`query_end_date`、源日期和陈旧状态，便于审计实际请求范围。生产工作流以 `--shadow-days 1` 在通过校验后立即提升 AKShare 快照；无数据或无法精确映射的目标会保留显式状态。
 
-历史回填优先使用 iFinD 区间查询；若账户对多日合约区间返回参数规模错误，则自动改用共享 access token 的逐日查询。系统取五个交易所共同存在或逐日验证通过的最近20个交易日，在内存中执行与每日任务相同的校验。只有选中的全部日期均通过时才发布，节假日和空返回不会伪装成交易日。历史回填建议在本地一次性执行；GitHub Action 只运行正常的单日更新。
+旧 iFinD 回填工具仍保留供兼容维护使用。Wind 本机日常入口按缺失交易日逐日刷新合约目录，使用串行请求和可恢复缓存；配置与发布规则见 [本地 Wind 每日采集](docs/LOCAL_WIND_DAILY.md)。
 
 仅采集上期所、上期能源、郑商所和广期所：
 
