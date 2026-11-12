@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from datetime import date, datetime, time, timedelta
 import gzip
 import json
+import os
 from pathlib import Path
 import socket
 import subprocess
@@ -139,7 +140,7 @@ def desk_busy(settings):
     except ConnectionRefusedError:
         return False
     except OSError as exc:
-        if getattr(exc,'winerror',None)==10013:
+        if os.name=='nt':
             return _windows_desk_busy(settings['desk_port'])
         # An ambiguous network/permission error is never permission to start SDK work.
         raise RuntimeError('cannot establish trading desk guard state') from exc
@@ -149,27 +150,23 @@ def _windows_desk_busy(port):
     """Use the OS TCP table when Windows denies the loopback socket probe."""
     if not isinstance(port,int) or isinstance(port,bool) or not 1<=port<=65535:
         raise RuntimeError('cannot establish trading desk guard state: invalid port')
-    script=(
-        "$ErrorActionPreference='Stop';"
-        f"$port={port};"
-        "$listeners=@(Get-NetTCPConnection -State Listen -ErrorAction Stop "
-        "| Where-Object { $_.LocalPort -eq $port });"
-        "if ($listeners.Count -gt 0) { 'LISTENING' } else { 'NO_LISTENER' }"
-    )
     try:
         result=subprocess.run(
-            ['powershell.exe','-NoProfile','-NonInteractive','-Command',script],
+            ['netstat.exe','-ano','-p','tcp'],
             capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=10)
     except (OSError,subprocess.TimeoutExpired) as exc:
         raise RuntimeError('cannot query Windows TCP listener state') from exc
-    if result.returncode!=0:
+    if result.returncode!=0 or not result.stdout.strip():
         raise RuntimeError('cannot query Windows TCP listener state')
-    state=result.stdout.strip()
-    if state=='LISTENING':
-        return True
-    if state=='NO_LISTENER':
-        return False
-    raise RuntimeError('cannot query Windows TCP listener state: unexpected system output')
+    target=str(port)
+    for line in result.stdout.splitlines():
+        fields=line.split()
+        if len(fields)<5 or fields[0].upper()!='TCP':
+            continue
+        local_port=fields[1].rsplit(':',1)[-1]
+        if local_port==target and fields[3].upper()=='LISTENING':
+            return True
+    return False
 
 
 @contextmanager
