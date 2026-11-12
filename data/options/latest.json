@@ -1,12 +1,14 @@
 {
   "schema_version": 2,
   "snapshot_schema_version": 1,
-  "trade_date": "2026-11-11",
-  "generated_at": "2026-11-11T21:50:02.103641+08:00",
+  "trade_date": "2026-11-12",
+  "generated_at": "2026-11-12T21:33:43.313676+08:00",
   "source_provider": "wind",
   "universe_source": "wind_optionchain_active_underlying",
   "collection_scope": "core_v1",
   "analytics_scope": "sampled_strikes",
+  "collection_mode": "end_of_day_core",
+  "intraday": false,
   "collection_plans": [
     {
       "profile": "core_v1",
@@ -17,13 +19,13 @@
       "selected_contract_count": 10,
       "underlying_contract": "A2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 5220.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 5229.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:A",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:A"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -34,13 +36,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "B2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 3880.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 3892.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:B",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:B"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -51,13 +53,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "BZ2612",
       "expiry_date": "2026-11-17",
-      "selection_forward": 7485.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 7555.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:BZ",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:BZ"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -68,13 +70,13 @@
       "selected_contract_count": 12,
       "underlying_contract": "C2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 2192.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 2188.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:C",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:C"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -85,13 +87,13 @@
       "selected_contract_count": 2,
       "underlying_contract": "CS2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 2486.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 2476.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:CS",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:CS"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -102,13 +104,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "EB2612",
       "expiry_date": "2026-11-17",
-      "selection_forward": 8790.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 8917.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:EB",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:EB"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -119,13 +121,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "EG2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 4879.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 4993.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:EG",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:EG"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -136,13 +138,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "I2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 682.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 673.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:I",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:I"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -153,13 +155,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "JD2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 3186.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 3248.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:JD",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:JD"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -170,13 +172,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "JM2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 1413.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 1393.5,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:JM",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:JM"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -187,13 +189,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "L2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 8346.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 8367.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:L",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:L"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -204,13 +206,13 @@
       "selected_contract_count": 2,
       "underlying_contract": "LG2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 812.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 809.5,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:LG",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:LG"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -221,13 +223,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "LH2703",
       "expiry_date": "2027-02-25",
-      "selection_forward": 9450.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 9465.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:LH",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:LH"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -238,13 +240,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "M2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 3137.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 3139.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:M",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:M"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -255,30 +257,30 @@
       "selected_contract_count": 6,
       "underlying_contract": "P2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 8773.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 8922.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:P",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:P"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 156,
+      "directory_contract_count": 146,
       "selector_version": 2,
       "series_type": "standard",
       "contract_budget": 14,
       "selected_contract_count": 14,
-      "underlying_contract": "PG2612",
-      "expiry_date": "2026-11-17",
-      "selection_forward": 6268.0,
-      "selection_forward_date": "2026-11-11",
+      "underlying_contract": "PG2701",
+      "expiry_date": "2026-12-16",
+      "selection_forward": 5959.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:PG",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:PG"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -289,13 +291,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "PP2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 9077.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 9183.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:PP",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:PP"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -306,13 +308,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "V2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 4902.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 4930.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:V",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:V"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -323,13 +325,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "Y2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 8731.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 8775.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "DCE:Y",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "DCE:Y"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -340,13 +342,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "AP701",
       "expiry_date": "2026-11-26",
-      "selection_forward": 5939.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 6111.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:AP",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:AP"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -357,13 +359,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "CF701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 15415.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 15525.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:CF",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:CF"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -374,13 +376,13 @@
       "selected_contract_count": 10,
       "underlying_contract": "CJ701",
       "expiry_date": "2026-11-26",
-      "selection_forward": 6415.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 6385.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:CJ",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:CJ"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -391,13 +393,13 @@
       "selected_contract_count": 10,
       "underlying_contract": "FG701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 886.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 887.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:FG",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:FG"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -408,13 +410,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "MA701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 3114.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 3163.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:MA",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:MA"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -425,13 +427,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "OI701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 9844.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 10011.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:OI",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:OI"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -442,47 +444,47 @@
       "selected_contract_count": 4,
       "underlying_contract": "PF701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 7622.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 7706.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:PF",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:PF"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 38,
+      "directory_contract_count": 40,
       "selector_version": 2,
       "series_type": "standard",
-      "contract_budget": 2,
-      "selected_contract_count": 2,
+      "contract_budget": 4,
+      "selected_contract_count": 4,
       "underlying_contract": "PK703",
       "expiry_date": "2027-02-11",
-      "selection_forward": 7786.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 7792.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:PK",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:PK"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 56,
+      "directory_contract_count": 58,
       "selector_version": 2,
       "series_type": "standard",
       "contract_budget": 4,
       "selected_contract_count": 4,
       "underlying_contract": "PL701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 8787.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 8911.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:PL",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:PL"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -493,13 +495,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "PR701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 7468.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 7562.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:PR",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:PR"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -510,13 +512,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "PX701",
       "expiry_date": "2026-11-26",
-      "selection_forward": 8324.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 8384.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:PX",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:PX"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -527,13 +529,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "RM701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 2262.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 2267.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:RM",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:RM"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -544,13 +546,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "SA701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 968.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 976.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:SA",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:SA"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -562,12 +564,12 @@
       "underlying_contract": "SF701",
       "expiry_date": "2026-12-11",
       "selection_forward": 5772.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:SF",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:SF"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -578,13 +580,13 @@
       "selected_contract_count": 10,
       "underlying_contract": "SH701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 1556.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 1547.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:SH",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:SH"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -595,13 +597,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "SM701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 5876.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 5832.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:SM",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:SM"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -612,13 +614,13 @@
       "selected_contract_count": 2,
       "underlying_contract": "SR701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 5172.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 5194.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:SR",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:SR"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -629,13 +631,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "TA701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 5952.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 6006.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:TA",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:TA"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -646,13 +648,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "UR701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 1740.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 1746.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:UR",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:UR"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -664,29 +666,29 @@
       "underlying_contract": "ZC701",
       "expiry_date": "2026-12-11",
       "selection_forward": 801.4,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "CZCE:ZC",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "CZCE:ZC"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 70,
+      "directory_contract_count": 78,
       "selector_version": 2,
       "series_type": "standard",
       "contract_budget": 6,
       "selected_contract_count": 6,
       "underlying_contract": "AD2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 21715.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 21830.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:AD",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:AD"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -697,30 +699,30 @@
       "selected_contract_count": 28,
       "underlying_contract": "AG2702",
       "expiry_date": "2027-01-25",
-      "selection_forward": 12487.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 12495.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:AG",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:AG"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 94,
+      "directory_contract_count": 104,
       "selector_version": 2,
       "series_type": "standard",
-      "contract_budget": 8,
-      "selected_contract_count": 8,
+      "contract_budget": 10,
+      "selected_contract_count": 10,
       "underlying_contract": "AL2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 21940.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 22235.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:AL",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:AL"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -731,13 +733,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "AO2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 2643.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 2644.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:AO",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:AO"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -748,13 +750,13 @@
       "selected_contract_count": 16,
       "underlying_contract": "AU2612",
       "expiry_date": "2026-11-24",
-      "selection_forward": 870.5,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 860.46,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:AU",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:AU"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -765,30 +767,30 @@
       "selected_contract_count": 8,
       "underlying_contract": "BR2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 15185.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 15495.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:BR",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:BR"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 94,
+      "directory_contract_count": 96,
       "selector_version": 2,
       "series_type": "standard",
       "contract_budget": 8,
       "selected_contract_count": 8,
       "underlying_contract": "BU2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 4226.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 4286.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:BU",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:BU"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -799,13 +801,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "CU2612",
       "expiry_date": "2026-11-24",
-      "selection_forward": 105230.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 105140.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:CU",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:CU"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -816,13 +818,13 @@
       "selected_contract_count": 14,
       "underlying_contract": "FU2701",
       "expiry_date": "2026-12-18",
-      "selection_forward": 3980.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 4036.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:FU",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:FU"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -833,13 +835,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "NI2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 121970.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 122490.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:NI",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:NI"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -850,13 +852,13 @@
       "selected_contract_count": 2,
       "underlying_contract": "OP2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 3592.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 3616.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:OP",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:OP"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -867,13 +869,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "PB2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 15790.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 15670.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:PB",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:PB"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -884,13 +886,13 @@
       "selected_contract_count": 2,
       "underlying_contract": "RB2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 3039.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 3031.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:RB",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:RB"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -901,13 +903,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "RU2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 19195.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 19490.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:RU",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:RU"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -918,13 +920,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "SN2612",
       "expiry_date": "2026-11-24",
-      "selection_forward": 349060.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 349840.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:SN",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:SN"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -935,13 +937,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "SP2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 4692.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 4662.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:SP",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:SP"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -952,13 +954,13 @@
       "selected_contract_count": 6,
       "underlying_contract": "ZN2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 25265.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 25330.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "SHFE:ZN",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "SHFE:ZN"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -969,13 +971,13 @@
       "selected_contract_count": 4,
       "underlying_contract": "BC2612",
       "expiry_date": "2026-11-24",
-      "selection_forward": 94070.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 93780.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "INE:BC",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "INE:BC"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -986,30 +988,30 @@
       "selected_contract_count": 6,
       "underlying_contract": "NR2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 16285.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 16560.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "INE:NR",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "INE:NR"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 112,
+      "directory_contract_count": 116,
       "selector_version": 2,
       "series_type": "standard",
       "contract_budget": 10,
       "selected_contract_count": 10,
       "underlying_contract": "SC2701",
       "expiry_date": "2026-12-15",
-      "selection_forward": 584.1,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 595.9,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "INE:SC",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "INE:SC"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -1020,13 +1022,13 @@
       "selected_contract_count": 20,
       "underlying_contract": "LC2701",
       "expiry_date": "2026-12-07",
-      "selection_forward": 88460.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 89080.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "GFEX:LC",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "GFEX:LC"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -1037,13 +1039,13 @@
       "selected_contract_count": 16,
       "underlying_contract": "PD2702",
       "expiry_date": "2027-01-08",
-      "selection_forward": 247.7,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 246.1,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "GFEX:PD",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "GFEX:PD"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -1054,13 +1056,13 @@
       "selected_contract_count": 8,
       "underlying_contract": "PS2701",
       "expiry_date": "2026-12-07",
-      "selection_forward": 33905.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 33935.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "GFEX:PS",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "GFEX:PS"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -1071,13 +1073,13 @@
       "selected_contract_count": 14,
       "underlying_contract": "PT2702",
       "expiry_date": "2027-01-08",
-      "selection_forward": 381.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 375.45,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "GFEX:PT",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "GFEX:PT"
+      "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
@@ -1088,17 +1090,18 @@
       "selected_contract_count": 6,
       "underlying_contract": "SI2701",
       "expiry_date": "2026-12-07",
-      "selection_forward": 8490.0,
-      "selection_forward_date": "2026-11-11",
+      "selection_forward": 8540.0,
+      "selection_forward_date": "2026-11-12",
       "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
       "full_chain": false,
+      "product_key": "GFEX:SI",
       "directory_scope": "selected_active_underlying_only",
-      "directory_source": "WindPy.wset.optionchain",
-      "product_key": "GFEX:SI"
+      "directory_source": "WindPy.wset.optionchain"
     }
   ],
-  "universe_contract_count": 466,
-  "quote_contract_count": 466,
+  "directory_contract_count": 5274,
+  "universe_contract_count": 470,
+  "quote_contract_count": 470,
   "quote_coverage_complete": true,
   "coverage": {
     "expected_product_count": 64,
@@ -1178,21 +1181,18 @@
     "failed_products": [],
     "skipped_products": []
   },
-  "directory_contract_count": 5256,
-  "collection_mode": "end_of_day_core",
-  "intraday": false,
   "quality": {
     "collection_scope": "core_v1",
     "analytics_scope": "sampled_strikes",
-    "trade_date": "2026-11-11",
-    "record_count": 466,
-    "unique_contract_count": 466,
+    "trade_date": "2026-11-12",
+    "record_count": 470,
+    "unique_contract_count": 470,
     "source_date_match_pct": 1.0,
     "underlying_settle_coverage": 1.0,
     "expiry_coverage": 1.0,
     "exercise_style_coverage": 1.0,
-    "iv_coverage": 0.9163090128755365,
-    "vendor_greeks_coverage": 0.9785407725321889,
+    "iv_coverage": 0.9276595744680851,
+    "vendor_greeks_coverage": 0.9787234042553191,
     "model_greeks_coverage": 0.0,
     "bid_ask_coverage": 0.0,
     "open_interest_coverage": 1.0,
@@ -1203,8 +1203,8 @@
     "successful_product_count": 64,
     "product_coverage": 1.0,
     "full_product_scope_verified": true,
-    "universe_contract_count": 466,
-    "quote_contract_count": 466,
+    "universe_contract_count": 470,
+    "quote_contract_count": 470,
     "quote_coverage_complete": true,
     "universe_source": "wind_optionchain_active_underlying",
     "all_inputs_ifind": false,
@@ -1229,462 +1229,462 @@
   },
   "storage_format": "product_shards_gzip",
   "records_sharded": true,
-  "record_count": 466,
+  "record_count": 470,
   "shard_count": 64,
   "full_snapshot": {
-    "path": "snapshots/2026-11-11.json.gz",
-    "record_count": 466,
-    "sha256": "31a04c4f19304e0910eaa6afedd44b6003c3af17782499a58221a300c48fda91",
+    "path": "snapshots/2026-11-12.json.gz",
+    "record_count": 470,
+    "sha256": "e9d2e2a2b51fcb659df8cd34d2205469022558e62d3026a8ffcb3ea72d160d2a",
     "retention_trading_days": 20
   },
   "shards": [
     {
       "exchange": "CZCE",
       "product": "AP",
-      "path": "latest_shards/2026-11-11/CZCE/AP.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/AP.json.gz",
       "record_count": 8,
-      "sha256": "0c05ba3d47e28dfa7d8bd65f9effd1240009d5b6805e165535436c69369a3d98"
+      "sha256": "e53a04866d030c994174e27e102ea20922418d83f997babbbab50f179a08bd01"
     },
     {
       "exchange": "CZCE",
       "product": "CF",
-      "path": "latest_shards/2026-11-11/CZCE/CF.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/CF.json.gz",
       "record_count": 6,
-      "sha256": "9a4cebbb385aac3046e87545c3ab41524abecd97e3322a7721a740446c21bc8d"
+      "sha256": "de9040c57c10cb240a685b75044cf92f351e87abff7fab66e716dd4d7d2efc89"
     },
     {
       "exchange": "CZCE",
       "product": "CJ",
-      "path": "latest_shards/2026-11-11/CZCE/CJ.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/CJ.json.gz",
       "record_count": 10,
-      "sha256": "29914a06d40091d1492e71d660117a2e9a228c640cbb9f3a060a01419c7e4747"
+      "sha256": "9545fb54750328ddd721e4eca1a605b83cf131d7d237c5936fc937037c4af21b"
     },
     {
       "exchange": "CZCE",
       "product": "FG",
-      "path": "latest_shards/2026-11-11/CZCE/FG.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/FG.json.gz",
       "record_count": 10,
-      "sha256": "c3b5c0c6f19d89d9073592a6d746fd062bdacd108936bf42bc18ce725da3b9ec"
+      "sha256": "ee638d4db78ea28399b7e98f36fd5cc95fcb883508416494f06875ed8b157765"
     },
     {
       "exchange": "CZCE",
       "product": "MA",
-      "path": "latest_shards/2026-11-11/CZCE/MA.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/MA.json.gz",
       "record_count": 8,
-      "sha256": "caf63de7820e6e127f749df60dcb7c2e509528cab0580df4e00c30a81183a578"
+      "sha256": "af3d892c7b4986453eea34bd5d501e4156284a0ff8d7b94db4367940501a25d5"
     },
     {
       "exchange": "CZCE",
       "product": "OI",
-      "path": "latest_shards/2026-11-11/CZCE/OI.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/OI.json.gz",
       "record_count": 4,
-      "sha256": "7cc41e5f1087f77c51dabdf87e589d09ade76ff4757f671c64f1e511c11c2266"
+      "sha256": "de6a69a716bd342922ac10b429578264e4f2c977fa6c476f57e39d46775b3730"
     },
     {
       "exchange": "CZCE",
       "product": "PF",
-      "path": "latest_shards/2026-11-11/CZCE/PF.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/PF.json.gz",
       "record_count": 4,
-      "sha256": "385b103943423a41b8e21e083f500def08dca45434a21948c2192362aebe16d9"
+      "sha256": "f5994fe6528535df190263ee81376f8dc978ae1907e035478cc120d92fd0b470"
     },
     {
       "exchange": "CZCE",
       "product": "PK",
-      "path": "latest_shards/2026-11-11/CZCE/PK.json.gz",
-      "record_count": 2,
-      "sha256": "a8356b20b9a294c5a46e206d75cc62d24a935b05592d3b3679d519b030035a22"
+      "path": "latest_shards/2026-11-12/CZCE/PK.json.gz",
+      "record_count": 4,
+      "sha256": "2a52ad83902cbe1d57120c737996c719b5b348e20f640ccee2dba1c56056d60f"
     },
     {
       "exchange": "CZCE",
       "product": "PL",
-      "path": "latest_shards/2026-11-11/CZCE/PL.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/PL.json.gz",
       "record_count": 4,
-      "sha256": "7cd6d84b04edcc8f0926f1dd1036af43e8c401441096b39651aa6c2d3c2ea351"
+      "sha256": "3f1f723f55c71f0d82564f1dd65323b168d31d835c219dd6f07f5bd08cc33ae1"
     },
     {
       "exchange": "CZCE",
       "product": "PR",
-      "path": "latest_shards/2026-11-11/CZCE/PR.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/PR.json.gz",
       "record_count": 4,
-      "sha256": "fb08df8868828d272aeedf6310cfbbdd001e242a3f3a78bd0bee7b827c9fa834"
+      "sha256": "6bb96050692eefd5a05f3fdbb4678f6a1426bdd19932fdd2794cf2b15049f992"
     },
     {
       "exchange": "CZCE",
       "product": "PX",
-      "path": "latest_shards/2026-11-11/CZCE/PX.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/PX.json.gz",
       "record_count": 8,
-      "sha256": "51191e9cf6ad3986594acffaeb3269f22b68d9f537591a42fe06781dd246ea2c"
+      "sha256": "b44fb6eb9745ce6878c48d4568493591fd876c83e511e2f2c8de376497eb1cde"
     },
     {
       "exchange": "CZCE",
       "product": "RM",
-      "path": "latest_shards/2026-11-11/CZCE/RM.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/RM.json.gz",
       "record_count": 4,
-      "sha256": "95f619296016a52c9d459d3106bad34410feb862a9b57cbd946e9ddd22bddd92"
+      "sha256": "a28fa649a62a1086e8b02fdbcbaa9486bf4d6c6ff2f3724dd71330bf27237f6b"
     },
     {
       "exchange": "CZCE",
       "product": "SA",
-      "path": "latest_shards/2026-11-11/CZCE/SA.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/SA.json.gz",
       "record_count": 8,
-      "sha256": "cd459ac96e97c5d1478817175d266ce098f6e3e96c4d9fd6c0cb0c8c70f05faf"
+      "sha256": "01fa37a75b228865ea4e0683eada954f1089172354cf022a790dfbc5b60425f9"
     },
     {
       "exchange": "CZCE",
       "product": "SF",
-      "path": "latest_shards/2026-11-11/CZCE/SF.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/SF.json.gz",
       "record_count": 4,
-      "sha256": "e2488ec0292586bdf82a7345f29a27302a2e5e2f0e019d11cdfe523ac5d638c8"
+      "sha256": "388587b9af09f295b5540babad5dbcb13d71c559f2bd842962531620bdf00c8e"
     },
     {
       "exchange": "CZCE",
       "product": "SH",
-      "path": "latest_shards/2026-11-11/CZCE/SH.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/SH.json.gz",
       "record_count": 10,
-      "sha256": "c677e6035fc4980f79434ceb08c1b0b850f606808f1569b7bd19f1a416a072e4"
+      "sha256": "606bb31feea42c97dd86cbbf66fd16c0e09c210115260f54f95fe8966dd63340"
     },
     {
       "exchange": "CZCE",
       "product": "SM",
-      "path": "latest_shards/2026-11-11/CZCE/SM.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/SM.json.gz",
       "record_count": 4,
-      "sha256": "ae2ef83cacfdadecfe4d695172df91f648641e3f9e77d9958f8894a9092194c5"
+      "sha256": "76f23986f330a1140c7cd5610af0c511f57f492687f04ea99a895354ee4018b0"
     },
     {
       "exchange": "CZCE",
       "product": "SR",
-      "path": "latest_shards/2026-11-11/CZCE/SR.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/SR.json.gz",
       "record_count": 2,
-      "sha256": "ea86512bdd1703c38f175400ddc258d34f673ea25c556c9581534f96099e25da"
+      "sha256": "1fe7858ef2cd566de3db72a30f3145163784e089cdc8f31f0e7e7a4f7519359d"
     },
     {
       "exchange": "CZCE",
       "product": "TA",
-      "path": "latest_shards/2026-11-11/CZCE/TA.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/TA.json.gz",
       "record_count": 6,
-      "sha256": "0cfb127b4e37136d5cbe8db1117bbe19f2223e165465c70be02181488d5ccb7b"
+      "sha256": "77bd18f77fc3c5770e55ae2c520a1d4dd3fbda2fefe2e0bfa0a92d8c7fc65177"
     },
     {
       "exchange": "CZCE",
       "product": "UR",
-      "path": "latest_shards/2026-11-11/CZCE/UR.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/UR.json.gz",
       "record_count": 6,
-      "sha256": "4bcde48e65625a18eee82950882956b43dbc359a05ba58342f8a5c5d9dacd7cc"
+      "sha256": "dd0bf27b5ec78db87dcc54001191d963687421d2068d51e2e42ea634b5ce0d49"
     },
     {
       "exchange": "CZCE",
       "product": "ZC",
-      "path": "latest_shards/2026-11-11/CZCE/ZC.json.gz",
+      "path": "latest_shards/2026-11-12/CZCE/ZC.json.gz",
       "record_count": 10,
-      "sha256": "c573aae76e6173e16b5a6a54bfb3acbd8913b6670e8eb80e52df255ee76b724f"
+      "sha256": "8e769557327a555e11f2ec6e0fa3d95177bdcfac54b72d8441eabccbb668bd44"
     },
     {
       "exchange": "DCE",
       "product": "A",
-      "path": "latest_shards/2026-11-11/DCE/A.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/A.json.gz",
       "record_count": 10,
-      "sha256": "6b74d86d8e99d49f715e5174a365fdf1487c11c8809eb97096878cc4e7c4ebb1"
+      "sha256": "e5307acdb8826d7077b30943a5910472bf4b22a5ba0116ed041acdb3a246ec2c"
     },
     {
       "exchange": "DCE",
       "product": "B",
-      "path": "latest_shards/2026-11-11/DCE/B.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/B.json.gz",
       "record_count": 4,
-      "sha256": "8d7851a40b3d80e99490e8e2f7e6c74310ae5b78e953338a6863e3f9c7ffeb4c"
+      "sha256": "79644558557dad25844a70b3ccbcfcc645de0b764e8fb7b7cfc5dd27ad58ac8a"
     },
     {
       "exchange": "DCE",
       "product": "BZ",
-      "path": "latest_shards/2026-11-11/DCE/BZ.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/BZ.json.gz",
       "record_count": 8,
-      "sha256": "33af1a5deb9e001bb71bda59041e28aface0f2c4d8801a492f50b094219d93c8"
+      "sha256": "8a58ce96d95fb53739761789a7e8417c27d7587b570730093834963ed009c24c"
     },
     {
       "exchange": "DCE",
       "product": "C",
-      "path": "latest_shards/2026-11-11/DCE/C.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/C.json.gz",
       "record_count": 12,
-      "sha256": "ff6194c7594eb8ddd27e99e99d7889398b048db0d8e42447da0b7ca4c76db090"
+      "sha256": "bd988c54e3cfda338e09da4eadf9c8832368d84aac92e60e02c7a6fd894a503c"
     },
     {
       "exchange": "DCE",
       "product": "CS",
-      "path": "latest_shards/2026-11-11/DCE/CS.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/CS.json.gz",
       "record_count": 2,
-      "sha256": "ca3a87736c9f343577b09b8f04e3a6f8979bacfe4154143fb2bdf9173601daf3"
+      "sha256": "d9aec291d3a23db2db3781345e2ff50e4fb7e74998f2ebe68768b2ca766fcc80"
     },
     {
       "exchange": "DCE",
       "product": "EB",
-      "path": "latest_shards/2026-11-11/DCE/EB.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/EB.json.gz",
       "record_count": 8,
-      "sha256": "504ffb1ad88771ff90f7b37521542e7895961b2478bbe46682cbf80e99a3862a"
+      "sha256": "e814d430c223ac736d859c74b782b506523275cb547270f6ca5f7552022ca061"
     },
     {
       "exchange": "DCE",
       "product": "EG",
-      "path": "latest_shards/2026-11-11/DCE/EG.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/EG.json.gz",
       "record_count": 6,
-      "sha256": "325166717f657c59631f64bce10b36406e6f19d62af3c81f300f51200332d0d6"
+      "sha256": "4d26a7dbdf16ef0158cc1fdcc44e9fbf08b92234d4cdbe0aedafb059cea50936"
     },
     {
       "exchange": "DCE",
       "product": "I",
-      "path": "latest_shards/2026-11-11/DCE/I.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/I.json.gz",
       "record_count": 6,
-      "sha256": "e3134fbe1a6422b2b6e2c5a047fb9814d465756ea2808df1e239fdef099a8f02"
+      "sha256": "c450dfd81bd3e5a4cf2a6316f8ebbf60b4f79266045ca2721518e62f40fc1591"
     },
     {
       "exchange": "DCE",
       "product": "JD",
-      "path": "latest_shards/2026-11-11/DCE/JD.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/JD.json.gz",
       "record_count": 4,
-      "sha256": "855eb51ba9149a0d6f80e8a2cfd56e23a179aa0ad9af8c547857d59bc84f552b"
+      "sha256": "e65cd7dfe6f8dfb961e3903e17d39612ce2d8178ce86d8d45780a041ab9a45c8"
     },
     {
       "exchange": "DCE",
       "product": "JM",
-      "path": "latest_shards/2026-11-11/DCE/JM.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/JM.json.gz",
       "record_count": 8,
-      "sha256": "9d87bfb6a162bec3023481a29284ca8d4fa53f2993dfb1fcad24a05cfaeea46b"
+      "sha256": "1c2083e9d18706868edefe8dbcfb706c961b98d2a03d4e3a1e3cd4d7bd8166a9"
     },
     {
       "exchange": "DCE",
       "product": "L",
-      "path": "latest_shards/2026-11-11/DCE/L.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/L.json.gz",
       "record_count": 8,
-      "sha256": "de632c23241e99c2244ec45acd3b5a6a17b4ea642a238b8865325ee6e0b91446"
+      "sha256": "d0fb045e48e0f0722054eac6a00ab4bea7ae626615a03bde74a207cb22f64a69"
     },
     {
       "exchange": "DCE",
       "product": "LG",
-      "path": "latest_shards/2026-11-11/DCE/LG.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/LG.json.gz",
       "record_count": 2,
-      "sha256": "4be020804647e0020fe2da5eed1a6c027e37368addb116bda3327cf3ca633d63"
+      "sha256": "f2c7ac29b85070ebb7dce396a0eaf0a6300333a3d57c393dadf6bb4200f86922"
     },
     {
       "exchange": "DCE",
       "product": "LH",
-      "path": "latest_shards/2026-11-11/DCE/LH.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/LH.json.gz",
       "record_count": 6,
-      "sha256": "7fb17d2401181ed2ac2bb3abec37cc58360f470d41d681e4b34b411d697913a4"
+      "sha256": "c53974c8d53743770c67c91e9c91e6720a0f75a7b886c4f59994950bcd88fbfb"
     },
     {
       "exchange": "DCE",
       "product": "M",
-      "path": "latest_shards/2026-11-11/DCE/M.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/M.json.gz",
       "record_count": 4,
-      "sha256": "8fc858b63676c6dfca3e9c471103e925e0cb3f7806cf7a8731772be631d257f7"
+      "sha256": "34bb04b9a62b18582b230b38df030efef159c40ae381ec7f3586ae872bef7053"
     },
     {
       "exchange": "DCE",
       "product": "P",
-      "path": "latest_shards/2026-11-11/DCE/P.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/P.json.gz",
       "record_count": 6,
-      "sha256": "b64fb90303b7b6bdf7edd6129ae7e0601d8da0ee3dbf34f2de4cdee84b6d0e7f"
+      "sha256": "14b0b5312e23ddf76d7aad41a444b4711b30d98029a38c72a97d21d51cff3bd6"
     },
     {
       "exchange": "DCE",
       "product": "PG",
-      "path": "latest_shards/2026-11-11/DCE/PG.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/PG.json.gz",
       "record_count": 14,
-      "sha256": "29ae8b63687b195a69d3b4339d8175feac9e9b43334c8361a4e8ab580a4f0d08"
+      "sha256": "d61df2a1e6cc3019b46b524fd599219f79c7e0a9dc7835fc61a548d0f7ff1d79"
     },
     {
       "exchange": "DCE",
       "product": "PP",
-      "path": "latest_shards/2026-11-11/DCE/PP.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/PP.json.gz",
       "record_count": 8,
-      "sha256": "94832fbd5cfef144c67bdbc7544be3d44ece88abf4ce111d9367678779a422b9"
+      "sha256": "f8d4d97d41e7e77f87664f3ecdbd50b201bb1ed1885fcd300dcfe22463b6ddd0"
     },
     {
       "exchange": "DCE",
       "product": "V",
-      "path": "latest_shards/2026-11-11/DCE/V.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/V.json.gz",
       "record_count": 6,
-      "sha256": "67a8029b7796831cae04a3f4de98345cff9d3fff8becb471cd5091e5260f171e"
+      "sha256": "ba74139f10ea0453a57cf6f7db40d3ba9c80e2b5ab77484df0104e15292c2d64"
     },
     {
       "exchange": "DCE",
       "product": "Y",
-      "path": "latest_shards/2026-11-11/DCE/Y.json.gz",
+      "path": "latest_shards/2026-11-12/DCE/Y.json.gz",
       "record_count": 6,
-      "sha256": "054ac8d6410c7d1e69eed01d88e336b5db8ad73be3c0424ce1c476209519d96a"
+      "sha256": "358f5cfd3e66373692b4d2f6f1a49c0ffbce7366a1e04ea0d2f8f6a99a43ff8e"
     },
     {
       "exchange": "GFEX",
       "product": "LC",
-      "path": "latest_shards/2026-11-11/GFEX/LC.json.gz",
+      "path": "latest_shards/2026-11-12/GFEX/LC.json.gz",
       "record_count": 20,
-      "sha256": "83f4b570ac3d6882966e35c14b4b6f800301f8d1fa99e38f45b421ee2e22ef09"
+      "sha256": "f6e1d01c03ba53e42b33448c3999a5875a8332d211f2896451dc2aa24ee3f77d"
     },
     {
       "exchange": "GFEX",
       "product": "PD",
-      "path": "latest_shards/2026-11-11/GFEX/PD.json.gz",
+      "path": "latest_shards/2026-11-12/GFEX/PD.json.gz",
       "record_count": 16,
-      "sha256": "a3ac073cbe3e7e945794509b64eb1740a989ad3f131736711234b2317aa30f5d"
+      "sha256": "418457731a3530500f0d180ffa8d2140bc4e90721351b9179dce5b37ae9bda70"
     },
     {
       "exchange": "GFEX",
       "product": "PS",
-      "path": "latest_shards/2026-11-11/GFEX/PS.json.gz",
+      "path": "latest_shards/2026-11-12/GFEX/PS.json.gz",
       "record_count": 8,
-      "sha256": "367838c0bdac3b741c8f7a44e687741f49add39183de428de1a9eea9e8c04266"
+      "sha256": "3fccbd248552e4693a5319520a7ec2de22be2f0f45136c4d1ad5c816a65f66f6"
     },
     {
       "exchange": "GFEX",
       "product": "PT",
-      "path": "latest_shards/2026-11-11/GFEX/PT.json.gz",
+      "path": "latest_shards/2026-11-12/GFEX/PT.json.gz",
       "record_count": 14,
-      "sha256": "7e20fe3cfdbc2a093b903306ae7d80a984d299cc71fe9a3be86079af3485fc28"
+      "sha256": "ec90dd04cd730874a3e2d6c871a4aa587cecc934d2d3b31bc3d48970e53d00a8"
     },
     {
       "exchange": "GFEX",
       "product": "SI",
-      "path": "latest_shards/2026-11-11/GFEX/SI.json.gz",
+      "path": "latest_shards/2026-11-12/GFEX/SI.json.gz",
       "record_count": 6,
-      "sha256": "2adb17643527d0895d1f740d2f9e6a3ae94df348773042dc4a7eee0db4bae51e"
+      "sha256": "a5c9aeb46643a834a68caacf69413275de7a0d91875746181d7f58e4d476f42b"
     },
     {
       "exchange": "INE",
       "product": "BC",
-      "path": "latest_shards/2026-11-11/INE/BC.json.gz",
+      "path": "latest_shards/2026-11-12/INE/BC.json.gz",
       "record_count": 4,
-      "sha256": "b896e09595e7be9748a5d5a5e2d9f8e0fd7ff888f4a1a7617b1b38a67168ef43"
+      "sha256": "a67d890e579b9e035312c3ddb25b21898bfc886f296b0b45e966436d6938caee"
     },
     {
       "exchange": "INE",
       "product": "NR",
-      "path": "latest_shards/2026-11-11/INE/NR.json.gz",
+      "path": "latest_shards/2026-11-12/INE/NR.json.gz",
       "record_count": 6,
-      "sha256": "81e753138ee8d0f1e442baf3fd2a9d7994f8df33618eed4812901197d9ed7e19"
+      "sha256": "50f191cc47227e2858501dad006602896aebf8f3e173971f34aa719304adf1ff"
     },
     {
       "exchange": "INE",
       "product": "SC",
-      "path": "latest_shards/2026-11-11/INE/SC.json.gz",
+      "path": "latest_shards/2026-11-12/INE/SC.json.gz",
       "record_count": 10,
-      "sha256": "1835951a83ba7a9e101729f130e78a3a60026d97cb4c1b4a9345a44f1ec1740b"
+      "sha256": "4c828a159d7fd830c47cdf6730173341b1e74b0bb8712af6958c3b151b995ad8"
     },
     {
       "exchange": "SHFE",
       "product": "AD",
-      "path": "latest_shards/2026-11-11/SHFE/AD.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/AD.json.gz",
       "record_count": 6,
-      "sha256": "b72a81a2fa216c087a677d0e9cc1558aa7b86b0ae49971bf3ffa91dff646adbf"
+      "sha256": "4ef94db7c51813fa4dfdee273206e9888427b9beb26ea5c227c49e060e1d4720"
     },
     {
       "exchange": "SHFE",
       "product": "AG",
-      "path": "latest_shards/2026-11-11/SHFE/AG.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/AG.json.gz",
       "record_count": 28,
-      "sha256": "0e646ced40b799d3446be53cc518a7dfddd274a688567a69a2f34e04b89f4b8f"
+      "sha256": "86a62cabba2f9c6ecb400f4d155cc406ba1ffaf1d150d5d20bb976a643948aff"
     },
     {
       "exchange": "SHFE",
       "product": "AL",
-      "path": "latest_shards/2026-11-11/SHFE/AL.json.gz",
-      "record_count": 8,
-      "sha256": "b1df13e16331a52ed290ff46b2989801f8ff9bcfee06961eee6a7d2f473fdd3f"
+      "path": "latest_shards/2026-11-12/SHFE/AL.json.gz",
+      "record_count": 10,
+      "sha256": "bfaa6f6271d535c6854dfce523980083a2bcd9a749553f0b39060ae84fc73cd5"
     },
     {
       "exchange": "SHFE",
       "product": "AO",
-      "path": "latest_shards/2026-11-11/SHFE/AO.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/AO.json.gz",
       "record_count": 4,
-      "sha256": "a647a30e5ff9b3122f0a52e5fc3fdcbc5974ee01f4d5668270aa6d4ec2782c9c"
+      "sha256": "743351a99d377b2a83b00c54c929fda586519e6255c099a85e7bca07c5e5ab94"
     },
     {
       "exchange": "SHFE",
       "product": "AU",
-      "path": "latest_shards/2026-11-11/SHFE/AU.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/AU.json.gz",
       "record_count": 16,
-      "sha256": "09038958e94678c7bcc5c54690afef2ecb6df0cd151f3e5056db0ab06d31fdd7"
+      "sha256": "5acaf964e7fcc20d99d4142df29cf732699b37e2a2ac133329b777639846d827"
     },
     {
       "exchange": "SHFE",
       "product": "BR",
-      "path": "latest_shards/2026-11-11/SHFE/BR.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/BR.json.gz",
       "record_count": 8,
-      "sha256": "ee60e8dcf354bcd7385807dbda0610e37a8df0823308473a2bef89b5e9b9291e"
+      "sha256": "3141227b0910c73a441e494ca53d1f580f1934bf001c015097c2c3aead4f1648"
     },
     {
       "exchange": "SHFE",
       "product": "BU",
-      "path": "latest_shards/2026-11-11/SHFE/BU.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/BU.json.gz",
       "record_count": 8,
-      "sha256": "23e36581dc691eff91f38e8ce465ff9a00a6e607e5f68c5f0bfc4da1b9050dbf"
+      "sha256": "cb669230ee9d0bdda7ac34c97ab6646acdfca847a2a2d2f0794a2909b92be5e8"
     },
     {
       "exchange": "SHFE",
       "product": "CU",
-      "path": "latest_shards/2026-11-11/SHFE/CU.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/CU.json.gz",
       "record_count": 4,
-      "sha256": "c355b2a72f5b43ca51647b13c029a3f9032b1afbc9b634c60f91f4feef15b65f"
+      "sha256": "cd7ca78ad29670bf412025d0ac76ba976f41c1f3c45a92c1ff0d0a0164049c8a"
     },
     {
       "exchange": "SHFE",
       "product": "FU",
-      "path": "latest_shards/2026-11-11/SHFE/FU.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/FU.json.gz",
       "record_count": 14,
-      "sha256": "dea20eb09203cbd31742caecd6cf463693c204be2febc0e54d0d9e919d4b6d57"
+      "sha256": "bc5b27b747570b02445364f7760252f6713bb18e98db0a3e0b9c06040fcb4214"
     },
     {
       "exchange": "SHFE",
       "product": "NI",
-      "path": "latest_shards/2026-11-11/SHFE/NI.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/NI.json.gz",
       "record_count": 4,
-      "sha256": "197c50f8468911df2205064a7a6c79a5864be362bf6e9066032c746ae224508a"
+      "sha256": "b1c9db9d78b49172523126c7e66279dac358dc7b353d18ca9d25b4b93236280f"
     },
     {
       "exchange": "SHFE",
       "product": "OP",
-      "path": "latest_shards/2026-11-11/SHFE/OP.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/OP.json.gz",
       "record_count": 2,
-      "sha256": "9b546a34fdf7f70d9e5e1467f6ae8093bdd20d807c4872896ab26b91dc4ee454"
+      "sha256": "46b59c13a91a534809123df607fd0dcd453d6ec5c6f737b726c9546684ed72ac"
     },
     {
       "exchange": "SHFE",
       "product": "PB",
-      "path": "latest_shards/2026-11-11/SHFE/PB.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/PB.json.gz",
       "record_count": 4,
-      "sha256": "866f4ff518d65125e763a10e8db5d9d0962a0aa892a6e465112d4dc5f6101f92"
+      "sha256": "a5bd2c37f64f2a4395b99106d6e5468d69d104343eb1e933e93af7089476720b"
     },
     {
       "exchange": "SHFE",
       "product": "RB",
-      "path": "latest_shards/2026-11-11/SHFE/RB.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/RB.json.gz",
       "record_count": 2,
-      "sha256": "27ec5f88a90ac5c882f731d95850ab2802346719c62d4ed3b180694f2b5fbcdb"
+      "sha256": "6c9d3815c9299bbb28d5e395ddd8306f76e4f1b5a6f4f9c4eb27d13a6a78607b"
     },
     {
       "exchange": "SHFE",
       "product": "RU",
-      "path": "latest_shards/2026-11-11/SHFE/RU.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/RU.json.gz",
       "record_count": 6,
-      "sha256": "46653443317ec73cd6a9fd500b9f0f8d58f88a0d8c7614634647d2e78e32d670"
+      "sha256": "6dfb1ea77149eacaa0235f1648df5bdad121832704e89387f9f71e7a7f40caf8"
     },
     {
       "exchange": "SHFE",
       "product": "SN",
-      "path": "latest_shards/2026-11-11/SHFE/SN.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/SN.json.gz",
       "record_count": 8,
-      "sha256": "465a17ae96cbe5e3560c8f100b75ea8eaf85a253c1354201dfdd9cb5cb7ff7d2"
+      "sha256": "336269c3655fb10343c2ea119ead5c21142de7a56f5d9467442da692d7cfca60"
     },
     {
       "exchange": "SHFE",
       "product": "SP",
-      "path": "latest_shards/2026-11-11/SHFE/SP.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/SP.json.gz",
       "record_count": 4,
-      "sha256": "7a3390ece384879c522617b06b5a4e4d0d29873d452bc851c61ccc9847149573"
+      "sha256": "5728861337e4eab5974f425363d993225f9013de6b85df7a0a5defecaa8aa097"
     },
     {
       "exchange": "SHFE",
       "product": "ZN",
-      "path": "latest_shards/2026-11-11/SHFE/ZN.json.gz",
+      "path": "latest_shards/2026-11-12/SHFE/ZN.json.gz",
       "record_count": 6,
-      "sha256": "970a61463ce778ae5f8e73435f095aa6a099ba26c4b7813c6c45aff91a7103bc"
+      "sha256": "d545d793a35bb19725594eb7be9f2931d3c871f720eeffbfd72d728b1e3c2ce0"
     }
   ]
 }
