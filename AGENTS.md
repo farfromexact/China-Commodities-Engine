@@ -13,3 +13,10 @@
 - 本地默认disabled，Windows接手后配置独立环境、enabled=true并实机验收，再安装当前用户登录任务。Dot通知协议为`--signal-login`；本机watch收到有效通知后才尝试连接，有看板占用则等待。不要把进程存在当作已登录，不启用远端旧workflow；也不要宣称已替用户开启Dot监控。
 - 本机登录凭据、`.venv`、`.pth`、SDK、原始 `tmp/` 缓存不提交；验证后的规范化 `data/` 按本仓库既有方式提交。推送前核对远端，保留他人提交，不强推。
 - 验证：`python -m unittest discover -s tests -q`；发布后 `python -m china_commodities.cli report-input --repair-futures-history`、`python -m china_commodities.cli validate`。Windows 实机未验证的内容要明确标注。
+
+## 2026-11-12 用户授权更新（优先于上文旧端口限制）
+
+用户明确要求允许 Trading Desk 运行时低速取数。新增显式 `allow_dashboard=true` 模式，
+详见 `docs/WIND_DASHBOARD_COEXISTENCE.md`；默认旧模式保持兼容。
+股票/商品日常原生 worker 已使用同一跨仓库本机用户锁；不得声称覆盖所有旧 backfill 或跨机器。
+不得为了共存关闭/重启/注销看板或 Wind；小样本验收后才把共存模式接入一键启动器。

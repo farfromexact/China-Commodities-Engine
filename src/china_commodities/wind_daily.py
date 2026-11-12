@@ -9,14 +9,15 @@ import socket
 import subprocess
 from zoneinfo import ZoneInfo
 
+from .wind_coordination import RequestPacer
 from .catalog import load_catalog
 from .storage import read_json, write_json_atomic
 from .trading_calendar import is_trading_day, previous_trading_day, night_session_dates, CALENDAR_VERSION
 from .night_session import _night_window
 
 ZONE=ZoneInfo('Asia/Shanghai')
-DEFAULTS=dict(enabled=False,start_date=None,eod_ready_time='18:15',poll_seconds=60,
-              retry_seconds=900,max_days_per_run=5,request_interval_seconds=1.,
+DEFAULTS=dict(enabled=False,allow_dashboard=False,start_date=None,eod_ready_time='18:15',poll_seconds=60,
+              retry_seconds=900,max_days_per_run=5,request_interval_seconds=2.,
               request_timeout_seconds=120,max_run_seconds=7200,login_signal_ttl_seconds=900,
               desk_host='127.0.0.1',desk_port=8765,branch='main',sdk_dir=None,
               include_foundation=True,foundation_timeout_seconds=180,
@@ -30,11 +31,10 @@ def config(path):
     for key in ('poll_seconds','retry_seconds','max_days_per_run','request_timeout_seconds','max_run_seconds','login_signal_ttl_seconds','foundation_timeout_seconds'):
         if not isinstance(result[key],int) or result[key]<=0:
             raise ValueError(f'invalid configuration: {key}')
-    if result['request_interval_seconds']<.5:
-        raise ValueError('request interval must be at least 0.5 seconds')
+    RequestPacer(result['request_interval_seconds'])
     if result['desk_host'] not in {'127.0.0.1','localhost','::1'}:
         raise ValueError('trading desk guard must check localhost')
-    if not all(isinstance(result[k],bool) for k in ('enabled','include_foundation')):
+    if not all(isinstance(result[k],bool) for k in ('enabled','include_foundation','allow_dashboard')):
         raise ValueError('enabled/include_foundation must be boolean')
     return result
 

@@ -46,7 +46,10 @@ class SupervisorTests(unittest.TestCase):
         write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
         process=MagicMock(returncode=1)
         process.poll.return_value=1
-        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'git',return_value='base'),patch.object(runner.subprocess,'Popen',return_value=process) as start:
+        def launch(*args,**kwargs):
+            (self.cache/'login-ready.json').replace(self.cache/'login-claimed.json')
+            return process
+        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'git',return_value='base'),patch.object(runner.subprocess,'Popen',side_effect=launch) as start:
             self.assertEqual(runner.once(self.settings,self.cache)['phase'],'retry_wait')
             self.assertFalse((self.cache/'login-ready.json').exists())
             self.assertEqual(runner.once(self.settings,self.cache)['phase'],'retry_wait')
@@ -61,3 +64,31 @@ class SupervisorTests(unittest.TestCase):
         self.assertEqual({r['scope'] for r in result},{'physical','external'})
         self.assertTrue(runner.read_json(stage/'physical/latest.json')['retained'])
         self.assertFalse(runner.read_json(stage/'physical/last_run_status.json')['data_fresh'])
+
+
+    def test_coexistence_passes_active_desk_but_still_requires_login(self):
+        settings=dict(self.settings,allow_dashboard=True)
+        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',side_effect=AssertionError):
+            self.assertEqual(runner.once(settings,self.cache)['phase'],'waiting_login_signal')
+
+    def test_busy_worker_preserves_login_signal_without_loading_sdk(self):
+        import os
+        from china_commodities.wind_coordination import collection_lock
+        job=self.cache/'job.json'
+        write_json_atomic(job,dict(token='test',cache=str(self.cache)))
+        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
+        with collection_lock(),patch.dict(os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch.object(runner,'_worker_locked',side_effect=AssertionError):
+            runner.worker(job)
+        self.assertEqual(runner.read_json(self.cache/'progress.json')['phase'],'waiting_collector')
+        self.assertTrue((self.cache/'login-ready.json').exists())
+
+    def test_busy_worker_is_not_reported_as_published(self):
+        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
+        process=MagicMock(returncode=0)
+        process.poll.return_value=0
+        def launch(*args,**kwargs):
+            write_json_atomic(self.cache/'progress.json',dict(phase='waiting_collector'))
+            return process
+        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'git',return_value='base'),patch.object(runner.subprocess,'Popen',side_effect=launch):
+            self.assertEqual(runner.once(self.settings,self.cache)['phase'],'waiting_collector')
+        self.assertTrue((self.cache/'login-ready.json').exists())

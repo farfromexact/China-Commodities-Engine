@@ -1,5 +1,7 @@
 # China Commodities Engine
 
+> 2026-11-12：已增加并完成本机 Mac 小样本验证的 [Trading Desk 共存采集模式](docs/WIND_DASHBOARD_COEXISTENCE.md)，支持看板运行时股票/商品串行限速取数。
+
 China Commodities Engine 是一个面向中国商品期货的每日数据 bot 项目骨架。它的职责是采集、标准化、校验并保存可审计的数据，供后续雷达、研究和交易分析使用；数据引擎本身不把单日涨跌直接解释为交易结论。
 
 **Wind迁移 / Windows接续：**先读 [Windows Wind配置与交接](docs/WINDOWS_WIND_HANDOFF.md) 和 [AGENTS.md](AGENTS.md)。近期数据已通过本机官方 WindPy 补齐；远端日常取数入口当前关闭，Wind 远端调度尚未部署。

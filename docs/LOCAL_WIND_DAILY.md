@@ -1,5 +1,7 @@
 # 本地Wind每日采集、登录通知与漏日补采
 
+> 2026-11-12 更新：新增用户授权的显式看板共存模式，见 [共存采集](WIND_DASHBOARD_COEXISTENCE.md)。下文端口阻挡/独占条件适用于默认旧模式。
+
 远端 `daily.yml`、`chatgpt-trigger.yml` 继续禁用，`IFIND_COLLECTION_STATE=idle`继续保留。
 此入口只在本机运行官方WindPy，不触发Actions、不启用旧iFinD、不修改trading desk。
 三层校验通过后自动提交并推送已获用户授权；仅提交data，不提交本机配置/凭据/缓存。

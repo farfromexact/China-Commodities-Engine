@@ -15,6 +15,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 sys.path.insert(0,str(ROOT/'src'))
 
+from china_commodities.wind_coordination import CollectionBusy, collection_lock, RequestPacer
 from china_commodities.wind_daily import config, plan, state, single_runner, desk_busy, ZONE, DEFAULTS
 from china_commodities.wind_daily_git import Publisher, git
 from china_commodities.storage import read_json, write_json_atomic
@@ -61,11 +62,25 @@ def worker(job_path):
     job=read_json(job_path)
     if not os.environ.get('WIND_DAILY_WORKER_TOKEN') or job['token']!=os.environ['WIND_DAILY_WORKER_TOKEN']:
         raise RuntimeError('worker must be launched by the local supervisor')
+    try:
+        with collection_lock():
+            _worker_locked(job_path)
+    except CollectionBusy as exc:
+        state(Path(job['cache'])/'progress.json','waiting_collector',error=str(exc))
+
+
+def _worker_locked(job_path):
+    job=read_json(job_path)
+    if not os.environ.get('WIND_DAILY_WORKER_TOKEN') or job['token']!=os.environ['WIND_DAILY_WORKER_TOKEN']:
+        raise RuntimeError('worker must be launched by the local supervisor')
     settings=job['settings']
     cache=Path(job['cache'])
     progress=cache/'progress.json'
+    # Consume only after the cross-engine lock is held. A busy worker retains the signal.
+    (cache/'login-ready.json').replace(cache/'login-claimed.json')
+    pacer=RequestPacer(settings['request_interval_seconds'])
     def available():
-        if desk_busy(settings):
+        if not settings.get('allow_dashboard',False) and desk_busy(settings):
             raise RuntimeError('trading desk became active; collection yielded')
     available()
     from china_commodities.collectors.wind_runtime import load_wind
@@ -77,7 +92,11 @@ def worker(job_path):
             def call(*args,**kwargs):
                 available()
                 state(progress,'request',operation=method)
-                result=getattr(sdk,method)(*args,**kwargs)
+                if method=='isconnected':
+                    result=sdk.isconnected()
+                else:
+                    with pacer.slot():
+                        result=getattr(sdk,method)(*args,**kwargs)
                 state(progress,'collecting')
                 return result
             return call
@@ -133,7 +152,7 @@ def once(settings, cache):
     retry=previous.get('retry_after')
     if retry and datetime.now(ZONE)<datetime.fromisoformat(retry):
         return dict(previous,plan=work)
-    if desk_busy(settings):
+    if not settings.get('allow_dashboard',False) and desk_busy(settings):
         return state(status,'desk_busy',plan=work)
     pulse=cache/'login-ready.json'
     signal=read_json(pulse,default={})
@@ -142,7 +161,6 @@ def once(settings, cache):
     if age is None or not 0<=age<=settings['login_signal_ttl_seconds']:
         return state(status,'waiting_login_signal',plan=work)
     # Consume once, so a failure cannot repeatedly open login dialogs.
-    pulse.replace(cache/'login-claimed.json')
     token=uuid.uuid4().hex
     write_json_atomic(cache/'job.json',dict(token=token,settings=settings,cache=str(cache),plan=work,base=git(ROOT,'rev-parse','HEAD')))
     state(cache/'progress.json','starting')
@@ -170,7 +188,12 @@ def once(settings, cache):
             return state(status,'retry_wait',plan=work,error=failure or 'worker failed; inspect worker.log',
                          retry_after=(datetime.now(ZONE)+timedelta(seconds=settings['retry_seconds'])).isoformat(),
                          outbox_retained=publisher.journal.exists())
-    return state(status,'published',plan=work,results=read_json(cache/'progress.json',default={}).get('results',[]))
+    progress=read_json(cache/'progress.json',default={})
+    if progress.get('phase')=='waiting_collector':
+        return state(status,'waiting_collector',plan=work)
+    if progress.get('phase')!='published':
+        return state(status,'blocked',error='worker exited without a publication receipt',plan=work)
+    return state(status,'published',plan=work,results=progress.get('results',[]))
 
 
 def main():

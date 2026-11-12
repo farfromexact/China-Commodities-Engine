@@ -20,7 +20,7 @@ FIELDS = "open,high,low,close,settle,volume,oi"
 
 def normalize(result, requested_date):
     if result.ErrorCode:
-        raise ValueError(f"Wind error {result.ErrorCode}: {result.Data}")
+        raise ValueError(f"Wind error {result.ErrorCode}")
     fields = [str(x).lower() for x in result.Fields]
     if fields != FIELDS.split(",") or len(result.Data) != len(fields):
         raise ValueError("Unexpected Wind fields")
@@ -41,6 +41,7 @@ def main():
     p.add_argument("--date", required=True, type=date.fromisoformat)
     p.add_argument("--codes", default="AU2612.SHF")
     p.add_argument("--sdk-dir", help="Official SDK folder; defaults to WIND_PYTHON_DIR/platform configuration")
+    p.add_argument("--allow-dashboard", action="store_true", help="Explicit bounded coexistence test")
     p.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
     a = p.parse_args()
     codes = a.codes.split(",")
@@ -54,18 +55,34 @@ def main():
             print("Wind canary timed out; only its child process was stopped", file=sys.stderr)
             return 2
     sys.path.insert(0, str(ROOT / 'src'))
+    from china_commodities.wind_coordination import collection_lock
+    with collection_lock():
+        return collect_sample(a, codes)
+
+
+def collect_sample(a, codes):
+    from china_commodities.wind_coordination import RequestPacer
+    from china_commodities.wind_daily import DEFAULTS, desk_busy
+    def available():
+        if not a.allow_dashboard and desk_busy(DEFAULTS):
+            raise RuntimeError('Trading Desk active; use --allow-dashboard for an explicit coexistence canary')
+    available()
+    pacer = RequestPacer(2.0)
     from china_commodities.collectors.wind_runtime import load_wind
     w = load_wind(a.sdk_dir)
     report = {"requested_date": str(a.date), "generated_at": datetime.now().astimezone().isoformat(),
               "purpose": "isolated EOD canary; not production", "samples": []}
     try:
-        connected = w.start(waitTime=15)
+        with pacer.slot():
+            connected = w.start(waitTime=15)
         if connected.ErrorCode:
             raise ValueError(f"Wind connection error {connected.ErrorCode}")
         for code in codes:
             started = time.monotonic()
             try:
-                result = w.wsd(code, FIELDS, str(a.date), str(a.date), "")
+                available()
+                with pacer.slot():
+                    result = w.wsd(code, FIELDS, str(a.date), str(a.date), "")
                 sample = {"code": code, "ok": True, **normalize(result, str(a.date))}
             except Exception as exc:
                 sample = {"code": code, "ok": False, "error": str(exc)[:500]}
