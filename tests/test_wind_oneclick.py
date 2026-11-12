@@ -9,26 +9,28 @@ from scripts import wind_oneclick as launcher
 
 
 class OneClickTests(unittest.TestCase):
-    def test_both_collectors_overlap_and_failure_is_independent(self):
+    def test_stock_is_never_invoked_even_with_legacy_config(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)
-            roots={key:root/key for key in ('stock','commodities')}
-            configs={key:root/(key+'.json') for key in roots}
-            barrier=threading.Barrier(2,timeout=5)
             calls=[]
             def invoke(repo,args,log):
-                calls.append((repo.name,args))
-                if 'tick' in args or '--once' in args:
-                    barrier.wait()  # Serial launch would fail this test.
-                    if 'tick' in args:
-                        raise launcher.CollectorError(repo,1,dict(state='failed',error='validation failed'))
-                    return dict(phase='published')
-                return {}
-            result=launcher.collect(roots,configs,root,time.monotonic(),invoke)
-            self.assertEqual(result['stock']['state'],'failed')
-            self.assertEqual(result['commodities']['phase'],'published')
-            self.assertTrue(any('disarm' in args for _,args in calls))
+                self.assertEqual(repo,root/'commodities')
+                self.assertNotIn('china_stock_engine.wind_daily',args)
+                calls.append(args)
+                return dict(phase='published')
+            result=launcher.collect(dict(stock=root/'missing-stock',commodities=root/'commodities'),
+                dict(stock=root/'s',commodities=root/'c'),root,time.monotonic(),invoke)
+            self.assertEqual(set(result),{'commodities'})
+            self.assertEqual(len(calls),2)
             self.assertEqual(launcher.read_json(root/'summary.json'),result)
+
+    def test_repository_discovery_ignores_nonexistent_stock(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);commodity=root/'commodity';(commodity/'src').mkdir(parents=True)
+            launcher.save_json(root/'launcher.json',dict(stock=str(root/'absent'),commodities=str(commodity)))
+            with patch.object(launcher,'BASE',root),patch('builtins.input',side_effect=AssertionError):
+                self.assertEqual(launcher.repositories(),dict(commodities=commodity.resolve()))
+            self.assertNotIn('stock',launcher.read_json(root/'launcher.json'))
 
     def test_prepare_overrides_old_limits_without_enabling_original_configs(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -83,8 +85,8 @@ class OneClickTests(unittest.TestCase):
                 return dict(state='up_to_date',phase='up_to_date')
             result=launcher.collect(dict(stock=root/'stock',commodities=root/'commodities'),
                 dict(stock=root/'s',commodities=root/'c'),root,time.monotonic(),invoke,parallel=False)
-            self.assertEqual(order,['stock','commodities'])
-            self.assertEqual(len(result),2)
+            self.assertEqual(order,['commodities'])
+            self.assertEqual(len(result),1)
 
     def test_prepare_can_restore_limited_serial_settings(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -100,4 +102,4 @@ class OneClickTests(unittest.TestCase):
                 cfg=launcher.read_json(path)
                 self.assertFalse(cfg['allow_parallel_collectors'])
                 self.assertEqual(cfg['request_interval_seconds'],2)
-            self.assertEqual(launcher.read_json(configs['stock'])['batch_size'],100)
+            self.assertNotIn('stock',configs)

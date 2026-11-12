@@ -1,7 +1,6 @@
-"""One foreground run of the existing stock and commodities Wind collectors."""
+"""One foreground run of the commodities Wind collector; no stock actions."""
 import argparse
 from contextlib import contextmanager
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 import json
 import math
@@ -66,7 +65,7 @@ def repositories():
     path = BASE / "launcher.json"
     settings = read_json(path) if path.exists() else {}
     result = {}
-    for key, name in (("stock", "China-Stock-Engine"), ("commodities", "China-Commodities-Engine")):
+    for key, name in (("commodities", "China-Commodities-Engine"),):
         value = settings.get(key)
         candidate = BASE.parent / name
         if not value and candidate.is_dir():
@@ -133,32 +132,19 @@ def prepare(roots, run_dir, *, parallel=True, request_interval=0):
     if isinstance(request_interval, bool) or not isinstance(request_interval, (int, float)) or not math.isfinite(request_interval) or request_interval < 0:
         raise ValueError("Request interval must be finite and nonnegative")
     configs = {}
-    for key, root in roots.items():
+    for key in ('commodities',):
+        root = roots[key]
         python_for(root)
-        if key == "stock":
-            source = root / ".private-stock-data/wind/local_daily.json"
-            if not source.exists():
-                source = root / "config/wind_local_daily.example.json"
-            cfg = read_json(source)
-            profile = root / cfg.get("profile", ".private-stock-data/wind/profile.json")
-            if not profile.is_file() or read_json(profile).get("units_verified") is not True:
-                raise RuntimeError(f"Stock requires a locally verified profile: {profile}. See docs/WIND_MIGRATION.md.")
-        else:
-            if not (root / "scripts/run_wind_daily.py").is_file():
-                raise RuntimeError("Commodities daily entry point missing; update the repository first.")
-            source = root / "tmp/wind-daily/config.json"
-            cfg = read_json(source) if source.exists() else {}
+        if not (root / "scripts/run_wind_daily.py").is_file():
+            raise RuntimeError("Commodities daily entry point missing; update the repository first.")
+        source = root / "tmp/wind-daily/config.json"
+        cfg = read_json(source) if source.exists() else {}
         # Only this invocation is enabled; do not activate installed background tasks.
         cfg["enabled"] = True
         cfg["allow_dashboard"] = True
         cfg["request_interval_seconds"] = request_interval
         cfg["allow_parallel_collectors"] = parallel
-        if key == "stock":
-            cfg["auto_git_push"] = True
-            cfg["batch_size"] = min(100, cfg.get("batch_size", 100))
-            cfg["ready_file"] = str((run_dir / "stock-ready.json").resolve())
-        else:
-            cfg["max_days_per_run"] = min(1, cfg.get("max_days_per_run", 5))
+        cfg["max_days_per_run"] = min(1, cfg.get("max_days_per_run", 5))
         destination = run_dir / f"{key}-config.json"
         save_json(destination, cfg)
         configs[key] = destination
@@ -172,32 +158,6 @@ def confirm_login():
     if input("输入 YES 开始本轮取数：").strip().upper() != "YES":
         raise RuntimeError("Cancelled; no login signal sent.")
     return time.monotonic()
-
-
-def collect_stock(roots, configs, run_dir, call=invoke):
-    results = {}
-    root = roots["stock"]
-    common = ["--config", str(configs["stock"])]
-    log = run_dir / "stock.log"
-    armed = False
-    try:
-        call(root, ["-m", "china_stock_engine.wind_daily", "arm", *common,
-                    "--login-confirmed", "--dashboard-coexistence", "--minutes", "60"], log)
-        armed = True
-        result = call(root, ["-m", "china_stock_engine.wind_daily", "tick", *common], log)
-        results["stock"] = result or {"state": "unknown", "error": "No structured result"}
-    except Exception as exc:
-        results["stock"] = failure_result(exc)
-    finally:
-        if armed:
-            try:
-                call(root, ["-m", "china_stock_engine.wind_daily", "disarm", *common], log)
-            except Exception as exc:
-                results["stock"]["cleanup_error"] = str(exc)
-                if results["stock"].get("state") in SUCCESS:
-                    results["stock"]["collection_state"] = results["stock"]["state"]
-                    results["stock"]["state"] = "cleanup_error"
-    return results["stock"]
 
 
 def collect_commodities(roots, configs, run_dir, call=invoke):
@@ -217,39 +177,17 @@ def collect_commodities(roots, configs, run_dir, call=invoke):
 
 
 def collect(roots, configs, run_dir, confirmed_at, call=invoke, confirm=confirm_login, *, parallel=True):
-    # Refresh an old attestation on the foreground thread before either task starts.
     if time.monotonic() - confirmed_at >= 900:
         confirm()
-        confirmed_at = time.monotonic()
-    results = {}
-    if not parallel:
-        results["stock"] = collect_stock(roots, configs, run_dir, call)
-        save_json(run_dir / "summary.json", results)
-        if time.monotonic() - confirmed_at >= 900:
-            confirm()
-        results["commodities"] = collect_commodities(roots, configs, run_dir, call)
-        save_json(run_dir / "summary.json", results)
-        return results
-    with ThreadPoolExecutor(max_workers=2) as pool:
-        pending = {
-            pool.submit(collect_stock, roots, configs, run_dir, call): "stock",
-            pool.submit(collect_commodities, roots, configs, run_dir, call): "commodities",
-        }
-        for future in as_completed(pending):
-            key = pending[future]
-            try:
-                results[key] = future.result()
-            except Exception as exc:
-                results[key] = failure_result(exc, "state" if key == "stock" else "phase")
-            # Only this foreground thread writes the summary. Logs remain separate.
-            save_json(run_dir / "summary.json", results)
+    results = {"commodities": collect_commodities(roots, configs, run_dir, call)}
+    save_json(run_dir / "summary.json", results)
     return results
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Offline preflight only; no login or collection")
-    parser.add_argument("--serial", action="store_true", help="Run the two collectors sequentially and use the cross-engine lock")
+    parser.add_argument("--serial", action="store_true", help="Use the optional cross-engine lock for the commodity worker")
     parser.add_argument("--request-interval", type=float, default=0, help="Extra idle seconds after each request (default: 0)")
     args = parser.parse_args()
     if not math.isfinite(args.request_interval) or args.request_interval < 0:
@@ -263,9 +201,6 @@ def main():
         if args.check:
             for key, root in roots.items():
                 invoke(root, ["scripts/configure_wind.py", "--check"], run_dir / f"{key}.log")
-            result = invoke(roots["stock"], ["-m", "china_stock_engine.wind_daily", "check", "--config", str(configs["stock"])], run_dir / "stock.log")
-            if result.get("state") not in {"up_to_date", "needs_calendar", "catchup_required"}:
-                raise RuntimeError(f"Stock preflight incomplete: {result}")
             invoke(roots["commodities"], ["scripts/run_wind_daily.py", "--plan", "--config", str(configs["commodities"])], run_dir / "commodities.log")
             print("Offline preflight passed. No Wind connection was tested.")
             return 0
@@ -275,8 +210,8 @@ def main():
             raise RuntimeError("Commodity Git preflight failed; inspect Git configuration before collecting.")
         if git_check.stdout.strip():
             raise RuntimeError("商品仓库有未提交修改，现有发布器会阻止运行。请先审核、提交并同步本次代码，再启动；启动器不会自动提交代码。")
-        print(f"模式：{'串行' if args.serial else '并行'}；额外间隔：{args.request_interval:g} 秒。")
-        print("各仓库独立校验，成功后自动提交并推送数据。")
+        print(f"仅商品取数；额外间隔：{args.request_interval:g} 秒。")
+        print("仅商品仓库校验后自动提交推送；不读取或操作股票仓库。")
         confirmed_at = confirm_login()
         results = collect(roots, configs, run_dir, confirmed_at, parallel=not args.serial)
         print("\n=== RESULTS ===")
@@ -289,7 +224,7 @@ def main():
                 print("  Git: " + json.dumps(result["git"], ensure_ascii=False))
         print(f"Details: {run_dir / 'summary.json'}")
         complete = all(r.get("state", r.get("phase")) in SUCCESS for r in results.values())
-        print("Both repositories completed this batch." if complete else "Not all repositories completed. Read the status/logs before retrying.")
+        print("Commodity batch completed." if complete else "Commodity task incomplete. Read the status/logs before retrying.")
         return 0 if complete else 2
 
 
