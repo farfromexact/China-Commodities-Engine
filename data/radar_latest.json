@@ -4530,6 +4530,26 @@
       "source_endpoint": null,
       "raw_payload_sha256": null,
       "schema_signature": null
+    },
+    {
+      "dataset": "options",
+      "scope": "core_sample",
+      "state": "ok",
+      "trade_date": "2026-11-12",
+      "source_function": "WindPy.wsd",
+      "records": 470,
+      "error": null,
+      "upstream_source": "Wind Quant API",
+      "is_fresh": true,
+      "is_proxy": false,
+      "is_fallback": false,
+      "requested_trade_date": "2026-11-12",
+      "source_trade_date": "2026-11-12",
+      "source_date_match": true,
+      "fetched_at": "2026-11-12T21:33:43.313676+08:00",
+      "source_endpoint": "WindPy.wsd",
+      "raw_payload_sha256": null,
+      "schema_signature": null
     }
   ],
   "no_trade_reason": "This engine identifies anomalies; it does not issue trades."
