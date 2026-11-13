@@ -800,8 +800,9 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     if contract_meta.get("quality_state") != "complete":
         limitations.append("contract_metadata_partial")
 
+    current_snapshot = current_market_snapshot(root)
     return {
-        "current_market_snapshot": current_market_snapshot(root),
+        "current_market_snapshot": current_snapshot,
         "schema_version": REPORT_SCHEMA_VERSION,
         "generated_at": generated_at,
         "requested_date": requested_date,
@@ -824,7 +825,8 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             if night_session_view.get("published")
             else "EOD"
         ),
-        "intraday": bool(night_session_view.get("published")),
+        "intraday": current_snapshot.get("mode") == "intraday",
+        "has_night_session": bool(night_session_view.get("published")),
         "source_paths": {
             "futures": "data/latest.json",
             "market_state": "data/market_state_latest.json",
@@ -982,6 +984,9 @@ def publish_report_input(
     reconcile_main_status(root)
     destination = Path(output_path) if output_path else root / REPORT_INPUT_NAME
     write_json_if_changed(destination, build_report_input(root))
+    if destination == root / REPORT_INPUT_NAME:
+        from .chat_export import export_chat_data
+        export_chat_data(root)
     return destination
 
 

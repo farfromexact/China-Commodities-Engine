@@ -6,7 +6,7 @@
     "as_of": "2026-11-13T15:00:00+08:00"
   },
   "schema_version": 3,
-  "generated_at": "2026-11-13T16:50:38.876095+08:00",
+  "generated_at": "2026-11-13T17:07:45.377379+08:00",
   "requested_date": "2026-11-13",
   "execution_prices": {
     "snapshot_id": "sha256:e4075f6808ec189180419dd19c749b3058d7d2946b98deb3bc5044dbf0b92bc3",
@@ -20983,7 +20983,8 @@
   "trade_cards": [],
   "timezone": "Asia/Shanghai",
   "frequency": "EOD+night_session",
-  "intraday": true,
+  "intraday": false,
+  "has_night_session": true,
   "source_paths": {
     "futures": "data/latest.json",
     "market_state": "data/market_state_latest.json",

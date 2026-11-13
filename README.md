@@ -38,6 +38,8 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 ## 主要产物
 
+Chat 连接器优先读取 `data/chat/manifest.json`：小索引与不超过48 KiB的普通JSON分片，覆盖完整报告输入及必要下钻原件，随现有发布更新。读取顺序、时间口径与离线导出见 [Chat 数据入口](docs/CHAT_DATA.md)。
+
 约定的正式 JSON 产物包括：
 
 - `data/latest.json`：各交易所和具体合约的最新标准化**日盘 EOD** 数据；不混入夜盘字段。

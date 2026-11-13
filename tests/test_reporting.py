@@ -224,7 +224,8 @@ class ReportingInputTests(unittest.TestCase):
             # the following trading day's night session is an explicit overlay.
             self.assertEqual(output["requested_date"], "2026-08-25")
             self.assertEqual(output["frequency"], "EOD+night_session")
-            self.assertTrue(output["intraday"])
+            self.assertFalse(output["intraday"])
+            self.assertTrue(output["has_night_session"])
             self.assertTrue(output["night_session"]["summary_only"])
             self.assertNotIn("records", output["night_session"])
             self.assertEqual(output["night_session"]["session_start_date"], "2026-08-25")
