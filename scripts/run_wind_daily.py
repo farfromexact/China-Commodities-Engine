@@ -18,6 +18,7 @@ from china_commodities.collectors.wind_runtime import load_wind
 from china_commodities.wind_daily_collect import CachedWind, collect_day
 from china_commodities.reporting import publish_report_input
 from china_commodities.quality import validate_snapshot
+from china_commodities.wind_intraday import collect_intraday
 
 
 def emit(payload):
@@ -34,7 +35,8 @@ def finish(cache, phase, **details):
     return payload
 
 
-def once(settings, cache):
+def once(settings, cache, now=None):
+    now = now or datetime.now(ZONE)
     cache = Path(cache)
     cache.mkdir(parents=True, exist_ok=True)
     publisher = Publisher(ROOT, cache, settings['branch'])
@@ -42,7 +44,7 @@ def once(settings, cache):
     recovered = publisher.recover()
     publisher.sync()
     anchor = read_json(cache / 'anchor.json', default={})
-    work = plan(ROOT / 'data', settings, anchor=anchor.get('start_date'),
+    work = plan(ROOT / 'data', settings, now=now, anchor=anchor.get('start_date'),
                 known_completed=anchor.get('verified_dates', []))
     write_json_atomic(cache / 'anchor.json', dict(start_date=work['start_date'], verified_dates=work['verified_dates']))
     if not work['has_work']:
@@ -60,6 +62,10 @@ def once(settings, cache):
         stage = Path(temporary) / 'data'
         shutil.copytree(ROOT / 'data', stage)
         results = []
+        if work.get('intraday'):
+            print(f"提取盘中快照，截止 {work['intraday']['cutoff']}...", flush=True)
+            results.append(collect_intraday(api, work['intraday'], stage,
+                                            allowed_empty=settings['allowed_empty_products']))
         for day in work['full_dates']:
             print(f'{day}: 提取期货、核心期权及夜盘...', flush=True)
             results.append(collect_day(api, day, stage, cache / 'normalized',
@@ -69,7 +75,7 @@ def once(settings, cache):
             print(f'{day}: 提取已完成夜盘...', flush=True)
             results.append(collect_day(api, day, stage, cache / 'normalized', night_only=True,
                                        allowed_empty=settings['allowed_empty_products']))
-        errors = validate_snapshot(read_json(stage / 'latest.json'))
+        errors = [] if work.get('intraday') else validate_snapshot(read_json(stage / 'latest.json'))
         if errors:
             raise RuntimeError(f'数据校验失败: {errors}')
         publish_report_input(stage)
@@ -90,15 +96,16 @@ def main(argv=None):
     parser.add_argument('--config', type=Path, default=ROOT / 'tmp/wind-daily/config.json')
     args = parser.parse_args(argv)
     cache = ROOT / 'tmp/wind-daily'
+    started_at = datetime.now(ZONE)
     try:
         settings = config(args.config)
         if args.plan:
             anchor = read_json(cache / 'anchor.json', default={})
-            emit(plan(ROOT / 'data', settings, anchor=anchor.get('start_date'),
+            emit(plan(ROOT / 'data', settings, now=started_at, anchor=anchor.get('start_date'),
                       known_completed=anchor.get('verified_dates', [])))
             return 0
         while True:
-            result = once(settings, cache)
+            result = once(settings, cache, now=started_at)
             emit(result)
             if not result['plan']['remaining_dates']:
                 return 0

@@ -6,7 +6,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 **Wind迁移 / Windows接续：**先读 [Windows Wind配置与交接](docs/WINDOWS_WIND_HANDOFF.md) 和 [AGENTS.md](AGENTS.md)。近期数据已通过本机官方 WindPy 补齐；远端日常取数入口当前关闭，Wind 远端调度尚未部署。
 
-本地启动：登录 Wind 后双击 **START_WIND.cmd**，自动完成提数、校验、提交并推送 Git。也可运行 `python scripts/run_wind_daily.py`。详见 [本地 Wind 提数](docs/LOCAL_WIND_DAILY.md)。
+本地启动：登录 Wind 后，Windows 使用 **START_WIND.cmd**，Mac 使用 **START_WIND.command**。盘中取启动时间前 5 分钟的快照，收盘后取日终数据，校验后自动提交推送。两边也可运行 `python scripts/run_wind_daily.py`，详见 [本地 Wind 提数](docs/LOCAL_WIND_DAILY.md)。
 
 独立交易所日终备份试验见 [备份方案与实测结果](docs/EXCHANGE_BACKUP.md)。手动运行入口为 `python scripts/collect_exchange_backup.py --date YYYY-MM-DD`，结果单独保存到 `data/backup/`；覆盖仍未达到 80% 门槛，远端 Actions 当前禁用该模式。核心数据后续使用本机官方 WindPy，Windows 配置和验收状态见 [Wind 交接说明](docs/WINDOWS_WIND_HANDOFF.md)。
 
@@ -156,7 +156,7 @@ GitHub 上的 `chatgpt-trigger.yml` 和 `daily.yml` 保持禁用。本机直接�
 
 夜盘及核心期权均按有效记录可用即发布，缺字段或局部失败保留说明，不以整体覆盖率扣住有效数据；日期、来源、合约身份仍须正确。各模块日期和能力状态独立，不以单所权限失败概括全市场。
 
-本机入口发布已完成的日盘和夜盘，期权使用 `core_v1`；日盘收盘前不附带采集盘中候选，收盘后按实际源数据和结算字段校验发布。
+本机入口盘中发布延迟至少 5 分钟的独立快照，期货与 `core_v1` 期权均保留真实行情时间；收盘后按实际源数据和结算字段校验发布日终数据。
 
 Physical 每次以一个 AKShare 批量请求获取 100ppi 现货/基差表；External 对每条已配置海外合约读取公开日线。`last_run_status.json` 的每个 series 状态会记录 `request_made`、`query_start_date`、`query_end_date`、源日期和陈旧状态，便于审计实际请求范围。生产工作流以 `--shadow-days 1` 在通过校验后立即提升 AKShare 快照；无数据或无法精确映射的目标会保留显式状态。
 

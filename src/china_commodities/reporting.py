@@ -709,6 +709,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     """Join current local artifacts into a stable, report-facing JSON object."""
 
     root = Path(data_dir)
+    from .wind_intraday import current_market_snapshot
     futures = _mapping(_read(root, "latest.json", {}))
     futures_status, _ = _merge_options_status(
         root, _mapping(_read(root, "last_run_status.json", {}))
@@ -800,6 +801,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         limitations.append("contract_metadata_partial")
 
     return {
+        "current_market_snapshot": current_market_snapshot(root),
         "schema_version": REPORT_SCHEMA_VERSION,
         "generated_at": generated_at,
         "requested_date": requested_date,

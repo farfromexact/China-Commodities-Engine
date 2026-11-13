@@ -19,7 +19,7 @@ class DailyPlanTests(unittest.TestCase):
 
     def test_no_provider_clock_gate_after_actual_session_close(self):
         with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=False):
-            for hour,minute in [(15,0),(16,0),(18,14),(23,0)]:
+            for hour,minute in [(15,0),(16,0),(18,14)]:
                 p=plan(tmp,dict(DEFAULTS,start_date='2026-11-12',eod_ready_time='23:59'),datetime(2026,11,12,hour,minute,tzinfo=ZONE))
                 self.assertEqual(p['full_dates'],['2026-11-12'])
                 self.assertNotIn('provisional_date',p)

@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 from .wind_coordination import RequestPacer
 from .catalog import load_catalog
 from .storage import read_json, write_json_atomic
-from .trading_calendar import is_trading_day, previous_trading_day, night_session_dates, CALENDAR_VERSION
+from .trading_calendar import is_trading_day, previous_trading_day, next_trading_day, night_session_dates, CALENDAR_VERSION
 from .night_session import _night_window
 
 ZONE=ZoneInfo('Asia/Shanghai')
@@ -97,10 +97,40 @@ def eod_session_complete(day, now=None):
         (target==now.date() and now.time()>=time(15)))
 
 
+def intraday_window(now):
+    """One launch-time cutoff, in Shanghai time, including night-session rollover."""
+    now=now.astimezone(ZONE)
+    today=now.date()
+    if is_trading_day(today) and time(9)<=now.time()<time(15):
+        day=today
+        start=datetime.combine(today,time(9),tzinfo=ZONE)
+        session='day'
+    else:
+        evening=today if now.time()>=time(21) else today-timedelta(days=1)
+        if not (now.time()>=time(21) or now.time()<time(2,30)) or not is_trading_day(evening):
+            return None
+        day=next_trading_day(evening)
+        dates=night_session_dates(day)
+        if dates is None or dates[0]!=evening:
+            return None
+        start=datetime.combine(evening,time(21),tzinfo=ZONE)
+        session='night'
+    cutoff=now-timedelta(minutes=5)
+    cutoff=cutoff.replace(minute=cutoff.minute//5*5,second=0,microsecond=0)
+    return dict(trading_date=str(day),session=session,session_start=start.isoformat(),
+                cutoff=cutoff.isoformat(),started_at=now.isoformat())
+
+
 def plan(root, settings, now=None, anchor=None, known_completed=()):
     root=Path(root)
     now=(now or datetime.now(ZONE)).astimezone(ZONE)
     today=now.date()
+    intraday=intraday_window(now)
+    if intraday:
+        baseline=max((p.stem for p in (root/'snapshots').glob('????-??-??.json')),default=intraday['trading_date'])
+        return dict(start_date=settings.get('start_date') or anchor or baseline,
+                    full_dates=[],remaining_dates=[],night_date=None,intraday=intraday,
+                    has_work=True,verified_dates=list(known_completed),timezone='Asia/Shanghai')
     closed=today if eod_session_complete(today,now) else previous_trading_day(today)
     start=settings.get('start_date') or anchor
     if not start:

@@ -77,3 +77,15 @@ class DailyRunTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, 'push unavailable'):
             runner.once(DEFAULTS, self.cache)
         self.sdk.start.assert_not_called()
+
+    def test_intraday_uses_fixed_cutoff_and_same_auto_publisher(self):
+        from datetime import datetime
+        from china_commodities.wind_daily import ZONE, intraday_window
+        launch=datetime(2026,11,13,14,59,tzinfo=ZONE)
+        self.work.update(intraday=intraday_window(launch),night_date=None)
+        with patch.object(runner,'collect_intraday',return_value={'mode':'intraday'}) as collect:
+            result=runner.once(DEFAULTS,self.cache,now=launch)
+        self.assertEqual(result['phase'],'published')
+        self.assertEqual(collect.call_args.args[1]['cutoff'],'2026-11-13T14:50:00+08:00')
+        self.collect.assert_not_called()
+        self.publisher.prepare.assert_called_once()

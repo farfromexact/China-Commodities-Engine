@@ -132,14 +132,16 @@ def futures(api, day, universe):
     return result
 
 
-def options(api, day, result, *, catalog=None):
+def option_selection(api, day, futures_records, *, catalog=None, reference_field="settle", allow_missing=False):
     catalog=catalog or load_catalog()
-    records,plans=[],[]
+    selections,plans=[],[]
     for product in catalog.options:
-        candidates=sorted([r for r in result.futures_records if r['exchange']==product.exchange and r['product']==product.product],
+        candidates=sorted([r for r in futures_records if r['exchange']==product.exchange and r['product']==product.product],
                           key=lambda r:r.get('open_interest') or 0,reverse=True)
         selected=[]
         for future in candidates:
+            if not future.get(reference_field):
+                continue
             code=future['contract']+'.'+SUFFIX[product.exchange]
             raw=api.call('wset','optionchain',f'date={day};us_code={code};option_var=all;call_put=all')
             chain=[]
@@ -156,15 +158,32 @@ def options(api, day, result, *, catalog=None):
                     option_type={'认购':'C','认沽':'P'}[row['call_put']],strike=float(row['strike_price']),
                     exercise_style={'欧式':'european','美式':'american'}.get(row['exe_type'],'unknown')))
             if chain:
-                selected,plan=select_core_contracts(chain,{future['contract']:future},[],day)
-                plans.append(dict(plan,product_key=f'{product.exchange}:{product.product}',
+                reference=dict(future,settle=future[reference_field])
+                selected,plan=select_core_contracts(chain,{future['contract']:reference},[],day)
+                plans.append(dict(plan,selection_price_field=reference_field,
+                                  selection_price_timestamp=future.get('source_timestamp'),
+                                  selection_open_interest_date=future.get('selection_open_interest_date',future.get('source_trade_date')),
+                                  product_key=f'{product.exchange}:{product.product}',
                                   directory_scope='selected_active_underlying_only',directory_source='WindPy.wset.optionchain'))
                 break
+        if not selected and allow_missing:
+            plans.append(dict(product_key=f'{product.exchange}:{product.product}',selected_contract_count=0,
+                              state='missing_current_underlying_or_chain'))
+            continue
         if not selected:
             for future in candidates:
                 code=future['contract']+'.'+SUFFIX[product.exchange]
                 api.discard('wset','optionchain',f'date={day};us_code={code};option_var=all;call_put=all')
             raise ValueError(f'missing core options {product.exchange}:{product.product}')
+        selections.append((product,selected,future))
+    return selections,plans
+
+
+def options(api, day, result, *, catalog=None):
+    catalog=catalog or load_catalog()
+    records=[]
+    selections,plans=option_selection(api,day,result.futures_records,catalog=catalog)
+    for product,selected,future in selections:
         for identity in selected:
             q=api.eod(identity['source_code'],OPTION_FIELDS,day)
             greeks=dict(iv_percent=q['us_impliedvol']*100 if q['us_impliedvol'] is not None else None,
