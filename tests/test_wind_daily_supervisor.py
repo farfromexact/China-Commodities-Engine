@@ -1,150 +1,79 @@
-from datetime import datetime, timedelta
+"""Focused checks for the foreground collect-and-push entry."""
+from contextlib import ExitStack
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
-import subprocess
-from unittest.mock import patch, MagicMock
-
+from unittest.mock import MagicMock, patch
 from scripts import run_wind_daily as runner
-from china_commodities.wind_daily import DEFAULTS, ZONE
+from china_commodities.wind_daily import DEFAULTS
 from china_commodities.storage import write_json_atomic
 
 
-class SupervisorTests(unittest.TestCase):
+class DailyRunTests(unittest.TestCase):
     def setUp(self):
-        self.tmp=TemporaryDirectory()
-        self.addCleanup(self.tmp.cleanup)
-        self.cache=Path(self.tmp.name)
-        lock_path=patch('china_commodities.wind_coordination.collection_lock_path',return_value=self.cache/'test-collection.lock')
-        lock_path.start()
-        self.addCleanup(lock_path.stop)
-        self.settings=dict(DEFAULTS,enabled=True,allow_dashboard=False,allow_parallel_collectors=False)
-        self.work=dict(start_date='2026-11-11',verified_dates=[],has_work=True,full_dates=['2026-11-12'],night_date=None)
-        self.publisher=MagicMock()
-        self.publisher.recover.return_value=False
-        self.publisher.journal=self.cache/'outbox.json'
+        stack = self.enterContext(ExitStack())
+        self.root = Path(stack.enter_context(TemporaryDirectory()))
+        self.cache = self.root / 'cache'
+        self.cache.mkdir()
+        write_json_atomic(self.root / 'data/latest.json', {'trade_date': '2026-11-12'})
+        self.work = dict(start_date='2026-11-12', verified_dates=[], has_work=True,
+                         full_dates=[], night_date='2026-11-13', remaining_dates=[])
+        self.publisher = MagicMock()
+        self.publisher.recover.return_value = False
+        self.sdk = MagicMock()
+        self.sdk.start.return_value.ErrorCode = 0
+        self.sdk.isconnected.return_value = True
+        for name, value in [('ROOT', self.root), ('Publisher', self.publisher), ('plan', self.work),
+                            ('git', 'base'), ('load_wind', self.sdk), ('validate_snapshot', [])]:
+            if name == 'ROOT':
+                stack.enter_context(patch.object(runner, name, value))
+            else:
+                stack.enter_context(patch.object(runner, name, return_value=value))
+        self.collect = stack.enter_context(patch.object(runner, 'collect_day', return_value={'date':'2026-11-13'}))
+        stack.enter_context(patch.object(runner, 'publish_report_input'))
+        stack.enter_context(patch.object(runner, 'emit'))
 
-    def test_disabled_does_not_even_construct_a_publisher(self):
-        with patch.object(runner,'Publisher',side_effect=AssertionError):
-            self.assertEqual(runner.once(DEFAULTS,self.cache)['phase'],'disabled')
+    def test_direct_start_collects_and_pushes_without_signals_or_enabled_flag(self):
+        result = runner.once(dict(DEFAULTS, enabled=False), self.cache)
+        self.assertEqual(result['phase'], 'published')
+        self.sdk.start.assert_called_once_with(waitTime=15)
+        self.assertTrue(self.collect.call_args.kwargs['night_only'])
+        self.publisher.prepare.assert_called_once()
+        self.assertEqual(self.publisher.recover.call_count, 2)
+        self.assertFalse((self.cache / 'progress.json').exists())
+        self.sdk.stop.assert_not_called()
 
-    def test_up_to_date_never_starts_sdk_worker(self):
-        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=dict(self.work,has_work=False)),patch.object(runner.subprocess,'Popen',side_effect=AssertionError):
-            self.assertEqual(runner.once(self.settings,self.cache)['phase'],'up_to_date')
-            self.publisher.recover.assert_called_once()
-
-    def test_active_desk_keeps_signal_and_never_starts_worker(self):
-        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
-        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',return_value=True),patch.object(runner.subprocess,'Popen',side_effect=AssertionError):
-            self.assertEqual(runner.once(self.settings,self.cache)['phase'],'desk_busy')
-            self.assertTrue((self.cache/'login-ready.json').exists())
-
-    def test_missing_or_expired_login_signal_never_starts_worker(self):
-        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',return_value=False),patch.object(runner.subprocess,'Popen',side_effect=AssertionError):
-            self.assertEqual(runner.once(self.settings,self.cache)['phase'],'waiting_login_signal')
-            write_json_atomic(self.cache/'login-ready.json',dict(observed_at=(datetime.now(ZONE)-timedelta(hours=2)).isoformat()))
-            self.assertEqual(runner.once(self.settings,self.cache)['phase'],'waiting_login_signal')
-
-    def test_failed_worker_consumes_signal_and_enforces_retry_delay(self):
-        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
-        process=MagicMock(returncode=1)
-        process.poll.return_value=1
-        def launch(*args,**kwargs):
-            (self.cache/'login-ready.json').replace(self.cache/'login-claimed.json')
-            return process
-        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'git',return_value='base'),patch.object(runner.subprocess,'Popen',side_effect=launch) as start:
-            self.assertEqual(runner.once(self.settings,self.cache)['phase'],'retry_wait')
-            self.assertFalse((self.cache/'login-ready.json').exists())
-            self.assertEqual(runner.once(self.settings,self.cache)['phase'],'retry_wait')
-            start.assert_called_once()
-
-    def test_provisional_worker_uses_isolated_cache_and_never_publishes(self):
-        work=dict(self.work,full_dates=[],night_date=None,provisional_date='2026-11-12',as_of='2026-11-12T14:00:00+08:00')
-        job=self.cache/'job.json'
-        write_json_atomic(job,dict(token='test',settings=self.settings,cache=str(self.cache),plan=work,base='base'))
-        (self.cache/'data').mkdir()
-        write_json_atomic(self.cache/'provisional/latest/raw/stale.json',dict(old=True))
-        sdk=MagicMock()
-        sdk.start.return_value.ErrorCode=0
-        sdk.isconnected.return_value=True
-        candidate=dict(date='2026-11-12',mode='provisional',published=False,final=False)
-        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
-        with patch.object(runner,'ROOT',self.cache),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'Publisher',return_value=self.publisher),patch.dict(runner.os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch('china_commodities.collectors.wind_runtime.load_wind',return_value=sdk),patch('china_commodities.wind_daily_collect.collect_day',return_value=candidate) as collect:
-            runner.worker(job)
+    def test_up_to_date_does_not_connect_wind(self):
+        self.work.update(has_work=False, night_date=None)
+        self.assertEqual(runner.once(DEFAULTS, self.cache)['phase'], 'up_to_date')
+        self.sdk.start.assert_not_called()
         self.publisher.prepare.assert_not_called()
-        self.publisher.recover.assert_not_called()
-        self.assertEqual(runner.read_json(self.cache/'progress.json')['phase'],'provisional')
-        self.assertTrue(collect.call_args.kwargs['provisional'])
-        self.assertEqual(collect.call_args.args[0].root,self.cache/'provisional/latest/raw')
-        self.assertFalse((self.cache/'data/latest.json').exists())
-        self.assertFalse((self.cache/'provisional/latest/raw/stale.json').exists())
 
-    def test_completed_batch_publishes_before_provisional_runtime_failure(self):
-        work=dict(self.work,full_dates=['2026-11-11'],night_date=None,provisional_date='2026-11-12',as_of='2026-11-12T14:00:00+08:00')
-        job=self.cache/'job.json'
-        write_json_atomic(job,dict(token='test',settings=self.settings,cache=str(self.cache),plan=work,base='base'))
-        write_json_atomic(self.cache/'data/latest.json',dict(trade_date='2026-11-11'))
-        sdk=MagicMock()
-        sdk.start.return_value.ErrorCode=0
-        sdk.isconnected.return_value=True
-        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
-        def collect(*args,**kwargs):
-            if kwargs.get('provisional'):
-                self.publisher.prepare.assert_called_once()
-                self.publisher.recover.assert_called_once()
-                raise RuntimeError('Wind disconnected during provisional request')
-            return dict(date='2026-11-11',mode='full')
-        with patch.object(runner,'ROOT',self.cache),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'refresh_foundation',return_value=[]),patch.dict(runner.os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch('china_commodities.collectors.wind_runtime.load_wind',return_value=sdk),patch('china_commodities.wind_daily_collect.collect_day',side_effect=collect),patch('china_commodities.quality.validate_snapshot',return_value=[]),patch('china_commodities.reporting.publish_report_input'):
-            runner.worker(job)
-        progress=runner.read_json(self.cache/'progress.json')
-        self.assertEqual(progress['phase'],'published')
-        self.assertEqual(progress['results'][0]['mode'],'full')
-        self.assertIn('disconnected',progress['results'][1]['error'])
-        self.assertFalse(progress['results'][1]['published'])
+    def test_bad_data_never_publishes(self):
+        self.collect.side_effect = ValueError('wrong source date')
+        with self.assertRaisesRegex(ValueError, 'wrong source date'):
+            runner.once(DEFAULTS, self.cache)
+        self.publisher.prepare.assert_not_called()
 
-    def test_foundation_timeout_records_failure_and_keeps_valid_snapshot(self):
-        stage=self.cache/'data'
-        write_json_atomic(stage/'latest.json',dict(trade_date='2026-11-11'))
-        write_json_atomic(stage/'physical/latest.json',dict(trade_date='2026-11-10',retained=True))
-        with patch('china_commodities.collection_cache.verified_foundation_available',return_value=False),patch.object(runner.subprocess,'run',side_effect=subprocess.TimeoutExpired('test',1)):
-            result=runner.refresh_foundation(stage,self.cache,self.settings)
-        self.assertEqual({r['scope'] for r in result},{'physical','external'})
-        self.assertTrue(runner.read_json(stage/'physical/latest.json')['retained'])
-        self.assertFalse(runner.read_json(stage/'physical/last_run_status.json')['data_fresh'])
+    def test_login_failure_does_not_collect(self):
+        self.sdk.start.return_value.ErrorCode = -1
+        with self.assertRaisesRegex(RuntimeError, 'Wind'):
+            runner.once(DEFAULTS, self.cache)
+        self.collect.assert_not_called()
+        self.publisher.prepare.assert_not_called()
 
+    def test_unwritable_status_does_not_block_publishing(self):
+        original = runner.write_json_atomic
+        def write(path, payload):
+            if path.name == 'status.json':
+                raise PermissionError('locked display file')
+            original(path, payload)
+        with patch.object(runner, 'write_json_atomic', side_effect=write):
+            self.assertEqual(runner.once(DEFAULTS, self.cache)['phase'], 'published')
+        self.publisher.prepare.assert_called_once()
 
-    def test_coexistence_passes_active_desk_but_still_requires_login(self):
-        settings=dict(self.settings,allow_dashboard=True)
-        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',side_effect=AssertionError):
-            self.assertEqual(runner.once(settings,self.cache)['phase'],'waiting_login_signal')
-
-    def test_busy_worker_preserves_login_signal_without_loading_sdk(self):
-        import os
-        from china_commodities.wind_coordination import collection_lock
-        job=self.cache/'job.json'
-        write_json_atomic(job,dict(token='test',cache=str(self.cache),settings=dict(allow_parallel_collectors=False)))
-        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
-        with collection_lock(),patch.dict(os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch.object(runner,'_worker_locked',side_effect=AssertionError):
-            runner.worker(job)
-        self.assertEqual(runner.read_json(self.cache/'progress.json')['phase'],'waiting_collector')
-        self.assertTrue((self.cache/'login-ready.json').exists())
-
-    def test_busy_worker_is_not_reported_as_published(self):
-        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
-        process=MagicMock(returncode=0)
-        process.poll.return_value=0
-        def launch(*args,**kwargs):
-            write_json_atomic(self.cache/'progress.json',dict(phase='waiting_collector'))
-            return process
-        with patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'plan',return_value=self.work),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'git',return_value='base'),patch.object(runner.subprocess,'Popen',side_effect=launch):
-            self.assertEqual(runner.once(self.settings,self.cache)['phase'],'waiting_collector')
-        self.assertTrue((self.cache/'login-ready.json').exists())
-
-    def test_explicit_parallel_mode_runs_even_when_cross_engine_lock_is_held(self):
-        import os
-        from china_commodities.wind_coordination import collection_lock
-        job=self.cache/'job.json'
-        write_json_atomic(job,dict(token='test',cache=str(self.cache),settings=dict(allow_parallel_collectors=True)))
-        with collection_lock(),patch.dict(os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch.object(runner,'_worker_locked') as collect,patch.object(runner,'emit'):
-            runner.worker(job)
-        collect.assert_called_once_with(job)
+    def test_pending_push_failure_stops_before_new_requests(self):
+        self.publisher.recover.side_effect = RuntimeError('push unavailable')
+        with self.assertRaisesRegex(RuntimeError, 'push unavailable'):
+            runner.once(DEFAULTS, self.cache)
+        self.sdk.start.assert_not_called()

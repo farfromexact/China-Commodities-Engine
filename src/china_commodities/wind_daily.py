@@ -1,5 +1,4 @@
 """Offline planning and local coordination for Wind daily collection."""
-from contextlib import contextmanager
 from datetime import date, datetime, time, timedelta
 import gzip
 import json
@@ -16,27 +15,20 @@ from .trading_calendar import is_trading_day, previous_trading_day, night_sessio
 from .night_session import _night_window
 
 ZONE=ZoneInfo('Asia/Shanghai')
-DEFAULTS=dict(enabled=False,allow_dashboard=True,allow_parallel_collectors=True,start_date=None,poll_seconds=60,
-              retry_seconds=900,max_days_per_run=5,request_interval_seconds=0.,
-              request_timeout_seconds=120,max_run_seconds=7200,login_signal_ttl_seconds=900,
-              desk_host='127.0.0.1',desk_port=8765,branch='main',sdk_dir=None,
-              include_foundation=True,foundation_timeout_seconds=180,
-              allowed_empty_products=['CZCE:LR'])
+DEFAULTS=dict(start_date=None,max_days_per_run=5,request_interval_seconds=0.,
+              branch='main',sdk_dir=None,allowed_empty_products=['CZCE:LR'],
+              desk_host='127.0.0.1',desk_port=8765)
 
 
 def config(path):
     result=dict(DEFAULTS)
-    result.update(read_json(Path(path),default={}))
-    # Legacy configs remain readable, but no provider-ready clock gates collection.
-    result.pop('eod_ready_time',None)
-    for key in ('poll_seconds','retry_seconds','max_days_per_run','request_timeout_seconds','max_run_seconds','login_signal_ttl_seconds','foundation_timeout_seconds'):
-        if not isinstance(result[key],int) or result[key]<=0:
-            raise ValueError(f'invalid configuration: {key}')
+    saved=read_json(Path(path),default={})
+    # Ignore removed scheduling/login/lock switches in existing local configs.
+    result.update({k:v for k,v in saved.items() if k in DEFAULTS})
+    count=result['max_days_per_run']
+    if isinstance(count,bool) or not isinstance(count,int) or count<=0:
+        raise ValueError('invalid configuration: max_days_per_run')
     RequestPacer(result['request_interval_seconds'])
-    if result['desk_host'] not in {'127.0.0.1','localhost','::1'}:
-        raise ValueError('trading desk guard must check localhost')
-    if not all(isinstance(result[k],bool) for k in ('enabled','include_foundation','allow_dashboard','allow_parallel_collectors')):
-        raise ValueError('enabled/include_foundation/allow_dashboard/allow_parallel_collectors must be boolean')
     return result
 
 
@@ -137,11 +129,9 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
     if not missing[len(selected):] and is_trading_day(today) and today>closed and str(today)>=start:
         if night_session_dates(today) and now>=_night_window(str(today))[2] and not night_complete(root,str(today)):
             night_day=str(today)
-    provisional_day=str(today) if is_trading_day(today) and today>closed and str(today)>=start else None
     return dict(start_date=start,latest_completed_eod=str(closed),full_dates=selected,
                 remaining_dates=missing[len(selected):],night_date=night_day,
-                provisional_date=provisional_day,as_of=now.isoformat(),
-                has_work=bool(selected or night_day or provisional_day),verified_dates=verified,timezone='Asia/Shanghai')
+                has_work=bool(selected or night_day),verified_dates=verified,timezone='Asia/Shanghai')
 
 
 def desk_busy(settings):
@@ -178,32 +168,6 @@ def _windows_desk_busy(port):
         if local_port==target and fields[3].upper()=='LISTENING':
             return True
     return False
-
-
-@contextmanager
-def single_runner(path):
-    """OS-owned lock releases after a crash; no stale PID deletion or process killing."""
-    path=Path(path)
-    path.parent.mkdir(parents=True,exist_ok=True)
-    stream=path.open('a+b')
-    try:
-        import os
-        if os.name=='nt':
-            import msvcrt
-            if path.stat().st_size==0:
-                stream.write(b'0');stream.flush()
-            stream.seek(0)
-            msvcrt.locking(stream.fileno(),msvcrt.LK_NBLCK,1)
-        else:
-            import fcntl
-            fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB)
-    except OSError:
-        stream.close()
-        raise RuntimeError('another local Wind runner is active')
-    try:
-        yield
-    finally:
-        stream.close()
 
 
 def state(path, phase, **details):

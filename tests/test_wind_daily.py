@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 
-from china_commodities.wind_daily import DEFAULTS, ZONE, plan, single_runner, desk_busy, config
+from china_commodities.wind_daily import DEFAULTS, ZONE, plan, desk_busy, config
 from china_commodities.storage import write_json_atomic
 
 
@@ -15,17 +15,17 @@ class DailyPlanTests(unittest.TestCase):
             self.assertEqual(p['latest_completed_eod'],'2026-11-11')
             self.assertEqual(p['full_dates'],[])
             self.assertEqual(p['night_date'],'2026-11-12')
-            self.assertEqual(p['provisional_date'],'2026-11-12')
+            self.assertNotIn('provisional_date',p)
 
     def test_no_provider_clock_gate_after_actual_session_close(self):
         with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=False):
             for hour,minute in [(15,0),(16,0),(18,14),(23,0)]:
                 p=plan(tmp,dict(DEFAULTS,start_date='2026-11-12',eod_ready_time='23:59'),datetime(2026,11,12,hour,minute,tzinfo=ZONE))
                 self.assertEqual(p['full_dates'],['2026-11-12'])
-                self.assertIsNone(p['provisional_date'])
+                self.assertNotIn('provisional_date',p)
             p=plan(tmp,dict(DEFAULTS,start_date='2026-11-12'),datetime(2026,11,12,14,59,tzinfo=ZONE))
             self.assertEqual(p['full_dates'],[])
-            self.assertEqual(p['provisional_date'],'2026-11-12')
+            self.assertNotIn('provisional_date',p)
 
     def test_legacy_ready_clock_is_ignored(self):
         with TemporaryDirectory() as tmp:
@@ -59,16 +59,6 @@ class DailyPlanTests(unittest.TestCase):
             write_json_atomic(root/'wind_daily/completed/2026-11-10.json',dict(trade_date='2026-11-10',provider='wind',layers=['futures','options','night']))
             p=plan(root,dict(DEFAULTS,start_date='2026-11-09'),datetime(2026,11,12,19,tzinfo=ZONE),known_completed=['2026-11-09'])
             self.assertEqual(p['full_dates'],['2026-11-11','2026-11-12'])
-
-    def test_os_lock_excludes_second_runner_and_releases(self):
-        with TemporaryDirectory() as tmp:
-            path=Path(tmp)/'runner.lock'
-            with single_runner(path):
-                with self.assertRaisesRegex(RuntimeError,'another local'):
-                    with single_runner(path):
-                        self.fail('second runner acquired lock')
-            with single_runner(path):
-                pass
 
     def test_guard_is_conservative_on_uncertain_socket_errors(self):
         with patch('china_commodities.wind_daily.os.name','posix'),patch('socket.create_connection',side_effect=PermissionError):

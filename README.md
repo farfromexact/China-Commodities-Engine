@@ -6,7 +6,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 **Wind迁移 / Windows接续：**先读 [Windows Wind配置与交接](docs/WINDOWS_WIND_HANDOFF.md) 和 [AGENTS.md](AGENTS.md)。近期数据已通过本机官方 WindPy 补齐；远端日常取数入口当前关闭，Wind 远端调度尚未部署。
 
-本地每日与开机补采入口：`python scripts/run_wind_daily.py --plan`。完整配置、Windows登录启动和Dot通知协议见 [本地Wind每日采集](docs/LOCAL_WIND_DAILY.md)。远端Bridge与daily继续禁用；本地默认不启用，配置后由本机采集、校验并自动推送。
+本地启动：登录 Wind 后双击 **START_WIND.cmd**，自动完成提数、校验、提交并推送 Git。也可运行 `python scripts/run_wind_daily.py`。详见 [本地 Wind 提数](docs/LOCAL_WIND_DAILY.md)。
 
 独立交易所日终备份试验见 [备份方案与实测结果](docs/EXCHANGE_BACKUP.md)。手动运行入口为 `python scripts/collect_exchange_backup.py --date YYYY-MM-DD`，结果单独保存到 `data/backup/`；覆盖仍未达到 80% 门槛，远端 Actions 当前禁用该模式。核心数据后续使用本机官方 WindPy，Windows 配置和验收状态见 [Wind 交接说明](docs/WINDOWS_WIND_HANDOFF.md)。
 
@@ -78,7 +78,7 @@ China Commodities Engine 是一个面向中国商品期货的每日数据 bot �
 
 ## 数据源原则
 
-核心期货、核心期权和夜盘的后续主采集路径为本机官方 WindPy，由 `scripts/run_wind_daily.py` 按交易日串行采集并校验。2026-11-11 最新已发布的三层快照均标记为 Wind 来源。当前本机配置默认关闭，Windows 登录任务尚未安装；远端 `daily.yml` 与 `chatgpt-trigger.yml` 也已禁用，因此这些快照不表示无人值守调度已经上线。Physical 与 External 仍是独立 AKShare 模块。历史 iFinD 适配器仅保留兼容和诊断用途；所有来源仍须记录来源、时间和口径，不得静默混合。
+期货、核心期权和夜盘使用本机官方 WindPy；入口按已完成交易日补采，校验后自动提交推送。Physical 与 External 是独立 AKShare 模块。远端旧采集工作流继续禁用。
 
 本仓库不建设分钟、逐笔或逐笔盘口历史；夜盘层是**会话结束后取得的供应商最新报价快照**，不是已核验的交易所夜盘收盘价。`night_last_price` 为明确字段，`night_close` 保留为兼容别名；供应商时间戳须落在该会话窗口，但时间戳不自动等于最后成交时间。OHLC/成交量保留供应商值并标记 `vendor_realtime_unverified_session_scope`，不宣称纯夜盘口径。`trading_date` 按交易日历归属，`session_start_date`、`session_end_date` 是真实自然日期：例如2026-10-16周五晚至17日凌晨属于19日周一交易日。节前停夜盘不请求；当前维护2025—2026日历，超出范围显式失败。夜盘与 `data/latest.json` 的日终层分开保存，缺失或失败不覆盖最后有效快照。
 
@@ -152,11 +152,11 @@ python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD --dry-r
 python scripts/collect_ifind_options.py --all-products --date YYYY-MM-DD
 ```
 
-GitHub 上的 `chatgpt-trigger.yml` 和 `daily.yml` 当前为 `disabled_manually`，没有远端每日触发。旧桥接和 iFinD 工作流保留在代码中，不能视作当前运行入口。Wind 日常采集由 Windows 本机 `run_wind_daily.py` 管理；启用配置、登录通知及当前用户登录任务见 [本地 Wind 每日采集](docs/LOCAL_WIND_DAILY.md)。
+GitHub 上的 `chatgpt-trigger.yml` 和 `daily.yml` 保持禁用。本机直接启动提数，无需启用配置、登录通知或常驻任务，见 [本地 Wind 提数](docs/LOCAL_WIND_DAILY.md)。
 
 夜盘及核心期权均按有效记录可用即发布，缺字段或局部失败保留说明，不以整体覆盖率扣住有效数据；日期、来源、合约身份仍须正确。各模块日期和能力状态独立，不以单所权限失败概括全市场。
 
-旧 Action 的 `full` 模式曾检查期货、期权、Physical 和 External 四个模块；当前远端工作流已禁用。Wind 本机入口使用 `core_v1`，并在期货、期权及对应夜盘校验完成后统一发布。已取消18:15供应商提数时间门槛；收盘前当天请求仅保留本机 provisional 候选，真实日盘收盘后重新采集并通过三层校验才发布 EOD。详见本地采集文档。
+本机入口发布已完成的日盘和夜盘，期权使用 `core_v1`；日盘收盘前不附带采集盘中候选，收盘后按实际源数据和结算字段校验发布。
 
 Physical 每次以一个 AKShare 批量请求获取 100ppi 现货/基差表；External 对每条已配置海外合约读取公开日线。`last_run_status.json` 的每个 series 状态会记录 `request_made`、`query_start_date`、`query_end_date`、源日期和陈旧状态，便于审计实际请求范围。生产工作流以 `--shadow-days 1` 在通过校验后立即提升 AKShare 快照；无数据或无法精确映射的目标会保留显式状态。
 
