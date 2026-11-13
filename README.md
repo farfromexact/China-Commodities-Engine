@@ -156,7 +156,7 @@ GitHub 上的 `chatgpt-trigger.yml` 和 `daily.yml` 当前为 `disabled_manually
 
 夜盘及核心期权均按有效记录可用即发布，缺字段或局部失败保留说明，不以整体覆盖率扣住有效数据；日期、来源、合约身份仍须正确。各模块日期和能力状态独立，不以单所权限失败概括全市场。
 
-旧 Action 的 `full` 模式曾检查期货、期权、Physical 和 External 四个模块；当前远端工作流已禁用。Wind 本机入口使用 `core_v1`，并在期货、期权及对应夜盘校验完成后统一发布。非晚间等待窗口的18:15前请求按最近已完成国内交易日规划；尚未完成的当天 EOD 不冒充可用。
+旧 Action 的 `full` 模式曾检查期货、期权、Physical 和 External 四个模块；当前远端工作流已禁用。Wind 本机入口使用 `core_v1`，并在期货、期权及对应夜盘校验完成后统一发布。已取消18:15供应商提数时间门槛；收盘前当天请求仅保留本机 provisional 候选，真实日盘收盘后重新采集并通过三层校验才发布 EOD。详见本地采集文档。
 
 Physical 每次以一个 AKShare 批量请求获取 100ppi 现货/基差表；External 对每条已配置海外合约读取公开日线。`last_run_status.json` 的每个 series 状态会记录 `request_made`、`query_start_date`、`query_end_date`、源日期和陈旧状态，便于审计实际请求范围。生产工作流以 `--shadow-days 1` 在通过校验后立即提升 AKShare 快照；无数据或无法精确映射的目标会保留显式状态。
 

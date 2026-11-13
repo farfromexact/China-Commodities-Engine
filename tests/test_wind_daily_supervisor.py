@@ -58,6 +58,50 @@ class SupervisorTests(unittest.TestCase):
             self.assertEqual(runner.once(self.settings,self.cache)['phase'],'retry_wait')
             start.assert_called_once()
 
+    def test_provisional_worker_uses_isolated_cache_and_never_publishes(self):
+        work=dict(self.work,full_dates=[],night_date=None,provisional_date='2026-11-12',as_of='2026-11-12T14:00:00+08:00')
+        job=self.cache/'job.json'
+        write_json_atomic(job,dict(token='test',settings=self.settings,cache=str(self.cache),plan=work,base='base'))
+        (self.cache/'data').mkdir()
+        write_json_atomic(self.cache/'provisional/latest/raw/stale.json',dict(old=True))
+        sdk=MagicMock()
+        sdk.start.return_value.ErrorCode=0
+        sdk.isconnected.return_value=True
+        candidate=dict(date='2026-11-12',mode='provisional',published=False,final=False)
+        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
+        with patch.object(runner,'ROOT',self.cache),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'Publisher',return_value=self.publisher),patch.dict(runner.os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch('china_commodities.collectors.wind_runtime.load_wind',return_value=sdk),patch('china_commodities.wind_daily_collect.collect_day',return_value=candidate) as collect:
+            runner.worker(job)
+        self.publisher.prepare.assert_not_called()
+        self.publisher.recover.assert_not_called()
+        self.assertEqual(runner.read_json(self.cache/'progress.json')['phase'],'provisional')
+        self.assertTrue(collect.call_args.kwargs['provisional'])
+        self.assertEqual(collect.call_args.args[0].root,self.cache/'provisional/latest/raw')
+        self.assertFalse((self.cache/'data/latest.json').exists())
+        self.assertFalse((self.cache/'provisional/latest/raw/stale.json').exists())
+
+    def test_completed_batch_publishes_before_provisional_runtime_failure(self):
+        work=dict(self.work,full_dates=['2026-11-11'],night_date=None,provisional_date='2026-11-12',as_of='2026-11-12T14:00:00+08:00')
+        job=self.cache/'job.json'
+        write_json_atomic(job,dict(token='test',settings=self.settings,cache=str(self.cache),plan=work,base='base'))
+        write_json_atomic(self.cache/'data/latest.json',dict(trade_date='2026-11-11'))
+        sdk=MagicMock()
+        sdk.start.return_value.ErrorCode=0
+        sdk.isconnected.return_value=True
+        write_json_atomic(self.cache/'login-ready.json',dict(observed_at=datetime.now(ZONE).isoformat()))
+        def collect(*args,**kwargs):
+            if kwargs.get('provisional'):
+                self.publisher.prepare.assert_called_once()
+                self.publisher.recover.assert_called_once()
+                raise RuntimeError('Wind disconnected during provisional request')
+            return dict(date='2026-11-11',mode='full')
+        with patch.object(runner,'ROOT',self.cache),patch.object(runner,'desk_busy',return_value=False),patch.object(runner,'Publisher',return_value=self.publisher),patch.object(runner,'refresh_foundation',return_value=[]),patch.dict(runner.os.environ,WIND_DAILY_WORKER_TOKEN='test'),patch('china_commodities.collectors.wind_runtime.load_wind',return_value=sdk),patch('china_commodities.wind_daily_collect.collect_day',side_effect=collect),patch('china_commodities.quality.validate_snapshot',return_value=[]),patch('china_commodities.reporting.publish_report_input'):
+            runner.worker(job)
+        progress=runner.read_json(self.cache/'progress.json')
+        self.assertEqual(progress['phase'],'published')
+        self.assertEqual(progress['results'][0]['mode'],'full')
+        self.assertIn('disconnected',progress['results'][1]['error'])
+        self.assertFalse(progress['results'][1]['published'])
+
     def test_foundation_timeout_records_failure_and_keeps_valid_snapshot(self):
         stage=self.cache/'data'
         write_json_atomic(stage/'latest.json',dict(trade_date='2026-11-11'))

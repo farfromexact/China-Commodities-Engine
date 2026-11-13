@@ -74,11 +74,11 @@ Start-ScheduledTask -TaskName 'ChinaCommodities-WindDaily'
 
 ## 采集与发布规则
 
-1. 北京时间18:15前只补已完成日盘；当天已完成夜盘可在早上单独更新。18:15后当天日盘加入队列，周末/节假日不制造新交易日。日历未知年份会停止并要求维护，不猜测交易日。
+1. 不再配置供应商提数时间：旧 `eod_ready_time` 兼容读取但忽略，18:15 不再拦截采集。交易日内随时可以尝试当天候选；真实日盘收盘（当前目录五所商品均为北京时间15:00）前记为 `provisional_date`，只留下本机 `tmp/wind-daily/provisional/latest/` 缓存/状态（每次刷新只保留最近一次候选，盘后不复用），不更新 latest、EOD 回执或推送。候选仍需返回正确源日期和可用字段，缺失如实记失败；不保证 Wind 盘中提供完整日线。收盘后重新请求独立正式缓存，完整三层和结算校验成功才发布；即使候选采集期间跨过收盘也不转为正式数据。已完成夜盘仍可早间单独更新。周末/节假日不制造新交易日，未知年份停止。
 2. 漏日按时间顺序补：每个交易日分别获取WSET期货目录，不再依赖固定806合约；只允许配置里明确的空目录例外（目前CZCE:LR）。目录覆盖仍以config/products.json为范围，不宣称自动发现所有新上市品种。
 3. 期货WSD、core_v1期权WSET/WSD、对应已完成夜盘WSI串行；新上市合约没有前日参考时收益为空，不借用其他合约或未来日盘。节前无夜盘的交易日明确记no_scheduled_night_session。
 4. 原始请求按方法/参数哈希缓存；有效缓存可断点恢复。日期不匹配或结算未就绪的EOD不会永久缓存失败结果。WSI 对单一合约返回 `-40520007`（无可用数据）时，缓存供应商错误码并按空 bars 生成 `no_night_trade`，不伪造夜盘；其他分钟接口错误仍阻断整批。
-5. 全部计划批次三层成功后生成统一报告，再发布；任何一层失败不提交半批结果。Physical/External维持原有“可缺失、明确标注”的规则。历史补洞不回退较新的latest指针。
+5. 已完成交易日的计划批次三层成功后生成统一报告，再发布；任何一层失败不提交半批结果。历史/已完成夜盘先发布，再独立尝试当天盘中候选；候选断线或失败不会扣住已验证历史数据。Physical/External维持原有“可缺失、明确标注”的规则。历史补洞不回退较新的latest指针。
 6. 成功日期写入 `data/wind_daily/completed/` 回执，避免快照正常滚动清理后被当成新缺口；首次已完成起点也保存在本机anchor.json。
 7. 自动发布使用独立本地Git副本，只提交data，然后普通push并快进同步主工作区。主工作区有未提交修改则等待；远端并发更新不强推、不自动解决数据冲突。
 8. 推送失败保留outbox，下一次先重试已有提交，不重新请求Wind。不要手动删除未解决的outbox.json/outbox；让Codex查看状态并处理分支冲突。已推送而本地同步失败时也保留日志，先恢复同步。
@@ -99,15 +99,16 @@ Start-ScheduledTask -TaskName 'ChinaCommodities-WindDaily'
 > 使用仓库自身.venv的Python运行 scripts/run_wind_daily.py --status；需要判断缺口时运行--plan。
 > 不启用GitHub Actions/Bridge，不运行iFinD，不操作trading desk。只有你实际看到官方Wind窗口已登录，且状态为waiting_login_signal、trading desk未占用时，才运行一次--signal-login。
 > 已安装--watch时无需再启动一个watch；它将在下一轮（默认60秒内）检查通知。若没有常驻任务，可在发送通知后运行--once。
-> running时不要重复启动；up_to_date保持安静；desk_busy等待，不关看板；retry_wait遵守retry_after，之后重新确认登录再通知，不连续重试；blocked或outbox_retained时报告具体错误并保留缓存，不删数据、不强推。
+> running时不要重复启动；provisional表示仅盘中候选、未发布当天EOD；up_to_date保持安静；desk_busy等待，不关看板；retry_wait遵守retry_after，之后重新确认登录再通知，不连续重试；blocked或outbox_retained时报告具体错误并保留缓存，不删数据、不强推。
 > 只在完成发布、持续失败或需要用户操作时通知用户。不要仅凭Wind进程存在判断登录成功；登录窗口、验证码和账户问题交给用户。
 
 ## 状态和验收
 
 本机文件均在Git忽略的`tmp/wind-daily/`：config.json、status.json、progress.json、worker.log、foundation.log、raw/、outbox.json/outbox。
 `--status`是简要阶段，长请求期间的具体操作见progress.json；日志不应写账号密码。
-当前代码经过离线假SDK/本地Git远端测试，并用11月11日真实缓存完整回放806期货合约、64品种核心期权和夜盘；该回放没有加载SDK、没有网络取数、没有推送数据。
-Windows首次实际连接、登录任务、休眠恢复和Dot本机执行权限仍须在那台电脑验收，不能称为已部署完成。
+当前代码经过离线假SDK/本地Git远端测试，并用11月11日真实缓存完整回放806期货合约、64品种核心期权和夜盘。
+2026-11-13 已在 Windows 实机通过官方 WindPy 完成一次夜盘采集、校验和推送：806 个目录，503 个有 bars，303 个 no_night_trade，未解决合约为 0。
+这验证了单次连接与发布链；登录任务、休眠恢复和 Dot 本机执行权限仍须单独验收，不能称为定时部署完成。
 
 ### 一键启动器参数回退
 

@@ -17,6 +17,7 @@ from .pipeline import run_pipeline
 from .storage import read_json, write_json_if_changed, publish_status, publish_verified
 from .trading_calendar import night_session_dates, CALENDAR_VERSION
 from .night_session import _night_window
+from .wind_daily import eod_session_complete, ZONE
 # These tested conversion/publication helpers never load an SDK on import.
 from scripts.backfill_wind_derivatives import clean, historical_rows, OPTION_FIELDS
 from scripts.publish_wind_backfill import build_night, replace_night_history
@@ -262,7 +263,12 @@ def preserve_newer_latest(root, day):
                     shutil.copy2(source,root/relative)
 
 
-def collect_day(api, day, root, cache, *, night_only=False, catalog=None, allowed_empty=('CZCE:LR',)):
+def collect_day(api, day, root, cache, *, night_only=False, catalog=None, allowed_empty=('CZCE:LR',), provisional=False, now=None):
+    started=(now or datetime.now(ZONE)).astimezone(ZONE)
+    if not night_only and not provisional and not eod_session_complete(day,started):
+        raise ValueError('unfinished day session: use provisional collection; EOD publication is forbidden')
+    if night_only and night_session_dates(date.fromisoformat(day)) and started<_night_window(day)[2]:
+        raise ValueError('night session has not completed')
     root=Path(root)
     universe,empty=directory(api,day,catalog=catalog,allowed_empty=allowed_empty)
     session=night_session_dates(date.fromisoformat(day))
@@ -275,6 +281,10 @@ def collect_day(api, day, root, cache, *, night_only=False, catalog=None, allowe
         prior=dict(trade_date=prior_day,futures_contracts=ref.futures_records)
     result=None if night_only else futures(api,day,universe)
     option_snapshot=None if night_only else options(api,day,result,catalog=catalog)
+    if provisional:
+        # Even if the clock crosses close during collection, this candidate can never publish.
+        return dict(date=day,mode='provisional',as_of=started.isoformat(),published=False,
+                    final=False,directory_count=len(universe),declared_empty_products=empty)
     night_snapshot,night_status=night(api,day,universe,prior,cache)
     with preserve_newer_latest(root,day):
         _publish_full(root,day,result,option_snapshot)

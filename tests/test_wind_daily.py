@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 
-from china_commodities.wind_daily import DEFAULTS, ZONE, plan, single_runner, desk_busy
+from china_commodities.wind_daily import DEFAULTS, ZONE, plan, single_runner, desk_busy, config
 from china_commodities.storage import write_json_atomic
 
 
@@ -15,6 +15,23 @@ class DailyPlanTests(unittest.TestCase):
             self.assertEqual(p['latest_completed_eod'],'2026-11-11')
             self.assertEqual(p['full_dates'],[])
             self.assertEqual(p['night_date'],'2026-11-12')
+            self.assertEqual(p['provisional_date'],'2026-11-12')
+
+    def test_no_provider_clock_gate_after_actual_session_close(self):
+        with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=False):
+            for hour,minute in [(15,0),(16,0),(18,14),(23,0)]:
+                p=plan(tmp,dict(DEFAULTS,start_date='2026-11-12',eod_ready_time='23:59'),datetime(2026,11,12,hour,minute,tzinfo=ZONE))
+                self.assertEqual(p['full_dates'],['2026-11-12'])
+                self.assertIsNone(p['provisional_date'])
+            p=plan(tmp,dict(DEFAULTS,start_date='2026-11-12'),datetime(2026,11,12,14,59,tzinfo=ZONE))
+            self.assertEqual(p['full_dates'],[])
+            self.assertEqual(p['provisional_date'],'2026-11-12')
+
+    def test_legacy_ready_clock_is_ignored(self):
+        with TemporaryDirectory() as tmp:
+            path=Path(tmp)/'config.json'
+            write_json_atomic(path,dict(eod_ready_time='18:15'))
+            self.assertNotIn('eod_ready_time',config(path))
 
     def test_early_night_is_never_collected(self):
         with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=True):
@@ -54,8 +71,8 @@ class DailyPlanTests(unittest.TestCase):
                 pass
 
     def test_guard_is_conservative_on_uncertain_socket_errors(self):
-        with patch('socket.create_connection',side_effect=PermissionError):
+        with patch('china_commodities.wind_daily.os.name','posix'),patch('socket.create_connection',side_effect=PermissionError):
             with self.assertRaises(RuntimeError):
                 desk_busy(DEFAULTS)
-        with patch('socket.create_connection',side_effect=ConnectionRefusedError):
+        with patch('china_commodities.wind_daily.os.name','posix'),patch('socket.create_connection',side_effect=ConnectionRefusedError):
             self.assertFalse(desk_busy(DEFAULTS))

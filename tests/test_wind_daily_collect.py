@@ -2,6 +2,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
+from unittest.mock import patch
+from china_commodities.wind_daily import ZONE
 import unittest
 
 from china_commodities.catalog import ProductCatalog, OptionProduct
@@ -86,12 +88,34 @@ class CollectionTests(unittest.TestCase):
             self.assertEqual(sdk.calls,before)
             self.assertEqual(read_json(data/'wind_daily/completed/2026-11-11.json')['layers'],['futures','options','night'])
             sdk.fail=False
-            collect_day(api,'2026-11-12',data,root/'normalized',catalog=CATALOG)
+            collect_day(api,'2026-11-12',data,root/'normalized',catalog=CATALOG,now=datetime(2026,11,13,tzinfo=ZONE))
             sdk.fail=True
             collect_day(api,'2026-11-11',data,root/'normalized',catalog=CATALOG)
             self.assertEqual(read_json(data/'latest.json')['trade_date'],'2026-11-12')
             self.assertEqual(read_json(data/'options/latest.json')['trade_date'],'2026-11-12')
             self.assertEqual(read_json(data/'night_session/latest.json')['trading_date'],'2026-11-12')
+
+    def test_preclose_final_is_blocked_before_requests(self):
+        with TemporaryDirectory() as tmp:
+            sdk=FakeWind()
+            api=CachedWind(sdk,Path(tmp)/'raw',lambda:None,interval=0)
+            with self.assertRaisesRegex(ValueError,'unfinished day session'):
+                collect_day(api,'2026-11-12',Path(tmp)/'data',Path(tmp)/'normal',catalog=CATALOG,now=datetime(2026,11,12,14,tzinfo=ZONE))
+            self.assertEqual(sdk.calls,0)
+
+    def test_provisional_never_writes_eod_receipt_or_night_even_if_fields_complete(self):
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            sdk=FakeWind()
+            api=CachedWind(sdk,root/'provisional/raw',lambda:None,interval=0)
+            with patch('china_commodities.wind_daily_collect.night',side_effect=AssertionError('no unfinished night')):
+                result=collect_day(api,'2026-11-12',root/'data',root/'normal',catalog=CATALOG,provisional=True,now=datetime(2026,11,12,1,tzinfo=ZONE))
+            self.assertEqual(result['mode'],'provisional')
+            self.assertFalse(result['published'])
+            self.assertGreater(sdk.calls,0)
+            self.assertFalse((root/'data/latest.json').exists())
+            self.assertFalse((root/'data/wind_daily/completed/2026-11-12.json').exists())
+            self.assertFalse((root/'data/night_session/latest.json').exists())
 
     def test_directory_is_queried_for_each_day_and_allows_listing_changes(self):
         with TemporaryDirectory() as tmp:

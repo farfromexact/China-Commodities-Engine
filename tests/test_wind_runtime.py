@@ -32,7 +32,7 @@ class WindRuntimeTests(unittest.TestCase):
             sdk=home/'Wind/Wind.NET.Client/WindNET/x64'
             sdk.mkdir(parents=True)
             (sdk/'WindPy.py').write_text('# fake SDK; never imported\n')
-            with patch('sys.platform','win32'),patch('pathlib.Path.home',return_value=home),patch.dict('os.environ',{},clear=True):
+            with patch('sys.platform','win32'),patch('pathlib.Path.home',return_value=home),patch('sysconfig.get_path',return_value=str(home/'site-packages')),patch.dict('os.environ',{},clear=True):
                 self.assertEqual(sdk_directory(),sdk.resolve())
 
     def test_environment_matches_trading_desk_name(self):
@@ -49,6 +49,6 @@ class WindRuntimeTests(unittest.TestCase):
 
     def test_installed_module_load_does_not_login_or_logout(self):
         client=object()
-        with patch('sys.platform','win32'),patch.dict('os.environ',{},clear=True),patch('pathlib.Path.is_file',return_value=False),patch('importlib.import_module',return_value=SimpleNamespace(w=client)) as importer:
+        with patch('sys.platform','win32'),patch('pathlib.Path.home',return_value=Path(tempfile.gettempdir())),patch.dict('os.environ',{},clear=True),patch('pathlib.Path.is_file',return_value=False),patch('importlib.import_module',return_value=SimpleNamespace(w=client)) as importer:
             self.assertIs(load_wind(),client)
             importer.assert_called_once_with('WindPy')

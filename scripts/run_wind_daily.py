@@ -127,15 +127,38 @@ def _worker_locked(job_path):
         if job['plan']['night_date']:
             day=job['plan']['night_date']
             results.append(collect_day(api,day,stage,cache/'normalized',night_only=True,allowed_empty=settings['allowed_empty_products']))
-        if validate_snapshot(read_json(stage/'latest.json')):
-            raise RuntimeError('staged EOD validation failed')
-        foundation=refresh_foundation(stage,cache,settings)
-        publish_report_input(stage)
-        # Do not publish any portion of a planned batch before every layer passes.
-        state(progress,'publishing',results=results)
-        publisher.prepare(stage,base)
-        publisher.recover()
-        state(progress,'published',results=results,foundation=foundation)
+        completed=bool(job['plan']['full_dates'] or job['plan']['night_date'])
+        foundation=[]
+        if completed:
+            if validate_snapshot(read_json(stage/'latest.json')):
+                raise RuntimeError('staged EOD validation failed')
+            foundation=refresh_foundation(stage,cache,settings)
+            publish_report_input(stage)
+            # Completed historical/night work must not wait for an unfinished today candidate.
+            state(progress,'publishing',results=results)
+            publisher.prepare(stage,base)
+            publisher.recover()
+            state(progress,'published',results=results,foundation=foundation)
+        provisional=job['plan'].get('provisional_date')
+        if provisional:
+            # Never reuse pre-close raw responses for the later final EOD attempt.
+            attempt=cache/'provisional'/'latest'
+            # One bounded candidate workspace. Refuse redirected paths before cleanup.
+            if not attempt.resolve().is_relative_to(cache.resolve()) or attempt.is_symlink():
+                raise RuntimeError('provisional workspace must remain inside the local cache')
+            if attempt.exists():
+                shutil.rmtree(attempt)
+            attempt.mkdir(parents=True)
+            provisional_api=CachedWind(client,attempt/'raw',guard,settings['request_interval_seconds'])
+            try:
+                result=collect_day(provisional_api,provisional,stage,attempt/'normalized',
+                    allowed_empty=settings['allowed_empty_products'],provisional=True)
+            except (ValueError,RuntimeError,OSError) as exc:
+                result=dict(date=provisional,mode='provisional',published=False,final=False,
+                    as_of=job['plan'].get('as_of'),error=str(exc))
+            write_json_atomic(attempt/'status.json',result)
+            results.append(result)
+        state(progress,'published' if completed else 'provisional',results=results,foundation=foundation)
     # Never stop/logout/cancel the shared SDK session.
 
 
@@ -193,11 +216,12 @@ def once(settings, cache):
                          retry_after=(datetime.now(ZONE)+timedelta(seconds=settings['retry_seconds'])).isoformat(),
                          outbox_retained=publisher.journal.exists())
     progress=read_json(cache/'progress.json',default={})
-    if progress.get('phase')=='waiting_collector':
+    phase=progress.get('phase')
+    if phase=='waiting_collector':
         return state(status,'waiting_collector',plan=work)
-    if progress.get('phase')!='published':
+    if phase not in {'published','provisional'}:
         return state(status,'blocked',error='worker exited without a publication receipt',plan=work)
-    return state(status,'published',plan=work,results=progress.get('results',[]))
+    return state(status,phase,plan=work,results=progress.get('results',[]))
 
 
 def main():

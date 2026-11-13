@@ -16,7 +16,7 @@ from .trading_calendar import is_trading_day, previous_trading_day, night_sessio
 from .night_session import _night_window
 
 ZONE=ZoneInfo('Asia/Shanghai')
-DEFAULTS=dict(enabled=False,allow_dashboard=True,allow_parallel_collectors=True,start_date=None,eod_ready_time='18:15',poll_seconds=60,
+DEFAULTS=dict(enabled=False,allow_dashboard=True,allow_parallel_collectors=True,start_date=None,poll_seconds=60,
               retry_seconds=900,max_days_per_run=5,request_interval_seconds=0.,
               request_timeout_seconds=120,max_run_seconds=7200,login_signal_ttl_seconds=900,
               desk_host='127.0.0.1',desk_port=8765,branch='main',sdk_dir=None,
@@ -27,7 +27,8 @@ DEFAULTS=dict(enabled=False,allow_dashboard=True,allow_parallel_collectors=True,
 def config(path):
     result=dict(DEFAULTS)
     result.update(read_json(Path(path),default={}))
-    time.fromisoformat(result['eod_ready_time'])
+    # Legacy configs remain readable, but no provider-ready clock gates collection.
+    result.pop('eod_ready_time',None)
     for key in ('poll_seconds','retry_seconds','max_days_per_run','request_timeout_seconds','max_run_seconds','login_signal_ttl_seconds','foundation_timeout_seconds'):
         if not isinstance(result[key],int) or result[key]<=0:
             raise ValueError(f'invalid configuration: {key}')
@@ -96,11 +97,19 @@ def full_complete(root, day):
     return night_complete(root,day)
 
 
+def eod_session_complete(day, now=None):
+    """Actual domestic commodity day session boundary, not a vendor release delay."""
+    now=(now or datetime.now(ZONE)).astimezone(ZONE)
+    target=date.fromisoformat(day) if isinstance(day,str) else day
+    return is_trading_day(target) and (target<now.date() or
+        (target==now.date() and now.time()>=time(15)))
+
+
 def plan(root, settings, now=None, anchor=None, known_completed=()):
     root=Path(root)
     now=(now or datetime.now(ZONE)).astimezone(ZONE)
     today=now.date()
-    closed=today if is_trading_day(today) and now.time()>=time.fromisoformat(settings['eod_ready_time']) else previous_trading_day(today)
+    closed=today if eod_session_complete(today,now) else previous_trading_day(today)
     start=settings.get('start_date') or anchor
     if not start:
         dates=[p.stem for p in (root/'snapshots').glob('????-??-??.json')]
@@ -128,9 +137,11 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
     if not missing[len(selected):] and is_trading_day(today) and today>closed and str(today)>=start:
         if night_session_dates(today) and now>=_night_window(str(today))[2] and not night_complete(root,str(today)):
             night_day=str(today)
+    provisional_day=str(today) if is_trading_day(today) and today>closed and str(today)>=start else None
     return dict(start_date=start,latest_completed_eod=str(closed),full_dates=selected,
                 remaining_dates=missing[len(selected):],night_date=night_day,
-                has_work=bool(selected or night_day),verified_dates=verified,timezone='Asia/Shanghai')
+                provisional_date=provisional_day,as_of=now.isoformat(),
+                has_work=bool(selected or night_day or provisional_day),verified_dates=verified,timezone='Asia/Shanghai')
 
 
 def desk_busy(settings):
