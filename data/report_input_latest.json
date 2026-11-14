@@ -5,8 +5,36 @@
     "trading_date": "2026-11-13",
     "as_of": "2026-11-13T15:00:00+08:00"
   },
+  "index_derivatives": {
+    "trade_date": "2026-11-13",
+    "expected_eod_date": "2026-11-13",
+    "eod_date_matches": true,
+    "available": true,
+    "options_scope": "core_v1",
+    "night_session": "not_applicable",
+    "coverage": {
+      "futures_products": [
+        "IF",
+        "IH",
+        "IC",
+        "IM"
+      ],
+      "options_products": [
+        "IO",
+        "HO",
+        "MO"
+      ],
+      "futures_contract_count": 16,
+      "option_contract_count": 74
+    },
+    "current_market_snapshot": {
+      "mode": "eod",
+      "path": "data/index_derivatives/latest.json",
+      "trade_date": "2026-11-13"
+    }
+  },
   "schema_version": 3,
-  "generated_at": "2026-11-14T19:32:21.558901+08:00",
+  "generated_at": "2026-11-14T19:52:13.656771+08:00",
   "requested_date": "2026-11-13",
   "execution_prices": {
     "snapshot_id": "sha256:e4075f6808ec189180419dd19c749b3058d7d2946b98deb3bc5044dbf0b92bc3",
