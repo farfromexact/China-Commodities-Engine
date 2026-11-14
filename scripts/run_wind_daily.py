@@ -19,6 +19,7 @@ from china_commodities.wind_daily_collect import CachedWind, collect_day
 from china_commodities.reporting import publish_report_input
 from china_commodities.quality import validate_snapshot
 from china_commodities.wind_intraday import collect_intraday
+from china_commodities.wind_index import collect_eod as collect_index_eod, collect_intraday as collect_index_intraday
 
 
 def emit(payload):
@@ -66,6 +67,7 @@ def once(settings, cache, now=None):
             print(f"提取盘中快照，截止 {work['intraday']['cutoff']}...", flush=True)
             results.append(collect_intraday(api, work['intraday'], stage,
                                             allowed_empty=settings['allowed_empty_products']))
+            results.append(collect_index_intraday(api, work['intraday'], stage))
         for day in work['full_dates']:
             print(f'{day}: 提取期货、核心期权及夜盘...', flush=True)
             results.append(collect_day(api, day, stage, cache / 'normalized',
@@ -75,6 +77,9 @@ def once(settings, cache, now=None):
             print(f'{day}: 提取已完成夜盘...', flush=True)
             results.append(collect_day(api, day, stage, cache / 'normalized', night_only=True,
                                        allowed_empty=settings['allowed_empty_products']))
+        for day in work.get('index_dates', []):
+            print(f'{day}: 提取股指期货及核心股指期权...', flush=True)
+            results.append(collect_index_eod(api, day, stage))
         errors = [] if work.get('intraday') else validate_snapshot(read_json(stage / 'latest.json'))
         if errors:
             raise RuntimeError(f'数据校验失败: {errors}')
@@ -107,7 +112,7 @@ def main(argv=None):
         while True:
             result = once(settings, cache, now=started_at)
             emit(result)
-            if not result['plan']['remaining_dates']:
+            if not result['plan']['remaining_dates'] and not result['plan'].get('remaining_index_dates'):
                 return 0
     except Exception as exc:
         emit(finish(cache, 'failed', error=str(exc)))

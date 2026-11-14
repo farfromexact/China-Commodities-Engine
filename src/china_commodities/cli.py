@@ -276,6 +276,11 @@ def _validate(args: argparse.Namespace) -> int:
         print("No verified data/latest.json or valid partial-run status exists.")
         return 1
     errors = validate_snapshot(payload, allow_scoped=bool(scope))
+    if not scope:
+        from .wind_index import validate as validate_index
+        index_payload = read_json(data_dir / 'index_derivatives/latest.json')
+        if index_payload is not None:
+            errors.extend(validate_index(index_payload))
     if errors:
         for error in errors:
             print(f"ERROR: {error}")

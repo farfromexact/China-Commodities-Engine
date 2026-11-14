@@ -31,6 +31,8 @@ class DailyRunTests(unittest.TestCase):
                 stack.enter_context(patch.object(runner, name, return_value=value))
         self.collect = stack.enter_context(patch.object(runner, 'collect_day', return_value={'date':'2026-11-13'}))
         stack.enter_context(patch.object(runner, 'publish_report_input'))
+        self.index_eod = stack.enter_context(patch.object(runner, 'collect_index_eod', return_value={'mode':'index_derivatives_eod'}))
+        self.index_intraday = stack.enter_context(patch.object(runner, 'collect_index_intraday', return_value={'mode':'index_derivatives_intraday'}))
         stack.enter_context(patch.object(runner, 'emit'))
 
     def test_direct_start_collects_and_pushes_without_signals_or_enabled_flag(self):
@@ -47,6 +49,18 @@ class DailyRunTests(unittest.TestCase):
         self.work.update(has_work=False, night_date=None)
         self.assertEqual(runner.once(DEFAULTS, self.cache)['phase'], 'up_to_date')
         self.sdk.start.assert_not_called()
+        self.publisher.prepare.assert_not_called()
+
+    def test_index_only_backfill_uses_same_publisher_and_blocks_partial_failure(self):
+        self.work.update(night_date=None,index_dates=['2026-11-13'])
+        runner.once(DEFAULTS,self.cache)
+        self.collect.assert_not_called()
+        self.index_eod.assert_called_once()
+        self.publisher.prepare.assert_called_once()
+        self.publisher.prepare.reset_mock()
+        self.index_eod.side_effect=ValueError('index source date mismatch')
+        with self.assertRaisesRegex(ValueError,'index source date'):
+            runner.once(DEFAULTS,self.cache)
         self.publisher.prepare.assert_not_called()
 
     def test_bad_data_never_publishes(self):

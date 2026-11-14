@@ -9,6 +9,8 @@ from pathlib import Path
 
 MAX_BYTES = 48 * 1024
 SOURCES = {
+    'index_derivatives': 'index_derivatives/latest.json',
+    'index_derivatives_intraday': 'index_derivatives/intraday/latest.json',
     'report': 'report_input_latest.json',
     'futures': 'latest.json',
     'market_state': 'market_state_latest.json',
@@ -159,7 +161,7 @@ def export_chat_data(data_dir='data'):
     report = json.loads((root / 'report_input_latest.json').read_bytes())
     overview = {key: report.get(key) for key in (
         'current_market_snapshot', 'requested_date', 'frequency', 'intraday', 'has_night_session',
-        'execution_policy', 'module_freshness', 'futures', 'contract_metadata')}
+        'execution_policy', 'module_freshness', 'futures', 'contract_metadata', 'index_derivatives')}
     overview['limitations'] = report.get('quality', {}).get('limitations', [])
     overview['options_quality'] = report.get('quality', {}).get('options_quality', {})
     overview['product_keys'] = product_keys(report.get('products', []))

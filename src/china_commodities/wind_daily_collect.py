@@ -22,7 +22,7 @@ from .wind_daily import eod_session_complete, ZONE
 from scripts.backfill_wind_derivatives import clean, historical_rows, OPTION_FIELDS
 from scripts.publish_wind_backfill import build_night, replace_night_history
 
-SUFFIX = dict(SHFE='SHF', INE='INE', DCE='DCE', CZCE='CZC', GFEX='GFE')
+SUFFIX = dict(SHFE='SHF', INE='INE', DCE='DCE', CZCE='CZC', GFEX='GFE', CFFEX='CFE')
 FIELDS = 'open,high,low,close,settle,pre_settle,volume,oi,amt'
 WIND_NO_DATA_AVAILABLE = -40520007
 

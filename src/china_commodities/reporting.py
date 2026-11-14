@@ -801,8 +801,10 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         limitations.append("contract_metadata_partial")
 
     current_snapshot = current_market_snapshot(root)
+    from .wind_index import report_view as index_report_view
     return {
         "current_market_snapshot": current_snapshot,
+        "index_derivatives": index_report_view(root, futures.get('trade_date')),
         "schema_version": REPORT_SCHEMA_VERSION,
         "generated_at": generated_at,
         "requested_date": requested_date,

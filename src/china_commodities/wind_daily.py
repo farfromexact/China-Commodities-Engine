@@ -122,6 +122,7 @@ def intraday_window(now):
 
 
 def plan(root, settings, now=None, anchor=None, known_completed=()):
+    from .wind_index import complete as index_complete
     root=Path(root)
     now=(now or datetime.now(ZONE)).astimezone(ZONE)
     today=now.date()
@@ -129,7 +130,7 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
     if intraday:
         baseline=max((p.stem for p in (root/'snapshots').glob('????-??-??.json')),default=intraday['trading_date'])
         return dict(start_date=settings.get('start_date') or anchor or baseline,
-                    full_dates=[],remaining_dates=[],night_date=None,intraday=intraday,
+                    full_dates=[],remaining_dates=[],index_dates=[],remaining_index_dates=[],night_date=None,intraday=intraday,
                     has_work=True,verified_dates=list(known_completed),timezone='Asia/Shanghai')
     closed=today if eod_session_complete(today,now) else previous_trading_day(today)
     start=settings.get('start_date') or anchor
@@ -140,6 +141,7 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
         start=max(dates)
     cursor=date.fromisoformat(start)
     missing=[]
+    index_missing=[]
     verified=[]
     while cursor<=closed:
         if is_trading_day(cursor):
@@ -153,6 +155,8 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
                 verified.append(day)
             else:
                 missing.append(day)
+            if not index_complete(root,day):
+                index_missing.append(day)
         cursor+=timedelta(days=1)
     selected=missing[:settings['max_days_per_run']]
     night_day=None
@@ -164,9 +168,11 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
                 and now>=_night_window(str(target))[2]
                 and not night_complete(root,str(target))):
             night_day=str(target)
+    index_dates=index_missing[:settings['max_days_per_run']]
     return dict(start_date=start,latest_completed_eod=str(closed),full_dates=selected,
+                index_dates=index_dates,remaining_index_dates=index_missing[len(index_dates):],
                 remaining_dates=missing[len(selected):],night_date=night_day,
-                has_work=bool(selected or night_day),verified_dates=verified,timezone='Asia/Shanghai')
+                has_work=bool(selected or night_day or index_dates),verified_dates=verified,timezone='Asia/Shanghai')
 
 
 def desk_busy(settings):
