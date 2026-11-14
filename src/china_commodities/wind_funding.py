@@ -12,8 +12,8 @@ WIND_SHORT_NAMES={
     **{f'DR{d:03d}':f'银存间质押{d}日' for d in (1,7,14)},
     **{f'R{d:03d}':f'银行间质押{d}日' for d in (1,7,14)},
 }
-# These are explicit Wind route candidates. First live acceptance is still pending;
-# names and dates are checked at collection, with no public-source fallback.
+# Explicit Wind routes; Windows EOD accepted on 2026-11-14. Each collection still
+# checks instrument names and dates, with no public-source fallback.
 INSTRUMENTS={}
 for prefix,market in [('DR','interbank_depository_secured'),('R','interbank_all_secured')]:
     for tenor in (1,7,14):
@@ -161,16 +161,18 @@ def collect_eod(api, day, root):
         row=dict(key=key,**{k:v for k,v in spec.items() if k!='name_token'},source_provider='wind',
             source_endpoint='WindPy.wsd.close',source_trade_date=None,instrument_name=None,
             raw_value=None,rate_percent=None,unit='percent_per_annum',
-            unit_basis='configured_instrument_definition; no numeric rescaling; live route acceptance pending',
+            unit_basis='published_instrument_definition; Wind_native_close_without_numeric_rescaling',
+            unit_verification='definition_based_not_Wind_field_metadata',identity_verified=False,source_date_verified=False,
             record_state='missing',changes_bp={str(lag)+'d':None for lag in (1,3,5,20)})
         try:
             if fatal:
                 raise ValueError('not queried after Wind session/transport failure: '+fatal)
             row['instrument_name']=metadata(api,spec)
+            row['identity_verified']=True
             values=series(api,spec,dates)
             value=values.get(day)
             if finite(value):
-                row.update(record_state='ok',source_trade_date=day,raw_value=value,rate_percent=value)
+                row.update(record_state='ok',source_trade_date=day,raw_value=value,rate_percent=value,source_date_verified=True)
                 for lag in (1,3,5,20):
                     required=dates[-lag-1:]
                     if all(finite(values.get(d)) for d in required):
@@ -190,7 +192,7 @@ def collect_eod(api, day, root):
         ready_time_policy='18:00 Asia/Shanghai conservative combined-panel gate; release still requires exact source date',
         spreads=spreads(records),limitations=['R/DR are weighted repo rates, not FR/FDR fixing rates.',
             'Exchange close and interbank weighted rates are different statistics.',
-            'Configured Wind routes and percent units await first live acceptance; no heuristic scaling.',
+            'Percent units follow published instrument definitions, not Wind field metadata; no heuristic scaling.',
             'Repo-rate levels/spreads do not measure cash inflow/outflow or PBOC net injections.'])
     errors=validate(payload)
     if errors:
