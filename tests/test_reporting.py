@@ -18,6 +18,30 @@ class ReportingInputTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
+    def test_core_radar_reconciliation_deduplicates_and_is_idempotent(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            day = '2026-11-13'
+            self._write(root, 'last_run_status.json', {'run_date': day, 'modules': []})
+            self._write(root, 'options/latest.json', {'trade_date': day, 'source_provider': 'wind',
+                'collection_scope': 'core_v1', 'record_count': 468})
+            self._write(root, 'options/last_run_status.json', {'trade_date': day, 'data_fresh': True,
+                'published': True, 'coverage': {'publish_eligible': True}})
+            self._write(root, 'options/quality_latest.json', {'trade_date': day,
+                'quality': {'status': 'core_available', 'source_date_match_pct': 1.0}})
+            future = {'dataset': 'futures', 'scope': 'SHFE', 'state': 'ok'}
+            self._write(root, 'radar_latest.json', {'trade_date': day, 'session_freshness': [future,
+                {'dataset': 'options', 'scope': 'core_sample'},
+                {'dataset': 'options', 'scope': 'core_sample'},
+                {'dataset': 'options', 'scope': 'full-market'}]})
+            self.assertTrue(reconcile_main_status(root))
+            self.assertFalse(reconcile_main_status(root))
+            rows = json.loads((root/'radar_latest.json').read_text(encoding='utf-8'))['session_freshness']
+            self.assertEqual(len(rows), 2)
+            self.assertEqual(rows[0], future)
+            self.assertEqual(rows[1]['scope'], 'core_sample')
+            self.assertEqual(rows[1]['source_function'], 'WindPy.wsd')
+
     def test_joins_market_state_and_per_series_option_quality(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

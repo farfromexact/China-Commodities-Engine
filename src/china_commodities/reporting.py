@@ -280,18 +280,10 @@ def reconcile_main_status(data_dir: str | Path = "data") -> bool:
                 dict(item)
                 for item in _list(artifact.get(module_key))
                 if isinstance(item, Mapping)
+                and not (item.get("dataset") == "options"
+                         and item.get("scope") in {"full-market", "core_sample"})
             ]
-            replaced = False
-            for index, item in enumerate(freshness):
-                if (
-                    item.get("dataset") == "options"
-                    and item.get("scope") == "full-market"
-                ):
-                    freshness[index] = option_module
-                    replaced = True
-                    break
-            if not replaced:
-                freshness.append(option_module)
+            freshness.append(option_module)
             artifact[module_key] = freshness
         changed = write_json_if_changed(artifact_path, artifact) or changed
     return changed
