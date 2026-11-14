@@ -1,0 +1,340 @@
+{
+  "schema_version": 1,
+  "trade_date": "2026-11-12",
+  "source_provider": "wind",
+  "frequency": "EOD",
+  "generated_at": "2026-11-14T21:05:17.245810+08:00",
+  "records": [
+    {
+      "key": "DR001",
+      "source_code": "DR001.IB",
+      "market": "interbank_depository_secured",
+      "tenor_days": 1,
+      "statistic": "daily_trade_weighted_repo_rate",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": null,
+      "instrument_name": null,
+      "raw_value": null,
+      "rate_percent": null,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "query_error",
+      "changes_bp": {
+        "1d": null,
+        "3d": null,
+        "5d": null,
+        "20d": null
+      },
+      "error": "repo name does not confirm configured rate type: 银存间质押1日"
+    },
+    {
+      "key": "DR007",
+      "source_code": "DR007.IB",
+      "market": "interbank_depository_secured",
+      "tenor_days": 7,
+      "statistic": "daily_trade_weighted_repo_rate",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": null,
+      "instrument_name": null,
+      "raw_value": null,
+      "rate_percent": null,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "query_error",
+      "changes_bp": {
+        "1d": null,
+        "3d": null,
+        "5d": null,
+        "20d": null
+      },
+      "error": "repo name does not confirm configured rate type: 银存间质押7日"
+    },
+    {
+      "key": "DR014",
+      "source_code": "DR014.IB",
+      "market": "interbank_depository_secured",
+      "tenor_days": 14,
+      "statistic": "daily_trade_weighted_repo_rate",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": null,
+      "instrument_name": null,
+      "raw_value": null,
+      "rate_percent": null,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "query_error",
+      "changes_bp": {
+        "1d": null,
+        "3d": null,
+        "5d": null,
+        "20d": null
+      },
+      "error": "repo name does not confirm configured rate type: 银存间质押14日"
+    },
+    {
+      "key": "R001",
+      "source_code": "R001.IB",
+      "market": "interbank_all_secured",
+      "tenor_days": 1,
+      "statistic": "daily_trade_weighted_repo_rate",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": null,
+      "instrument_name": null,
+      "raw_value": null,
+      "rate_percent": null,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "query_error",
+      "changes_bp": {
+        "1d": null,
+        "3d": null,
+        "5d": null,
+        "20d": null
+      },
+      "error": "repo name does not confirm configured rate type: 银行间质押1日"
+    },
+    {
+      "key": "R007",
+      "source_code": "R007.IB",
+      "market": "interbank_all_secured",
+      "tenor_days": 7,
+      "statistic": "daily_trade_weighted_repo_rate",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": null,
+      "instrument_name": null,
+      "raw_value": null,
+      "rate_percent": null,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "query_error",
+      "changes_bp": {
+        "1d": null,
+        "3d": null,
+        "5d": null,
+        "20d": null
+      },
+      "error": "repo name does not confirm configured rate type: 银行间质押7日"
+    },
+    {
+      "key": "R014",
+      "source_code": "R014.IB",
+      "market": "interbank_all_secured",
+      "tenor_days": 14,
+      "statistic": "daily_trade_weighted_repo_rate",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": null,
+      "instrument_name": null,
+      "raw_value": null,
+      "rate_percent": null,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "query_error",
+      "changes_bp": {
+        "1d": null,
+        "3d": null,
+        "5d": null,
+        "20d": null
+      },
+      "error": "repo name does not confirm configured rate type: 银行间质押14日"
+    },
+    {
+      "key": "GC001",
+      "source_code": "204001.SH",
+      "market": "exchange_SH",
+      "tenor_days": 1,
+      "statistic": "closing_annualized_repo_quote",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": "2026-11-12",
+      "instrument_name": "GC001",
+      "raw_value": 1.455,
+      "rate_percent": 1.455,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "ok",
+      "changes_bp": {
+        "1d": -5.499999999999994,
+        "3d": 28.500000000000014,
+        "5d": 7.000000000000006,
+        "20d": 8.499999999999996
+      }
+    },
+    {
+      "key": "GC007",
+      "source_code": "204007.SH",
+      "market": "exchange_SH",
+      "tenor_days": 7,
+      "statistic": "closing_annualized_repo_quote",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": "2026-11-12",
+      "instrument_name": "GC007",
+      "raw_value": 1.42,
+      "rate_percent": 1.42,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "ok",
+      "changes_bp": {
+        "1d": -0.5000000000000115,
+        "3d": 6.999999999999984,
+        "5d": 2.499999999999991,
+        "20d": 3.0000000000000027
+      }
+    },
+    {
+      "key": "GC014",
+      "source_code": "204014.SH",
+      "market": "exchange_SH",
+      "tenor_days": 14,
+      "statistic": "closing_annualized_repo_quote",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": "2026-11-12",
+      "instrument_name": "GC014",
+      "raw_value": 1.415,
+      "rate_percent": 1.415,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "ok",
+      "changes_bp": {
+        "1d": 0.0,
+        "3d": 4.499999999999993,
+        "5d": 3.0000000000000027,
+        "20d": 3.0000000000000027
+      }
+    },
+    {
+      "key": "SZ_R001",
+      "source_code": "131810.SZ",
+      "market": "exchange_SZ",
+      "tenor_days": 1,
+      "statistic": "closing_annualized_repo_quote",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": "2026-11-12",
+      "instrument_name": "R-001",
+      "raw_value": 1.44,
+      "rate_percent": 1.44,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "ok",
+      "changes_bp": {
+        "1d": -5.500000000000016,
+        "3d": 29.000000000000004,
+        "5d": 6.499999999999995,
+        "20d": 7.999999999999985
+      }
+    },
+    {
+      "key": "SZ_R007",
+      "source_code": "131801.SZ",
+      "market": "exchange_SZ",
+      "tenor_days": 7,
+      "statistic": "closing_annualized_repo_quote",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": "2026-11-12",
+      "instrument_name": "R-007",
+      "raw_value": 1.415,
+      "rate_percent": 1.415,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "ok",
+      "changes_bp": {
+        "1d": -1.0000000000000009,
+        "3d": 6.499999999999995,
+        "5d": 2.5000000000000133,
+        "20d": 2.5000000000000133
+      }
+    },
+    {
+      "key": "SZ_R014",
+      "source_code": "131802.SZ",
+      "market": "exchange_SZ",
+      "tenor_days": 14,
+      "statistic": "closing_annualized_repo_quote",
+      "source_provider": "wind",
+      "source_endpoint": "WindPy.wsd.close",
+      "source_trade_date": "2026-11-12",
+      "instrument_name": "R-014",
+      "raw_value": 1.405,
+      "rate_percent": 1.405,
+      "unit": "percent_per_annum",
+      "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
+      "record_state": "ok",
+      "changes_bp": {
+        "1d": 0.5000000000000115,
+        "3d": 4.0000000000000036,
+        "5d": 3.0000000000000027,
+        "20d": 2.5000000000000133
+      }
+    }
+  ],
+  "coverage_complete": false,
+  "ready_time_policy": "18:00 Asia/Shanghai conservative combined-panel gate; release still requires exact source date",
+  "spreads": [
+    {
+      "key": "R001_minus_DR001",
+      "first": "R001",
+      "second": "DR001",
+      "value_bp": null,
+      "source_trade_date": null,
+      "comparison_basis": "daily_weighted_rates",
+      "unit_basis": "configured_annual_percent_no_numeric_rescaling",
+      "not_arbitrage_signal": true
+    },
+    {
+      "key": "R007_minus_DR007",
+      "first": "R007",
+      "second": "DR007",
+      "value_bp": null,
+      "source_trade_date": null,
+      "comparison_basis": "daily_weighted_rates",
+      "unit_basis": "configured_annual_percent_no_numeric_rescaling",
+      "not_arbitrage_signal": true
+    },
+    {
+      "key": "R014_minus_DR014",
+      "first": "R014",
+      "second": "DR014",
+      "value_bp": null,
+      "source_trade_date": null,
+      "comparison_basis": "daily_weighted_rates",
+      "unit_basis": "configured_annual_percent_no_numeric_rescaling",
+      "not_arbitrage_signal": true
+    },
+    {
+      "key": "DR007_minus_DR001",
+      "first": "DR007",
+      "second": "DR001",
+      "value_bp": null,
+      "source_trade_date": null,
+      "comparison_basis": "daily_weighted_rates",
+      "unit_basis": "configured_annual_percent_no_numeric_rescaling",
+      "not_arbitrage_signal": true
+    },
+    {
+      "key": "GC001_minus_DR001",
+      "first": "GC001",
+      "second": "DR001",
+      "value_bp": null,
+      "source_trade_date": null,
+      "comparison_basis": "different_market_close_vs_daily_weighted",
+      "unit_basis": "configured_annual_percent_no_numeric_rescaling",
+      "not_arbitrage_signal": true
+    }
+  ],
+  "limitations": [
+    "R/DR are weighted repo rates, not FR/FDR fixing rates.",
+    "Exchange close and interbank weighted rates are different statistics.",
+    "Configured Wind routes and percent units await first live acceptance; no heuristic scaling.",
+    "Repo-rate levels/spreads do not measure cash inflow/outflow or PBOC net injections."
+  ],
+  "validation_passed": true
+}
