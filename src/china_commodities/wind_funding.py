@@ -8,6 +8,10 @@ from .storage import read_json,write_json_if_changed
 from .trading_calendar import is_trading_day,previous_trading_day
 
 VERSION=1
+WIND_SHORT_NAMES={
+    **{f'DR{d:03d}':f'银存间质押{d}日' for d in (1,7,14)},
+    **{f'R{d:03d}':f'银行间质押{d}日' for d in (1,7,14)},
+}
 # These are explicit Wind route candidates. First live acceptance is still pending;
 # names and dates are checked at collection, with no public-source fallback.
 INSTRUMENTS={}
@@ -63,6 +67,10 @@ def metadata(api, spec):
         name=raw['data'][0][0].upper().replace('Ｒ','R').replace('－','-').replace(' ','')
         token=re.escape(spec['name_token'])
         named_code=bool(re.search(r'(?<![A-Z0-9_])'+token+r'(?![A-Z0-9])',name))
+        # Exact names returned by official WindPy on 2026-11-14; do not relax the
+        # R/DR or fixing distinction via substring matching.
+        short_name=WIND_SHORT_NAMES.get(spec['source_code'].split('.')[0])
+        exact_short=short_name is not None and name==short_name
         tenor=spec['tenor_days']
         named_tenor=bool(re.search(r'(?<!\d)'+str(tenor)+r'(?:天|日)',name) or (tenor==1 and '隔夜' in name))
         depository=('存款类' in name or '银银' in name)
@@ -72,7 +80,7 @@ def metadata(api, spec):
                 and ('银行间' in name or depository))
         else:
             named_type=('回购' in name and named_tenor)
-        if not (named_code or named_type) or '定盘' in name or 'FDR' in name or name.startswith('FR'):
+        if not (named_code or named_type or exact_short) or '定盘' in name or 'FDR' in name or name.startswith('FR'):
             raise ValueError('repo name does not confirm configured rate type: '+name)
         return raw['data'][0][0]
     except (KeyError,ValueError):

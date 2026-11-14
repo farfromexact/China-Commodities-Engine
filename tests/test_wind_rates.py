@@ -149,6 +149,17 @@ class FundingTests(unittest.TestCase):
             self.assertTrue(all(not r[1].endswith('.IB') for r in calls))
             self.assertFalse((Path(tmp)/'funding/latest.json').exists())
 
+    def test_exact_live_wind_chinese_short_names_preserve_R_DR_distinction(self):
+        with TemporaryDirectory() as tmp:
+            sdk=RatesWind()
+            sdk.bad_name={key+'.IB':value for key,value in funding.WIND_SHORT_NAMES.items()}
+            api=CachedWind(sdk,Path(tmp)/'raw',lambda:None,0)
+            for key in funding.WIND_SHORT_NAMES:
+                self.assertEqual(funding.metadata(api,funding.INSTRUMENTS[key]),funding.WIND_SHORT_NAMES[key])
+            sdk.bad_name['R007.IB']='银存间质押7日'
+            spec=funding.INSTRUMENTS['R007'];api.discard('wss',spec['source_code'],'sec_name','')
+            with self.assertRaises(ValueError):funding.metadata(api,spec)
+
 
 class RatesPlanTests(unittest.TestCase):
     def plan(self,root,now,excluded=()):
