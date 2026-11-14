@@ -44,13 +44,30 @@ class DailyPlanTests(unittest.TestCase):
             self.assertEqual(p['full_dates'],['2026-11-09','2026-11-11'])
             self.assertEqual(p['remaining_dates'],['2026-11-12'])
 
-    def test_weekend_and_holiday_fail_closed_for_unknown_year(self):
-        with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=True):
+    def test_completed_weekend_night_is_not_repeated_and_unknown_year_fails_closed(self):
+        with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=True),patch('china_commodities.wind_daily.night_complete',return_value=True):
             p=plan(tmp,dict(DEFAULTS,start_date='2026-11-13'),datetime(2026,11,14,19,tzinfo=ZONE))
             self.assertFalse(p['has_work'])
             self.assertEqual(p['latest_completed_eod'],'2026-11-13')
             with self.assertRaisesRegex(ValueError,'calendar unavailable'):
                 plan(tmp,dict(DEFAULTS,start_date='2027-01-01'),datetime(2027,1,4,19,tzinfo=ZONE))
+
+    def test_friday_night_selected_on_weekend_and_monday_morning(self):
+        with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=True),patch('china_commodities.wind_daily.night_complete',return_value=False):
+            for day,hour in [(14,4),(14,19),(15,19),(16,8)]:
+                with self.subTest(day=day,hour=hour):
+                    p=plan(tmp,dict(DEFAULTS,start_date='2026-11-13'),datetime(2026,11,day,hour,tzinfo=ZONE))
+                    self.assertEqual(p['latest_completed_eod'],'2026-11-13')
+                    self.assertEqual(p['full_dates'],[])
+                    self.assertEqual(p['night_date'],'2026-11-16')
+
+    def test_unfinished_friday_night_and_holiday_are_not_scheduled(self):
+        with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=True):
+            for now,start in [(datetime(2026,11,13,19,tzinfo=ZONE),'2026-11-13'),
+                              (datetime(2026,11,14,3,tzinfo=ZONE),'2026-11-13'),
+                              (datetime(2026,10,3,19,tzinfo=ZONE),'2026-09-30')]:
+                with self.subTest(now=now):
+                    self.assertIsNone(plan(tmp,dict(DEFAULTS,start_date=start),now)['night_date'])
 
     def test_retention_does_not_reschedule_completed_archives(self):
         with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=False):

@@ -67,6 +67,27 @@ class FakeWind:
 
 
 class CollectionTests(unittest.TestCase):
+    def test_weekend_night_uses_friday_bars_and_preserves_friday_eod(self):
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            data=root/'data'
+            prior=dict(trade_date='2026-11-13',futures_contracts=[])
+            write_json_atomic(data/'latest.json',prior)
+            write_json_atomic(data/'snapshots/2026-11-13.json',prior)
+            write_json_atomic(data/'options/latest.json',dict(trade_date='2026-11-13'))
+            api=CachedWind(FakeWind(),root/'raw',lambda:None,interval=0)
+            result=collect_day(api,'2026-11-16',data,root/'normalized',night_only=True,
+                               catalog=CATALOG,now=datetime(2026,11,14,19,tzinfo=ZONE))
+            self.assertEqual(result['mode'],'night')
+            night=read_json(data/'night_session/latest.json')
+            self.assertEqual(night['trading_date'],'2026-11-16')
+            self.assertEqual(night['session_start_date'],'2026-11-13')
+            self.assertEqual(night['session_end_date'],'2026-11-14')
+            self.assertEqual(night['reference_eod_trade_date'],'2026-11-13')
+            self.assertEqual(read_json(data/'latest.json'),prior)
+            self.assertEqual(read_json(data/'options/latest.json')['trade_date'],'2026-11-13')
+            self.assertFalse((data/'wind_daily/completed/2026-11-16.json').exists())
+
     def test_three_layers_resume_without_vendor_calls_and_record_missing_prior(self):
         with TemporaryDirectory() as tmp:
             root=Path(tmp)

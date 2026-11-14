@@ -156,9 +156,14 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
         cursor+=timedelta(days=1)
     selected=missing[:settings['max_days_per_run']]
     night_day=None
-    if not missing[len(selected):] and is_trading_day(today) and today>closed and str(today)>=start:
-        if night_session_dates(today) and now>=_night_window(str(today))[2] and not night_complete(root,str(today)):
-            night_day=str(today)
+    if not missing[len(selected):]:
+        # Friday night belongs to Monday, but finishes on Saturday morning.
+        # Select by the session's actual end, not the launch date's weekday.
+        target=next_trading_day(closed)
+        if (str(target)>=start and night_session_dates(target)
+                and now>=_night_window(str(target))[2]
+                and not night_complete(root,str(target))):
+            night_day=str(target)
     return dict(start_date=start,latest_completed_eod=str(closed),full_dates=selected,
                 remaining_dates=missing[len(selected):],night_date=night_day,
                 has_work=bool(selected or night_day),verified_dates=verified,timezone='Asia/Shanghai')
