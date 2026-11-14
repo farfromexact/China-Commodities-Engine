@@ -7,6 +7,8 @@
 2. 读 `report/index.json`，取得 `sections` 包含 `products` 的所有分片，完成全品种初筛；同时读取 `quality`、`options` 等适用模块，不能只看核心20品种或排行。
 3. 重点品种按索引的 `product_keys` 下钻期货、Market State、夜盘、合约参数和 `options_交易所_品种`。执行报价位于 report 的 `execution_prices` 分片，仍为 EOD 参考，不因导出变为实时可成交报价。
 
+4. 股指衍生品读 `index_radar` / `index_history`，按需读 `index_derivatives` / `index_books`；国债期货读 `treasury_futures` / `treasury_intraday`；回购读 `funding` / `funding_intraday`。这些是manifest来源名称，实际路径以manifest为准。新增代码不保证对应数据已生成，缺项看 `missing_sources`。回购partial、样本PCR/Gamma、未核验ETF单位及盘口时间限制均须保留。
+
 每个模块 index 记录原件路径/Hash、日期、列表条数、品种及分片路径/字节数/Hash。原件JSON的Hash统一按LF换行计算，gzip按压缩字节计算，详见source_hash_basis；content_sha256核对解析后的完整内容。导出目录禁用Git换行转换，分片Hash在Windows/Mac及远端保持一致。
 顶层 manifest 很小，不放全量行情。完整原件继续保留。
 

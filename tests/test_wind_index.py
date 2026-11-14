@@ -41,10 +41,22 @@ class IndexWind:
     def wsd(self,code,fields,start,end,options):
         self.calls.append(('wsd',code))
         if self.fail: raise AssertionError('should reuse cache')
-        values=dict(open=99.,high=102.,low=98.,close=100.,settle=100.,pre_settle=99.,volume=12.,oi=30.,amt=100000.,
-                    us_impliedvol=None,delta=.5,gamma=.01)
-        when=datetime.fromisoformat(start)-timedelta(days=int(self.stale))
-        return response(fields.upper().split(','),[[values[f] for f in fields.split(',')]],codes=[code],times=[when])
+        values=dict(open=99.,high=102.,low=98.,close=100.,settle=100.,pre_settle=99.,pre_close=99.,volume=12.,oi=30.,amt=100000.,
+                    unit_total=1000000.,us_impliedvol=None,delta=.5,gamma=.01)
+        codes=code.split(',')
+        times=[datetime.fromisoformat(start)-timedelta(days=int(self.stale))]
+        if fields=='unit_total':
+            times.append(datetime.fromisoformat(end)-timedelta(days=int(self.stale)))
+            return response(['UNIT_TOTAL'],[[1000000.],[1000010.]],codes=codes,times=times)
+        rows=[]
+        for c in codes:
+            q=dict(values)
+            if '-C-' in c or '-P-' in c:
+                strike=float(c.rsplit('-',1)[1].split('.')[0])
+                px=10+(100-strike)/2*(1 if '-C-' in c else -1)
+                q.update(close=px,settle=px,pre_settle=px)
+            rows.append([q[f] for f in fields.split(',')])
+        return response(fields.upper().split(','),rows,codes=codes,times=times)
 
     def wsi(self,code,fields,start,end,options):
         self.calls.append(('wsi',code))
@@ -56,21 +68,23 @@ class IndexTests(unittest.TestCase):
         with TemporaryDirectory() as tmp:
             root=Path(tmp); sdk=IndexWind(); api=CachedWind(sdk,root/'raw',lambda:None,0)
             write_json_atomic(root/'latest.json',{'trade_date':'2026-11-13','sentinel':'commodity'})
-            result=collect_eod(api,'2026-11-13',root)
+            result=collect_eod(api,'2026-11-13',root,include_books=False,options_scope='full_chain_v2')
             data=read_json(root/'index_derivatives/latest.json')
             self.assertEqual(result['futures_contract_count'],4)
             self.assertEqual({r['product'] for r in data['options_contracts']},set(OPTIONS))
             self.assertEqual(validate(data),[])
             self.assertTrue(complete(root,'2026-11-13'))
-            self.assertTrue(all(r['expiry_date']=='2026-11-20' for r in data['options_contracts']))
-            self.assertTrue(all(r['iv_percent'] is None for r in data['options_contracts']))
+            self.assertEqual({r['expiry_date'] for r in data['options_contracts']},{'2026-11-20','2026-12-18'})
+            self.assertEqual(len(data['options_contracts']),252)
+            self.assertEqual(data['options_scope'],'full_chain_v2')
+            self.assertTrue(any(r['iv_percent'] is not None for r in data['options_contracts']))
             self.assertEqual(data['futures_contracts'][0]['turnover'],100000.)
             self.assertEqual(data['futures_contracts'][0]['turnover_unit'],'CNY')
             self.assertEqual(read_json(root/'latest.json')['sentinel'],'commodity')
             self.assertTrue(report_view(root,'2026-11-13')['eod_date_matches'])
             self.assertFalse(report_view(root,'2026-11-16')['eod_date_matches'])
             sdk.fail=True
-            collect_eod(api,'2026-11-13',root)
+            collect_eod(api,'2026-11-13',root,include_books=False,options_scope='full_chain_v2')
             for mutation in ('date','missing_product','missing_quote','duplicate','missing_side'):
                 bad=deepcopy(data)
                 if mutation=='date': bad['options_contracts'][0]['source_trade_date']='2026-11-12'

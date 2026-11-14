@@ -11,6 +11,13 @@ MAX_BYTES = 48 * 1024
 SOURCES = {
     'index_derivatives': 'index_derivatives/latest.json',
     'index_derivatives_intraday': 'index_derivatives/intraday/latest.json',
+    'index_radar': 'index_derivatives/radar_latest.json',
+    'index_history': 'index_derivatives/radar_history.json',
+    'index_books': 'index_derivatives/books/latest.json',
+    'treasury_futures': 'treasury_futures/latest.json',
+    'treasury_intraday': 'treasury_futures/intraday/latest.json',
+    'funding': 'funding/latest.json',
+    'funding_intraday': 'funding/intraday/latest.json',
     'report': 'report_input_latest.json',
     'futures': 'latest.json',
     'market_state': 'market_state_latest.json',
@@ -161,7 +168,16 @@ def export_chat_data(data_dir='data'):
     report = json.loads((root / 'report_input_latest.json').read_bytes())
     overview = {key: report.get(key) for key in (
         'current_market_snapshot', 'requested_date', 'frequency', 'intraday', 'has_night_session',
-        'execution_policy', 'module_freshness', 'futures', 'contract_metadata', 'index_derivatives')}
+        'execution_policy', 'module_freshness', 'futures', 'contract_metadata', 'index_derivatives','treasury_futures','funding')}
+    # Keep overview small even in full-chain mode; full views remain losslessly
+    # available in report and the separately indexed module sources.
+    for name in ('index_derivatives','treasury_futures','funding'):
+        view=report.get(name)
+        if isinstance(view,dict):
+            overview[name]={k:view[k] for k in ('available','eod_available','trade_date','expected_date',
+                'expected_eod_date','date_matches','eod_date_matches','coverage','coverage_complete',
+                'options_scope','validation_passed','current_market_snapshot','current_exchange_snapshot',
+                'source_paths','source_path','limitations') if k in view}
     overview['limitations'] = report.get('quality', {}).get('limitations', [])
     overview['options_quality'] = report.get('quality', {}).get('options_quality', {})
     overview['product_keys'] = product_keys(report.get('products', []))

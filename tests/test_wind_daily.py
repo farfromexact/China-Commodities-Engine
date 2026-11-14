@@ -11,6 +11,8 @@ from china_commodities.storage import write_json_atomic
 class DailyPlanTests(unittest.TestCase):
     def setUp(self):
         self.enterContext(patch('china_commodities.wind_index.complete',return_value=True))
+        self.enterContext(patch('china_commodities.wind_treasury.complete',return_value=True))
+        self.enterContext(patch('china_commodities.wind_funding.complete',return_value=True))
 
     def test_morning_only_closed_eod_and_completed_night(self):
         with TemporaryDirectory() as tmp,patch('china_commodities.wind_daily.full_complete',return_value=True),patch('china_commodities.wind_daily.night_complete',return_value=False):

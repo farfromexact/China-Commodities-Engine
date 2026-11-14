@@ -17,7 +17,7 @@ from .night_session import _night_window
 ZONE=ZoneInfo('Asia/Shanghai')
 DEFAULTS=dict(start_date=None,max_days_per_run=5,request_interval_seconds=0.,
               branch='main',sdk_dir=None,allowed_empty_products=['CZCE:LR'],
-              desk_host='127.0.0.1',desk_port=8765)
+              desk_host='127.0.0.1',desk_port=8765,index_options_scope='report_v1')
 
 
 def config(path):
@@ -29,6 +29,9 @@ def config(path):
     if isinstance(count,bool) or not isinstance(count,int) or count<=0:
         raise ValueError('invalid configuration: max_days_per_run')
     RequestPacer(result['request_interval_seconds'])
+    from .index_selection import SCOPES
+    if result['index_options_scope'] not in SCOPES:
+        raise ValueError('invalid configuration: index_options_scope')
     return result
 
 
@@ -121,7 +124,29 @@ def intraday_window(now):
                 cutoff=cutoff.isoformat(),started_at=now.isoformat())
 
 
-def plan(root, settings, now=None, anchor=None, known_completed=()):
+def _with_rates_plan(work,root,settings,now,excluded_funding=()):
+    from . import wind_treasury,wind_funding
+    for name,module in [('treasury',wind_treasury),('funding',wind_funding)]:
+        current=module.window(now)
+        missing=[]
+        if current is None:
+            closed=now.date() if module.eod_ready(str(now.date()),now) else previous_trading_day(now.date())
+            cursor=date.fromisoformat(work['start_date'])
+            while cursor<=closed:
+                day=str(cursor)
+                if (is_trading_day(cursor) and not (name=='funding' and day in excluded_funding)
+                        and not module.complete(root,day)):
+                    missing.append(day)
+                cursor+=timedelta(days=1)
+        work[name+'_intraday']=current
+        limit=settings['max_days_per_run']
+        work[name+'_dates']=missing[:limit]
+        work['remaining_'+name+'_dates']=missing[limit:]
+        work['has_work']=bool(work['has_work'] or current or missing)
+    return work
+
+
+def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_funding=()):
     from .wind_index import complete as index_complete
     root=Path(root)
     now=(now or datetime.now(ZONE)).astimezone(ZONE)
@@ -129,9 +154,10 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
     intraday=intraday_window(now)
     if intraday:
         baseline=max((p.stem for p in (root/'snapshots').glob('????-??-??.json')),default=intraday['trading_date'])
-        return dict(start_date=settings.get('start_date') or anchor or baseline,
+        work=dict(start_date=settings.get('start_date') or anchor or baseline,
                     full_dates=[],remaining_dates=[],index_dates=[],remaining_index_dates=[],night_date=None,intraday=intraday,
                     has_work=True,verified_dates=list(known_completed),timezone='Asia/Shanghai')
+        return _with_rates_plan(work,root,settings,now,excluded_funding)
     closed=today if eod_session_complete(today,now) else previous_trading_day(today)
     start=settings.get('start_date') or anchor
     if not start:
@@ -155,7 +181,7 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
                 verified.append(day)
             else:
                 missing.append(day)
-            if not index_complete(root,day):
+            if not index_complete(root,day,scope=settings.get('index_options_scope','report_v1')):
                 index_missing.append(day)
         cursor+=timedelta(days=1)
     selected=missing[:settings['max_days_per_run']]
@@ -169,10 +195,11 @@ def plan(root, settings, now=None, anchor=None, known_completed=()):
                 and not night_complete(root,str(target))):
             night_day=str(target)
     index_dates=index_missing[:settings['max_days_per_run']]
-    return dict(start_date=start,latest_completed_eod=str(closed),full_dates=selected,
+    work=dict(start_date=start,latest_completed_eod=str(closed),full_dates=selected,
                 index_dates=index_dates,remaining_index_dates=index_missing[len(index_dates):],
                 remaining_dates=missing[len(selected):],night_date=night_day,
                 has_work=bool(selected or night_day or index_dates),verified_dates=verified,timezone='Asia/Shanghai')
+    return _with_rates_plan(work,root,settings,now,excluded_funding)
 
 
 def desk_busy(settings):

@@ -31,6 +31,7 @@ class CachedWind:
     def __init__(self, client, root, guard, interval=1.):
         self.client, self.root, self.guard, self.interval = client, Path(root), guard, interval
         self.last_request = 0.
+        self.metrics = dict(cache_hits=0,sdk_requests=0,sdk_seconds=0.,sdk_exceptions=0,vendor_errors=0)
 
     def path(self, method, args):
         key = hashlib.sha256(json.dumps([method,args],ensure_ascii=False).encode()).hexdigest()
@@ -43,10 +44,19 @@ class CachedWind:
         self.guard()
         path=self.path(method,args)
         if path.exists():
+            self.metrics['cache_hits']+=1
             return read_json(path)
         time.sleep(max(0.,self.interval-(time.monotonic()-self.last_request)))
         self.guard()
-        r=getattr(self.client,method)(*args)
+        started=time.monotonic()
+        self.metrics['sdk_requests']+=1
+        try:
+            r=getattr(self.client,method)(*args)
+        except Exception:
+            self.metrics['sdk_exceptions']+=1
+            raise
+        finally:
+            self.metrics['sdk_seconds']+=time.monotonic()-started
         self.last_request=time.monotonic()
         raw=clean(dict(error=r.ErrorCode,codes=list(r.Codes),fields=list(r.Fields),times=list(r.Times),data=r.Data))
         if method=='wsi' and raw['error']==WIND_NO_DATA_AVAILABLE:
@@ -56,8 +66,9 @@ class CachedWind:
             raw=dict(error=0,vendor_error_code=WIND_NO_DATA_AVAILABLE,no_data_available=True,
                      codes=[args[0]],fields=fields,times=[],data=[[] for _ in fields])
         if raw['error']:
+            self.metrics['vendor_errors']+=1
             raise ValueError(f'Wind {method} error {raw["error"]}')
-        if method in {'wsd','wsi'} and [str(c).upper() for c in raw['codes']] != [args[0].upper()]:
+        if method in {'wsd','wsi'} and [str(c).upper() for c in raw['codes']] != [c.strip().upper() for c in args[0].split(',')]:
             raise ValueError('Wind contract identity mismatch')
         write_json_if_changed(path,raw)
         return raw

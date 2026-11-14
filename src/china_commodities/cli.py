@@ -281,6 +281,12 @@ def _validate(args: argparse.Namespace) -> int:
         index_payload = read_json(data_dir / 'index_derivatives/latest.json')
         if index_payload is not None:
             errors.extend(validate_index(index_payload))
+        from .wind_treasury import validate as validate_treasury
+        from .wind_funding import validate as validate_funding
+        for relative,validator in [('treasury_futures/latest.json',validate_treasury),('funding/latest.json',validate_funding)]:
+            module_payload=read_json(data_dir/relative)
+            if module_payload is not None:
+                errors.extend(validator(module_payload))
     if errors:
         for error in errors:
             print(f"ERROR: {error}")

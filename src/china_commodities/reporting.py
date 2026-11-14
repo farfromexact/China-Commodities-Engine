@@ -802,9 +802,15 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
 
     current_snapshot = current_market_snapshot(root)
     from .wind_index import report_view as index_report_view
+    from .wind_treasury import report_view as treasury_report_view
+    from .wind_funding import report_view as funding_report_view
+    treasury_view = treasury_report_view(root, futures.get('trade_date'))
+    funding_view = funding_report_view(root, futures.get('trade_date'))
     return {
         "current_market_snapshot": current_snapshot,
         "index_derivatives": index_report_view(root, futures.get('trade_date')),
+        "treasury_futures": treasury_view,
+        "funding": funding_view,
         "schema_version": REPORT_SCHEMA_VERSION,
         "generated_at": generated_at,
         "requested_date": requested_date,
@@ -830,6 +836,9 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         "intraday": current_snapshot.get("mode") == "intraday",
         "has_night_session": bool(night_session_view.get("published")),
         "source_paths": {
+            "index_derivatives": "data/index_derivatives/latest.json",
+            "treasury_futures": "data/treasury_futures/latest.json",
+            "funding": "data/funding/latest.json",
             "futures": "data/latest.json",
             "market_state": "data/market_state_latest.json",
             "physical": "data/physical/latest.json",
@@ -841,6 +850,15 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             "contract_meta": "data/contract_meta.json",
         },
         "module_freshness": [
+            _module_freshness('treasury_futures',treasury_view,dict(
+                data_fresh=treasury_view['date_matches'] and treasury_view['validation_passed'],
+                validation_passed=treasury_view['validation_passed'],published=treasury_view['eod_available']),
+                source_dates=[treasury_view['trade_date']] if treasury_view['trade_date'] else []),
+            dict(_module_freshness('funding',funding_view,dict(
+                data_fresh=funding_view['date_matches'] and funding_view['coverage_complete'],
+                validation_passed=funding_view['validation_passed'],published=funding_view['eod_available']),
+                source_dates=[r['source_trade_date'] for r in funding_view['records'] if r.get('source_trade_date')]),
+                coverage_complete=funding_view['coverage_complete']),
             _module_freshness(
                 "futures", futures, futures_status, source_dates=futures_source_dates
             ),

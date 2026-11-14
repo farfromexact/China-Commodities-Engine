@@ -33,6 +33,10 @@ class DailyRunTests(unittest.TestCase):
         stack.enter_context(patch.object(runner, 'publish_report_input'))
         self.index_eod = stack.enter_context(patch.object(runner, 'collect_index_eod', return_value={'mode':'index_derivatives_eod'}))
         self.index_intraday = stack.enter_context(patch.object(runner, 'collect_index_intraday', return_value={'mode':'index_derivatives_intraday'}))
+        self.treasury_eod = stack.enter_context(patch.object(runner,'collect_treasury_eod',return_value={'mode':'treasury_eod'}))
+        self.treasury_intraday = stack.enter_context(patch.object(runner,'collect_treasury_intraday',return_value={'mode':'treasury_intraday'}))
+        self.funding_eod = stack.enter_context(patch.object(runner,'collect_funding_eod',return_value={'mode':'funding_eod','coverage_complete':True}))
+        self.funding_intraday = stack.enter_context(patch.object(runner,'collect_funding_intraday',return_value={'mode':'funding_intraday'}))
         stack.enter_context(patch.object(runner, 'emit'))
 
     def test_direct_start_collects_and_pushes_without_signals_or_enabled_flag(self):
@@ -68,6 +72,23 @@ class DailyRunTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'wrong source date'):
             runner.once(DEFAULTS, self.cache)
         self.publisher.prepare.assert_not_called()
+
+    def test_treasury_and_partial_funding_publish_with_explicit_retry_deferral(self):
+        self.work.update(night_date=None,treasury_dates=['2026-11-13'],funding_dates=['2026-11-13'])
+        self.funding_eod.return_value=dict(mode='funding_eod',date='2026-11-13',coverage_complete=False,available=11,expected=12)
+        result=runner.once(DEFAULTS,self.cache)
+        self.treasury_eod.assert_called_once()
+        self.funding_eod.assert_called_once()
+        self.assertEqual(result['deferred_funding_dates'],['2026-11-13'])
+        self.publisher.prepare.assert_called_once()
+        self.sdk.stop.assert_not_called()
+
+    def test_rates_intraday_runs_when_commodity_already_closed(self):
+        self.work.update(night_date=None,treasury_intraday={'cutoff':'treasury_cutoff'},funding_intraday={'cutoff':'repo_cutoff'})
+        runner.once(DEFAULTS,self.cache)
+        self.treasury_intraday.assert_called_once()
+        self.funding_intraday.assert_called_once()
+        self.index_intraday.assert_not_called()
 
     def test_login_failure_does_not_collect(self):
         self.sdk.start.return_value.ErrorCode = -1
