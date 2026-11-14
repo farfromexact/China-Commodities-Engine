@@ -5096,6 +5096,7 @@
   ],
   "night_session": "not_applicable",
   "analytics": {
+    "analytics_version": "delta_quality_v2",
     "price_basis": "wind_settlement_fallback_close",
     "collection_scope": "report_v1",
     "valuation_time": "2026-11-13T15:00:00+08:00",
@@ -5116,11 +5117,11 @@
             "metrics": {
               "atm_iv": 0.12453580344857018,
               "call25_iv": 0.13135864449011064,
-              "put25_iv": 0.14604725165164467,
-              "call10_iv": 0.14332024656631426,
-              "put10_iv": 0.14604725165164467,
-              "rr25": -0.014688607161534029,
-              "bf25": 0.014167144622307476,
+              "put25_iv": null,
+              "call10_iv": null,
+              "put10_iv": null,
+              "rr25": null,
+              "bf25": null,
               "gamma_peaks": [
                 {
                   "strike": 2800.0,
@@ -5153,44 +5154,81 @@
                   "target_delta": 0.5,
                   "observed_delta": 0.580250086124539,
                   "strike": 2750.0,
-                  "delta_distance": 0.08025008612453899
+                  "delta_distance": 0.08025008612453899,
+                  "observed_iv": 0.12391424005073771,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.5,
                   "observed_delta": -0.42018310130749886,
                   "strike": 2750.0,
-                  "delta_distance": 0.07981689869250114
+                  "delta_distance": 0.07981689869250114,
+                  "observed_iv": 0.12515736684640266,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.25,
                   "observed_delta": 0.2123605097181574,
                   "strike": 2800.0,
-                  "delta_distance": 0.0376394902818426
+                  "delta_distance": 0.0376394902818426,
+                  "observed_iv": 0.13135864449011064,
+                  "delta_tolerance": 0.05,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.25,
                   "observed_delta": -0.13952612600819195,
                   "strike": 2700.0,
-                  "delta_distance": 0.11047387399180805
+                  "delta_distance": 0.11047387399180805,
+                  "observed_iv": 0.14604725165164467,
+                  "delta_tolerance": 0.05,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.1,
                   "observed_delta": 0.052426868856308026,
                   "strike": 2850.0,
-                  "delta_distance": 0.04757313114369198
+                  "delta_distance": 0.04757313114369198,
+                  "observed_iv": 0.14332024656631426,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.1,
                   "observed_delta": -0.13952612600819195,
                   "strike": 2700.0,
-                  "delta_distance": 0.03952612600819194
+                  "delta_distance": 0.03952612600819194,
+                  "observed_iv": 0.14604725165164467,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "duplicate_25_delta_strike"
                 }
               ],
+              "approximate_metrics": {
+                "atm_iv": 0.12453580344857018,
+                "call25_iv": 0.13135864449011064,
+                "put25_iv": 0.14604725165164467,
+                "call10_iv": 0.14332024656631426,
+                "put10_iv": 0.14604725165164467,
+                "rr25": -0.014688607161534029,
+                "bf25": 0.014167144622307476
+              },
+              "atm_ready": true,
+              "skew_ready": false,
+              "wings10_ready": false,
+              "analytics_version": "delta_quality_v2",
               "pcr_scope": "selected_strikes_only",
               "gamma_scope": "selected_strikes_valid_greeks_only",
               "contract_codes": [
@@ -5227,12 +5265,12 @@
             "t_years": 0.0958904109589041,
             "metrics": {
               "atm_iv": 0.13634656156583852,
-              "call25_iv": 0.1363932266382598,
+              "call25_iv": null,
               "put25_iv": 0.14545940678088248,
-              "call10_iv": 0.1576105806933879,
-              "put10_iv": 0.18064586091658824,
-              "rr25": -0.00906618014262267,
-              "bf25": 0.004579755143732628,
+              "call10_iv": null,
+              "put10_iv": null,
+              "rr25": null,
+              "bf25": null,
               "gamma_peaks": [
                 {
                   "strike": 2800.0,
@@ -5265,44 +5303,81 @@
                   "target_delta": 0.5,
                   "observed_delta": 0.46684216207958135,
                   "strike": 2750.0,
-                  "delta_distance": 0.033157837920418654
+                  "delta_distance": 0.033157837920418654,
+                  "observed_iv": 0.13823596207060482,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.5,
                   "observed_delta": -0.5331011079164623,
                   "strike": 2750.0,
-                  "delta_distance": 0.03310110791646226
+                  "delta_distance": 0.03310110791646226,
+                  "observed_iv": 0.13445716106107225,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.25,
                   "observed_delta": 0.30465263079683247,
                   "strike": 2800.0,
-                  "delta_distance": 0.05465263079683247
+                  "delta_distance": 0.05465263079683247,
+                  "observed_iv": 0.1363932266382598,
+                  "delta_tolerance": 0.05,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.25,
                   "observed_delta": -0.22718698084473185,
                   "strike": 2650.0,
-                  "delta_distance": 0.02281301915526815
+                  "delta_distance": 0.02281301915526815,
+                  "observed_iv": 0.14545940678088248,
+                  "delta_tolerance": 0.05,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.1,
                   "observed_delta": 0.06615630655081405,
                   "strike": 2950.0,
-                  "delta_distance": 0.03384369344918596
+                  "delta_distance": 0.03384369344918596,
+                  "observed_iv": 0.1576105806933879,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.1,
                   "observed_delta": -0.04909179922611407,
                   "strike": 2500.0,
-                  "delta_distance": 0.050908200773885935
+                  "delta_distance": 0.050908200773885935,
+                  "observed_iv": 0.18064586091658824,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 }
               ],
+              "approximate_metrics": {
+                "atm_iv": 0.13634656156583852,
+                "call25_iv": 0.1363932266382598,
+                "put25_iv": 0.14545940678088248,
+                "call10_iv": 0.1576105806933879,
+                "put10_iv": 0.18064586091658824,
+                "rr25": -0.00906618014262267,
+                "bf25": 0.004579755143732628
+              },
+              "atm_ready": true,
+              "skew_ready": false,
+              "wings10_ready": false,
+              "analytics_version": "delta_quality_v2",
               "pcr_scope": "selected_strikes_only",
               "gamma_scope": "selected_strikes_valid_greeks_only",
               "contract_codes": [
@@ -5344,11 +5419,11 @@
             "metrics": {
               "atm_iv": 0.15678137314830767,
               "call25_iv": 0.163107345546592,
-              "put25_iv": 0.16569941831599222,
-              "call10_iv": 0.18976172943693537,
-              "put10_iv": 0.17930210473686198,
-              "rr25": -0.002592072769400211,
-              "bf25": 0.007622008782984441,
+              "put25_iv": null,
+              "call10_iv": null,
+              "put10_iv": null,
+              "rr25": null,
+              "bf25": null,
               "gamma_peaks": [
                 {
                   "strike": 4000.0,
@@ -5381,44 +5456,81 @@
                   "target_delta": 0.5,
                   "observed_delta": 0.4618528093823447,
                   "strike": 4000.0,
-                  "delta_distance": 0.03814719061765531
+                  "delta_distance": 0.03814719061765531,
+                  "observed_iv": 0.16003815631763965,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.5,
                   "observed_delta": -0.5398322770826005,
                   "strike": 4000.0,
-                  "delta_distance": 0.03983227708260051
+                  "delta_distance": 0.03983227708260051,
+                  "observed_iv": 0.1535245899789757,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.25,
                   "observed_delta": 0.2599792538329181,
                   "strike": 4050.0,
-                  "delta_distance": 0.009979253832918089
+                  "delta_distance": 0.009979253832918089,
+                  "observed_iv": 0.163107345546592,
+                  "delta_tolerance": 0.05,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.25,
                   "observed_delta": -0.32382557969984155,
                   "strike": 3950.0,
-                  "delta_distance": 0.07382557969984155
+                  "delta_distance": 0.07382557969984155,
+                  "observed_iv": 0.16569941831599222,
+                  "delta_tolerance": 0.05,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.1,
                   "observed_delta": 0.06974111169443108,
                   "strike": 4150.0,
-                  "delta_distance": 0.03025888830556893
+                  "delta_distance": 0.03025888830556893,
+                  "observed_iv": 0.18976172943693537,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.1,
                   "observed_delta": -0.17433821067509997,
                   "strike": 3900.0,
-                  "delta_distance": 0.07433821067509996
+                  "delta_distance": 0.07433821067509996,
+                  "observed_iv": 0.17930210473686198,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 }
               ],
+              "approximate_metrics": {
+                "atm_iv": 0.15678137314830767,
+                "call25_iv": 0.163107345546592,
+                "put25_iv": 0.16569941831599222,
+                "call10_iv": 0.18976172943693537,
+                "put10_iv": 0.17930210473686198,
+                "rr25": -0.002592072769400211,
+                "bf25": 0.007622008782984441
+              },
+              "atm_ready": true,
+              "skew_ready": false,
+              "wings10_ready": false,
+              "analytics_version": "delta_quality_v2",
               "pcr_scope": "selected_strikes_only",
               "gamma_scope": "selected_strikes_valid_greeks_only",
               "contract_codes": [
@@ -5455,12 +5567,12 @@
             "t_years": 0.0958904109589041,
             "metrics": {
               "atm_iv": 0.17253325129002126,
-              "call25_iv": 0.17128358544703715,
-              "put25_iv": 0.1969158371954004,
+              "call25_iv": null,
+              "put25_iv": null,
               "call10_iv": 0.18131799512010816,
-              "put10_iv": 0.1969158371954004,
-              "rr25": -0.025632251748363255,
-              "bf25": 0.011566460031197517,
+              "put10_iv": null,
+              "rr25": null,
+              "bf25": null,
               "gamma_peaks": [
                 {
                   "strike": 4000.0,
@@ -5493,44 +5605,81 @@
                   "target_delta": 0.5,
                   "observed_delta": 0.5310544342079528,
                   "strike": 3950.0,
-                  "delta_distance": 0.03105443420795284
+                  "delta_distance": 0.03105443420795284,
+                  "observed_iv": 0.1739125758359116,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.5,
                   "observed_delta": -0.46733917351989357,
                   "strike": 3950.0,
-                  "delta_distance": 0.03266082648010643
+                  "delta_distance": 0.03266082648010643,
+                  "observed_iv": 0.1711539267441309,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.25,
                   "observed_delta": 0.3473545627594001,
                   "strike": 4050.0,
-                  "delta_distance": 0.09735456275940008
+                  "delta_distance": 0.09735456275940008,
+                  "observed_iv": 0.17128358544703715,
+                  "delta_tolerance": 0.05,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.25,
                   "observed_delta": -0.12500113440400593,
                   "strike": 3700.0,
-                  "delta_distance": 0.12499886559599407
+                  "delta_distance": 0.12499886559599407,
+                  "observed_iv": 0.1969158371954004,
+                  "delta_tolerance": 0.05,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.1,
                   "observed_delta": 0.07578306854485468,
                   "strike": 4300.0,
-                  "delta_distance": 0.02421693145514532
+                  "delta_distance": 0.02421693145514532,
+                  "observed_iv": 0.18131799512010816,
+                  "delta_tolerance": 0.03,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.1,
                   "observed_delta": -0.12500113440400593,
                   "strike": 3700.0,
-                  "delta_distance": 0.02500113440400592
+                  "delta_distance": 0.02500113440400592,
+                  "observed_iv": 0.1969158371954004,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "duplicate_25_delta_strike"
                 }
               ],
+              "approximate_metrics": {
+                "atm_iv": 0.17253325129002126,
+                "call25_iv": 0.17128358544703715,
+                "put25_iv": 0.1969158371954004,
+                "call10_iv": 0.18131799512010816,
+                "put10_iv": 0.1969158371954004,
+                "rr25": -0.025632251748363255,
+                "bf25": 0.011566460031197517
+              },
+              "atm_ready": true,
+              "skew_ready": false,
+              "wings10_ready": false,
+              "analytics_version": "delta_quality_v2",
               "pcr_scope": "selected_strikes_only",
               "gamma_scope": "selected_strikes_valid_greeks_only",
               "contract_codes": [
@@ -5572,11 +5721,11 @@
             "metrics": {
               "atm_iv": 0.30294611927572834,
               "call25_iv": 0.28599258030353814,
-              "put25_iv": 0.35800939831891143,
-              "call10_iv": 0.3193062044880721,
-              "put10_iv": 0.35800939831891143,
-              "rr25": -0.0720168180153733,
-              "bf25": 0.01905487003549644,
+              "put25_iv": null,
+              "call10_iv": null,
+              "put10_iv": null,
+              "rr25": null,
+              "bf25": null,
               "gamma_peaks": [
                 {
                   "strike": 6500.0,
@@ -5609,44 +5758,81 @@
                   "target_delta": 0.5,
                   "observed_delta": 0.5576978509420901,
                   "strike": 6300.0,
-                  "delta_distance": 0.05769785094209012
+                  "delta_distance": 0.05769785094209012,
+                  "observed_iv": 0.30294611927572834,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.5,
                   "observed_delta": -0.4420145191984348,
                   "strike": 6300.0,
-                  "delta_distance": 0.05798548080156518
+                  "delta_distance": 0.05798548080156518,
+                  "observed_iv": 0.30294611927572834,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.25,
                   "observed_delta": 0.26187603874709403,
                   "strike": 6500.0,
-                  "delta_distance": 0.011876038747094031
+                  "delta_distance": 0.011876038747094031,
+                  "observed_iv": 0.28599258030353814,
+                  "delta_tolerance": 0.05,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.25,
                   "observed_delta": -0.13253998637302444,
                   "strike": 6000.0,
-                  "delta_distance": 0.11746001362697556
+                  "delta_distance": 0.11746001362697556,
+                  "observed_iv": 0.35800939831891143,
+                  "delta_tolerance": 0.05,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.1,
                   "observed_delta": 0.05625634500303483,
                   "strike": 6800.0,
-                  "delta_distance": 0.04374365499696518
+                  "delta_distance": 0.04374365499696518,
+                  "observed_iv": 0.3193062044880721,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.1,
                   "observed_delta": -0.13253998637302444,
                   "strike": 6000.0,
-                  "delta_distance": 0.03253998637302444
+                  "delta_distance": 0.03253998637302444,
+                  "observed_iv": 0.35800939831891143,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "duplicate_25_delta_strike"
                 }
               ],
+              "approximate_metrics": {
+                "atm_iv": 0.30294611927572834,
+                "call25_iv": 0.28599258030353814,
+                "put25_iv": 0.35800939831891143,
+                "call10_iv": 0.3193062044880721,
+                "put10_iv": 0.35800939831891143,
+                "rr25": -0.0720168180153733,
+                "bf25": 0.01905487003549644
+              },
+              "atm_ready": true,
+              "skew_ready": false,
+              "wings10_ready": false,
+              "analytics_version": "delta_quality_v2",
               "pcr_scope": "selected_strikes_only",
               "gamma_scope": "selected_strikes_valid_greeks_only",
               "contract_codes": [
@@ -5683,12 +5869,12 @@
             "t_years": 0.0958904109589041,
             "metrics": {
               "atm_iv": 0.2903903893951001,
-              "call25_iv": 0.2822286525125476,
-              "put25_iv": 0.313949036711811,
-              "call10_iv": 0.30267806839421907,
-              "put10_iv": 0.3462414856881192,
-              "rr25": -0.03172038419926343,
-              "bf25": 0.007698455217079236,
+              "call25_iv": null,
+              "put25_iv": null,
+              "call10_iv": null,
+              "put10_iv": null,
+              "rr25": null,
+              "bf25": null,
               "gamma_peaks": [
                 {
                   "strike": 6600.0,
@@ -5721,44 +5907,81 @@
                   "target_delta": 0.5,
                   "observed_delta": 0.5049960970247955,
                   "strike": 6300.0,
-                  "delta_distance": 0.004996097024795532
+                  "delta_distance": 0.004996097024795532,
+                  "observed_iv": 0.2913138188262098,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.5,
                   "observed_delta": -0.4937586536371291,
                   "strike": 6300.0,
-                  "delta_distance": 0.006241346362870881
+                  "delta_distance": 0.006241346362870881,
+                  "observed_iv": 0.2894669599639903,
+                  "delta_tolerance": 0.15,
+                  "target_ready": true,
+                  "quality_state": "qualified_nearest"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.25,
                   "observed_delta": 0.30097854617570147,
                   "strike": 6600.0,
-                  "delta_distance": 0.05097854617570147
+                  "delta_distance": 0.05097854617570147,
+                  "observed_iv": 0.2822286525125476,
+                  "delta_tolerance": 0.05,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.25,
                   "observed_delta": -0.30042655855286665,
                   "strike": 6000.0,
-                  "delta_distance": 0.05042655855286665
+                  "delta_distance": 0.05042655855286665,
+                  "observed_iv": 0.313949036711811,
+                  "delta_tolerance": 0.05,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "C",
                   "target_delta": 0.1,
                   "observed_delta": 0.04452616738654837,
                   "strike": 7400.0,
-                  "delta_distance": 0.05547383261345164
+                  "delta_distance": 0.05547383261345164,
+                  "observed_iv": 0.30267806839421907,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 },
                 {
                   "side": "P",
                   "target_delta": -0.1,
                   "observed_delta": -0.16798660165124207,
                   "strike": 5700.0,
-                  "delta_distance": 0.06798660165124207
+                  "delta_distance": 0.06798660165124207,
+                  "observed_iv": 0.3462414856881192,
+                  "delta_tolerance": 0.03,
+                  "target_ready": false,
+                  "quality_state": "delta_too_far"
                 }
               ],
+              "approximate_metrics": {
+                "atm_iv": 0.2903903893951001,
+                "call25_iv": 0.2822286525125476,
+                "put25_iv": 0.313949036711811,
+                "call10_iv": 0.30267806839421907,
+                "put10_iv": 0.3462414856881192,
+                "rr25": -0.03172038419926343,
+                "bf25": 0.007698455217079236
+              },
+              "atm_ready": true,
+              "skew_ready": false,
+              "wings10_ready": false,
+              "analytics_version": "delta_quality_v2",
               "pcr_scope": "selected_strikes_only",
               "gamma_scope": "selected_strikes_valid_greeks_only",
               "contract_codes": [
