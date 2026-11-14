@@ -3,7 +3,7 @@
   "trade_date": "2026-11-11",
   "source_provider": "wind",
   "frequency": "EOD",
-  "generated_at": "2026-11-14T21:05:12.976654+08:00",
+  "generated_at": "2026-11-14T21:07:25.887779+08:00",
   "records": [
     {
       "key": "DR001",
@@ -13,20 +13,19 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
-      "instrument_name": null,
-      "raw_value": null,
-      "rate_percent": null,
+      "source_trade_date": "2026-11-11",
+      "instrument_name": "银存间质押1日",
+      "raw_value": 1.3312,
+      "rate_percent": 1.3312,
       "unit": "percent_per_annum",
       "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
-      "record_state": "query_error",
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "repo name does not confirm configured rate type: 银存间质押1日"
+        "1d": 3.420000000000001,
+        "3d": 3.1399999999999872,
+        "5d": 7.479999999999998,
+        "20d": 7.14999999999999
+      }
     },
     {
       "key": "DR007",
@@ -36,20 +35,19 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
-      "instrument_name": null,
-      "raw_value": null,
-      "rate_percent": null,
+      "source_trade_date": "2026-11-11",
+      "instrument_name": "银存间质押7日",
+      "raw_value": 1.3926,
+      "rate_percent": 1.3926,
       "unit": "percent_per_annum",
       "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
-      "record_state": "query_error",
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "repo name does not confirm configured rate type: 银存间质押7日"
+        "1d": 4.610000000000003,
+        "3d": 5.090000000000017,
+        "5d": 6.689999999999996,
+        "20d": 4.03
+      }
     },
     {
       "key": "DR014",
@@ -59,20 +57,19 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
-      "instrument_name": null,
-      "raw_value": null,
-      "rate_percent": null,
+      "source_trade_date": "2026-11-11",
+      "instrument_name": "银存间质押14日",
+      "raw_value": 1.3762,
+      "rate_percent": 1.3762,
       "unit": "percent_per_annum",
       "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
-      "record_state": "query_error",
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "repo name does not confirm configured rate type: 银存间质押14日"
+        "1d": 3.730000000000011,
+        "3d": 4.260000000000019,
+        "5d": 5.480000000000018,
+        "20d": 1.6199999999999992
+      }
     },
     {
       "key": "R001",
@@ -82,20 +79,19 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
-      "instrument_name": null,
-      "raw_value": null,
-      "rate_percent": null,
+      "source_trade_date": "2026-11-11",
+      "instrument_name": "银行间质押1日",
+      "raw_value": 1.39,
+      "rate_percent": 1.39,
       "unit": "percent_per_annum",
       "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
-      "record_state": "query_error",
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "repo name does not confirm configured rate type: 银行间质押1日"
+        "1d": 3.589999999999982,
+        "3d": 4.719999999999991,
+        "5d": 9.209999999999985,
+        "20d": 6.979999999999986
+      }
     },
     {
       "key": "R007",
@@ -105,20 +101,19 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
-      "instrument_name": null,
-      "raw_value": null,
-      "rate_percent": null,
+      "source_trade_date": "2026-11-11",
+      "instrument_name": "银行间质押7日",
+      "raw_value": 1.4227,
+      "rate_percent": 1.4227,
       "unit": "percent_per_annum",
       "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
-      "record_state": "query_error",
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "repo name does not confirm configured rate type: 银行间质押7日"
+        "1d": 0.7000000000000117,
+        "3d": 2.62,
+        "5d": 2.880000000000016,
+        "20d": 1.2900000000000134
+      }
     },
     {
       "key": "R014",
@@ -128,20 +123,19 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
-      "instrument_name": null,
-      "raw_value": null,
-      "rate_percent": null,
+      "source_trade_date": "2026-11-11",
+      "instrument_name": "银行间质押14日",
+      "raw_value": 1.4198,
+      "rate_percent": 1.4198,
       "unit": "percent_per_annum",
       "unit_basis": "configured_instrument_definition; no numeric rescaling; live route acceptance pending",
-      "record_state": "query_error",
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "repo name does not confirm configured rate type: 银行间质押14日"
+        "1d": 0.38000000000000256,
+        "3d": -0.7900000000000018,
+        "5d": 0.7299999999999862,
+        "20d": -1.419999999999999
+      }
     },
     {
       "key": "GC001",
@@ -276,15 +270,15 @@
       }
     }
   ],
-  "coverage_complete": false,
+  "coverage_complete": true,
   "ready_time_policy": "18:00 Asia/Shanghai conservative combined-panel gate; release still requires exact source date",
   "spreads": [
     {
       "key": "R001_minus_DR001",
       "first": "R001",
       "second": "DR001",
-      "value_bp": null,
-      "source_trade_date": null,
+      "value_bp": 5.879999999999996,
+      "source_trade_date": "2026-11-11",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -293,8 +287,8 @@
       "key": "R007_minus_DR007",
       "first": "R007",
       "second": "DR007",
-      "value_bp": null,
-      "source_trade_date": null,
+      "value_bp": 3.0100000000000016,
+      "source_trade_date": "2026-11-11",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -303,8 +297,8 @@
       "key": "R014_minus_DR014",
       "first": "R014",
       "second": "DR014",
-      "value_bp": null,
-      "source_trade_date": null,
+      "value_bp": 4.359999999999986,
+      "source_trade_date": "2026-11-11",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -313,8 +307,8 @@
       "key": "DR007_minus_DR001",
       "first": "DR007",
       "second": "DR001",
-      "value_bp": null,
-      "source_trade_date": null,
+      "value_bp": 6.140000000000012,
+      "source_trade_date": "2026-11-11",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -323,8 +317,8 @@
       "key": "GC001_minus_DR001",
       "first": "GC001",
       "second": "DR001",
-      "value_bp": null,
-      "source_trade_date": null,
+      "value_bp": 17.880000000000006,
+      "source_trade_date": "2026-11-11",
       "comparison_basis": "different_market_close_vs_daily_weighted",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
