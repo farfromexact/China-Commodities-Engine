@@ -328,6 +328,8 @@ def _compact_product(product: Mapping[str, Any]) -> dict[str, Any]:
         "realized_vol_20d_observations": product.get(
             "realized_vol_20d_observations"
         ),
+        "realized_vol_sample_annualized_pct": product.get("realized_vol_sample_annualized_pct"),
+        "realized_vol_window": product.get("realized_vol_window"),
         "volume_zscore": product.get("volume_zscore"),
         "oi_level_zscore": product.get("oi_level_zscore"),
         "delta_OI_1D": product.get("delta_OI_1D"),
@@ -541,9 +543,10 @@ def _module_freshness(
     status: Mapping[str, Any],
     *,
     source_dates: list[str] | None = None,
+    expected_date: str | None = None,
 ) -> dict[str, Any]:
     dates = sorted({str(value) for value in (source_dates or []) if value})
-    return {
+    result = {
         "module": name,
         "requested_date": _trade_date(snapshot) or _trade_date(status),
         "source_dates": dates,
@@ -554,6 +557,14 @@ def _module_freshness(
         "validation_passed": status.get("validation_passed"),
         "published": status.get("published"),
     }
+    if expected_date:
+        matches = bool(dates) and all(day == expected_date for day in dates)
+        result.update(batch_data_fresh=status.get("data_fresh"),
+                      expected_date=expected_date, expected_date_basis="report_eod_anchor_not_foreign_release_calendar",
+                      report_date_matches=matches,
+                      freshness_state="missing" if not dates else "aligned" if matches else "date_mismatch",
+                      data_fresh=status.get("data_fresh") is True and matches)
+    return result
 
 
 def _finite_number(value: Any) -> float | None:
@@ -780,6 +791,17 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     ]
     market_state_window = _mapping(market_state.get("history_window"))
 
+    # A successful old batch is not fresh relative to this report. Keep both facts.
+    foundation_freshness = {}
+    for name, snapshot, status, dates, view in (
+        ("physical", physical, physical_status, physical_source_dates, physical_view),
+        ("external", external, external_status, external_source_dates, external_view),
+    ):
+        fresh = _module_freshness(name, snapshot, status, source_dates=dates, expected_date=requested_date)
+        foundation_freshness[name] = fresh
+        view.update({k: fresh[k] for k in ("data_fresh", "batch_data_fresh", "expected_date",
+                    "expected_date_basis", "report_date_matches", "freshness_state") if k in fresh})
+
     limitations: list[str] = []
     if not physical_view.get("data_fresh"):
         limitations.append("physical_module_not_fresh")
@@ -875,12 +897,8 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
                     if value
                 ],
             ),
-            _module_freshness(
-                "physical", physical, physical_status, source_dates=physical_source_dates
-            ),
-            _module_freshness(
-                "external", external, external_status, source_dates=external_source_dates
-            ),
+            foundation_freshness["physical"],
+            foundation_freshness["external"],
             _module_freshness(
                 "night_session",
                 night_session,

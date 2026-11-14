@@ -24,8 +24,11 @@ class AnalyticsTests(unittest.TestCase):
         expiry=result['products']['IO']['expiries'][0];metrics=expiry['metrics']
         self.assertAlmostEqual(expiry['forward'],100,places=8)
         self.assertAlmostEqual(metrics['atm_iv'],.25,places=6)
-        self.assertAlmostEqual(metrics['rr25'],0,places=6)
-        self.assertAlmostEqual(metrics['bf25'],0,places=6)
+        self.assertAlmostEqual(metrics['approximate_metrics']['rr25'],0,places=6)
+        self.assertAlmostEqual(metrics['approximate_metrics']['bf25'],0,places=6)
+        self.assertFalse(metrics['skew_ready'])  # 10-point grid does not observe 25 delta.
+        self.assertIsNone(metrics['rr25'])
+        self.assertIsNone(metrics['bf25'])
         self.assertEqual(metrics['pcr_oi'],1)
         self.assertEqual(metrics['pcr_volume'],1)
         self.assertIsNone(metrics['call_oi_change'])

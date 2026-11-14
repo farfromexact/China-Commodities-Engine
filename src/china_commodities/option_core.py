@@ -7,7 +7,7 @@ Publication and analytical readiness are intentionally separate.
 from __future__ import annotations
 
 from collections import defaultdict
-from datetime import datetime
+from datetime import date, datetime
 import math
 import re
 
@@ -20,13 +20,15 @@ from .collectors.ifind_http_adapter import IFindHTTPError
 from .normalize import normalize_options
 from .catalog import load_catalog
 from .option_universe import collect_openctp_option_directories
+from .option_sampling import bounded_strikes
+from .trading_calendar import previous_trading_day
 
 CORE_INDICATORS = (
     "latest", "settlement", "preSettlement", "volume", "openInterest",
     "impliedVolatility", "delta", "gamma", "vega", "theta",
 )
 CORE_PROFILE = "core_v1"
-SELECTOR_VERSION = 2
+SELECTOR_VERSION = 3
 
 
 def series_type(row):
@@ -85,23 +87,11 @@ def select_core_contracts(directory, futures, previous, trade_date):
                     raise IFindOptionDataError("ambiguous duplicate side within an option series")
                 sides[r["strike"]][r["option_type"]] = r
         paired = [k for k, v in sides.items() if len(v) == 2]
-        nearest = sorted(paired, key=lambda k: (abs(k-forward), k))
-        strikes = nearest[:1]
-        # Previous observed deltas guide selection only; fresh quotes determine readiness.
-        for side, target in (("P", -.25), ("C", .25)):
-            candidates = []
-            for k in paired:
-                prior = old.get(sides[k][side]["contract"], {})
-                delta = number(((prior.get("greeks") or {}).get("selected") or {}).get("delta"))
-                if delta is None:
-                    delta = number(prior.get("delta"))
-                if delta is not None and abs(delta-target) <= .05:
-                    candidates.append((abs(delta-target), abs(k-forward), k))
-            if candidates:
-                k = min(candidates)[2]
-                if k not in strikes and len(strikes) < budget//2:
-                    strikes.append(k)
-        strikes += [k for k in nearest if k not in strikes][:max(0, budget//2-len(strikes))]
+        historical = [r for r in previous if r.get('underlying_contract') == underlying
+                      and r.get('expiry_date') == expiry
+                      and r.get('source_trade_date') == str(previous_trading_day(date.fromisoformat(trade_date)))]
+        years = (date.fromisoformat(expiry)-date.fromisoformat(trade_date)).days/365 if expiry else 30/365
+        strikes, sampling = bounded_strikes(paired, forward, years, budget//2, historical)
         if not strikes:
             continue
         selected = [sides[k][side] for k in sorted(strikes) for side in ("C", "P")]
@@ -111,7 +101,8 @@ def select_core_contracts(directory, futures, previous, trade_date):
             "contract_budget": budget, "selected_contract_count": len(selected),
             "underlying_contract": underlying, "expiry_date": expiry,
             "selection_forward": forward, "selection_forward_date": forward_date,
-            "selection_reason": "standard_active_series_atm_then_observed_delta_wings_then_nearest_pairs",
+            "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
+            "sampling": sampling,
             "full_chain": False,
         }
     raise IFindOptionDataError("core selection needs a known forward and paired active contracts")

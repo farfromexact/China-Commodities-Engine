@@ -15,15 +15,16 @@ sys.path.insert(0, str(ROOT / 'src'))
 
 from china_commodities.wind_daily import config, plan, ZONE
 from china_commodities.wind_daily_git import Publisher, git
-from china_commodities.storage import read_json, write_json_atomic
+from china_commodities.storage import read_json, write_json_atomic, refresh_market_state
 from china_commodities.collectors.wind_runtime import load_wind
 from china_commodities.wind_daily_collect import CachedWind, collect_day
 from china_commodities.reporting import publish_report_input
 from china_commodities.quality import validate_snapshot
 from china_commodities.wind_intraday import collect_intraday
-from china_commodities.wind_index import collect_eod as collect_index_eod, collect_intraday as collect_index_intraday
+from china_commodities.wind_index import collect_eod as collect_index_eod, collect_intraday as collect_index_intraday, rebuild_analytics
 from china_commodities.wind_treasury import collect_eod as collect_treasury_eod, collect_intraday as collect_treasury_intraday
 from china_commodities.wind_funding import collect_eod as collect_funding_eod, collect_intraday as collect_funding_intraday
+from china_commodities.wind_history import collect_futures_history
 
 TRACE = None
 
@@ -78,7 +79,7 @@ def finish(cache, phase, **details):
     return payload
 
 
-def once(settings, cache, now=None,excluded_funding=()):
+def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
     now = now or datetime.now(ZONE)
     cache = Path(cache)
     cache.mkdir(parents=True, exist_ok=True)
@@ -89,7 +90,7 @@ def once(settings, cache, now=None,excluded_funding=()):
         publisher.sync()
     anchor = read_json(cache / 'anchor.json', default={})
     work = plan(ROOT / 'data', settings, now=now, anchor=anchor.get('start_date'),
-                known_completed=anchor.get('verified_dates', []),excluded_funding=excluded_funding)
+                known_completed=anchor.get('verified_dates', []),excluded_funding=excluded_funding,history_budget=history_budget)
     write_json_atomic(cache / 'anchor.json', dict(start_date=work['start_date'], verified_dates=work['verified_dates']))
     if not work['has_work']:
         return finish(cache, 'up_to_date', plan=work, recovered_push=recovered)
@@ -130,7 +131,7 @@ def once(settings, cache, now=None,excluded_funding=()):
                                        allowed_empty=settings['allowed_empty_products']))
         for day in work.get('index_dates', []):
             print(f"{day}: 提取股指期货、股指期权（{settings['index_options_scope']}）及现金市场...", flush=True)
-            results.append(measured_collect('index_eod:'+day,api,collect_index_eod, day, stage,options_scope=settings['index_options_scope']))
+            results.append(measured_collect('index_eod:'+day,api,collect_index_eod, day, stage,options_scope=settings['index_options_scope'],refresh_analytics=False))
         for day in work.get('treasury_dates',[]):
             print(f'{day}: 提取TS/TF/T/TL国债期货...',flush=True)
             results.append(measured_collect('treasury_eod:'+day,api,collect_treasury_eod,day,stage))
@@ -142,10 +143,23 @@ def once(settings, cache, now=None,excluded_funding=()):
             if not result['coverage_complete']:
                 deferred.add(day)
                 print(f"{day}: 回购面板部分缺失（{result['available']}/{result['expected']}）；保留缺失状态，本次不循环重试。",flush=True)
+        for task in work.get('history_tasks', []):
+            day = task['date']
+            print(f"{day}: 有限历史补采 {task['module']}...", flush=True)
+            if task['module'] == 'commodity_futures':
+                results.append(measured_collect('futures_history:'+day,api,collect_futures_history,day,stage,
+                                                allowed_empty=settings['allowed_empty_products']))
+            else:
+                results.append(measured_collect('index_history:'+day,api,collect_index_eod,day,stage,
+                                                include_books=False,options_scope=settings['index_options_scope'],refresh_analytics=False))
         with measure('validation_and_report'):
             errors = [] if work.get('intraday') else validate_snapshot(read_json(stage / 'latest.json'))
             if errors:
                 raise RuntimeError(f'数据校验失败: {errors}')
+            # Upgrade computed quality even when the new observations belong to
+            # another module; do this once per batch rather than once per day.
+            refresh_market_state(stage)
+            rebuild_analytics(stage)
             publish_report_input(stage)
         print('校验通过，提交并推送数据...', flush=True)
         with measure('git_publish'):
@@ -179,8 +193,12 @@ def main(argv=None):
             emit(plan(ROOT / 'data', settings, now=started_at, anchor=anchor.get('start_date'),
                       known_completed=anchor.get('verified_dates', [])))
             return 0
+        history_budget = settings['max_history_days_per_run']
         while True:
-            result = once(settings, cache, now=started_at,excluded_funding=deferred_funding)
+            result = once(settings, cache, now=started_at,excluded_funding=deferred_funding,history_budget=history_budget)
+            # Daily catch-up can have multiple batches. History allowance belongs
+            # to this entire user launch, not each batch; never loop over its backlog.
+            history_budget = 0
             emit(result)
             deferred_funding.update(result.get('deferred_funding_dates',[]))
             if not any(result['plan'].get(key) for key in ('remaining_dates','remaining_index_dates','remaining_treasury_dates','remaining_funding_dates')):

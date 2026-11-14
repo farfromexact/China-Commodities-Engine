@@ -1,6 +1,6 @@
 # 核心期权采集与低门槛发布
 
-默认生产命令：
+当前商品生产入口是`START_WIND.cmd` / `START_WIND.command` / `scripts/run_wind_daily.py`，使用官方WindPy。仅用户明确启动后运行；旧iFinD入口继续idle/禁用。以下iFinD命令和字段说明是历史兼容记录，不是当前生产启动建议：
 
 ```sh
 python scripts/collect_ifind_options.py --all-products --option-profile core --date YYYY-MM-DD --minimum-product-coverage 0
@@ -11,7 +11,7 @@ python scripts/collect_ifind_options.py --all-products --option-profile core --d
 - 全目录用于发现合约和挑选，不向 iFinD 请求全链再过滤。
 - 每品种一个活跃标的/到期/系列类型组，优先普通期权，再按目录持仓、同日期货持仓、已有期权持仓及目录成交量排序。普通与月均（MS）期权不可配对或混组；元数据在选择前尽量补齐，OpenCTP 按日期在进程内缓存一次，缺到期日可保留价格但不声明分析就绪。
 - 同日准确标的结算价用于定位 ATM；缺少时可用已存历史标的价定位，但历史价不会冒充当日估值输入。没有可信参考价则记录失败，不随意选中间行权价。
-- 优先 ATM 成对 C/P，再保留已有 Delta 证据支持的25-delta两翼，其余预算取最近档位。合约预算仍为 `max(2, min(30, floor(目录合约数 × 10% / 2) × 2))`，小目录以一对合约为下限；最多15对。不为寻找两翼请求全链；历史 Delta 只用于选样，指标资格按新返回行情判断。
+- 选择器v3优先ATM成对C/P，再按当前参考价、剩余期限及相邻前日样本IV估计25Δ、10Δ两翼；优先不同执行价，再保留前期持仓集中档位及附近档位。没有可用前日IV时标注固定25%选样假设，不作为实际IV。合约预算仍为 `max(2, min(30, floor(目录合约数 × 10% / 2) × 2))`，最多15对；小预算不能覆盖的两翼明确记录，不增预算、不请求全链。本轮仍为单期限`core_v1`，没有新增第二期限。
 - 10个字段：latest、settlement、preSettlement、volume、openInterest、impliedVolatility、delta、gamma、vega、theta。不额外请求已存在的标的期货行情。
 - 同日采集计划冻结，成功记录复用，只补尚未取得的合约；选择器版本改变时重建计划，防止复用旧版混组选样。`--force-refresh` 才重新请求计划内所有合约。新交易日重新选择。
 - `--option-profile full` 为显式全链采集；默认工作流使用 core。

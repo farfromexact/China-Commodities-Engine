@@ -12,6 +12,7 @@ from .trading_calendar import previous_trading_day
 
 PRICE_BASIS = 'wind_settlement_fallback_close'
 RATE = 0.015
+ANALYTICS_VERSION = 'delta_quality_v2'
 DIRECT = {'IH': 'HO', 'IF': 'IO', 'IC': None, 'IM': 'MO'}
 
 
@@ -30,7 +31,7 @@ def price(row):
 
 
 def analyze(options, day, *, rate=RATE, scope='full_chain_v2'):
-    """Full-expiry PCR and parity/Black-76, retaining unavailable IV as null.
+    """Scope-labelled PCR and parity/Black-76, retaining unavailable IV as null.
 
     IV is annualized decimal; delta and gamma differentiate the inferred forward.
     Delta wings match the nearest observed delta, as in the source repository.
@@ -90,9 +91,17 @@ def analyze(options, day, *, rate=RATE, scope='full_chain_v2'):
         for side,target in [('C',.5),('P',-.5),('C',.25),('P',-.25),('C',.1),('P',-.1)]:
             available = [p for p in points if p[0]==side]
             observed = min(available,key=lambda p:(abs(p[1]-target),p[3])) if available else None
+            tolerance = .15 if abs(target)==.5 else .05 if abs(target)==.25 else .03
+            duplicate = bool(observed and abs(target)==.1 and any(
+                w['side']==side and abs(w['target_delta'])==.25 and w['strike']==observed[3]
+                for w in wing_observations))
+            ready = bool(observed and abs(observed[1]-target)<=tolerance and not duplicate)
             wing_observations.append(dict(side=side,target_delta=target,
                 observed_delta=observed[1] if observed else None,strike=observed[3] if observed else None,
-                delta_distance=abs(observed[1]-target) if observed else None))
+                delta_distance=abs(observed[1]-target) if observed else None,
+                observed_iv=observed[2] if observed else None,delta_tolerance=tolerance,
+                target_ready=ready,quality_state='qualified_nearest' if ready else
+                    'missing' if not observed else 'duplicate_25_delta_strike' if duplicate else 'delta_too_far'))
         atm = [v for v in (wing('C', .5), wing('P', -.5)) if v is not None]
         atm_iv = sum(atm)/len(atm) if atm else None
         c25, p25 = wing('C', .25), wing('P', -.25)
@@ -104,6 +113,21 @@ def analyze(options, day, *, rate=RATE, scope='full_chain_v2'):
                          sorted(gamma_nodes.items(),key=lambda p:(-p[1],p[0]))[:5]],
             greek_contract_count=len(points), contract_count=len(contracts),
             greek_coverage=len(points)/len(contracts), pricing_basis=PRICE_BASIS,wing_observations=wing_observations)
+        metrics['approximate_metrics'] = {k:metrics[k] for k in ('atm_iv','call25_iv','put25_iv','call10_iv','put10_iv','rr25','bf25')}
+        qualified = {(w['side'],w['target_delta']):w['target_ready'] for w in wing_observations}
+        atm_ready = qualified['C',.5] and qualified['P',-.5]
+        skew_ready = qualified['C',.25] and qualified['P',-.25]
+        for field, side, target in [('call25_iv','C',.25),('put25_iv','P',-.25),('call10_iv','C',.1),('put10_iv','P',-.1)]:
+            if not qualified[side,target]:
+                metrics[field] = None
+        if not atm_ready:
+            metrics['atm_iv'] = None
+        if not skew_ready:
+            metrics['rr25'] = None
+        if not (skew_ready and atm_ready):
+            metrics['bf25'] = None
+        metrics.update(atm_ready=atm_ready,skew_ready=skew_ready,
+                       wings10_ready=qualified['C',.1] and qualified['P',-.1],analytics_version=ANALYTICS_VERSION)
         metrics.update(pcr_scope='full_expiry' if scope=='full_chain_v2' else 'selected_strikes_only',
             gamma_scope='full_expiry_valid_greeks' if scope=='full_chain_v2' else 'selected_strikes_valid_greeks_only',
             contract_codes=sorted(r['source_code'] for r in contracts))
@@ -119,7 +143,7 @@ def analyze(options, day, *, rate=RATE, scope='full_chain_v2'):
             forward=forward, t_years=max(years,0), metrics=metrics,
             analytics_state='expired' if years<=0 else 'ok' if points else 'unavailable')
         products.setdefault(product, dict(expiries=[]))['expiries'].append(series)
-    return dict(price_basis=PRICE_BASIS, collection_scope=scope, valuation_time=valuation_time.isoformat(),
+    return dict(analytics_version=ANALYTICS_VERSION,price_basis=PRICE_BASIS, collection_scope=scope, valuation_time=valuation_time.isoformat(),
         risk_free_rate=rate, rate_basis='explicit_fixed_assumption', iv_unit='annualized_decimal',
         delta_basis='parity_implied_forward', wing_method='nearest_observed_delta_no_interpolation',
         dealer_gex=False, products=products)
@@ -181,6 +205,7 @@ def radar(payload):
     return dict(schema_version=2,trade_date=payload['trade_date'],date=payload['trade_date'],
         source_provider='wind',data_fresh=True,option_price_basis=PRICE_BASIS,
         options_scope=payload['options_scope'],
+        analytics_version=payload['analytics'].get('analytics_version'),
         products=payload['analytics']['products'],futures=payload['futures_summary'],
         cash_market=payload['cash_market'],futures_option_linkage=payload['futures_option_linkage'],
         coverage=payload['coverage'],limitations=payload['limitations'])
@@ -199,7 +224,8 @@ def history_changes(records):
                 chain.append(str(prior_day))
             previous = by_date.get(str(prior_day)) if all(d in by_date for d in chain) else None
             previous = previous if (previous and previous['option_price_basis']==record['option_price_basis']
-                and previous.get('options_scope')==record.get('options_scope')) else None
+                and previous.get('options_scope')==record.get('options_scope')
+                and previous.get('analytics_version')==record.get('analytics_version')) else None
             comparison = dict(previous_date=previous['trade_date'] if previous else None,products={},futures={})
             if previous:
                 for product, data in record['products'].items():

@@ -19,7 +19,7 @@ from .models import PipelineResult
 
 
 DEFAULT_HISTORY_LIMIT = 20
-DEFAULT_SNAPSHOT_LIMIT = 20
+DEFAULT_SNAPSHOT_LIMIT = 21
 DEFAULT_NIGHT_SESSION_SNAPSHOT_LIMIT = 20
 SNAPSHOT_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}\.json$")
 
@@ -515,6 +515,36 @@ def publish_raw_options(result: PipelineResult, data_dir: Path) -> Path | None:
         },
     )
     return path
+
+
+def refresh_market_state(data_dir: Path) -> None:
+    """Recompute quality/returns from saved observations only, without provider I/O."""
+    snapshots = [read_json(p) for p in sorted((data_dir/'snapshots').glob('*.json'))
+                 if SNAPSHOT_NAME.fullmatch(p.name)]
+    if any(p and (p.get('verified') is True or p.get('scope_verified') is True) for p in snapshots):
+        write_json_if_changed(data_dir/'market_state_latest.json',build_market_state(
+            snapshots,history_path=data_dir/'history/futures.parquet'))
+
+
+def publish_futures_history(result: PipelineResult, data_dir: Path) -> None:
+    """Publish only a verified historical futures layer; never rewind latest or mark a full batch."""
+    from .quality import validate_snapshot
+    snapshot = _snapshot_payload(result)
+    errors = validate_snapshot(snapshot)
+    if not result.verified or errors:
+        raise ValueError(f'invalid historical futures snapshot: {errors}')
+    latest = read_json(data_dir / 'latest.json', default={})
+    if not latest.get('trade_date') or result.trade_date > latest['trade_date']:
+        raise ValueError('historical futures repair requires a newer or same-date EOD baseline')
+    snapshot['collection_layers'] = ['futures']
+    write_json_if_changed(data_dir / 'snapshots' / f'{result.trade_date}.json', snapshot)
+    append_futures_history(result, data_dir)
+    files = sorted(p for p in (data_dir / 'snapshots').glob('*.json') if SNAPSHOT_NAME.fullmatch(p.name))
+    for obsolete in files[:-DEFAULT_SNAPSHOT_LIMIT]:
+        obsolete.unlink()
+    retained = [read_json(p) for p in files[-DEFAULT_SNAPSHOT_LIMIT:]]
+    write_json_if_changed(data_dir / 'market_state_latest.json', build_market_state(
+        retained, history_path=data_dir / 'history' / 'futures.parquet'))
 
 
 def _publish_artifacts(

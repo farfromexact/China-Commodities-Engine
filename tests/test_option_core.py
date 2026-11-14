@@ -212,7 +212,7 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(result["selection"]["expiry_date"], "2026-11-25")
         self.assertEqual(result["selection"]["unresolved_expiry_count"], 0)
 
-    def test_delta_wings_use_existing_evidence_inside_unchanged_budget(self):
+    def test_previous_evidence_needs_a_date_and_does_not_replace_current_delta_projection(self):
         rows = directory()
         previous = [dict(r, delta=(-.25 if r["option_type"] == "P" else .75))
                     for r in rows if r["strike"] == 70000]
@@ -220,7 +220,14 @@ class CoreTests(unittest.TestCase):
                      for r in rows if r["strike"] == 90000]
         selected, _ = select_core_contracts(rows, {"CU2612": {"settle": 80000}}, previous, DAY)
         self.assertEqual(len(selected), 30)
-        self.assertTrue({70000, 80000, 90000} <= {r["strike"] for r in selected})
+        baseline, _ = select_core_contracts(rows, {"CU2612": {"settle": 80000}}, [], DAY)
+        self.assertEqual(selected,baseline)  # undated old deltas cannot guide wings
+        dated = [dict(r,source_trade_date='2026-10-13',iv_percent=20) for r in previous]
+        selected, plan = select_core_contracts(rows, {"CU2612": {"settle": 80000}}, dated, DAY)
+        self.assertEqual(len(selected),30)
+        self.assertTrue({70000,80000,90000} <= {r['strike'] for r in selected})  # prior OI slots
+        self.assertEqual(plan['sampling']['sigma_source'],'previous_sample_median_IV')
+        self.assertNotEqual(plan['sampling']['wing_selection'][0]['strike'],70000)
 
     def test_price_only_can_publish_but_one_leg_cannot_claim_paired_atm(self):
         result = collect(Client(missing=True))

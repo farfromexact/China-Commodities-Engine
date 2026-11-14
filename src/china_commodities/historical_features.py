@@ -264,6 +264,7 @@ def _make_history_observations(
     key = (exchange.upper(), contract.upper())
     observations: list[dict[str, Any]] = []
     previous_settlement: float | None = None
+    previous_date = None
     skipped_stale = 0
     for trade_date, _payload, futures in snapshots:
         record = futures.get(key)
@@ -280,7 +281,8 @@ def _make_history_observations(
         daily_return = source_return
         if daily_return is None and settlement is not None and pre_settlement not in (None, 0):
             daily_return = (settlement / pre_settlement - 1.0) * 100.0
-        if daily_return is None and settlement is not None and previous_settlement not in (None, 0):
+        if (daily_return is None and settlement is not None and previous_settlement not in (None, 0)
+                and previous_date == str(previous_trading_day(date.fromisoformat(trade_date)))):
             daily_return = (settlement / previous_settlement - 1.0) * 100.0
         if daily_return is not None and not math.isfinite(daily_return):
             daily_return = None
@@ -299,8 +301,8 @@ def _make_history_observations(
                 "open_interest": open_interest,
             }
         )
-        if settlement is not None:
-            previous_settlement = settlement
+        previous_settlement = settlement
+        previous_date = trade_date
     return observations, skipped_stale
 
 
@@ -578,6 +580,11 @@ def _product_record(
             realized_vol = standard_deviation * sqrt(252.0)
             if not math.isfinite(realized_vol):
                 realized_vol = None
+    return_dates = {row["trade_date"] for row in observations
+                    if _finite_number(row.get("settle_return_pct")) is not None}
+    missing_rv_dates = sorted(history_sessions - return_dates)
+    continuous_rv_ready = len(history_sessions) == REQUESTED_HISTORY_DAYS and not missing_rv_dates
+    sample_rows = [row for row in observations if row["trade_date"] in return_dates][-len(realized_values):] if realized_values else []
 
     volumes = [
         value
@@ -668,6 +675,10 @@ def _product_record(
         available_days,
     )
     product_warnings: set[str] = set()
+    if not continuous_rv_ready:
+        if "realized_vol_20d_annualized_pct" not in missing_metrics:
+            missing_metrics.append("realized_vol_20d_annualized_pct")
+        product_warnings.add("continuous_20_session_RV_unavailable")
     if skipped_stale:
         product_warnings.add("stale_exact_contract_record_skipped")
     if main_roll_flag is True:
@@ -703,8 +714,17 @@ def _product_record(
         "main_contract_roll_flag": main_roll_flag,
         "history_observations": observations,
         "settlement_return_pct": return_metrics,
-        "realized_vol_20d_annualized_pct": realized_vol,
+        "realized_vol_20d_annualized_pct": realized_vol if continuous_rv_ready else None,
         "realized_vol_20d_observations": len(realized_values),
+        "realized_vol_sample_annualized_pct": realized_vol,
+        "realized_vol_window": {
+            "basis": "same_contract_daily_settlement_returns",
+            "continuous_20_sessions_ready": continuous_rv_ready,
+            "required_observations": REQUESTED_HISTORY_DAYS,
+            "expected_dates": sorted(history_sessions), "missing_dates": missing_rv_dates,
+            "sample_dates": [row["trade_date"] for row in sample_rows],
+            "sample_observations": len(realized_values),
+        },
         "volume_zscore": volume_zscore,
         "volume_zscore_observations": volume_zscore_observations,
         "oi_level_zscore": oi_level_zscore,
@@ -896,8 +916,9 @@ def build_market_state(snapshot_payloads: list[dict], *, history_path: Path | No
                 "Observations count the two positive settlement endpoints; missing endpoints give null."
             ),
             "realized_volatility": (
-                "Use up to the latest 20 same-contract daily settlement returns, sample standard "
-                "deviation (ddof=1), annualized by sqrt(252); fewer than 5 returns gives null."
+                "Strict RV20 requires all latest 20 trading sessions for the same contract. "
+                "Sample RV is separate: up to 20 available daily settlement returns, ddof=1, "
+                "annualized by sqrt(252); fewer than 5 returns gives null. Dates are explicit."
             ),
             "z_scores": (
                 "Level and change z-scores use sample standard deviation (ddof=1), include the "

@@ -228,7 +228,7 @@ def full_quotes(api, codes, day):
     return result
 
 
-def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOPE):
+def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOPE, refresh_analytics=True):
     from .wind_daily import ZONE, eod_session_complete
     from .wind_daily_collect import directory, FIELDS
     from .index_analytics import analyze, attach_changes, futures_summary, radar, history_changes
@@ -286,7 +286,7 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
         limitations=[('Full coverage against the target-day Wind directory; not an independent exchange audit.' if options_scope==FULL_SCOPE
                      else 'Report sample only; PCR and Gamma describe selected strikes, not whole-market positioning.'),
                     'Settlement/fallback-close Black76 on parity forward; fixed 1.5% rate assumption.',
-                    'Delta wings use nearest observed delta; Gamma is unsigned concentration, not dealer positioning.',
+                    'Delta targets require distance/duplicate checks; approximate_metrics are observations only. Gamma is unsigned, not dealer positioning.',
                     'ETF share unit unverified; raw changes only; CNY flow estimates disabled.',
                     'WSQ books are separate observations with unverified vendor time; never EOD pricing inputs.'])
     errors = validate(payload)
@@ -308,7 +308,18 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
         observed = books(api,[r['source_code'] for r in options],day)
         if observed['status']!='not_requested_for_historical_day':
             write_json_if_changed(root/'books/latest.json',observed)
-    records = []
+    if refresh_analytics:
+        rebuild_analytics(root.parent)
+    return dict(date=day,mode='index_derivatives_eod',**payload['coverage'])
+
+
+def rebuild_analytics(data_root):
+    """Offline derived-field refresh after out-of-order history repair; no SDK calls."""
+    from .index_analytics import analyze, attach_changes, futures_summary, radar, history_changes, PRICE_BASIS
+    from .trading_calendar import previous_trading_day
+    from datetime import date
+    root = Path(data_root)/'index_derivatives'
+    snapshots = []
     for path in sorted((root/'snapshots').glob('????-??-??.json'),reverse=True):
         snapshot = read_json(path)
         if snapshot.get('trade_date')!=path.stem:
@@ -318,13 +329,36 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
         failures = validate(snapshot)
         if failures or snapshot.get('validation_passed') is not True:
             raise ValueError('index history snapshot failed validation: '+str(failures))
-        records.append(radar(snapshot))
-        if len(records)>=60:
+        snapshots.append((path,snapshot))
+        if len(snapshots)>=60:
             break
-    records = history_changes(list(reversed(records)))
+    if not snapshots:
+        return
+    previous, records = {}, []
+    for path, snapshot in reversed(snapshots):
+        day = snapshot['trade_date']
+        attach_changes(snapshot['options_contracts'], previous, day)
+        prior = {r['source_code']:r for r in previous.get('futures_contracts', [])} if (
+            previous.get('trade_date') == str(previous_trading_day(date.fromisoformat(day)))) else {}
+        for row in snapshot['futures_contracts']:
+            before = prior.get(row['source_code'], {}).get('open_interest')
+            row['oi_change'] = row['open_interest']-before if number(before) else None
+        snapshot['analytics'] = analyze(snapshot['options_contracts'],day,scope=snapshot['options_scope'])
+        snapshot['futures_summary'], snapshot['futures_option_linkage'] = futures_summary(
+            snapshot['futures_contracts'],snapshot['cash_market'],snapshot['analytics'],day)
+        failures = validate(snapshot)
+        if failures:
+            raise ValueError('rebuilt index analytics failed validation: '+str(failures))
+        write_json_if_changed(path,snapshot)
+        previous = snapshot
+        records.append(radar(snapshot))
+    latest_date = read_json(root/'latest.json',default={}).get('trade_date','')
+    if previous['trade_date'] >= latest_date:
+        write_json_if_changed(root/'latest.json',previous)
+        write_json_if_changed(root/'radar_latest.json',radar(previous))
+    records = history_changes(records)
     write_json_if_changed(root/'radar_history.json',dict(schema_version=VERSION,records=records,
-        retained_trading_days=60,price_basis=analytics['price_basis']))
-    return dict(date=day,mode='index_derivatives_eod',**payload['coverage'])
+        retained_trading_days=60,price_basis=PRICE_BASIS))
 
 
 def collect_intraday(api, window, root, *, options_scope=REPORT_SCOPE):

@@ -55,6 +55,28 @@ class DailyRunTests(unittest.TestCase):
         self.sdk.start.assert_not_called()
         self.publisher.prepare.assert_not_called()
 
+    def test_history_does_not_call_full_commodity_batch_or_index_books(self):
+        self.work.update(night_date=None,history_tasks=[
+            dict(module='commodity_futures',date='2026-11-04'),
+            dict(module='index_derivatives',date='2026-11-10')])
+        with patch.object(runner,'collect_futures_history',return_value={'mode':'futures_history'}) as history:
+            runner.once(DEFAULTS,self.cache)
+        history.assert_called_once()
+        self.collect.assert_not_called()
+        self.assertFalse(self.index_eod.call_args.kwargs['include_books'])
+
+    def test_history_allowance_is_not_reset_by_daily_catchup_loop(self):
+        with patch.object(runner,'config',return_value=DEFAULTS), \
+             patch.object(runner,'once',side_effect=[
+                 dict(phase='published',plan={'remaining_dates':['2026-11-13']}),
+                 dict(phase='published',plan={'remaining_dates':[], 'deferred_history_tasks':[{'date':'old'}]})]) as once, \
+             patch.object(runner,'save_timing'):
+            try:
+                self.assertEqual(runner.main([]),0)
+                self.assertEqual([c.kwargs['history_budget'] for c in once.call_args_list],[2,0])
+            finally:
+                runner.TRACE=None
+
     def test_index_only_backfill_uses_same_publisher_and_blocks_partial_failure(self):
         self.work.update(night_date=None,index_dates=['2026-11-13'])
         runner.once(DEFAULTS,self.cache)

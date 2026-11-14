@@ -16,6 +16,7 @@ from .night_session import _night_window
 
 ZONE=ZoneInfo('Asia/Shanghai')
 DEFAULTS=dict(start_date=None,max_days_per_run=5,request_interval_seconds=0.,
+              max_history_days_per_run=2,
               branch='main',sdk_dir=None,allowed_empty_products=['CZCE:LR'],
               desk_host='127.0.0.1',desk_port=8765,index_options_scope='report_v1')
 
@@ -28,6 +29,9 @@ def config(path):
     count=result['max_days_per_run']
     if isinstance(count,bool) or not isinstance(count,int) or count<=0:
         raise ValueError('invalid configuration: max_days_per_run')
+    history_count = result['max_history_days_per_run']
+    if isinstance(history_count,bool) or not isinstance(history_count,int) or not 0<=history_count<=10:
+        raise ValueError('invalid configuration: max_history_days_per_run (0..10)')
     RequestPacer(result['request_interval_seconds'])
     from .index_selection import SCOPES
     if result['index_options_scope'] not in SCOPES:
@@ -146,7 +150,7 @@ def _with_rates_plan(work,root,settings,now,excluded_funding=()):
     return work
 
 
-def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_funding=()):
+def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_funding=(),history_budget=None):
     from .wind_index import complete as index_complete
     root=Path(root)
     now=(now or datetime.now(ZONE)).astimezone(ZONE)
@@ -157,7 +161,8 @@ def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_fund
         work=dict(start_date=settings.get('start_date') or anchor or baseline,
                     full_dates=[],remaining_dates=[],index_dates=[],remaining_index_dates=[],night_date=None,intraday=intraday,
                     has_work=True,verified_dates=list(known_completed),timezone='Asia/Shanghai')
-        return _with_rates_plan(work,root,settings,now,excluded_funding)
+        from .wind_history import extend_plan
+        return extend_plan(_with_rates_plan(work,root,settings,now,excluded_funding),root,settings,history_budget)
     closed=today if eod_session_complete(today,now) else previous_trading_day(today)
     start=settings.get('start_date') or anchor
     if not start:
@@ -199,7 +204,8 @@ def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_fund
                 index_dates=index_dates,remaining_index_dates=index_missing[len(index_dates):],
                 remaining_dates=missing[len(selected):],night_date=night_day,
                 has_work=bool(selected or night_day or index_dates),verified_dates=verified,timezone='Asia/Shanghai')
-    return _with_rates_plan(work,root,settings,now,excluded_funding)
+    from .wind_history import extend_plan
+    return extend_plan(_with_rates_plan(work,root,settings,now,excluded_funding),root,settings,history_budget)
 
 
 def desk_busy(settings):

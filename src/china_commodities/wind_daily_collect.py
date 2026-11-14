@@ -2,6 +2,7 @@
 from datetime import date, datetime
 from contextlib import contextmanager
 import hashlib
+import math
 import json
 from pathlib import Path
 import time
@@ -15,7 +16,7 @@ from .option_core import select_core_contracts
 from .option_storage import validate_option_snapshot, publish_option_eod
 from .pipeline import run_pipeline
 from .storage import read_json, write_json_if_changed, publish_status, publish_verified
-from .trading_calendar import night_session_dates, CALENDAR_VERSION
+from .trading_calendar import night_session_dates, CALENDAR_VERSION, previous_trading_day
 from .night_session import _night_window
 from .wind_daily import eod_session_complete, ZONE
 # These tested conversion/publication helpers never load an SDK on import.
@@ -127,10 +128,36 @@ def directory(api, day, *, catalog=None, allowed_empty=('CZCE:LR',)):
     return universe,empty
 
 
-def futures(api, day, universe):
+def batched_eod(api, codes, fields, day, batch_size=200):
+    """One field, multiple codes per WSD; no fallback that silently multiplies requests."""
+    result = {code:{} for code in codes}
+    for offset in range(0, len(codes), batch_size):
+        batch = codes[offset:offset+batch_size]
+        for field in fields.split(','):
+            args = (','.join(batch), field, day, day, 'Days=Trading;Fill=Blank')
+            try:
+                raw = api.call('wsd', *args)
+                if (raw['codes'] != batch or [f.lower() for f in raw['fields']] != [field]
+                        or len(raw['times']) != 1 or raw['times'][0][:10] != day
+                        or len(raw['data']) != 1 or len(raw['data'][0]) != len(batch)):
+                    raise ValueError('batched EOD date/shape/identity mismatch')
+                for code, value in zip(batch, raw['data'][0]):
+                    if value is not None and (isinstance(value, bool) or not isinstance(value,(int,float)) or not math.isfinite(value)):
+                        raise ValueError('batched EOD nonnumeric value')
+                    if field == 'settle' and value is None:
+                        raise ValueError('batched EOD settlement unavailable')
+                    result[code][field] = value
+            except (KeyError, ValueError):
+                api.discard('wsd', *args)
+                raise
+    return result
+
+
+def futures(api, day, universe, *, batched=False):
     frames={e:[] for e in SUFFIX}
+    quotes = batched_eod(api, sorted(universe), FIELDS, day) if batched else None
     for code,identity in sorted(universe.items()):
-        q=api.eod(code,FIELDS,day)
+        q=quotes[code] if quotes is not None else api.eod(code,FIELDS,day)
         frames[identity['exchange']].append(dict(date=day.replace('-',''),symbol=identity['contract'],
             variety=identity['product'],source_provider='wind',source_endpoint='WindPy.wsd',source_code=code,
             **{f:q[f] for f in ('open','high','low','close','settle','pre_settle','volume')},
@@ -143,7 +170,7 @@ def futures(api, day, universe):
     return result
 
 
-def option_selection(api, day, futures_records, *, catalog=None, reference_field="settle", allow_missing=False):
+def option_selection(api, day, futures_records, *, catalog=None, reference_field="settle", allow_missing=False, previous=()):
     catalog=catalog or load_catalog()
     selections,plans=[],[]
     for product in catalog.options:
@@ -170,7 +197,7 @@ def option_selection(api, day, futures_records, *, catalog=None, reference_field
                     exercise_style={'欧式':'european','美式':'american'}.get(row['exe_type'],'unknown')))
             if chain:
                 reference=dict(future,settle=future[reference_field])
-                selected,plan=select_core_contracts(chain,{future['contract']:reference},[],day)
+                selected,plan=select_core_contracts(chain,{future['contract']:reference},previous,day)
                 plans.append(dict(plan,selection_price_field=reference_field,
                                   selection_price_timestamp=future.get('source_timestamp'),
                                   selection_open_interest_date=future.get('selection_open_interest_date',future.get('source_trade_date')),
@@ -190,10 +217,10 @@ def option_selection(api, day, futures_records, *, catalog=None, reference_field
     return selections,plans
 
 
-def options(api, day, result, *, catalog=None):
+def options(api, day, result, *, catalog=None, previous=()):
     catalog=catalog or load_catalog()
     records=[]
-    selections,plans=option_selection(api,day,result.futures_records,catalog=catalog)
+    selections,plans=option_selection(api,day,result.futures_records,catalog=catalog,previous=previous)
     for product,selected,future in selections:
         for identity in selected:
             q=api.eod(identity['source_code'],OPTION_FIELDS,day)
@@ -310,7 +337,15 @@ def collect_day(api, day, root, cache, *, night_only=False, catalog=None, allowe
         ref=futures(api,prior_day,previous)
         prior=dict(trade_date=prior_day,futures_contracts=ref.futures_records)
     result=None if night_only else futures(api,day,universe)
-    option_snapshot=None if night_only else options(api,day,result,catalog=catalog)
+    previous_options = read_json(root/'options/snapshots'/f'{previous_trading_day(date.fromisoformat(day))}.json.gz',default={}) if not night_only else {}
+    previous_rows = []
+    if previous_options.get('trade_date') == str(previous_trading_day(date.fromisoformat(day))):
+        try:
+            validate_option_snapshot(previous_options)
+            previous_rows = previous_options.get('records', [])
+        except ValueError:
+            pass  # invalid earlier input cannot guide selection
+    option_snapshot=None if night_only else options(api,day,result,catalog=catalog,previous=previous_rows)
     if provisional:
         # Even if the clock crosses close during collection, this candidate can never publish.
         return dict(date=day,mode='provisional',as_of=started.isoformat(),published=False,
