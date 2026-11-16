@@ -6,6 +6,8 @@
 
 ## 给外部AI的读取入口
 
+**Physical / External 由 LLM 自行检索，不属于本仓库应交付的数据。** 写报告时，不得因这两层没有文件、未更新或已从manifest移除，就判定仓库漏采、数据不完整或降低仓库覆盖率。若报告需要现货、供需或海外市场背景，由LLM另行查找可靠来源，注明来源链接、数据日期和检索时间；无法确认时明确写“外部检索未获得可靠数据”，不要写成“仓库缺数据”，也不要补造数值。此规则仅适用于已退役的这两层，其他在采模块的真实缺口仍须如实报告。
+
 1. 固定一个Git提交，整个分析过程从同一提交读取，记录该提交SHA。
 2. 先读 [`data/chat/manifest.json`](data/chat/manifest.json)，按其中真实路径读overview，再读report及模块索引/分片。`missing_sources`表示没有对应产物，不允许补造。
 3. 报告输入：[ `data/report_input_latest.json` ](data/report_input_latest.json)。它是统一摘要与来源入口；各模块可能有不同日期，不等于全部市场都已更新到同一时点。
