@@ -2,7 +2,7 @@
 
 The collection pipeline deliberately keeps its canonical artifacts separated by
 module.  Report writers should not have to know which file contains the latest
-market state, option surface, or foundation status, nor should they infer a
+market state, option surface, or source status, nor should they infer a
 module timestamp from the futures run.  This module joins those already
 published artifacts without making any vendor request.
 
@@ -24,7 +24,7 @@ from .storage import read_json, write_json_if_changed
 from .execution import gate_card, quote_book
 
 
-REPORT_SCHEMA_VERSION = 3
+REPORT_SCHEMA_VERSION = 4
 REPORT_INPUT_NAME = "report_input_latest.json"
 
 # This is the approved Physical scope, not the full futures universe.  Keep the
@@ -449,86 +449,6 @@ def _option_product_summary(surfaces: list[Mapping[str, Any]]) -> list[dict[str,
     return output
 
 
-def _foundation_view(snapshot: Mapping[str, Any], status: Mapping[str, Any]) -> dict[str, Any]:
-    series = [
-        {
-            key: item.get(key)
-            for key in (
-                "series_key",
-                "domain",
-                "product",
-                "exchange",
-                "target",
-                "metric",
-                "requested_date",
-                "source_date",
-                "observation_date",
-                "indicator_id",
-                "report_id",
-                "source_endpoint",
-                "permission_status",
-                "current_permission_status",
-                "value",
-                "unit",
-                "frequency",
-                "vendor",
-                "original_source",
-                "usage",
-                "quality_state",
-                "missing_reason",
-                "is_stale",
-                "carried_forward",
-                "region",
-                "grade",
-                "delivery_location",
-                "tax_included",
-                "basis_quality",
-            )
-        }
-        for item in _list(snapshot.get("series"))
-        if isinstance(item, Mapping)
-    ]
-    return {
-        "requested_date": snapshot.get("requested_date") or status.get("requested_date"),
-        "generated_at": snapshot.get("generated_at") or status.get("generated_at"),
-        "data_fresh": status.get("data_fresh"),
-        "validation_passed": status.get("validation_passed"),
-        "published": status.get("published"),
-        "coverage": snapshot.get("coverage") or status.get("coverage"),
-        "coverage_matrix": [
-            {
-                key: item.get(key)
-                for key in (
-                    "key",
-                    "exchange",
-                    "requested_date",
-                    "mapping_status",
-                    "permission_status",
-                    "current_permission_status",
-                    "quality_state",
-                    "series_keys",
-                    "missing_reason",
-                )
-            }
-            for item in _list(snapshot.get("coverage_matrix"))
-            if isinstance(item, Mapping)
-        ],
-        "series": series,
-        "basis": [
-            {key: item.get(key) for key in item.keys() if key != "points"}
-            for item in _list(snapshot.get("basis"))
-            if isinstance(item, Mapping)
-        ],
-        "import_parities": list(snapshot.get("import_parities") or []),
-        "fundamental_score": snapshot.get("fundamental_score"),
-        "convexity_score": snapshot.get("convexity_score"),
-        "provider_consensus_ready": snapshot.get("provider_consensus_ready"),
-        "provider_consensus_missing_reason": snapshot.get(
-            "provider_consensus_missing_reason"
-        ),
-    }
-
-
 def _module_freshness(
     name: str,
     snapshot: Mapping[str, Any],
@@ -718,10 +638,6 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         root, _mapping(_read(root, "last_run_status.json", {}))
     )
     market_state = _mapping(_read(root, "market_state_latest.json", {}))
-    physical = _mapping(_read(root, "physical/latest.json", {}))
-    physical_status = _mapping(_read(root, "physical/last_run_status.json", {}))
-    external = _mapping(_read(root, "external/latest.json", {}))
-    external_status = _mapping(_read(root, "external/last_run_status.json", {}))
     night_session = _mapping(_read(root, "night_session/latest.json", {}))
     night_session_status = _mapping(
         _read(root, "night_session/last_run_status.json", {})
@@ -747,19 +663,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         if isinstance(item, Mapping)
     ]
 
-    physical_view = _foundation_view(physical, physical_status)
-    external_view = _foundation_view(external, external_status)
     night_session_view = _night_session_view(night_session, night_session_status)
-    physical_source_dates = [
-        str(item.get("source_date"))
-        for item in _list(physical.get("series"))
-        if isinstance(item, Mapping) and item.get("source_date")
-    ]
-    external_source_dates = [
-        str(item.get("source_date"))
-        for item in _list(external.get("series"))
-        if isinstance(item, Mapping) and item.get("source_date")
-    ]
 
     # Keep the report's canonical date tied to the daily EOD layer.  The night
     # snapshot belongs to the following trading day, but it is an overlay on
@@ -768,8 +672,6 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         _trade_date(futures)
         or _trade_date(market_state)
         or _trade_date(options_surface)
-        or _trade_date(physical)
-        or _trade_date(external)
         or _trade_date(night_session)
         or _trade_date(night_session_status)
     )
@@ -783,22 +685,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     ]
     market_state_window = _mapping(market_state.get("history_window"))
 
-    # A successful old batch is not fresh relative to this report. Keep both facts.
-    foundation_freshness = {}
-    for name, snapshot, status, dates, view in (
-        ("physical", physical, physical_status, physical_source_dates, physical_view),
-        ("external", external, external_status, external_source_dates, external_view),
-    ):
-        fresh = _module_freshness(name, snapshot, status, source_dates=dates, expected_date=requested_date)
-        foundation_freshness[name] = fresh
-        view.update({k: fresh[k] for k in ("data_fresh", "batch_data_fresh", "expected_date",
-                    "expected_date_basis", "report_date_matches", "freshness_state") if k in fresh})
-
     limitations: list[str] = []
-    if not physical_view.get("data_fresh"):
-        limitations.append("physical_module_not_fresh")
-    if not external_view.get("data_fresh"):
-        limitations.append("external_module_not_fresh")
     if not night_session_view.get("data_fresh"):
         limitations.append("night_session_module_not_fresh")
     if night_session_view.get("coverage_complete") is not True:
@@ -855,8 +742,6 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             "funding": "data/funding/latest.json",
             "futures": "data/latest.json",
             "market_state": "data/market_state_latest.json",
-            "physical": "data/physical/latest.json",
-            "external": "data/external/latest.json",
             "night_session": "data/night_session/latest.json",
             "options_chain_index": "data/options/latest.json",
             "options_quality": "data/options/quality_latest.json",
@@ -889,8 +774,6 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
                     if value
                 ],
             ),
-            foundation_freshness["physical"],
-            foundation_freshness["external"],
             _module_freshness(
                 "night_session",
                 night_session,
@@ -928,8 +811,6 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             for product in CORE_PRODUCTS
             if product_by_code.get(product) is not None
         ],
-        "physical": physical_view,
-        "external": external_view,
         "night_session": night_session_view,
         "futures_crosscheck": _futures_crosscheck_view(root, futures.get("trade_date")),
         "options": {
@@ -983,9 +864,6 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             )
         },
         "derived_inputs": {
-            "basis": list(physical.get("basis") or []),
-            "import_parities": list(physical.get("import_parities") or [])
-            + list(external.get("import_parities") or []),
             "warehouse_inventory": list(futures.get("warehouse_inventory") or []),
             "member_rankings": list(futures.get("member_rankings") or []),
         },
@@ -993,8 +871,6 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             "market_state_history_window": market_state.get("history_window"),
             "market_state_quality": market_state.get("quality") or {},
             "futures_status": futures_status,
-            "physical_status": physical_status,
-            "external_status": external_status,
             "night_session_status": night_session_status,
             "options_status": options_status,
             "options_quality": options_quality,

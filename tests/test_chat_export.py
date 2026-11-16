@@ -9,6 +9,23 @@ from china_commodities.chat_export import encode, export_chat_data, restore, sha
 
 
 class ChatExportTests(unittest.TestCase):
+    def test_retired_sources_and_old_export_parts_are_removed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            (root/'report_input_latest.json').write_bytes(encode({'schema_version':4}))
+            for name in ('physical','external'):
+                (root/name).mkdir()
+                (root/name/'latest.json').write_bytes(encode({'requested_date':'2026-11-12'}))
+                old=root/'chat'/name/'part-001.json'
+                old.parent.mkdir(parents=True)
+                old.write_bytes(b'{}')
+            manifest=export_chat_data(root)
+            payload=json.loads(manifest.read_bytes())
+            self.assertNotIn('data/physical/',json.dumps(payload))
+            self.assertNotIn('data/external/',json.dumps(payload))
+            for name in ('physical','external'):
+                self.assertFalse(list((root/'chat'/name).glob('*.json')))
+
     def test_lossless_small_pages_and_removed_option_shard(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

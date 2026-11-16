@@ -42,3 +42,8 @@
 
 检查只做文件大小和拆分还原相等；Hash 用于读取方核对。缺模块明确列出，已声明但缺失的期权分片报错，不静默漏掉。
 没有新增锁、调度、重试或远端触发。真实 Chat 的读取、落盘和报告归档仍须在对应环境验收。
+
+
+## 2026-11-16 Physical / External 退役
+
+用户决定不再需要这两层：移除采集CLI及实现/映射配置、当前发布快照、Chat分片和报告入口；不得恢复、自动补采或将其缺失计入报告质量。相关现货/海外背景由使用方LLM另行检索并标注来源日期，不冒充本仓库校验产物。统一报告schema升级为4，删除physical/external、对应freshness/status/source_paths，以及derived_inputs中的basis/import_parities；其余Wind模块及已有商品原生proxy_basis语义保留。历史版本留在Git历史，本次不启动任何行情采集。

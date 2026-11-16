@@ -40,7 +40,7 @@ class BatchWind(FakeWind):
 
 
 class QualityHistoryTests(unittest.TestCase):
-    def test_old_successful_foundation_batch_is_not_fresh_for_new_report(self):
+    def test_retired_modules_do_not_leak_from_old_snapshots(self):
         with TemporaryDirectory() as tmp:
             root = Path(tmp)
             write_json_atomic(root/'latest.json', dict(trade_date='2026-11-13'))
@@ -50,12 +50,14 @@ class QualityHistoryTests(unittest.TestCase):
                 write_json_atomic(root/name/'last_run_status.json',dict(data_fresh=True,validation_passed=True,published=True))
             report = build_report_input(root)
             for name in ('physical','external'):
-                self.assertFalse(report[name]['data_fresh'])
-                self.assertTrue(report[name]['batch_data_fresh'])
-                self.assertEqual(report[name]['expected_date'],'2026-11-13')
-                self.assertIn(name+'_module_not_fresh',report['quality']['limitations'])
-                summary = next(m for m in report['module_freshness'] if m['module']==name)
-                self.assertFalse(summary['report_date_matches'])
+                self.assertNotIn(name,report)
+                self.assertNotIn(name,report['source_paths'])
+                self.assertNotIn(name+'_status',report['quality'])
+                self.assertNotIn(name+'_module_not_fresh',report['quality']['limitations'])
+                self.assertFalse(any(m['module']==name for m in report['module_freshness']))
+            self.assertEqual(report['schema_version'],4)
+            self.assertNotIn('basis',report['derived_inputs'])
+            self.assertNotIn('import_parities',report['derived_inputs'])
 
     def test_rv_gap_cannot_be_hidden_by_twenty_older_observations(self):
         snapshots = []

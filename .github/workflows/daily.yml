@@ -114,24 +114,6 @@ jobs:
         run: |
           python scripts/collect_ifind_options.py --all-products --option-profile core --date "${DOMESTIC_TRADE_DATE}" --surface-shadow-days 1 --minimum-product-coverage 0
 
-      - name: Collect AKShare Physical spot and basis data
-        if: ${{ steps.collection_plan.outputs.needs_physical == 'true' }}
-        continue-on-error: true
-        env:
-          DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}
-        shell: bash
-        run: |
-          python -m china_commodities.cli foundation --provider akshare --scope physical --date "${DOMESTIC_TRADE_DATE}" --shadow-days 1 --force-refresh
-
-      - name: Collect AKShare overseas daily series
-        if: ${{ steps.collection_plan.outputs.needs_external == 'true' }}
-        continue-on-error: true
-        env:
-          EXTERNAL_TRADE_DATE: ${{ steps.collection_plan.outputs.external_trade_date }}
-        shell: bash
-        run: |
-          python -m china_commodities.cli foundation --provider akshare --scope external --date "${EXTERNAL_TRADE_DATE}" --shadow-days 1 --force-refresh
-
       - name: Independently cross-check official futures settlement prices
         if: ${{ always() && steps.collection_plan.outputs.run_domestic == 'true' }}
         continue-on-error: true

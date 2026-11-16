@@ -27,8 +27,8 @@ class WorkflowScheduleTests(unittest.TestCase):
         self.assertIn("steps.collection_plan.outputs.run_night_session == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_futures == 'true'", workflow)
         self.assertIn("steps.collection_plan.outputs.needs_options == 'true'", workflow)
-        self.assertIn("steps.collection_plan.outputs.needs_physical == 'true'", workflow)
-        self.assertIn("steps.collection_plan.outputs.needs_external == 'true'", workflow)
+        self.assertNotIn("steps.collection_plan.outputs.needs_physical", workflow)
+        self.assertNotIn("steps.collection_plan.outputs.needs_external", workflow)
         self.assertIn("steps.collection_plan.outputs.validate_full_market == 'true'", workflow)
         self.assertIn(
             "python -m china_commodities.cli report-input --repair-futures-history",
@@ -52,18 +52,7 @@ class WorkflowScheduleTests(unittest.TestCase):
             ),
             1,
         )
-        self.assertEqual(
-            workflow.count(
-                'python -m china_commodities.cli foundation --provider akshare --scope physical --date "${DOMESTIC_TRADE_DATE}" --shadow-days 1 --force-refresh'
-            ),
-            1,
-        )
-        self.assertEqual(
-            workflow.count(
-                'python -m china_commodities.cli foundation --provider akshare --scope external --date "${EXTERNAL_TRADE_DATE}" --shadow-days 1 --force-refresh'
-            ),
-            1,
-        )
+        self.assertNotIn("cli foundation", workflow)
         self.assertEqual(
             workflow.count("IFIND_REFRESH_TOKEN: ${{ secrets.IFIND_REFRESH_TOKEN }}"),
             4,
@@ -72,13 +61,13 @@ class WorkflowScheduleTests(unittest.TestCase):
             workflow.count(
                 "DOMESTIC_TRADE_DATE: ${{ steps.collection_plan.outputs.domestic_trade_date }}"
             ),
-            3,
+            2,
         )
         self.assertEqual(
             workflow.count(
                 "EXTERNAL_TRADE_DATE: ${{ steps.collection_plan.outputs.external_trade_date }}"
             ),
-            1,
+            0,
         )
         self.assertEqual(
             workflow.count(

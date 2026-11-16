@@ -23,8 +23,6 @@ SOURCES = {
     'market_state': 'market_state_latest.json',
     'radar': 'radar_latest.json',
     'night': 'night_session/latest.json',
-    'physical': 'physical/latest.json',
-    'external': 'external/latest.json',
     'options_index': 'options/latest.json',
     'options_quality': 'options/quality_latest.json',
     'options_surface': 'options/surface_latest.json',

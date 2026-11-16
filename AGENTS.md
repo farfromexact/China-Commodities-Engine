@@ -86,3 +86,8 @@
 回购缺项可发布显式partial；同次启动不对partial日期循环重试，下次用户启动再尝试，不增后台、调度或冷却。
 用户要求README清楚说明全库范围、采样、原始/计算指标、产物读取顺序及未覆盖/未验收项，方便外部AI读取；先固定Git提交，再按manifest真实路径及模块日期/状态读取。不得把代码已接入当成数据已成功采集。
 详见 `docs/RATES.md` 和 README。仅修改代码/文档不构成启动本次整轮采集的授权。
+
+
+## 2026-11-16 Physical / External 退役
+
+用户决定不再需要这两层：移除采集CLI及实现/映射配置、当前发布快照、Chat分片和报告入口；不得恢复、自动补采或将其缺失计入报告质量。相关现货/海外背景由使用方LLM另行检索并标注来源日期，不冒充本仓库校验产物。统一报告schema升级为4，删除physical/external、对应freshness/status/source_paths，以及derived_inputs中的basis/import_parities；其余Wind模块及已有商品原生proxy_basis语义保留。历史版本留在Git历史，本次不启动任何行情采集。

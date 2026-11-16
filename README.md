@@ -28,10 +28,11 @@
 | 股指期权盘口 | 仅所选样本，独立WSQ观测 | 买一/卖一、挂单量及供应商日期/时钟；时间语义未确认，不参与EOD定价 | `data/index_derivatives/books/latest.json` |
 | 国债期货 | TS（2年）、TF（5年）、T（10年）、TL（30年），全部有效具体合约 | Wind报价；程序计算主力、同品种跨期价差和持仓变化 | `data/treasury_futures/` |
 | 回购资金面 | 银行间DR/R及沪深交易所回购，各1/7/14天，共12条序列 | 利率水平、1/3/5/20日BP变化与明确口径的利差；不代表资金净流量 | `data/funding/` |
-| Physical / External | 既有国内现货/基差代理及海外期货代理 | 独立AKShare模块，保留真实来源与日期，不随Wind入口刷新 | `data/physical/`、`data/external/` |
 | 元数据与辅助层 | 合约参数、仓单、会员排名、核对等既有产物 | 独立读取其来源/日期/完整性，不因核心行情更新而宣称同步更新 | `data/contract_meta.json`、`data/crosschecks/`等 |
 
-商品具体产品以 [config/products.json](config/products.json) 为准；Physical/External以 [config/data_foundation.json](config/data_foundation.json) 及实际快照为准。仓库不采个股，不联动股票或其他期权仓库。
+商品具体产品以 [config/products.json](config/products.json) 为准。仓库不采个股，不联动股票或其他期权仓库。
+
+Physical / External 已按用户要求退役：不再采集、发布或计入报告缺口。现货与海外背景由使用方LLM另行检索，必须注明独立来源及真实数据日期，不能视为本仓库已校验数据。统一报告schema v4移除了这两层及其派生basis/import_parities；旧数据可在Git历史查阅。
 
 ## 期权如何控制采集耗时
 
@@ -94,7 +95,6 @@ PCR包括认沽/认购持仓比和成交比；Gamma是程序重算，再结合�
 
 质量与有限历史回补（代码更新，尚未实机采集）：
 
-- Physical/External同时给出`batch_data_fresh`和相对报告EOD日期的`report_date_matches`；旧批次成功不等于当前报告新鲜。该日期比较不是海外交易日历或发布时间验证。
 - `realized_vol_20d_annualized_pct`只在同合约最近20个交易日收益齐全时给值；不足时为null。另保留`realized_vol_sample_annualized_pct`及`realized_vol_window`实际样本日期，不用跨缺日涨跌冒充单日收益。
 - 用户启动后的日终流程额外检查最近21个交易日的商品期货及股指历史，独立于本机`start_date`。默认每次启动最多两个“模块×日期”，剩余列在`deferred_history_tasks`，不会在同次启动循环补完；盘中不执行这项历史回补。
 - `max_history_days_per_run`可设0关闭额外历史回补，允许0—10。商品历史只取期货，按当日目录、最多200代码/单字段WSD批量请求，不重拉商品期权或夜盘、不把单层历史标为整批完成。股指历史不请求盘口；新补历史后离线重算相邻日指标，不回退latest。
@@ -109,7 +109,7 @@ PCR包括认沽/认购持仓比和成交比；Gamma是程序重算，再结合�
 - 2026-11-14 Windows EOD实机完成11月11—13日补采、分析、校验与发布：每日16个股指期货、84个股指期权样本、12个国债期货合约和12/12条回购利率。Windows盘中与Mac新入口仍未整轮验收。
 - 银行间路由和实际中文简称已通过本机WSS/WSD验收；年化百分数单位依据公开品种定义，不是Wind字段元数据自证。不保证其他账号权限，文件缺失或partial必须如实保留。
 - ETF份额单位及盘口供应商时钟未闭环：不生成规范化ETF资金流，不把盘口观测称为15点收盘或可执行报价。
-- Physical/External及其他辅助层不自动刷新；读取其真实日期。商品期权不是全月份全执行价链。
+- Physical/External已退役，由使用方独立检索；商品期权不是全月份全执行价链。
 - 源日期、唯一合约、目录/样本覆盖、单位、缺失和OHLC检查必须保留；供应商错误不能制造日期、零值或虚假成功。
 
 ## 本地环境与维护

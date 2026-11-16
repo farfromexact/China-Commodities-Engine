@@ -10,7 +10,6 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from china_commodities.collection_cache import (
-    verified_foundation_available,
     verified_futures_available,
     verified_night_session_available,
     verified_option_chain_available,
@@ -115,7 +114,7 @@ def plan_collection(
         or (manual_before_current_eod and now_shanghai.time() < time(9, 0))
     )
     run_domestic = bool((is_manual or is_scheduled) and mode == "full")
-    run_external = bool((is_manual or is_scheduled) and mode == "full")
+    run_external = False  # Physical/External retired by user request.
     domestic_trade_date = (
         _previous_weekday(target_date)
         if completed_eod_recovery
@@ -141,8 +140,6 @@ def plan_collection(
         # refresh of any of the four report inputs.
         needs_futures = run_domestic
         needs_options = run_domestic
-        needs_physical = run_domestic
-        needs_external = run_external
     else:
         needs_futures = bool(
             run_domestic
@@ -152,18 +149,7 @@ def plan_collection(
             run_domestic
             and not verified_option_chain_available(data_dir, domestic_trade_date)
         )
-        needs_physical = bool(
-            run_domestic
-            and not verified_foundation_available(
-                data_dir, "physical", domestic_trade_date, provider="akshare"
-            )
-        )
-        needs_external = bool(
-            run_external
-            and not verified_foundation_available(
-                data_dir, "external", external_trade_date, provider="akshare"
-            )
-        )
+    needs_physical = needs_external = False
     return {
         "requested_date": target_date.isoformat(),
         "calendar_version": CALENDAR_VERSION,

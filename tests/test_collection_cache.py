@@ -164,8 +164,8 @@ class CollectionCacheTests(unittest.TestCase):
                 data_dir=root,
             )
 
-            self.assertTrue(plan["needs_physical"])
-            self.assertTrue(plan["needs_external"])
+            self.assertFalse(plan["needs_physical"])
+            self.assertFalse(plan["needs_external"])
             self.assertFalse(plan["needs_ifind"])
 
     def test_force_refresh_plan_runs_verified_full_modules_again(self) -> None:
@@ -185,8 +185,8 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertTrue(plan["force_refresh"])
             self.assertTrue(plan["needs_futures"])
             self.assertTrue(plan["needs_options"])
-            self.assertTrue(plan["needs_physical"])
-            self.assertTrue(plan["needs_external"])
+            self.assertFalse(plan["needs_physical"])
+            self.assertFalse(plan["needs_external"])
             self.assertTrue(plan["needs_ifind"])
 
     def test_partial_option_scope_is_scheduled_for_incremental_resume(self) -> None:
@@ -228,7 +228,7 @@ class CollectionCacheTests(unittest.TestCase):
                 ),
             )
             self.assertTrue(morning["run_domestic"])
-            self.assertTrue(morning["run_external"])
+            self.assertFalse(morning["run_external"])
             self.assertTrue(morning["run_night_session"])
             self.assertEqual(morning["domestic_trade_date"], "2026-08-24")
             self.assertEqual(morning["external_trade_date"], "2026-08-24")
@@ -246,8 +246,8 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertTrue(morning["needs_futures"])
             self.assertTrue(morning["needs_night_session"])
             self.assertTrue(morning["needs_options"])
-            self.assertTrue(morning["needs_physical"])
-            self.assertTrue(morning["needs_external"])
+            self.assertFalse(morning["needs_physical"])
+            self.assertFalse(morning["needs_external"])
             evening = plan_collection(
                 event_name="schedule",
                 event_schedule=EVENING_SCHEDULE,
@@ -258,7 +258,7 @@ class CollectionCacheTests(unittest.TestCase):
                 ),
             )
             self.assertTrue(evening["run_domestic"])
-            self.assertTrue(evening["run_external"])
+            self.assertFalse(evening["run_external"])
             self.assertFalse(evening["run_night_session"])
             self.assertEqual(evening["domestic_trade_date"], "2026-08-25")
             self.assertEqual(evening["external_trade_date"], "2026-08-25")
@@ -269,8 +269,8 @@ class CollectionCacheTests(unittest.TestCase):
             self.assertTrue(evening["needs_futures"])
             self.assertFalse(evening["needs_night_session"])
             self.assertTrue(evening["needs_options"])
-            self.assertTrue(evening["needs_physical"])
-            self.assertTrue(evening["needs_external"])
+            self.assertFalse(evening["needs_physical"])
+            self.assertFalse(evening["needs_external"])
 
     def test_evening_schedule_before_eod_uses_completed_recovery(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

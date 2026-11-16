@@ -11,11 +11,9 @@ from zoneinfo import ZoneInfo
 from .backfill import run_ifind_backfill
 from .collectors.akshare_adapter import COMMODITY_EXCHANGES
 from .collection_cache import (
-    verified_foundation_available,
     verified_futures_available,
     verified_night_session_available,
 )
-from .foundation import run_foundation
 from .history_storage import rebuild_futures_history_from_snapshots
 from .night_session import (
     collect_night_session,
@@ -25,7 +23,6 @@ from .night_session import (
 from .pipeline import run_pipeline
 from .quality import validate_snapshot
 from .reporting import publish_report_input
-from .source_registry import load_source_registry
 from .storage import (
     publish_night_session_derivatives,
     read_json,
@@ -113,40 +110,6 @@ def _parser() -> argparse.ArgumentParser:
     validate = subparsers.add_parser("validate", help="validate latest promoted snapshot")
     validate.add_argument("--data-dir", default="data")
     validate.add_argument("--scope", default=None)
-
-    foundation = subparsers.add_parser(
-        "foundation", help="collect Physical and External EOD source data"
-    )
-    foundation.add_argument("--date", default=_today_shanghai())
-    foundation.add_argument("--data-dir", default="data")
-    foundation.add_argument("--registry", default=None)
-    foundation.add_argument(
-        "--provider",
-        choices=("akshare", "ifind"),
-        default="akshare",
-        help="Foundation source provider; production defaults to public AKShare routes",
-    )
-    foundation.add_argument(
-        "--scope", choices=("physical", "external", "all"), default="all"
-    )
-    foundation.add_argument(
-        "--lookback-days",
-        type=int,
-        default=400,
-        help="legacy iFinD calendar-day window; ignored by the AKShare provider",
-    )
-    foundation.add_argument("--shadow-days", type=int, default=5)
-    foundation.add_argument(
-        "--audit-only",
-        action="store_true",
-        help="print the selected source/permission matrix without making requests",
-    )
-    foundation.add_argument("--dry-run", action="store_true")
-    foundation.add_argument(
-        "--force-refresh",
-        action="store_true",
-        help="collect even when a verified same-date snapshot already exists",
-    )
 
     night_session = subparsers.add_parser(
         "night-session",
@@ -312,68 +275,6 @@ def _backfill(args: argparse.Namespace) -> int:
     return 0
 
 
-def _foundation(args: argparse.Namespace) -> int:
-    if args.audit_only:
-        if args.provider == "akshare":
-            from .akshare_foundation import akshare_foundation_audit
-
-            audit = akshare_foundation_audit()
-        else:
-            audit = load_source_registry(args.registry).audit()
-        print(json.dumps(audit, ensure_ascii=False, indent=2))
-        return 0
-    domains = ("physical", "external") if args.scope == "all" else (args.scope,)
-    skipped = {
-        domain
-        for domain in domains
-        if not args.force_refresh
-        and not args.dry_run
-        and verified_foundation_available(
-            args.data_dir, domain, args.date, provider=args.provider
-        )
-    }
-    pending = tuple(domain for domain in domains if domain not in skipped)
-    results = {}
-    if pending:
-        pending_scope = "all" if len(pending) == 2 else pending[0]
-        results = run_foundation(
-            args.date,
-            scope=pending_scope,
-            data_dir=args.data_dir,
-            registry_path=args.registry,
-            provider=args.provider,
-            lookback_days=args.lookback_days,
-            publish=not args.dry_run,
-            shadow_days=args.shadow_days,
-        )
-    summary = {
-        domain: {
-            "requested_date": result["payload"]["requested_date"],
-            "coverage": result["payload"]["coverage"],
-            "data_fresh": result["status"]["data_fresh"],
-            "validation_passed": result["status"]["validation_passed"],
-            "published": result["status"].get("published", False),
-            "shadow_state": result["status"].get("shadow_state"),
-        }
-        for domain, result in results.items()
-    }
-    for domain in skipped:
-        status = read_json(
-            Path(args.data_dir) / domain / "last_run_status.json", default={}
-        ) or {}
-        summary[domain] = {
-            "requested_date": args.date,
-            "coverage": status.get("coverage"),
-            "data_fresh": status.get("data_fresh"),
-            "validation_passed": True,
-            "published": True,
-            "skipped_existing": True,
-            "reason": "verified same-date module snapshot already exists",
-        }
-    print(json.dumps(summary, ensure_ascii=False, indent=2))
-    return 0
-
-
 def _history_rebuild(args: argparse.Namespace) -> int:
     rows = rebuild_futures_history_from_snapshots(
         args.data_dir,
@@ -493,8 +394,6 @@ def main(argv: list[str] | None = None) -> int:
         return _run(args)
     if args.command == "backfill":
         return _backfill(args)
-    if args.command == "foundation":
-        return _foundation(args)
     if args.command == "night-session":
         return _night_session(args)
     if args.command == "history-rebuild":
