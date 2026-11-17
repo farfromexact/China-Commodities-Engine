@@ -1,9 +1,28 @@
 {
   "current_market_snapshot": {
-    "mode": "eod",
-    "path": "data/latest.json",
-    "trading_date": "2026-11-16",
-    "as_of": "2026-11-16T15:00:00+08:00"
+    "mode": "intraday",
+    "path": "data/intraday/latest.json",
+    "as_of": "2026-11-17T09:05:00+08:00",
+    "trading_date": "2026-11-17",
+    "coverage": {
+      "futures": {
+        "expected": 806,
+        "quoted": 529,
+        "missing": 277,
+        "query_errors": 0,
+        "older_than_cutoff": 0
+      },
+      "options": {
+        "expected": 446,
+        "quoted": 222,
+        "missing": 224,
+        "query_errors": 0,
+        "older_than_cutoff": 0
+      },
+      "missing_option_products": [
+        "CZCE:ZC"
+      ]
+    }
   },
   "index_derivatives": {
     "trade_date": "2026-11-16",
@@ -2297,8 +2316,8 @@
     },
     "source_path": "data/funding/latest.json"
   },
-  "schema_version": 4,
-  "generated_at": "2026-11-16T19:31:01.250080+08:00",
+  "schema_version": 3,
+  "generated_at": "2026-11-17T09:21:04.036415+08:00",
   "requested_date": "2026-11-16",
   "execution_prices": {
     "snapshot_id": "sha256:72b5cdffba4b994aa12d206213c8a4b3388194312c9e31e2bc0c3c15205936ba",
@@ -23275,7 +23294,7 @@
   "trade_cards": [],
   "timezone": "Asia/Shanghai",
   "frequency": "EOD+night_session",
-  "intraday": false,
+  "intraday": true,
   "has_night_session": true,
   "source_paths": {
     "index_derivatives": "data/index_derivatives/latest.json",
@@ -23283,6 +23302,8 @@
     "funding": "data/funding/latest.json",
     "futures": "data/latest.json",
     "market_state": "data/market_state_latest.json",
+    "physical": "data/physical/latest.json",
+    "external": "data/external/latest.json",
     "night_session": "data/night_session/latest.json",
     "options_chain_index": "data/options/latest.json",
     "options_quality": "data/options/quality_latest.json",
@@ -23343,6 +23364,38 @@
       "data_fresh": true,
       "validation_passed": null,
       "published": null
+    },
+    {
+      "module": "physical",
+      "requested_date": null,
+      "source_dates": [],
+      "source_date_min": null,
+      "source_date_max": null,
+      "generated_at": null,
+      "data_fresh": false,
+      "validation_passed": null,
+      "published": null,
+      "batch_data_fresh": null,
+      "expected_date": "2026-11-16",
+      "expected_date_basis": "report_eod_anchor_not_foreign_release_calendar",
+      "report_date_matches": false,
+      "freshness_state": "missing"
+    },
+    {
+      "module": "external",
+      "requested_date": null,
+      "source_dates": [],
+      "source_date_min": null,
+      "source_date_max": null,
+      "generated_at": null,
+      "data_fresh": false,
+      "validation_passed": null,
+      "published": null,
+      "batch_data_fresh": null,
+      "expected_date": "2026-11-16",
+      "expected_date_basis": "report_eod_anchor_not_foreign_release_calendar",
+      "report_date_matches": false,
+      "freshness_state": "missing"
     },
     {
       "module": "night_session",
@@ -33230,6 +33283,48 @@
       }
     }
   ],
+  "physical": {
+    "requested_date": null,
+    "generated_at": null,
+    "data_fresh": false,
+    "validation_passed": null,
+    "published": null,
+    "coverage": null,
+    "coverage_matrix": [],
+    "series": [],
+    "basis": [],
+    "import_parities": [],
+    "fundamental_score": null,
+    "convexity_score": null,
+    "provider_consensus_ready": null,
+    "provider_consensus_missing_reason": null,
+    "batch_data_fresh": null,
+    "expected_date": "2026-11-16",
+    "expected_date_basis": "report_eod_anchor_not_foreign_release_calendar",
+    "report_date_matches": false,
+    "freshness_state": "missing"
+  },
+  "external": {
+    "requested_date": null,
+    "generated_at": null,
+    "data_fresh": false,
+    "validation_passed": null,
+    "published": null,
+    "coverage": null,
+    "coverage_matrix": [],
+    "series": [],
+    "basis": [],
+    "import_parities": [],
+    "fundamental_score": null,
+    "convexity_score": null,
+    "provider_consensus_ready": null,
+    "provider_consensus_missing_reason": null,
+    "batch_data_fresh": null,
+    "expected_date": "2026-11-16",
+    "expected_date_basis": "report_eod_anchor_not_foreign_release_calendar",
+    "report_date_matches": false,
+    "freshness_state": "missing"
+  },
   "night_session": {
     "source_path": "data/night_session/latest.json",
     "price_semantics": "last_completed_bar_close",
@@ -42179,6 +42274,8 @@
     "warning": "Null trading parameters were not published by the verified exchange interface and must not be inferred."
   },
   "derived_inputs": {
+    "basis": [],
+    "import_parities": [],
     "warehouse_inventory": [],
     "member_rankings": []
   },
@@ -42501,6 +42598,8 @@
         }
       ]
     },
+    "physical_status": {},
+    "external_status": {},
     "night_session_status": {
       "schema_version": 2,
       "trading_date": "2026-11-16",
@@ -42666,6 +42765,8 @@
       ]
     },
     "limitations": [
+      "physical_module_not_fresh",
+      "external_module_not_fresh",
       "basis_not_available_in_futures_snapshot",
       "member_rankings_not_available",
       "options_positioning_not_ready",
