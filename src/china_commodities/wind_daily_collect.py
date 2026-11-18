@@ -18,7 +18,7 @@ from .pipeline import run_pipeline
 from .storage import read_json, write_json_if_changed, publish_status, publish_verified
 from .trading_calendar import night_session_dates, CALENDAR_VERSION, previous_trading_day
 from .night_session import _night_window
-from .wind_daily import eod_session_complete, ZONE
+from .wind_daily import eod_session_complete, night_complete, ZONE
 # These tested conversion/publication helpers never load an SDK on import.
 from scripts.backfill_wind_derivatives import clean, historical_rows, OPTION_FIELDS
 from scripts.publish_wind_backfill import build_night, replace_night_history
@@ -320,6 +320,20 @@ def preserve_newer_latest(root, day):
                     shutil.copy2(source,root/relative)
 
 
+def reusable_published_night(root, day, universe):
+    """A verified published session is reusable without this machine's raw cache."""
+    if not night_complete(root, day):
+        return False
+    payload = read_json(Path(root)/f'night_session/{day}.json')
+    if night_session_dates(date.fromisoformat(day)) is None:
+        return True
+    _, start, end = _night_window(day)
+    expected = {(row['exchange'], row['contract']) for row in universe.values()}
+    actual = {(row.get('exchange'), row.get('contract')) for row in payload['records']}
+    return (actual == expected and payload.get('session_start') == start.isoformat()
+            and payload.get('session_end') == end.isoformat())
+
+
 def collect_day(api, day, root, cache, *, night_only=False, catalog=None, allowed_empty=('CZCE:LR',), provisional=False, now=None):
     started=(now or datetime.now(ZONE)).astimezone(ZONE)
     if not night_only and not provisional and not eod_session_complete(day,started):
@@ -328,9 +342,10 @@ def collect_day(api, day, root, cache, *, night_only=False, catalog=None, allowe
         raise ValueError('night session has not completed')
     root=Path(root)
     universe,empty=directory(api,day,catalog=catalog,allowed_empty=allowed_empty)
+    reuse_night = reusable_published_night(root, day, universe)
     session=night_session_dates(date.fromisoformat(day))
     prior=read_json(root/'snapshots'/f'{session[0].isoformat()}.json') if session else None
-    if session and not prior:
+    if session and not prior and not reuse_night:
         # Bootstrap only the previous EOD reference in cache; never relabel it as today's EOD.
         prior_day=session[0].isoformat()
         previous,_=directory(api,prior_day,catalog=catalog,allowed_empty=allowed_empty)
@@ -350,15 +365,18 @@ def collect_day(api, day, root, cache, *, night_only=False, catalog=None, allowe
         # Even if the clock crosses close during collection, this candidate can never publish.
         return dict(date=day,mode='provisional',as_of=started.isoformat(),published=False,
                     final=False,directory_count=len(universe),declared_empty_products=empty)
-    night_snapshot,night_status=night(api,day,universe,prior,cache)
+    if not reuse_night:
+        night_snapshot,night_status=night(api,day,universe,prior,cache)
     with preserve_newer_latest(root,day):
         _publish_full(root,day,result,option_snapshot)
-    publish_night(root,night_snapshot,night_status)
+    if not reuse_night:
+        publish_night(root,night_snapshot,night_status)
     if result:
         write_json_if_changed(root/f'wind_daily/completed/{day}.json',dict(schema_version=1,trade_date=day,
             provider='wind',layers=['futures','options','night'],calendar_version=CALENDAR_VERSION,
             futures_contract_count=len(universe),option_product_count=len(option_snapshot['collection_plans'])))
-    return dict(date=day,mode='night' if night_only else 'full',directory_count=len(universe),declared_empty_products=empty)
+    return dict(date=day,mode='night' if night_only else 'full',directory_count=len(universe),
+                declared_empty_products=empty,night_reused=reuse_night)
 
 
 def _publish_full(root,day,result,option_snapshot):

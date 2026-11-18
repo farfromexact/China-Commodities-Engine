@@ -8,7 +8,7 @@ import unittest
 
 from china_commodities.catalog import ProductCatalog, OptionProduct
 from china_commodities.storage import read_json, write_json_atomic
-from china_commodities.wind_daily_collect import CachedWind, collect_day, directory, futures
+from china_commodities.wind_daily_collect import CachedWind, collect_day, directory, futures, reusable_published_night
 
 
 CODES={'SHFE':'AU2612.SHF','INE':'SC2612.INE','DCE':'M2701.DCE','CZCE':'SA701.CZC','GFEX':'SI2701.GFE'}
@@ -67,6 +67,36 @@ class FakeWind:
 
 
 class CollectionTests(unittest.TestCase):
+    def test_published_night_reused_without_local_raw_cache(self):
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp); data=root/'data'; day='2026-11-11'
+            api=CachedWind(FakeWind(),root/'original-raw',lambda:None,interval=0)
+            collect_day(api,day,data,root/'original-normal',catalog=CATALOG)
+            before={p.relative_to(data):p.read_bytes() for p in (data/'night_session').rglob('*') if p.is_file()}
+            sdk=FakeWind()
+            sdk.wsi=lambda *args: self.fail('published night must not query Wind again')
+            original_wsd=sdk.wsd
+            def current_day_only(code,fields,start,end,options):
+                self.assertEqual(start,day,'reused night must not bootstrap an old EOD')
+                return original_wsd(code,fields,start,end,options)
+            sdk.wsd=current_day_only
+            fresh_api=CachedWind(sdk,root/'empty-raw',lambda:None,interval=0)
+            result=collect_day(fresh_api,day,data,root/'empty-normal',catalog=CATALOG)
+            self.assertTrue(result['night_reused'])
+            self.assertGreater(sdk.calls,0)  # Today's EOD was still collected.
+            self.assertEqual(before,{p.relative_to(data):p.read_bytes() for p in (data/'night_session').rglob('*') if p.is_file()})
+            universe,_=directory(fresh_api,day,catalog=CATALOG)
+            self.assertFalse(reusable_published_night(data,day,dict(list(universe.items())[:-1])))
+            path=data/f'night_session/{day}.json'; snapshot=read_json(path)
+            original_end=snapshot['session_end']
+            snapshot['session_end']='2026-11-12T03:45:00+08:00'
+            write_json_atomic(path,snapshot)
+            self.assertFalse(reusable_published_night(data,day,universe))
+            snapshot['session_end']=original_end
+            snapshot['coverage']['unresolved_contract_count']=1
+            write_json_atomic(path,snapshot)
+            self.assertFalse(reusable_published_night(data,day,universe))
+
     def test_weekend_night_uses_friday_bars_and_preserves_friday_eod(self):
         with TemporaryDirectory() as tmp:
             root=Path(tmp)
