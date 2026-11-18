@@ -3,7 +3,7 @@
   "trade_date": "2026-11-18",
   "source_provider": "wind",
   "frequency": "EOD",
-  "generated_at": "2026-11-18T18:37:53.229710+08:00",
+  "generated_at": "2026-11-19T07:37:24.960763+08:00",
   "records": [
     {
       "key": "DR001",
@@ -88,23 +88,22 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
+      "source_trade_date": "2026-11-18",
       "instrument_name": "银行间质押1日",
-      "raw_value": null,
-      "rate_percent": null,
+      "raw_value": 1.3419,
+      "rate_percent": 1.3419,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
       "identity_verified": true,
-      "source_date_verified": false,
-      "record_state": "missing",
+      "source_date_verified": true,
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "target-date rate missing; no older value substituted"
+        "1d": -3.0899999999999928,
+        "3d": -2.70999999999999,
+        "5d": -4.809999999999981,
+        "20d": 3.1400000000000095
+      }
     },
     {
       "key": "R007",
@@ -114,23 +113,22 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
+      "source_trade_date": "2026-11-18",
       "instrument_name": "银行间质押7日",
-      "raw_value": null,
-      "rate_percent": null,
+      "raw_value": 1.4252,
+      "rate_percent": 1.4252,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
       "identity_verified": true,
-      "source_date_verified": false,
-      "record_state": "missing",
+      "source_date_verified": true,
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "target-date rate missing; no older value substituted"
+        "1d": -0.8599999999999941,
+        "3d": 0.30000000000001137,
+        "5d": 0.24999999999999467,
+        "20d": 3.760000000000008
+      }
     },
     {
       "key": "R014",
@@ -140,23 +138,22 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": null,
+      "source_trade_date": "2026-11-18",
       "instrument_name": "银行间质押14日",
-      "raw_value": null,
-      "rate_percent": null,
+      "raw_value": 1.4595,
+      "rate_percent": 1.4595,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
       "identity_verified": true,
-      "source_date_verified": false,
-      "record_state": "missing",
+      "source_date_verified": true,
+      "record_state": "ok",
       "changes_bp": {
-        "1d": null,
-        "3d": null,
-        "5d": null,
-        "20d": null
-      },
-      "error": "target-date rate missing; no older value substituted"
+        "1d": -0.9700000000000042,
+        "3d": 2.6899999999999924,
+        "5d": 3.970000000000007,
+        "20d": 5.669999999999997
+      }
     },
     {
       "key": "GC001",
@@ -309,15 +306,15 @@
       }
     }
   ],
-  "coverage_complete": false,
+  "coverage_complete": true,
   "ready_time_policy": "18:00 Asia/Shanghai conservative combined-panel gate; release still requires exact source date",
   "spreads": [
     {
       "key": "R001_minus_DR001",
       "first": "R001",
       "second": "DR001",
-      "value_bp": null,
-      "source_trade_date": null,
+      "value_bp": 7.940000000000014,
+      "source_trade_date": "2026-11-18",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -326,8 +323,8 @@
       "key": "R007_minus_DR007",
       "first": "R007",
       "second": "DR007",
-      "value_bp": null,
-      "source_trade_date": null,
+      "value_bp": 4.889999999999994,
+      "source_trade_date": "2026-11-18",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -336,8 +333,8 @@
       "key": "R014_minus_DR014",
       "first": "R014",
       "second": "DR014",
-      "value_bp": null,
-      "source_trade_date": null,
+      "value_bp": 6.069999999999998,
+      "source_trade_date": "2026-11-18",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
