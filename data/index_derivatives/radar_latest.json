@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "trade_date": "2026-11-18",
-  "date": "2026-11-18",
+  "trade_date": "2026-11-19",
+  "date": "2026-11-19",
   "source_provider": "wind",
   "data_fresh": true,
   "option_price_basis": "wind_settlement_fallback_close",
@@ -13,10 +13,10 @@
         {
           "symbol": "HO2611",
           "expiry": "2026-11-20",
-          "forward": 2753.4002794635394,
-          "t_years": 0.005479452054794521,
+          "forward": 2762.1943368699367,
+          "t_years": 0.0027397260273972603,
           "metrics": {
-            "atm_iv": 0.16530480305021208,
+            "atm_iv": null,
             "call25_iv": null,
             "put25_iv": null,
             "call10_iv": null,
@@ -26,59 +26,59 @@
             "gamma_peaks": [
               {
                 "strike": 2750.0,
-                "abs_gamma_1pct": 440974617.9684019
+                "abs_gamma_1pct": 503312492.1080058
               },
               {
                 "strike": 2800.0,
-                "abs_gamma_1pct": 275883177.9588901
+                "abs_gamma_1pct": 256992867.6697896
               },
               {
                 "strike": 2700.0,
-                "abs_gamma_1pct": 81311264.42366499
+                "abs_gamma_1pct": 48645165.96594789
               },
               {
                 "strike": 2850.0,
-                "abs_gamma_1pct": 49110331.7809792
+                "abs_gamma_1pct": 24277891.551142637
               },
               {
-                "strike": 2650.0,
-                "abs_gamma_1pct": 15735581.971212609
+                "strike": 2900.0,
+                "abs_gamma_1pct": 9377492.712564912
               }
             ],
-            "greek_contract_count": 13,
+            "greek_contract_count": 12,
             "contract_count": 14,
-            "greek_coverage": 0.9285714285714286,
+            "greek_coverage": 0.8571428571428571,
             "pricing_basis": "wind_settlement_fallback_close",
             "wing_observations": [
               {
                 "side": "C",
                 "target_delta": 0.5,
-                "observed_delta": 0.5426020933329301,
+                "observed_delta": 0.7470237309897719,
                 "strike": 2750.0,
-                "delta_distance": 0.04260209333293008,
-                "observed_iv": 0.16530480305021208,
+                "delta_distance": 0.24702373098977193,
+                "observed_iv": 0.1277067571107447,
                 "delta_tolerance": 0.15,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
+                "target_ready": false,
+                "quality_state": "delta_too_far"
               },
               {
                 "side": "P",
                 "target_delta": -0.5,
-                "observed_delta": -0.4573157182638998,
+                "observed_delta": -0.31427501150015963,
                 "strike": 2750.0,
-                "delta_distance": 0.04268428173610023,
-                "observed_iv": 0.16530480305021208,
+                "delta_distance": 0.18572498849984037,
+                "observed_iv": 0.17642945130737037,
                 "delta_tolerance": 0.15,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
+                "target_ready": false,
+                "quality_state": "delta_too_far"
               },
               {
                 "side": "C",
                 "target_delta": 0.25,
-                "observed_delta": 0.11069589102044858,
+                "observed_delta": 0.07101655241862426,
                 "strike": 2800.0,
-                "delta_distance": 0.13930410897955142,
-                "observed_iv": 0.1843859817790266,
+                "delta_distance": 0.17898344758137574,
+                "observed_iv": 0.1763330664250939,
                 "delta_tolerance": 0.05,
                 "target_ready": false,
                 "quality_state": "delta_too_far"
@@ -86,10 +86,10 @@
               {
                 "side": "P",
                 "target_delta": -0.25,
-                "observed_delta": -0.07976313584599527,
-                "strike": 2700.0,
-                "delta_distance": 0.17023686415400474,
-                "observed_iv": 0.18903380552989427,
+                "observed_delta": -0.31427501150015963,
+                "strike": 2750.0,
+                "delta_distance": 0.06427501150015963,
+                "observed_iv": 0.17642945130737037,
                 "delta_tolerance": 0.05,
                 "target_ready": false,
                 "quality_state": "delta_too_far"
@@ -97,10 +97,10 @@
               {
                 "side": "C",
                 "target_delta": 0.1,
-                "observed_delta": 0.11069589102044858,
+                "observed_delta": 0.07101655241862426,
                 "strike": 2800.0,
-                "delta_distance": 0.010695891020448572,
-                "observed_iv": 0.1843859817790266,
+                "delta_distance": 0.02898344758137575,
+                "observed_iv": 0.1763330664250939,
                 "delta_tolerance": 0.03,
                 "target_ready": false,
                 "quality_state": "duplicate_25_delta_strike"
@@ -108,25 +108,25 @@
               {
                 "side": "P",
                 "target_delta": -0.1,
-                "observed_delta": -0.07976313584599527,
+                "observed_delta": -0.049718229748287504,
                 "strike": 2700.0,
-                "delta_distance": 0.020236864154004733,
-                "observed_iv": 0.18903380552989427,
+                "delta_distance": 0.0502817702517125,
+                "observed_iv": 0.265196549511982,
                 "delta_tolerance": 0.03,
                 "target_ready": false,
-                "quality_state": "duplicate_25_delta_strike"
+                "quality_state": "delta_too_far"
               }
             ],
             "approximate_metrics": {
-              "atm_iv": 0.16530480305021208,
-              "call25_iv": 0.1843859817790266,
-              "put25_iv": 0.18903380552989427,
-              "call10_iv": 0.1843859817790266,
-              "put10_iv": 0.18903380552989427,
-              "rr25": -0.004647823750867669,
-              "bf25": 0.02140509060424836
+              "atm_iv": 0.15206810420905753,
+              "call25_iv": 0.1763330664250939,
+              "put25_iv": 0.17642945130737037,
+              "call10_iv": 0.1763330664250939,
+              "put10_iv": 0.265196549511982,
+              "rr25": -9.638488227647901e-05,
+              "bf25": 0.024313154657174596
             },
-            "atm_ready": true,
+            "atm_ready": false,
             "skew_ready": false,
             "wings10_ready": false,
             "analytics_version": "delta_quality_v2",
@@ -148,50 +148,50 @@
               "HO2611-P-2850.CFE",
               "HO2611-P-2900.CFE"
             ],
-            "call_oi": 17033.0,
-            "call_volume": 12434.0,
-            "call_oi_change": -320.0,
-            "put_oi": 8446.0,
-            "put_volume": 10226.0,
-            "put_oi_change": -1002.0,
-            "pcr_oi": 0.49586097575295013,
-            "pcr_volume": 0.8224223902203636
+            "call_oi": 14783.0,
+            "call_volume": 21304.0,
+            "call_oi_change": -2250.0,
+            "put_oi": 8371.0,
+            "put_volume": 16481.0,
+            "put_oi_change": -75.0,
+            "pcr_oi": 0.5662585402151119,
+            "pcr_volume": 0.7736105895606459
           },
           "analytics_state": "ok"
         },
         {
           "symbol": "HO2612",
           "expiry": "2026-12-18",
-          "forward": 2732.316606137634,
-          "t_years": 0.0821917808219178,
+          "forward": 2733.0989767758156,
+          "t_years": 0.07945205479452055,
           "metrics": {
-            "atm_iv": 0.1383818828265646,
-            "call25_iv": 0.14072951257284733,
-            "put25_iv": 0.14833498689097954,
-            "call10_iv": 0.15015548758337915,
+            "atm_iv": 0.1389108541525472,
+            "call25_iv": 0.13762686325878742,
+            "put25_iv": 0.15249374531605253,
+            "call10_iv": 0.15050193485523372,
             "put10_iv": null,
-            "rr25": -0.007605474318132216,
-            "bf25": 0.006150366905348814,
+            "rr25": -0.014866882057265107,
+            "bf25": 0.00614945013487278,
             "gamma_peaks": [
               {
                 "strike": 2800.0,
-                "abs_gamma_1pct": 127291629.63144216
+                "abs_gamma_1pct": 141594395.85182968
               },
               {
                 "strike": 2750.0,
-                "abs_gamma_1pct": 87935987.2602967
+                "abs_gamma_1pct": 118468661.36037421
               },
               {
                 "strike": 2700.0,
-                "abs_gamma_1pct": 65458604.03588094
+                "abs_gamma_1pct": 73998860.03621992
               },
               {
                 "strike": 2900.0,
-                "abs_gamma_1pct": 36245404.363056056
+                "abs_gamma_1pct": 38483391.31728907
               },
               {
                 "strike": 2650.0,
-                "abs_gamma_1pct": 34521138.542156726
+                "abs_gamma_1pct": 37211171.672115155
               }
             ],
             "greek_contract_count": 14,
@@ -202,10 +202,10 @@
               {
                 "side": "C",
                 "target_delta": 0.5,
-                "observed_delta": 0.442909081761213,
+                "observed_delta": 0.44421058943432584,
                 "strike": 2750.0,
-                "delta_distance": 0.05709091823878698,
-                "observed_iv": 0.138805256163544,
+                "delta_distance": 0.05578941056567416,
+                "observed_iv": 0.13805725527411605,
                 "delta_tolerance": 0.15,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -213,10 +213,10 @@
               {
                 "side": "P",
                 "target_delta": -0.5,
-                "observed_delta": -0.5562991073189242,
+                "observed_delta": -0.5537396107318849,
                 "strike": 2750.0,
-                "delta_distance": 0.05629910731892418,
-                "observed_iv": 0.13795850948958518,
+                "delta_distance": 0.053739610731884935,
+                "observed_iv": 0.13976445303097834,
                 "delta_tolerance": 0.15,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -224,10 +224,10 @@
               {
                 "side": "C",
                 "target_delta": 0.25,
-                "observed_delta": 0.27848593068635286,
+                "observed_delta": 0.2725990067331987,
                 "strike": 2800.0,
-                "delta_distance": 0.028485930686352856,
-                "observed_iv": 0.14072951257284733,
+                "delta_distance": 0.0225990067331987,
+                "observed_iv": 0.13762686325878742,
                 "delta_tolerance": 0.05,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -235,10 +235,10 @@
               {
                 "side": "P",
                 "target_delta": -0.25,
-                "observed_delta": -0.2291892960191332,
+                "observed_delta": -0.2294308418139304,
                 "strike": 2650.0,
-                "delta_distance": 0.02081070398086679,
-                "observed_iv": 0.14833498689097954,
+                "delta_distance": 0.020569158186069608,
+                "observed_iv": 0.15249374531605253,
                 "delta_tolerance": 0.05,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -246,10 +246,10 @@
               {
                 "side": "C",
                 "target_delta": 0.1,
-                "observed_delta": 0.08648259571910095,
+                "observed_delta": 0.0843042862204359,
                 "strike": 2900.0,
-                "delta_distance": 0.01351740428089905,
-                "observed_iv": 0.15015548758337915,
+                "delta_distance": 0.015695713779564108,
+                "observed_iv": 0.15050193485523372,
                 "delta_tolerance": 0.03,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -257,23 +257,23 @@
               {
                 "side": "P",
                 "target_delta": -0.1,
-                "observed_delta": -0.13202523379042116,
-                "strike": 2600.0,
-                "delta_distance": 0.03202523379042116,
-                "observed_iv": 0.15835106581114183,
+                "observed_delta": -0.2294308418139304,
+                "strike": 2650.0,
+                "delta_distance": 0.1294308418139304,
+                "observed_iv": 0.15249374531605253,
                 "delta_tolerance": 0.03,
                 "target_ready": false,
-                "quality_state": "delta_too_far"
+                "quality_state": "duplicate_25_delta_strike"
               }
             ],
             "approximate_metrics": {
-              "atm_iv": 0.1383818828265646,
-              "call25_iv": 0.14072951257284733,
-              "put25_iv": 0.14833498689097954,
-              "call10_iv": 0.15015548758337915,
-              "put10_iv": 0.15835106581114183,
-              "rr25": -0.007605474318132216,
-              "bf25": 0.006150366905348814
+              "atm_iv": 0.1389108541525472,
+              "call25_iv": 0.13762686325878742,
+              "put25_iv": 0.15249374531605253,
+              "call10_iv": 0.15050193485523372,
+              "put10_iv": 0.15249374531605253,
+              "rr25": -0.014866882057265107,
+              "bf25": 0.00614945013487278
             },
             "atm_ready": true,
             "skew_ready": true,
@@ -282,29 +282,29 @@
             "pcr_scope": "selected_strikes_only",
             "gamma_scope": "selected_strikes_valid_greeks_only",
             "contract_codes": [
-              "HO2612-C-2600.CFE",
               "HO2612-C-2650.CFE",
               "HO2612-C-2700.CFE",
               "HO2612-C-2750.CFE",
               "HO2612-C-2800.CFE",
               "HO2612-C-2850.CFE",
               "HO2612-C-2900.CFE",
-              "HO2612-P-2600.CFE",
+              "HO2612-C-2950.CFE",
               "HO2612-P-2650.CFE",
               "HO2612-P-2700.CFE",
               "HO2612-P-2750.CFE",
               "HO2612-P-2800.CFE",
               "HO2612-P-2850.CFE",
-              "HO2612-P-2900.CFE"
+              "HO2612-P-2900.CFE",
+              "HO2612-P-2950.CFE"
             ],
-            "call_oi": 13173.0,
-            "call_volume": 3728.0,
+            "call_oi": 14798.0,
+            "call_volume": 6561.0,
             "call_oi_change": null,
-            "put_oi": 7681.0,
-            "put_volume": 1782.0,
+            "put_oi": 7102.0,
+            "put_volume": 3357.0,
             "put_oi_change": null,
-            "pcr_oi": 0.5830866165641844,
-            "pcr_volume": 0.4780042918454936
+            "pcr_oi": 0.47992972023246383,
+            "pcr_volume": 0.5116598079561042
           },
           "analytics_state": "ok"
         }
@@ -315,72 +315,72 @@
         {
           "symbol": "IO2611",
           "expiry": "2026-11-20",
-          "forward": 3964.5970902913837,
-          "t_years": 0.005479452054794521,
+          "forward": 3969.994657424468,
+          "t_years": 0.0027397260273972603,
           "metrics": {
-            "atm_iv": 0.21855863910812795,
-            "call25_iv": 0.22264470432833117,
+            "atm_iv": null,
+            "call25_iv": 0.25068056994004695,
             "put25_iv": null,
-            "call10_iv": 0.2216608658346541,
-            "put10_iv": null,
+            "call10_iv": 0.2692080530617741,
+            "put10_iv": 0.23493534027603316,
             "rr25": null,
             "bf25": null,
             "gamma_peaks": [
               {
                 "strike": 4000.0,
-                "abs_gamma_1pct": 805926435.5640442
+                "abs_gamma_1pct": 973099221.3654425
               },
               {
                 "strike": 3950.0,
-                "abs_gamma_1pct": 538080307.3664852
+                "abs_gamma_1pct": 630784298.2126236
               },
               {
                 "strike": 4050.0,
-                "abs_gamma_1pct": 300866614.9730961
+                "abs_gamma_1pct": 291973102.9524458
               },
               {
                 "strike": 3900.0,
-                "abs_gamma_1pct": 292036711.4923139
+                "abs_gamma_1pct": 247542055.70971847
               },
               {
                 "strike": 4100.0,
-                "abs_gamma_1pct": 275129367.79811436
+                "abs_gamma_1pct": 160604216.13836464
               }
             ],
-            "greek_contract_count": 14,
+            "greek_contract_count": 13,
             "contract_count": 14,
-            "greek_coverage": 1.0,
+            "greek_coverage": 0.9285714285714286,
             "pricing_basis": "wind_settlement_fallback_close",
             "wing_observations": [
               {
                 "side": "C",
                 "target_delta": 0.5,
-                "observed_delta": 0.5936059690971056,
+                "observed_delta": 0.6570289111110488,
                 "strike": 3950.0,
-                "delta_distance": 0.09360596909710561,
-                "observed_iv": 0.21769834867833654,
+                "delta_distance": 0.15702891111104877,
+                "observed_iv": 0.24231175119613857,
                 "delta_tolerance": 0.15,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
+                "target_ready": false,
+                "quality_state": "delta_too_far"
               },
               {
                 "side": "P",
                 "target_delta": -0.5,
-                "observed_delta": -0.40698346900357507,
+                "observed_delta": -0.32922009725270224,
                 "strike": 3950.0,
-                "delta_distance": 0.09301653099642493,
-                "observed_iv": 0.21941892953791936,
+                "delta_distance": 0.17077990274729776,
+                "observed_iv": 0.22112493985873652,
                 "delta_tolerance": 0.15,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
+                "target_ready": false,
+                "quality_state": "delta_too_far"
               },
               {
                 "side": "C",
                 "target_delta": 0.25,
-                "observed_delta": 0.29762270856471984,
+                "observed_delta": 0.28524707872177535,
                 "strike": 4000.0,
-                "delta_distance": 0.04762270856471984,
-                "observed_iv": 0.22264470432833117,
+                "delta_distance": 0.03524707872177535,
+                "observed_iv": 0.25068056994004695,
                 "delta_tolerance": 0.05,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -388,10 +388,10 @@
               {
                 "side": "P",
                 "target_delta": -0.25,
-                "observed_delta": -0.1657269173681328,
-                "strike": 3900.0,
-                "delta_distance": 0.0842730826318672,
-                "observed_iv": 0.23054776408921326,
+                "observed_delta": -0.32922009725270224,
+                "strike": 3950.0,
+                "delta_distance": 0.07922009725270224,
+                "observed_iv": 0.22112493985873652,
                 "delta_tolerance": 0.05,
                 "target_ready": false,
                 "quality_state": "delta_too_far"
@@ -399,10 +399,10 @@
               {
                 "side": "C",
                 "target_delta": 0.1,
-                "observed_delta": 0.0983943482289439,
+                "observed_delta": 0.07942854570830528,
                 "strike": 4050.0,
-                "delta_distance": 0.0016056517710561075,
-                "observed_iv": 0.2216608658346541,
+                "delta_distance": 0.020571454291694727,
+                "observed_iv": 0.2692080530617741,
                 "delta_tolerance": 0.03,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -410,27 +410,27 @@
               {
                 "side": "P",
                 "target_delta": -0.1,
-                "observed_delta": -0.05236396379750302,
-                "strike": 3850.0,
-                "delta_distance": 0.047636036202496984,
-                "observed_iv": 0.24562107258970337,
+                "observed_delta": -0.07315233360003498,
+                "strike": 3900.0,
+                "delta_distance": 0.026847666399965026,
+                "observed_iv": 0.23493534027603316,
                 "delta_tolerance": 0.03,
-                "target_ready": false,
-                "quality_state": "delta_too_far"
+                "target_ready": true,
+                "quality_state": "qualified_nearest"
               }
             ],
             "approximate_metrics": {
-              "atm_iv": 0.21855863910812795,
-              "call25_iv": 0.22264470432833117,
-              "put25_iv": 0.23054776408921326,
-              "call10_iv": 0.2216608658346541,
-              "put10_iv": 0.24562107258970337,
-              "rr25": -0.007903059760882097,
-              "bf25": 0.00803759510064428
+              "atm_iv": 0.23171834552743753,
+              "call25_iv": 0.25068056994004695,
+              "put25_iv": 0.22112493985873652,
+              "call10_iv": 0.2692080530617741,
+              "put10_iv": 0.23493534027603316,
+              "rr25": 0.02955563008131043,
+              "bf25": 0.00418440937195419
             },
-            "atm_ready": true,
+            "atm_ready": false,
             "skew_ready": false,
-            "wings10_ready": false,
+            "wings10_ready": true,
             "analytics_version": "delta_quality_v2",
             "pcr_scope": "selected_strikes_only",
             "gamma_scope": "selected_strikes_valid_greeks_only",
@@ -450,64 +450,64 @@
               "IO2611-P-4100.CFE",
               "IO2611-P-4200.CFE"
             ],
-            "call_oi": 37764.0,
-            "call_volume": 48417.0,
-            "call_oi_change": -469.0,
-            "put_oi": 19420.0,
-            "put_volume": 33355.0,
-            "put_oi_change": -414.0,
-            "pcr_oi": 0.5142463722063341,
-            "pcr_volume": 0.6889109197182808
+            "call_oi": 35907.0,
+            "call_volume": 61326.0,
+            "call_oi_change": -1857.0,
+            "put_oi": 17023.0,
+            "put_volume": 39510.0,
+            "put_oi_change": -2397.0,
+            "pcr_oi": 0.4740858328459632,
+            "pcr_volume": 0.644261813912533
           },
           "analytics_state": "ok"
         },
         {
           "symbol": "IO2612",
           "expiry": "2026-12-18",
-          "forward": 3929.528353128803,
-          "t_years": 0.0821917808219178,
+          "forward": 3927.2920603264215,
+          "t_years": 0.07945205479452055,
           "metrics": {
-            "atm_iv": 0.18600879357843333,
+            "atm_iv": 0.19016402811241945,
             "call25_iv": null,
-            "put25_iv": null,
-            "call10_iv": 0.1851445118501313,
+            "put25_iv": 0.21056119680810448,
+            "call10_iv": 0.19140501868735604,
             "put10_iv": null,
             "rr25": null,
             "bf25": null,
             "gamma_peaks": [
               {
                 "strike": 4000.0,
-                "abs_gamma_1pct": 335054890.1840251
+                "abs_gamma_1pct": 347129103.71917
               },
               {
                 "strike": 3950.0,
-                "abs_gamma_1pct": 127457086.67268416
+                "abs_gamma_1pct": 176171052.4040003
               },
               {
                 "strike": 4200.0,
-                "abs_gamma_1pct": 112589037.44198462
+                "abs_gamma_1pct": 123485836.28385577
               },
               {
                 "strike": 4150.0,
-                "abs_gamma_1pct": 65092329.97266612
+                "abs_gamma_1pct": 71551536.6572425
               },
               {
                 "strike": 3850.0,
-                "abs_gamma_1pct": 58385860.27638483
+                "abs_gamma_1pct": 67478100.55448474
               }
             ],
-            "greek_contract_count": 14,
+            "greek_contract_count": 13,
             "contract_count": 14,
-            "greek_coverage": 1.0,
+            "greek_coverage": 0.9285714285714286,
             "pricing_basis": "wind_settlement_fallback_close",
             "wing_observations": [
               {
                 "side": "C",
                 "target_delta": 0.5,
-                "observed_delta": 0.47068307990346014,
+                "observed_delta": 0.4670935043086074,
                 "strike": 3950.0,
-                "delta_distance": 0.029316920096539856,
-                "observed_iv": 0.18405061142282841,
+                "delta_distance": 0.03290649569139259,
+                "observed_iv": 0.1895736838051975,
                 "delta_tolerance": 0.15,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -515,10 +515,10 @@
               {
                 "side": "P",
                 "target_delta": -0.5,
-                "observed_delta": -0.527046182630191,
+                "observed_delta": -0.5313840953614288,
                 "strike": 3950.0,
-                "delta_distance": 0.027046182630190985,
-                "observed_iv": 0.18796697573403826,
+                "delta_distance": 0.03138409536142883,
+                "observed_iv": 0.19075437241964138,
                 "delta_tolerance": 0.15,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -526,10 +526,10 @@
               {
                 "side": "C",
                 "target_delta": 0.25,
-                "observed_delta": 0.15957219227731195,
+                "observed_delta": 0.15369630870967838,
                 "strike": 4150.0,
-                "delta_distance": 0.09042780772268805,
-                "observed_iv": 0.18629108670756642,
+                "delta_distance": 0.09630369129032162,
+                "observed_iv": 0.187026725456442,
                 "delta_tolerance": 0.05,
                 "target_ready": false,
                 "quality_state": "delta_too_far"
@@ -537,21 +537,21 @@
               {
                 "side": "P",
                 "target_delta": -0.25,
-                "observed_delta": -0.34420881383761537,
-                "strike": 3850.0,
-                "delta_distance": 0.09420881383761537,
-                "observed_iv": 0.19151037802499718,
+                "observed_delta": -0.2092972841598486,
+                "strike": 3750.0,
+                "delta_distance": 0.04070271584015139,
+                "observed_iv": 0.21056119680810448,
                 "delta_tolerance": 0.05,
-                "target_ready": false,
-                "quality_state": "delta_too_far"
+                "target_ready": true,
+                "quality_state": "qualified_nearest"
               },
               {
                 "side": "C",
                 "target_delta": 0.1,
-                "observed_delta": 0.10967641644267809,
+                "observed_delta": 0.11159975734103263,
                 "strike": 4200.0,
-                "delta_distance": 0.009676416442678082,
-                "observed_iv": 0.1851445118501313,
+                "delta_distance": 0.011599757341032621,
+                "observed_iv": 0.19140501868735604,
                 "delta_tolerance": 0.03,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -559,23 +559,23 @@
               {
                 "side": "P",
                 "target_delta": -0.1,
-                "observed_delta": -0.1492628835545947,
-                "strike": 3700.0,
-                "delta_distance": 0.04926288355459468,
-                "observed_iv": 0.2080663447828242,
+                "observed_delta": -0.2092972841598486,
+                "strike": 3750.0,
+                "delta_distance": 0.1092972841598486,
+                "observed_iv": 0.21056119680810448,
                 "delta_tolerance": 0.03,
                 "target_ready": false,
-                "quality_state": "delta_too_far"
+                "quality_state": "duplicate_25_delta_strike"
               }
             ],
             "approximate_metrics": {
-              "atm_iv": 0.18600879357843333,
-              "call25_iv": 0.18629108670756642,
-              "put25_iv": 0.19151037802499718,
-              "call10_iv": 0.1851445118501313,
-              "put10_iv": 0.2080663447828242,
-              "rr25": -0.005219291317430763,
-              "bf25": 0.0028919387878484637
+              "atm_iv": 0.19016402811241945,
+              "call25_iv": 0.187026725456442,
+              "put25_iv": 0.21056119680810448,
+              "call10_iv": 0.19140501868735604,
+              "put10_iv": 0.21056119680810448,
+              "rr25": -0.023534471351662478,
+              "bf25": 0.008629933019853792
             },
             "atm_ready": true,
             "skew_ready": false,
@@ -584,14 +584,14 @@
             "pcr_scope": "selected_strikes_only",
             "gamma_scope": "selected_strikes_valid_greeks_only",
             "contract_codes": [
-              "IO2612-C-3700.CFE",
+              "IO2612-C-3750.CFE",
               "IO2612-C-3850.CFE",
               "IO2612-C-3950.CFE",
               "IO2612-C-4000.CFE",
               "IO2612-C-4150.CFE",
               "IO2612-C-4200.CFE",
               "IO2612-C-4250.CFE",
-              "IO2612-P-3700.CFE",
+              "IO2612-P-3750.CFE",
               "IO2612-P-3850.CFE",
               "IO2612-P-3950.CFE",
               "IO2612-P-4000.CFE",
@@ -599,14 +599,14 @@
               "IO2612-P-4200.CFE",
               "IO2612-P-4250.CFE"
             ],
-            "call_oi": 21131.0,
-            "call_volume": 8893.0,
-            "call_oi_change": 1133.0,
-            "put_oi": 13563.0,
-            "put_volume": 5166.0,
-            "put_oi_change": 330.0,
-            "pcr_oi": 0.6418532014575742,
-            "pcr_volume": 0.5809063308219948
+            "call_oi": 23617.0,
+            "call_volume": 12557.0,
+            "call_oi_change": null,
+            "put_oi": 15025.0,
+            "put_volume": 6805.0,
+            "put_oi_change": null,
+            "pcr_oi": 0.6361942668416818,
+            "pcr_volume": 0.5419288046507924
           },
           "analytics_state": "ok"
         }
@@ -617,185 +617,36 @@
         {
           "symbol": "MO2611",
           "expiry": "2026-11-20",
-          "forward": 6042.995314875957,
-          "t_years": 0.005479452054794521,
+          "forward": 5932.193103967891,
+          "t_years": 0.0027397260273972603,
           "metrics": {
-            "atm_iv": 0.46300662151733796,
-            "call25_iv": 0.4630835510749216,
-            "put25_iv": 0.45938964941431115,
-            "call10_iv": 0.4664773783336995,
-            "put10_iv": 0.46487345957309345,
-            "rr25": 0.0036939016606104547,
-            "bf25": -0.001770021272721578,
-            "gamma_peaks": [
-              {
-                "strike": 6200.0,
-                "abs_gamma_1pct": 663178247.6459193
-              },
-              {
-                "strike": 6100.0,
-                "abs_gamma_1pct": 621123587.0864347
-              },
-              {
-                "strike": 6300.0,
-                "abs_gamma_1pct": 474138176.7995851
-              },
-              {
-                "strike": 5900.0,
-                "abs_gamma_1pct": 333916135.90291286
-              },
-              {
-                "strike": 5800.0,
-                "abs_gamma_1pct": 145565578.17291462
-              }
-            ],
-            "greek_contract_count": 12,
-            "contract_count": 14,
-            "greek_coverage": 0.8571428571428571,
-            "pricing_basis": "wind_settlement_fallback_close",
-            "wing_observations": [
-              {
-                "side": "C",
-                "target_delta": 0.5,
-                "observed_delta": 0.39863089499476256,
-                "strike": 6100.0,
-                "delta_distance": 0.10136910500523744,
-                "observed_iv": 0.46300662151733796,
-                "delta_tolerance": 0.15,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
-              },
-              {
-                "side": "P",
-                "target_delta": -0.5,
-                "observed_delta": -0.6012869166020673,
-                "strike": 6100.0,
-                "delta_distance": 0.10128691660206735,
-                "observed_iv": 0.46300662151733796,
-                "delta_tolerance": 0.15,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
-              },
-              {
-                "side": "C",
-                "target_delta": 0.25,
-                "observed_delta": 0.232334580483852,
-                "strike": 6200.0,
-                "delta_distance": 0.017665419516148,
-                "observed_iv": 0.4630835510749216,
-                "delta_tolerance": 0.05,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
-              },
-              {
-                "side": "P",
-                "target_delta": -0.25,
-                "observed_delta": -0.2353663015813875,
-                "strike": 5900.0,
-                "delta_distance": 0.014633698418612506,
-                "observed_iv": 0.45938964941431115,
-                "delta_tolerance": 0.05,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
-              },
-              {
-                "side": "C",
-                "target_delta": 0.1,
-                "observed_delta": 0.11722586625137918,
-                "strike": 6300.0,
-                "delta_distance": 0.017225866251379174,
-                "observed_iv": 0.4664773783336995,
-                "delta_tolerance": 0.03,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
-              },
-              {
-                "side": "P",
-                "target_delta": -0.1,
-                "observed_delta": -0.11315204872167746,
-                "strike": 5800.0,
-                "delta_distance": 0.013152048721677453,
-                "observed_iv": 0.46487345957309345,
-                "delta_tolerance": 0.03,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
-              }
-            ],
-            "approximate_metrics": {
-              "atm_iv": 0.46300662151733796,
-              "call25_iv": 0.4630835510749216,
-              "put25_iv": 0.45938964941431115,
-              "call10_iv": 0.4664773783336995,
-              "put10_iv": 0.46487345957309345,
-              "rr25": 0.0036939016606104547,
-              "bf25": -0.001770021272721578
-            },
-            "atm_ready": true,
-            "skew_ready": true,
-            "wings10_ready": true,
-            "analytics_version": "delta_quality_v2",
-            "pcr_scope": "selected_strikes_only",
-            "gamma_scope": "selected_strikes_valid_greeks_only",
-            "contract_codes": [
-              "MO2611-C-5800.CFE",
-              "MO2611-C-5900.CFE",
-              "MO2611-C-6100.CFE",
-              "MO2611-C-6200.CFE",
-              "MO2611-C-6300.CFE",
-              "MO2611-C-6800.CFE",
-              "MO2611-C-7000.CFE",
-              "MO2611-P-5800.CFE",
-              "MO2611-P-5900.CFE",
-              "MO2611-P-6100.CFE",
-              "MO2611-P-6200.CFE",
-              "MO2611-P-6300.CFE",
-              "MO2611-P-6800.CFE",
-              "MO2611-P-7000.CFE"
-            ],
-            "call_oi": 50356.0,
-            "call_volume": 156786.0,
-            "call_oi_change": null,
-            "put_oi": 25732.0,
-            "put_volume": 109061.0,
-            "put_oi_change": null,
-            "pcr_oi": 0.5110016681229645,
-            "pcr_volume": 0.6956041993545342
-          },
-          "analytics_state": "ok"
-        },
-        {
-          "symbol": "MO2612",
-          "expiry": "2026-12-18",
-          "forward": 5992.930559841612,
-          "t_years": 0.0821917808219178,
-          "metrics": {
-            "atm_iv": 0.3488306504033617,
-            "call25_iv": 0.3403829439965481,
+            "atm_iv": 0.42279399740295587,
+            "call25_iv": null,
             "put25_iv": null,
-            "call10_iv": 0.35656401624016837,
+            "call10_iv": null,
             "put10_iv": null,
             "rr25": null,
             "bf25": null,
             "gamma_peaks": [
               {
-                "strike": 6200.0,
-                "abs_gamma_1pct": 288334060.39350355
+                "strike": 6000.0,
+                "abs_gamma_1pct": 1042190449.3571405
               },
               {
-                "strike": 6600.0,
-                "abs_gamma_1pct": 199998139.71309584
-              },
-              {
-                "strike": 6500.0,
-                "abs_gamma_1pct": 185912420.74682882
+                "strike": 5900.0,
+                "abs_gamma_1pct": 727752645.884345
               },
               {
                 "strike": 6100.0,
-                "abs_gamma_1pct": 143895077.69609123
+                "abs_gamma_1pct": 560065847.6930711
+              },
+              {
+                "strike": 5800.0,
+                "abs_gamma_1pct": 364274083.52192175
               },
               {
                 "strike": 5700.0,
-                "abs_gamma_1pct": 88322405.30212253
+                "abs_gamma_1pct": 155792809.69816327
               }
             ],
             "greek_contract_count": 14,
@@ -806,10 +657,10 @@
               {
                 "side": "C",
                 "target_delta": 0.5,
-                "observed_delta": 0.4489158484016689,
-                "strike": 6100.0,
-                "delta_distance": 0.05108415159833107,
-                "observed_iv": 0.34893190377342326,
+                "observed_delta": 0.604128262453092,
+                "strike": 5900.0,
+                "delta_distance": 0.10412826245309204,
+                "observed_iv": 0.41031189787035066,
                 "delta_tolerance": 0.15,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -817,10 +668,10 @@
               {
                 "side": "P",
                 "target_delta": -0.5,
-                "observed_delta": -0.5499041373230494,
-                "strike": 6100.0,
-                "delta_distance": 0.049904137323049436,
-                "observed_iv": 0.3487293970333002,
+                "observed_delta": -0.40118691489020625,
+                "strike": 5900.0,
+                "delta_distance": 0.09881308510979375,
+                "observed_iv": 0.435276096935561,
                 "delta_tolerance": 0.15,
                 "target_ready": true,
                 "quality_state": "qualified_nearest"
@@ -828,21 +679,21 @@
               {
                 "side": "C",
                 "target_delta": 0.25,
-                "observed_delta": 0.21639202948478925,
-                "strike": 6500.0,
-                "delta_distance": 0.03360797051521075,
-                "observed_iv": 0.3403829439965481,
+                "observed_delta": 0.3169003758595316,
+                "strike": 6000.0,
+                "delta_distance": 0.06690037585953162,
+                "observed_iv": 0.444960415537933,
                 "delta_tolerance": 0.05,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
+                "target_ready": false,
+                "quality_state": "delta_too_far"
               },
               {
                 "side": "P",
                 "target_delta": -0.25,
-                "observed_delta": -0.3058091085772246,
-                "strike": 5700.0,
-                "delta_distance": 0.0558091085772246,
-                "observed_iv": 0.38746134427872675,
+                "observed_delta": -0.15584443940143766,
+                "strike": 5800.0,
+                "delta_distance": 0.09415556059856234,
+                "observed_iv": 0.4303811339832615,
                 "delta_tolerance": 0.05,
                 "target_ready": false,
                 "quality_state": "delta_too_far"
@@ -850,34 +701,34 @@
               {
                 "side": "C",
                 "target_delta": 0.1,
-                "observed_delta": 0.09203543973091842,
-                "strike": 6900.0,
-                "delta_distance": 0.007964560269081586,
-                "observed_iv": 0.35656401624016837,
+                "observed_delta": 0.13028970653099775,
+                "strike": 6100.0,
+                "delta_distance": 0.030289706530997745,
+                "observed_iv": 0.4686075477947612,
                 "delta_tolerance": 0.03,
-                "target_ready": true,
-                "quality_state": "qualified_nearest"
+                "target_ready": false,
+                "quality_state": "delta_too_far"
               },
               {
                 "side": "P",
                 "target_delta": -0.1,
-                "observed_delta": -0.1758967013558335,
-                "strike": 5400.0,
-                "delta_distance": 0.07589670135583348,
-                "observed_iv": 0.417485564563124,
+                "observed_delta": -0.04470325379776401,
+                "strike": 5700.0,
+                "delta_distance": 0.05529674620223599,
+                "observed_iv": 0.4522607222849212,
                 "delta_tolerance": 0.03,
                 "target_ready": false,
                 "quality_state": "delta_too_far"
               }
             ],
             "approximate_metrics": {
-              "atm_iv": 0.3488306504033617,
-              "call25_iv": 0.3403829439965481,
-              "put25_iv": 0.38746134427872675,
-              "call10_iv": 0.35656401624016837,
-              "put10_iv": 0.417485564563124,
-              "rr25": -0.047078400282178634,
-              "bf25": 0.015091493734275763
+              "atm_iv": 0.42279399740295587,
+              "call25_iv": 0.444960415537933,
+              "put25_iv": 0.4303811339832615,
+              "call10_iv": 0.4686075477947612,
+              "put10_iv": 0.4522607222849212,
+              "rr25": 0.014579281554671475,
+              "bf25": 0.014876777357641369
             },
             "atm_ready": true,
             "skew_ready": false,
@@ -886,29 +737,178 @@
             "pcr_scope": "selected_strikes_only",
             "gamma_scope": "selected_strikes_valid_greeks_only",
             "contract_codes": [
-              "MO2612-C-5400.CFE",
-              "MO2612-C-5700.CFE",
-              "MO2612-C-6100.CFE",
-              "MO2612-C-6200.CFE",
-              "MO2612-C-6500.CFE",
-              "MO2612-C-6600.CFE",
-              "MO2612-C-6900.CFE",
-              "MO2612-P-5400.CFE",
-              "MO2612-P-5700.CFE",
-              "MO2612-P-6100.CFE",
-              "MO2612-P-6200.CFE",
-              "MO2612-P-6500.CFE",
-              "MO2612-P-6600.CFE",
-              "MO2612-P-6900.CFE"
+              "MO2611-C-5700.CFE",
+              "MO2611-C-5800.CFE",
+              "MO2611-C-5900.CFE",
+              "MO2611-C-6000.CFE",
+              "MO2611-C-6100.CFE",
+              "MO2611-C-6300.CFE",
+              "MO2611-C-7000.CFE",
+              "MO2611-P-5700.CFE",
+              "MO2611-P-5800.CFE",
+              "MO2611-P-5900.CFE",
+              "MO2611-P-6000.CFE",
+              "MO2611-P-6100.CFE",
+              "MO2611-P-6300.CFE",
+              "MO2611-P-7000.CFE"
             ],
-            "call_oi": 27904.0,
-            "call_volume": 39056.0,
+            "call_oi": 40477.0,
+            "call_volume": 153725.0,
             "call_oi_change": null,
-            "put_oi": 24241.0,
-            "put_volume": 20576.0,
+            "put_oi": 30026.0,
+            "put_volume": 144008.0,
             "put_oi_change": null,
-            "pcr_oi": 0.868728497706422,
-            "pcr_volume": 0.5268332650553053
+            "pcr_oi": 0.7418039874496628,
+            "pcr_volume": 0.936789721906001
+          },
+          "analytics_state": "ok"
+        },
+        {
+          "symbol": "MO2612",
+          "expiry": "2026-12-18",
+          "forward": 5875.92865059536,
+          "t_years": 0.07945205479452055,
+          "metrics": {
+            "atm_iv": 0.3791461487496337,
+            "call25_iv": 0.3618716621125819,
+            "put25_iv": 0.42544978193694305,
+            "call10_iv": 0.3777521477270558,
+            "put10_iv": null,
+            "rr25": -0.06357811982436112,
+            "bf25": 0.014514573275128784,
+            "gamma_peaks": [
+              {
+                "strike": 6200.0,
+                "abs_gamma_1pct": 279235347.870121
+              },
+              {
+                "strike": 6400.0,
+                "abs_gamma_1pct": 174001300.22761825
+              },
+              {
+                "strike": 6600.0,
+                "abs_gamma_1pct": 168626447.61950243
+              },
+              {
+                "strike": 5900.0,
+                "abs_gamma_1pct": 104923061.39612162
+              },
+              {
+                "strike": 5600.0,
+                "abs_gamma_1pct": 92484533.13246398
+              }
+            ],
+            "greek_contract_count": 14,
+            "contract_count": 14,
+            "greek_coverage": 1.0,
+            "pricing_basis": "wind_settlement_fallback_close",
+            "wing_observations": [
+              {
+                "side": "C",
+                "target_delta": 0.5,
+                "observed_delta": 0.5052810980255156,
+                "strike": 5900.0,
+                "delta_distance": 0.005281098025515574,
+                "observed_iv": 0.377359998137299,
+                "delta_tolerance": 0.15,
+                "target_ready": true,
+                "quality_state": "qualified_nearest"
+              },
+              {
+                "side": "P",
+                "target_delta": -0.5,
+                "observed_delta": -0.49318363409681043,
+                "strike": 5900.0,
+                "delta_distance": 0.00681636590318957,
+                "observed_iv": 0.3809322993619684,
+                "delta_tolerance": 0.15,
+                "target_ready": true,
+                "quality_state": "qualified_nearest"
+              },
+              {
+                "side": "C",
+                "target_delta": 0.25,
+                "observed_delta": 0.2155090169810485,
+                "strike": 6400.0,
+                "delta_distance": 0.03449098301895151,
+                "observed_iv": 0.3618716621125819,
+                "delta_tolerance": 0.05,
+                "target_ready": true,
+                "quality_state": "qualified_nearest"
+              },
+              {
+                "side": "P",
+                "target_delta": -0.25,
+                "observed_delta": -0.22208173952291446,
+                "strike": 5400.0,
+                "delta_distance": 0.027918260477085538,
+                "observed_iv": 0.42544978193694305,
+                "delta_tolerance": 0.05,
+                "target_ready": true,
+                "quality_state": "qualified_nearest"
+              },
+              {
+                "side": "C",
+                "target_delta": 0.1,
+                "observed_delta": 0.09355878965388906,
+                "strike": 6800.0,
+                "delta_distance": 0.006441210346110948,
+                "observed_iv": 0.3777521477270558,
+                "delta_tolerance": 0.03,
+                "target_ready": true,
+                "quality_state": "qualified_nearest"
+              },
+              {
+                "side": "P",
+                "target_delta": -0.1,
+                "observed_delta": -0.22208173952291446,
+                "strike": 5400.0,
+                "delta_distance": 0.12208173952291446,
+                "observed_iv": 0.42544978193694305,
+                "delta_tolerance": 0.03,
+                "target_ready": false,
+                "quality_state": "duplicate_25_delta_strike"
+              }
+            ],
+            "approximate_metrics": {
+              "atm_iv": 0.3791461487496337,
+              "call25_iv": 0.3618716621125819,
+              "put25_iv": 0.42544978193694305,
+              "call10_iv": 0.3777521477270558,
+              "put10_iv": 0.42544978193694305,
+              "rr25": -0.06357811982436112,
+              "bf25": 0.014514573275128784
+            },
+            "atm_ready": true,
+            "skew_ready": true,
+            "wings10_ready": false,
+            "analytics_version": "delta_quality_v2",
+            "pcr_scope": "selected_strikes_only",
+            "gamma_scope": "selected_strikes_valid_greeks_only",
+            "contract_codes": [
+              "MO2612-C-5400.CFE",
+              "MO2612-C-5600.CFE",
+              "MO2612-C-5900.CFE",
+              "MO2612-C-6200.CFE",
+              "MO2612-C-6400.CFE",
+              "MO2612-C-6600.CFE",
+              "MO2612-C-6800.CFE",
+              "MO2612-P-5400.CFE",
+              "MO2612-P-5600.CFE",
+              "MO2612-P-5900.CFE",
+              "MO2612-P-6200.CFE",
+              "MO2612-P-6400.CFE",
+              "MO2612-P-6600.CFE",
+              "MO2612-P-6800.CFE"
+            ],
+            "call_oi": 31229.0,
+            "call_volume": 29198.0,
+            "call_oi_change": null,
+            "put_oi": 29321.0,
+            "put_volume": 23578.0,
+            "put_oi_change": null,
+            "pcr_oi": 0.9389029427775465,
+            "pcr_volume": 0.8075210630865127
           },
           "analytics_state": "ok"
         }
@@ -919,8 +919,8 @@
     "IH": {
       "status": "ok",
       "front_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -934,22 +934,22 @@
         "product": "IH",
         "listed_date": "2026-09-21",
         "expiry_date": "2026-11-20",
-        "open": 2760.8,
-        "high": 2760.8,
-        "low": 2740.4,
-        "close": 2754.4,
-        "settle": 2752.8,
+        "open": 2751.2,
+        "high": 2767.8,
+        "low": 2721.6,
+        "close": 2766.0,
+        "settle": 2753.2,
         "pre_settle": 2752.8,
-        "volume": 9848.0,
-        "open_interest": 11730.0,
-        "turnover": 8128494840.000001,
+        "volume": 11610.0,
+        "open_interest": 10067.0,
+        "turnover": 9552223200.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": 0.058122638767788004,
-        "oi_change": -2111.0
+        "close_vs_pre_settle_pct": 0.47951176983433985,
+        "oi_change": -1663.0
       },
       "main_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -963,22 +963,22 @@
         "product": "IH",
         "listed_date": "2026-04-20",
         "expiry_date": "2026-12-18",
-        "open": 2736.0,
-        "high": 2738.8,
-        "low": 2719.2,
+        "open": 2728.0,
+        "high": 2735.0,
+        "low": 2696.6,
         "close": 2731.2,
-        "settle": 2730.2,
-        "pre_settle": 2730.8,
-        "volume": 32392.0,
-        "open_interest": 62763.0,
-        "turnover": 26528019180.0,
+        "settle": 2724.8,
+        "pre_settle": 2730.2,
+        "volume": 43711.0,
+        "open_interest": 73866.0,
+        "turnover": 35619006060.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": 0.014647722279170772,
-        "oi_change": -4284.0
+        "close_vs_pre_settle_pct": 0.03662735330745015,
+        "oi_change": 11103.0
       },
       "next_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -992,35 +992,35 @@
         "product": "IH",
         "listed_date": "2026-07-20",
         "expiry_date": "2027-03-19",
-        "open": 2688.4,
-        "high": 2692.0,
-        "low": 2673.4,
-        "close": 2681.8,
-        "settle": 2682.0,
-        "pre_settle": 2685.0,
-        "volume": 5239.0,
-        "open_interest": 20004.0,
-        "turnover": 4217111400.0,
+        "open": 2677.0,
+        "high": 2683.0,
+        "low": 2648.8,
+        "close": 2677.0,
+        "settle": 2674.8,
+        "pre_settle": 2682.0,
+        "volume": 8278.0,
+        "open_interest": 22290.0,
+        "turnover": 6625384080.000001,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": -0.11918063314710903,
-        "oi_change": 185.0
+        "close_vs_pre_settle_pct": -0.18642803877703118,
+        "oi_change": 2286.0
       },
-      "total_volume": 49329.0,
-      "total_open_interest": 99863.0,
-      "total_oi_change": -6456.0,
-      "main_volume_share": 0.656652273510511,
-      "main_oi_share": 0.6284910327148193,
-      "next_minus_main_points": -49.399999999999636,
-      "annualized_roll_pct_inferred": -0.07254791195915908,
+      "total_volume": 66016.0,
+      "total_open_interest": 112382.0,
+      "total_oi_change": 12519.0,
+      "main_volume_share": 0.6621273630634997,
+      "main_oi_share": 0.6572760762399672,
+      "next_minus_main_points": -54.19999999999982,
+      "annualized_roll_pct_inferred": -0.0795971017851507,
       "cash_index_code": "000016.SH",
-      "cash_index_close": 2764.5401,
-      "cash_basis_points": -33.34010000000035,
-      "cash_basis_pct": -0.012059908264669536,
-      "annualized_cash_basis_pct_inferred": -0.14672888388681268,
+      "cash_index_close": 2773.4586,
+      "cash_basis_points": -42.258600000000115,
+      "cash_basis_pct": -0.01523678774220755,
+      "annualized_cash_basis_pct_inferred": -0.19177336296226744,
       "cash_basis_note": "close minus cash index; calendar DTE; no dividend or financing adjustment",
       "reference_etf": {
         "source_code": "510050.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
         "share_field": "unit_total",
         "share_unit": "Wind_native_unverified",
@@ -1032,9 +1032,9 @@
         "status": "unit_pending",
         "close": 2.883,
         "price_unit": "CNY_per_fund_unit",
-        "total_shares_raw": 16458066800.0,
-        "previous_total_shares_raw": 16458066800.0,
-        "previous_date": "2026-11-17",
+        "total_shares_raw": 16479666800.0,
+        "previous_total_shares_raw": 16479666800.0,
+        "previous_date": "2026-11-18",
         "share_change_raw": 0.0,
         "share_change_pct": 0.0,
         "share_change_pct_unit": "fraction"
@@ -1043,8 +1043,8 @@
     "IF": {
       "status": "ok",
       "front_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1058,22 +1058,22 @@
         "product": "IF",
         "listed_date": "2026-09-21",
         "expiry_date": "2026-11-20",
-        "open": 3973.6,
-        "high": 3980.8,
-        "low": 3935.4,
-        "close": 3966.0,
-        "settle": 3963.0,
-        "pre_settle": 3951.6,
-        "volume": 26899.0,
-        "open_interest": 28975.0,
-        "turnover": 31950954660.0,
+        "open": 3959.4,
+        "high": 3980.4,
+        "low": 3925.0,
+        "close": 3971.0,
+        "settle": 3961.6,
+        "pre_settle": 3963.0,
+        "volume": 23477.0,
+        "open_interest": 21100.0,
+        "turnover": 27832640639.999996,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": 0.3644093531733894,
-        "oi_change": -6026.0
+        "close_vs_pre_settle_pct": 0.20186727226847445,
+        "oi_change": -7875.0
       },
       "main_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1088,21 +1088,21 @@
         "listed_date": "2026-04-20",
         "expiry_date": "2026-12-18",
         "open": 3928.0,
-        "high": 3946.0,
-        "low": 3899.4,
-        "close": 3928.4,
-        "settle": 3925.4,
-        "pre_settle": 3918.8,
-        "volume": 74512.0,
-        "open_interest": 180633.0,
-        "turnover": 87732421440.0,
+        "high": 3934.2,
+        "low": 3884.0,
+        "close": 3925.8,
+        "settle": 3915.8,
+        "pre_settle": 3925.4,
+        "volume": 84087.0,
+        "open_interest": 185046.0,
+        "turnover": 98610113820.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": 0.2449729509033327,
-        "oi_change": 3049.0
+        "close_vs_pre_settle_pct": 0.010190044326696679,
+        "oi_change": 4413.0
       },
       "next_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1116,35 +1116,35 @@
         "product": "IF",
         "listed_date": "2026-07-20",
         "expiry_date": "2027-03-19",
-        "open": 3864.8,
-        "high": 3876.6,
-        "low": 3829.4,
-        "close": 3859.8,
-        "settle": 3854.0,
-        "pre_settle": 3849.6,
-        "volume": 16971.0,
-        "open_interest": 77975.0,
-        "turnover": 19625530080.0,
+        "open": 3855.0,
+        "high": 3864.6,
+        "low": 3815.8,
+        "close": 3851.4,
+        "settle": 3842.4,
+        "pre_settle": 3854.0,
+        "volume": 22420.0,
+        "open_interest": 81645.0,
+        "turnover": 25820220780.000004,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": 0.264962593516227,
-        "oi_change": 781.0
+        "close_vs_pre_settle_pct": -0.06746237675142597,
+        "oi_change": 3670.0
       },
-      "total_volume": 124459.0,
-      "total_open_interest": 319048.0,
-      "total_oi_change": -1050.0,
-      "main_volume_share": 0.5986871178460377,
-      "main_oi_share": 0.5661624583134827,
-      "next_minus_main_points": -68.59999999999991,
-      "annualized_roll_pct_inferred": -0.07004221722682134,
+      "total_volume": 137964.0,
+      "total_open_interest": 320588.0,
+      "total_oi_change": 1540.0,
+      "main_volume_share": 0.6094850830651475,
+      "main_oi_share": 0.5772081300610129,
+      "next_minus_main_points": -74.40000000000009,
+      "annualized_roll_pct_inferred": -0.07601446390992461,
       "cash_index_code": "000300.SH",
-      "cash_index_close": 3983.7667,
-      "cash_basis_points": -55.36670000000004,
-      "cash_basis_pct": -0.013898077917062773,
-      "annualized_cash_basis_pct_inferred": -0.16909328132426374,
+      "cash_index_close": 3984.8399,
+      "cash_basis_points": -59.03989999999976,
+      "cash_basis_pct": -0.014816128497408331,
+      "annualized_cash_basis_pct_inferred": -0.18647885867427727,
       "cash_basis_note": "close minus cash index; calendar DTE; no dividend or financing adjustment",
       "reference_etf": {
         "source_code": "510300.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
         "share_field": "unit_total",
         "share_unit": "Wind_native_unverified",
@@ -1154,11 +1154,11 @@
         "estimated_net_creation_redemption_cny": null,
         "flow_method": "share_change * market_close; disabled until share unit verified",
         "status": "unit_pending",
-        "close": 4.058,
+        "close": 4.06,
         "price_unit": "CNY_per_fund_unit",
-        "total_shares_raw": 48343087699.99999,
-        "previous_total_shares_raw": 48343087699.99999,
-        "previous_date": "2026-11-17",
+        "total_shares_raw": 49684087699.99999,
+        "previous_total_shares_raw": 49684087699.99999,
+        "previous_date": "2026-11-18",
         "share_change_raw": 0.0,
         "share_change_pct": 0.0,
         "share_change_pct_unit": "fraction"
@@ -1167,8 +1167,8 @@
     "IC": {
       "status": "ok",
       "front_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1182,22 +1182,22 @@
         "product": "IC",
         "listed_date": "2026-09-21",
         "expiry_date": "2026-11-20",
-        "open": 6290.0,
-        "high": 6330.8,
-        "low": 6174.8,
-        "close": 6257.6,
-        "settle": 6263.6,
-        "pre_settle": 6255.0,
-        "volume": 32118.0,
-        "open_interest": 26798.0,
-        "turnover": 40170709680.0,
+        "open": 6230.0,
+        "high": 6318.4,
+        "low": 6188.0,
+        "close": 6243.8,
+        "settle": 6245.0,
+        "pre_settle": 6263.6,
+        "volume": 24568.0,
+        "open_interest": 16380.0,
+        "turnover": 30645864800.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": 0.041566746602716975,
-        "oi_change": -5184.0
+        "close_vs_pre_settle_pct": -0.31611213998340437,
+        "oi_change": -10418.0
       },
       "main_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1211,22 +1211,22 @@
         "product": "IC",
         "listed_date": "2026-04-20",
         "expiry_date": "2026-12-18",
-        "open": 6219.8,
-        "high": 6272.0,
-        "low": 6111.8,
-        "close": 6194.0,
-        "settle": 6201.2,
-        "pre_settle": 6194.8,
-        "volume": 132856.0,
-        "open_interest": 177260.0,
-        "turnover": 164604747600.0,
+        "open": 6172.0,
+        "high": 6248.0,
+        "low": 6118.0,
+        "close": 6179.0,
+        "settle": 6181.0,
+        "pre_settle": 6201.2,
+        "volume": 132336.0,
+        "open_interest": 181398.0,
+        "turnover": 163420393640.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": -0.012914056950996677,
-        "oi_change": -2610.0
+        "close_vs_pre_settle_pct": -0.35799522673031214,
+        "oi_change": 4138.0
       },
       "next_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1240,35 +1240,35 @@
         "product": "IC",
         "listed_date": "2026-07-20",
         "expiry_date": "2027-03-19",
-        "open": 6080.0,
-        "high": 6127.0,
-        "low": 5968.0,
-        "close": 6049.4,
-        "settle": 6055.0,
-        "pre_settle": 6051.4,
-        "volume": 29693.0,
-        "open_interest": 74532.0,
-        "turnover": 35926777320.0,
+        "open": 6029.8,
+        "high": 6100.0,
+        "low": 5973.0,
+        "close": 6037.0,
+        "settle": 6033.6,
+        "pre_settle": 6055.0,
+        "volume": 31632.0,
+        "open_interest": 77221.0,
+        "turnover": 38136527120.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": -0.033050203258755406,
-        "oi_change": 2079.0
+        "close_vs_pre_settle_pct": -0.2972749793558993,
+        "oi_change": 2689.0
       },
-      "total_volume": 205118.0,
-      "total_open_interest": 307704.0,
-      "total_oi_change": -2952.0,
-      "main_volume_share": 0.6477052233348609,
-      "main_oi_share": 0.5760731092218496,
-      "next_minus_main_points": -144.60000000000036,
-      "annualized_roll_pct_inferred": -0.09363723135114838,
+      "total_volume": 198468.0,
+      "total_open_interest": 303476.0,
+      "total_oi_change": -4228.0,
+      "main_volume_share": 0.6667875929620896,
+      "main_oi_share": 0.5977342524614797,
+      "next_minus_main_points": -142.0,
+      "annualized_roll_pct_inferred": -0.09217679876362533,
       "cash_index_code": "000905.SH",
-      "cash_index_close": 6282.216,
-      "cash_basis_points": -88.21600000000035,
-      "cash_basis_pct": -0.014042178747117315,
-      "annualized_cash_basis_pct_inferred": -0.17084650808992735,
+      "cash_index_close": 6251.9578,
+      "cash_basis_points": -72.95780000000013,
+      "cash_basis_pct": -0.011669592523481227,
+      "annualized_cash_basis_pct_inferred": -0.14687590589898786,
       "cash_basis_note": "close minus cash index; calendar DTE; no dividend or financing adjustment",
       "reference_etf": {
         "source_code": "510500.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
         "share_field": "unit_total",
         "share_unit": "Wind_native_unverified",
@@ -1278,11 +1278,11 @@
         "estimated_net_creation_redemption_cny": null,
         "flow_method": "share_change * market_close; disabled until share unit verified",
         "status": "unit_pending",
-        "close": 6.309,
+        "close": 6.286,
         "price_unit": "CNY_per_fund_unit",
-        "total_shares_raw": 9458168600.0,
-        "previous_total_shares_raw": 9458168600.0,
-        "previous_date": "2026-11-17",
+        "total_shares_raw": 9424168600.0,
+        "previous_total_shares_raw": 9424168600.0,
+        "previous_date": "2026-11-18",
         "share_change_raw": 0.0,
         "share_change_pct": 0.0,
         "share_change_pct_unit": "fraction"
@@ -1291,8 +1291,8 @@
     "IM": {
       "status": "ok",
       "front_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1306,22 +1306,22 @@
         "product": "IM",
         "listed_date": "2026-09-21",
         "expiry_date": "2026-11-20",
-        "open": 6099.0,
-        "high": 6148.2,
-        "low": 5965.2,
-        "close": 6040.0,
-        "settle": 6047.8,
-        "pre_settle": 6082.0,
-        "volume": 62352.0,
-        "open_interest": 58387.0,
-        "turnover": 75563834880.0,
+        "open": 6030.0,
+        "high": 6030.0,
+        "low": 5911.8,
+        "close": 5938.0,
+        "settle": 5938.2,
+        "pre_settle": 6047.8,
+        "volume": 48185.0,
+        "open_interest": 39587.0,
+        "turnover": 57494455280.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": -0.6905623150279538,
-        "oi_change": -10370.0
+        "close_vs_pre_settle_pct": -1.8155362280498744,
+        "oi_change": -18800.0
       },
       "main_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1335,22 +1335,22 @@
         "product": "IM",
         "listed_date": "2026-04-20",
         "expiry_date": "2026-12-18",
-        "open": 6060.0,
-        "high": 6098.0,
-        "low": 5915.0,
-        "close": 5987.4,
-        "settle": 5995.2,
-        "pre_settle": 6032.8,
-        "volume": 261653.0,
-        "open_interest": 322458.0,
-        "turnover": 314577541560.0,
+        "open": 5976.0,
+        "high": 5976.0,
+        "low": 5850.2,
+        "close": 5876.8,
+        "settle": 5877.0,
+        "pre_settle": 5995.2,
+        "volume": 243975.0,
+        "open_interest": 320307.0,
+        "turnover": 288190695640.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": -0.7525527118419362,
-        "oi_change": 8847.0
+        "close_vs_pre_settle_pct": -1.9749132639444777,
+        "oi_change": -2151.0
       },
       "next_contract": {
-        "trade_date": "2026-11-18",
-        "source_trade_date": "2026-11-18",
+        "trade_date": "2026-11-19",
+        "source_trade_date": "2026-11-19",
         "source_date_match": true,
         "source_date_basis": "WindPy.wsd.Times",
         "source_provider": "wind",
@@ -1364,35 +1364,35 @@
         "product": "IM",
         "listed_date": "2026-07-20",
         "expiry_date": "2027-03-19",
-        "open": 5910.2,
-        "high": 5948.0,
-        "low": 5766.4,
-        "close": 5841.2,
-        "settle": 5846.4,
-        "pre_settle": 5887.8,
-        "volume": 59040.0,
-        "open_interest": 119650.0,
-        "turnover": 69228367160.0,
+        "open": 5817.2,
+        "high": 5829.0,
+        "low": 5698.0,
+        "close": 5724.0,
+        "settle": 5723.6,
+        "pre_settle": 5846.4,
+        "volume": 59706.0,
+        "open_interest": 127729.0,
+        "turnover": 68698874760.0,
         "turnover_unit": "CNY",
-        "close_vs_pre_settle_pct": -0.7914671014640495,
-        "oi_change": -2486.0
+        "close_vs_pre_settle_pct": -2.0935960591132896,
+        "oi_change": 8079.0
       },
-      "total_volume": 406434.0,
-      "total_open_interest": 560226.0,
-      "total_oi_change": -2770.0,
-      "main_volume_share": 0.6437773414625745,
-      "main_oi_share": 0.5755855672532156,
-      "next_minus_main_points": -146.19999999999982,
-      "annualized_roll_pct_inferred": -0.0979401064579941,
+      "total_volume": 376531.0,
+      "total_open_interest": 551928.0,
+      "total_oi_change": -8298.0,
+      "main_volume_share": 0.6479546172825079,
+      "main_oi_share": 0.5803420011305822,
+      "next_minus_main_points": -152.80000000000018,
+      "annualized_roll_pct_inferred": -0.10428789832546977,
       "cash_index_code": "000852.SH",
-      "cash_index_close": 6052.8245,
-      "cash_basis_points": -65.42450000000008,
-      "cash_basis_pct": -0.010808920694792999,
-      "annualized_cash_basis_pct_inferred": -0.13150853511998148,
+      "cash_index_close": 5938.9012,
+      "cash_basis_points": -62.10120000000006,
+      "cash_basis_pct": -0.010456681784839265,
+      "annualized_cash_basis_pct_inferred": -0.13160996039539075,
       "cash_basis_note": "close minus cash index; calendar DTE; no dividend or financing adjustment",
       "reference_etf": {
         "source_code": "512100.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
         "share_field": "unit_total",
         "share_unit": "Wind_native_unverified",
@@ -1402,11 +1402,11 @@
         "estimated_net_creation_redemption_cny": null,
         "flow_method": "share_change * market_close; disabled until share unit verified",
         "status": "unit_pending",
-        "close": 2.463,
+        "close": 2.416,
         "price_unit": "CNY_per_fund_unit",
-        "total_shares_raw": 17909217600.0,
-        "previous_total_shares_raw": 17909217600.0,
-        "previous_date": "2026-11-17",
+        "total_shares_raw": 18367217600.0,
+        "previous_total_shares_raw": 18367217600.0,
+        "previous_date": "2026-11-18",
         "share_change_raw": 0.0,
         "share_change_pct": 0.0,
         "share_change_pct_unit": "fraction"
@@ -1414,46 +1414,46 @@
     }
   },
   "cash_market": {
-    "trade_date": "2026-11-18",
+    "trade_date": "2026-11-19",
     "source_provider": "wind",
     "indices": {
       "IH": {
         "source_code": "000016.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
-        "close": 2764.5401,
-        "pre_close": 2768.3616,
-        "turnover": 117388690500.0,
+        "close": 2773.4586,
+        "pre_close": 2764.5401,
+        "turnover": 128916329700.0,
         "turnover_unit": "CNY",
         "status": "ok"
       },
       "IF": {
         "source_code": "000300.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
-        "close": 3983.7667,
-        "pre_close": 3976.4629,
-        "turnover": 389913836000.0,
+        "close": 3984.8399,
+        "pre_close": 3983.7667,
+        "turnover": 395441171300.0,
         "turnover_unit": "CNY",
         "status": "ok"
       },
       "IC": {
         "source_code": "000905.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
-        "close": 6282.216,
-        "pre_close": 6283.0115,
-        "turnover": 239355682600.0,
+        "close": 6251.9578,
+        "pre_close": 6282.216,
+        "turnover": 224286400900.0,
         "turnover_unit": "CNY",
         "status": "ok"
       },
       "IM": {
         "source_code": "000852.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
-        "close": 6052.8245,
-        "pre_close": 6092.3949,
-        "turnover": 264410799600.0,
+        "close": 5938.9012,
+        "pre_close": 6052.8245,
+        "turnover": 232120521600.0,
         "turnover_unit": "CNY",
         "status": "ok"
       }
@@ -1461,7 +1461,7 @@
     "etfs": {
       "IH": {
         "source_code": "510050.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
         "share_field": "unit_total",
         "share_unit": "Wind_native_unverified",
@@ -1473,16 +1473,16 @@
         "status": "unit_pending",
         "close": 2.883,
         "price_unit": "CNY_per_fund_unit",
-        "total_shares_raw": 16458066800.0,
-        "previous_total_shares_raw": 16458066800.0,
-        "previous_date": "2026-11-17",
+        "total_shares_raw": 16479666800.0,
+        "previous_total_shares_raw": 16479666800.0,
+        "previous_date": "2026-11-18",
         "share_change_raw": 0.0,
         "share_change_pct": 0.0,
         "share_change_pct_unit": "fraction"
       },
       "IF": {
         "source_code": "510300.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
         "share_field": "unit_total",
         "share_unit": "Wind_native_unverified",
@@ -1492,18 +1492,18 @@
         "estimated_net_creation_redemption_cny": null,
         "flow_method": "share_change * market_close; disabled until share unit verified",
         "status": "unit_pending",
-        "close": 4.058,
+        "close": 4.06,
         "price_unit": "CNY_per_fund_unit",
-        "total_shares_raw": 48343087699.99999,
-        "previous_total_shares_raw": 48343087699.99999,
-        "previous_date": "2026-11-17",
+        "total_shares_raw": 49684087699.99999,
+        "previous_total_shares_raw": 49684087699.99999,
+        "previous_date": "2026-11-18",
         "share_change_raw": 0.0,
         "share_change_pct": 0.0,
         "share_change_pct_unit": "fraction"
       },
       "IC": {
         "source_code": "510500.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
         "share_field": "unit_total",
         "share_unit": "Wind_native_unverified",
@@ -1513,18 +1513,18 @@
         "estimated_net_creation_redemption_cny": null,
         "flow_method": "share_change * market_close; disabled until share unit verified",
         "status": "unit_pending",
-        "close": 6.309,
+        "close": 6.286,
         "price_unit": "CNY_per_fund_unit",
-        "total_shares_raw": 9458168600.0,
-        "previous_total_shares_raw": 9458168600.0,
-        "previous_date": "2026-11-17",
+        "total_shares_raw": 9424168600.0,
+        "previous_total_shares_raw": 9424168600.0,
+        "previous_date": "2026-11-18",
         "share_change_raw": 0.0,
         "share_change_pct": 0.0,
         "share_change_pct_unit": "fraction"
       },
       "IM": {
         "source_code": "512100.SH",
-        "source_trade_date": "2026-11-18",
+        "source_trade_date": "2026-11-19",
         "source_endpoint": "WindPy.wsd",
         "share_field": "unit_total",
         "share_unit": "Wind_native_unverified",
@@ -1534,11 +1534,11 @@
         "estimated_net_creation_redemption_cny": null,
         "flow_method": "share_change * market_close; disabled until share unit verified",
         "status": "unit_pending",
-        "close": 2.463,
+        "close": 2.416,
         "price_unit": "CNY_per_fund_unit",
-        "total_shares_raw": 17909217600.0,
-        "previous_total_shares_raw": 17909217600.0,
-        "previous_date": "2026-11-17",
+        "total_shares_raw": 18367217600.0,
+        "previous_total_shares_raw": 18367217600.0,
+        "previous_date": "2026-11-18",
         "share_change_raw": 0.0,
         "share_change_pct": 0.0,
         "share_change_pct_unit": "fraction"
@@ -1552,15 +1552,15 @@
       "direct_option_product": "HO",
       "matched_option_symbol": "HO2612",
       "linkage_status": "same_month",
-      "option_forward": 2732.316606137634,
-      "future_minus_option_forward_points": -1.116606137634335
+      "option_forward": 2733.0989767758156,
+      "future_minus_option_forward_points": -1.898976775815754
     },
     "IF": {
       "direct_option_product": "IO",
       "matched_option_symbol": "IO2612",
       "linkage_status": "same_month",
-      "option_forward": 3929.528353128803,
-      "future_minus_option_forward_points": -1.1283531288027007
+      "option_forward": 3927.2920603264215,
+      "future_minus_option_forward_points": -1.4920603264213241
     },
     "IC": {
       "direct_option_product": null,
@@ -1573,8 +1573,8 @@
       "direct_option_product": "MO",
       "matched_option_symbol": "MO2612",
       "linkage_status": "same_month",
-      "option_forward": 5992.930559841612,
-      "future_minus_option_forward_points": -5.530559841612558
+      "option_forward": 5875.92865059536,
+      "future_minus_option_forward_points": 0.8713494046405685
     }
   },
   "coverage": {
