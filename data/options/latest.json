@@ -2,7 +2,7 @@
   "schema_version": 2,
   "snapshot_schema_version": 1,
   "trade_date": "2026-11-20",
-  "generated_at": "2026-11-20T15:44:44.638460+08:00",
+  "generated_at": "2026-11-21T18:24:46.029638+08:00",
   "source_provider": "wind",
   "universe_source": "wind_optionchain_active_underlying",
   "collection_scope": "core_v1",
@@ -3552,7 +3552,7 @@
   "full_snapshot": {
     "path": "snapshots/2026-11-20.json.gz",
     "record_count": 462,
-    "sha256": "d6bb88f6dedc6b27bfc58f673bb374cc58283f3e268de5259efdc7b47e9af5e7",
+    "sha256": "f68b0b28bfa033027864485c303a3a2c995743931e540add824064650f88f5da",
     "retention_trading_days": 20
   },
   "shards": [
@@ -3575,14 +3575,14 @@
       "product": "CJ",
       "path": "latest_shards/2026-11-20/CZCE/CJ.json.gz",
       "record_count": 10,
-      "sha256": "1fd4ded26aa61733fe66321b261e542e54654a682ff62bc18b8441e5777253a3"
+      "sha256": "429a61a09b5615e6b81cf11f8c3b1bc61ab948a550061e9309267ceca52233b9"
     },
     {
       "exchange": "CZCE",
       "product": "FG",
       "path": "latest_shards/2026-11-20/CZCE/FG.json.gz",
       "record_count": 10,
-      "sha256": "1d190e731ef70eca282a76abb41acdc1aeea2731ae9e35fa0a8b3be74688927e"
+      "sha256": "d51505c72c500d924d652ee8aa74566aa8361b2655fcaa0849b8c0982d2837ab"
     },
     {
       "exchange": "CZCE",
@@ -3617,14 +3617,14 @@
       "product": "PL",
       "path": "latest_shards/2026-11-20/CZCE/PL.json.gz",
       "record_count": 6,
-      "sha256": "c9230ff8530078e067b97f9a9a77a1ed9a78ad27918476afcb3dccbfac25c606"
+      "sha256": "09e6cd94490c9cffb9800c7d2d5f4116c4a856212ae06233711f17dcf63b5d13"
     },
     {
       "exchange": "CZCE",
       "product": "PR",
       "path": "latest_shards/2026-11-20/CZCE/PR.json.gz",
       "record_count": 4,
-      "sha256": "465c16e7015eb7e48c1645a03c13a2ea863cd82cc94826a134feba5075eeed52"
+      "sha256": "992b0995204b242572597857ad560f822975a6055540be1dea62d8987dc1ab40"
     },
     {
       "exchange": "CZCE",
@@ -3645,7 +3645,7 @@
       "product": "SA",
       "path": "latest_shards/2026-11-20/CZCE/SA.json.gz",
       "record_count": 8,
-      "sha256": "d488e7f8a455202d6312e857cff3da7a2ce0328d27650efa24e5fa04e52c3682"
+      "sha256": "1f787a8b02582ca8f178627cab3aefd8ecccfa2ac99276bedd4d934ccfa27dc4"
     },
     {
       "exchange": "CZCE",
@@ -3659,7 +3659,7 @@
       "product": "SH",
       "path": "latest_shards/2026-11-20/CZCE/SH.json.gz",
       "record_count": 10,
-      "sha256": "ba0532458954d6492e1933d0b1f2bb7d2e9419276afeafb037b7d07443fa7d92"
+      "sha256": "4b8e97718d3f2e38d7205470ff1804caeafc8ae2798b1edcd2ddc3e2289b7b6f"
     },
     {
       "exchange": "CZCE",
@@ -3694,7 +3694,7 @@
       "product": "ZC",
       "path": "latest_shards/2026-11-20/CZCE/ZC.json.gz",
       "record_count": 10,
-      "sha256": "026711a9eaa6f6011e91ee647ad41bf3bff868d35b119bcbab96eff79f7bf3fc"
+      "sha256": "b4674b55b20968c0c959ec93a207fa3ba2067d995c3e829cb226da287d8e5f2f"
     },
     {
       "exchange": "DCE",
