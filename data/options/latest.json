@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "snapshot_schema_version": 1,
-  "trade_date": "2026-11-20",
-  "generated_at": "2026-11-21T18:24:46.029638+08:00",
+  "trade_date": "2026-11-23",
+  "generated_at": "2026-11-23T15:39:13.143473+08:00",
   "source_provider": "wind",
   "universe_source": "wind_optionchain_active_underlying",
   "collection_scope": "core_v1",
@@ -20,24 +20,24 @@
       "underlying_contract": "A2701",
       "expiry_date": "2026-12-16",
       "selection_forward": 4997.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.15375,
+        "selection_sigma": 0.1503,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 4850.0,
-            "selection_delta_proxy": -0.22718068551724346,
+            "selection_delta_proxy": -0.20889242564083776,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 5100.0,
-            "selection_delta_proxy": 0.31679272508008804,
+            "selection_delta_proxy": 0.30086770389704753,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -58,7 +58,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:A",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -72,18 +72,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "B2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 3776.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 3789.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1526,
+        "selection_sigma": 0.15335,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 3700.0,
-            "selection_delta_proxy": -0.3016757446545515,
+            "selection_delta_proxy": -0.2621547164994795,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -110,7 +110,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:B",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -124,25 +124,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "BZ2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 7205.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 7053.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.3813,
+        "selection_sigma": 0.37905,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 6800.0,
-            "selection_delta_proxy": -0.2678381237878158,
+            "strike": 6600.0,
+            "selection_delta_proxy": -0.22806381624246164,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 7800.0,
-            "selection_delta_proxy": 0.23305467487338843,
+            "strike": 7600.0,
+            "selection_delta_proxy": 0.23042720350127305,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -163,7 +163,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:BZ",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -177,25 +177,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "C2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 2176.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 2157.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.0881,
+        "selection_sigma": 0.0912,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 2140.0,
-            "selection_delta_proxy": -0.2353795172917652,
+            "strike": 2120.0,
+            "selection_delta_proxy": -0.22147563838112805,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 2220.0,
-            "selection_delta_proxy": 0.20055987708127498,
+            "strike": 2200.0,
+            "selection_delta_proxy": 0.19745065469488504,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -216,7 +216,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:C",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -230,11 +230,11 @@
       "selected_contract_count": 2,
       "underlying_contract": "CS2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 2441.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 2428.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.09190000000000001,
+        "selection_sigma": 0.0907,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
@@ -267,7 +267,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:CS",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -281,32 +281,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "EB2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 8445.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 8274.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.35339999999999994,
+        "selection_sigma": 0.3571,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 8000.0,
-            "selection_delta_proxy": -0.26727163992092395,
+            "strike": 7800.0,
+            "selection_delta_proxy": -0.2410473954871888,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 9000.0,
-            "selection_delta_proxy": 0.26511148853452304,
+            "strike": 8800.0,
+            "selection_delta_proxy": 0.2601966082469326,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 7500.0,
-            "selection_delta_proxy": -0.09588998504499524,
+            "strike": 7400.0,
+            "selection_delta_proxy": -0.09848897769838816,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -321,7 +321,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:EB",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -335,25 +335,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "EG2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 4884.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 4838.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.33269999999999994,
+        "selection_sigma": 0.34850000000000003,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 4600.0,
-            "selection_delta_proxy": -0.23604846433263726,
+            "selection_delta_proxy": -0.26750604650579934,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 5200.0,
-            "selection_delta_proxy": 0.25409818802088097,
+            "selection_delta_proxy": 0.21737789390906892,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -374,7 +374,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:EG",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -388,25 +388,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "I2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 656.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 652.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.17955,
+        "selection_sigma": 0.18115,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 640.0,
-            "selection_delta_proxy": -0.2948612388441074,
+            "strike": 630.0,
+            "selection_delta_proxy": -0.21841108930275321,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 680.0,
-            "selection_delta_proxy": 0.23396306827345048,
+            "strike": 670.0,
+            "selection_delta_proxy": 0.28225808548866255,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -427,7 +427,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:I",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -441,18 +441,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "JD2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 3175.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 3141.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2814,
+        "selection_sigma": 0.28595000000000004,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 3050.0,
-            "selection_delta_proxy": -0.28354034978586684,
+            "strike": 3000.0,
+            "selection_delta_proxy": -0.24960248550274566,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -479,7 +479,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:JD",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -493,32 +493,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "JM2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 1398.5,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 1395.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.3232,
+        "selection_sigma": 0.32300000000000006,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 1320.0,
-            "selection_delta_proxy": -0.23797580701449927,
+            "selection_delta_proxy": -0.2351125422156357,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 1480.0,
-            "selection_delta_proxy": 0.2697703899009125,
+            "selection_delta_proxy": 0.2454284445786653,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
             "strike": 1260.0,
-            "selection_delta_proxy": -0.10526193068970846,
+            "selection_delta_proxy": -0.09751201592632408,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -533,7 +533,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:JM",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -547,32 +547,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "L2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 7980.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 7901.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.3091,
+        "selection_sigma": 0.3098,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 7600.0,
-            "selection_delta_proxy": -0.26347636112627204,
+            "strike": 7500.0,
+            "selection_delta_proxy": -0.23927013029670308,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 8500.0,
-            "selection_delta_proxy": 0.23454447920830573,
+            "strike": 8400.0,
+            "selection_delta_proxy": 0.2270428983720808,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
             "strike": 7200.0,
-            "selection_delta_proxy": -0.09886480205237513,
+            "selection_delta_proxy": -0.10868066068084414,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -587,7 +587,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:L",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -601,11 +601,11 @@
       "selected_contract_count": 2,
       "underlying_contract": "LG2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 802.5,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 804.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.06684999999999999,
+        "selection_sigma": 0.07235,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
@@ -638,7 +638,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:LG",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -652,25 +652,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "LH2703",
       "expiry_date": "2027-02-25",
-      "selection_forward": 9210.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 9510.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.26365,
+        "selection_sigma": 0.25695,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 8500.0,
-            "selection_delta_proxy": -0.25520266954558557,
+            "strike": 8800.0,
+            "selection_delta_proxy": -0.2545480324219421,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 10200.0,
-            "selection_delta_proxy": 0.24723013918117193,
+            "strike": 10400.0,
+            "selection_delta_proxy": 0.26734008287917976,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -691,7 +691,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:LH",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -705,18 +705,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "M2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 3083.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 3103.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1497,
+        "selection_sigma": 0.14855000000000002,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 3000.0,
-            "selection_delta_proxy": -0.2410181191556967,
+            "strike": 3050.0,
+            "selection_delta_proxy": -0.3153853650254055,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -743,7 +743,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:M",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -757,25 +757,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "P2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 8406.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 8249.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2374,
+        "selection_sigma": 0.2393,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 8100.0,
-            "selection_delta_proxy": -0.2686416594027494,
+            "strike": 7900.0,
+            "selection_delta_proxy": -0.2267242153485347,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 8800.0,
-            "selection_delta_proxy": 0.24470173009580554,
+            "strike": 8600.0,
+            "selection_delta_proxy": 0.2534555277796973,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -796,7 +796,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:P",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -810,39 +810,39 @@
       "selected_contract_count": 14,
       "underlying_contract": "PG2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 5558.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 5289.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.4661,
+        "selection_sigma": 0.47585,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 5150.0,
-            "selection_delta_proxy": -0.24981372606846686,
+            "strike": 4900.0,
+            "selection_delta_proxy": -0.24219136133063035,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 6100.0,
-            "selection_delta_proxy": 0.24642093577950913,
+            "strike": 5750.0,
+            "selection_delta_proxy": 0.26111836345785927,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 4800.0,
-            "selection_delta_proxy": -0.10733253667946685,
+            "strike": 4550.0,
+            "selection_delta_proxy": -0.0934711212655529,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 6600.0,
-            "selection_delta_proxy": 0.09357049384248539,
+            "strike": 6200.0,
+            "selection_delta_proxy": 0.10191725627986997,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -851,7 +851,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:PG",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -865,32 +865,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "PP2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 8810.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 8628.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.3281,
+        "selection_sigma": 0.32025,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 8300.0,
-            "selection_delta_proxy": -0.23429934174405642,
+            "strike": 8200.0,
+            "selection_delta_proxy": -0.25044643806413136,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 9400.0,
-            "selection_delta_proxy": 0.24306897641056557,
+            "strike": 9100.0,
+            "selection_delta_proxy": 0.26685957696969637,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 7900.0,
-            "selection_delta_proxy": -0.09873209123243099,
+            "strike": 7800.0,
+            "selection_delta_proxy": -0.09762967764097485,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -905,7 +905,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:PP",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -919,25 +919,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "V2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 4796.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 4786.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.19095,
+        "selection_sigma": 0.19890000000000002,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 4650.0,
-            "selection_delta_proxy": -0.263663437611501,
+            "selection_delta_proxy": -0.2734737428128714,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 4950.0,
-            "selection_delta_proxy": 0.276030820506976,
+            "selection_delta_proxy": 0.25789570981900267,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -958,7 +958,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:V",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -972,25 +972,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "Y2701",
       "expiry_date": "2026-12-16",
-      "selection_forward": 8454.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 8425.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.13119999999999998,
+        "selection_sigma": 0.13615,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 8300.0,
-            "selection_delta_proxy": -0.29372959154847467,
+            "strike": 8200.0,
+            "selection_delta_proxy": -0.2092231582413855,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 8700.0,
-            "selection_delta_proxy": 0.21138451343910847,
+            "strike": 8600.0,
+            "selection_delta_proxy": 0.2794599035414135,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1011,7 +1011,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "DCE:Y",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1025,32 +1025,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "AP701",
       "expiry_date": "2026-11-26",
-      "selection_forward": 5676.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 5959.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.38825,
+        "selection_sigma": 0.38295,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 5500.0,
-            "selection_delta_proxy": -0.2553759377845227,
+            "strike": 5800.0,
+            "selection_delta_proxy": -0.2129171687058513,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 5900.0,
-            "selection_delta_proxy": 0.225824337615661,
+            "strike": 6100.0,
+            "selection_delta_proxy": 0.25583492646348227,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 5300.0,
-            "selection_delta_proxy": -0.08048879462090097,
+            "strike": 5700.0,
+            "selection_delta_proxy": -0.09726717819957953,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1065,7 +1065,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:AP",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1079,25 +1079,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "CF701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 15520.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 15415.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1192,
+        "selection_sigma": 0.11775,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 15200.0,
-            "selection_delta_proxy": -0.22874909497514517,
+            "selection_delta_proxy": -0.2910848595919918,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 15800.0,
-            "selection_delta_proxy": 0.2705746067209487,
+            "selection_delta_proxy": 0.17609968060430542,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1118,53 +1118,53 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:CF",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 110,
+      "directory_contract_count": 112,
       "selector_version": 3,
       "series_type": "standard",
       "contract_budget": 10,
       "selected_contract_count": 10,
       "underlying_contract": "CJ701",
       "expiry_date": "2026-11-26",
-      "selection_forward": 5815.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 5990.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.33665,
+        "selection_sigma": 0.33269999999999994,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 5700.0,
-            "selection_delta_proxy": -0.31406627055987746,
+            "strike": 5900.0,
+            "selection_delta_proxy": -0.3025786767713986,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 6000.0,
-            "selection_delta_proxy": 0.2407113951968483,
+            "strike": 6100.0,
+            "selection_delta_proxy": 0.27818898364016625,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 5500.0,
-            "selection_delta_proxy": -0.09478023494656496,
+            "strike": 5800.0,
+            "selection_delta_proxy": -0.13923931351586805,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
             "strike": 6200.0,
-            "selection_delta_proxy": 0.07163837510315002,
+            "selection_delta_proxy": 0.12980199700675155,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -1173,7 +1173,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:CJ",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1187,39 +1187,39 @@
       "selected_contract_count": 10,
       "underlying_contract": "FG701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 890.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 880.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2738,
+        "selection_sigma": 0.26995,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 850.0,
-            "selection_delta_proxy": -0.23176859784292203,
+            "selection_delta_proxy": -0.2714047356635556,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 930.0,
-            "selection_delta_proxy": 0.26220174509522554,
+            "strike": 920.0,
+            "selection_delta_proxy": 0.23837666539157942,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
             "strike": 820.0,
-            "selection_delta_proxy": -0.10024484791220956,
+            "selection_delta_proxy": -0.11353162094296698,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 970.0,
-            "selection_delta_proxy": 0.10066216212784812,
+            "strike": 950.0,
+            "selection_delta_proxy": 0.1062344770923182,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -1228,7 +1228,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:FG",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1242,32 +1242,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "MA701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 3071.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 3030.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.43125,
+        "selection_sigma": 0.43210000000000004,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 2900.0,
-            "selection_delta_proxy": -0.27239437036312664,
+            "strike": 2850.0,
+            "selection_delta_proxy": -0.24628646625858774,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 3300.0,
-            "selection_delta_proxy": 0.25993420502827014,
+            "strike": 3250.0,
+            "selection_delta_proxy": 0.24746703950159366,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
             "strike": 2700.0,
-            "selection_delta_proxy": -0.09741771375290997,
+            "selection_delta_proxy": -0.10570855278259161,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1282,7 +1282,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:MA",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1296,18 +1296,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "OI701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 9917.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 9895.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.16345,
+        "selection_sigma": 0.1661,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 9700.0,
-            "selection_delta_proxy": -0.27963557066572997,
+            "selection_delta_proxy": -0.2884065732160177,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1334,7 +1334,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:OI",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1348,18 +1348,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "PF701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 7536.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 7540.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.26355,
+        "selection_sigma": 0.26455,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 7200.0,
-            "selection_delta_proxy": -0.2256913432035308,
+            "strike": 7300.0,
+            "selection_delta_proxy": -0.2809610950729605,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1386,7 +1386,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:PF",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1400,18 +1400,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "PK703",
       "expiry_date": "2027-02-11",
-      "selection_forward": 7680.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 7556.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.08815,
+        "selection_sigma": 0.08829999999999999,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 7500.0,
-            "selection_delta_proxy": -0.2791993346927202,
+            "strike": 7400.0,
+            "selection_delta_proxy": -0.2996784047394879,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1438,7 +1438,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:PK",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1452,25 +1452,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "PL701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 8454.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 8301.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.33390000000000003,
+        "selection_sigma": 0.3032,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 8000.0,
-            "selection_delta_proxy": -0.23292601153796166,
+            "strike": 7900.0,
+            "selection_delta_proxy": -0.22093787036273538,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 9000.0,
-            "selection_delta_proxy": 0.22923023253554753,
+            "strike": 8700.0,
+            "selection_delta_proxy": 0.2534779095009041,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1491,7 +1491,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:PL",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1505,18 +1505,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "PR701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 7478.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 7462.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2806,
+        "selection_sigma": 0.30974999999999997,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 7200.0,
-            "selection_delta_proxy": -0.2754126485493811,
+            "strike": 7100.0,
+            "selection_delta_proxy": -0.22442335471894692,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1543,7 +1543,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:PR",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1557,32 +1557,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "PX701",
       "expiry_date": "2026-11-26",
-      "selection_forward": 8154.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 8110.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.3261,
+        "selection_sigma": 0.36024999999999996,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 7900.0,
-            "selection_delta_proxy": -0.2183429180111306,
+            "selection_delta_proxy": -0.20622041198492158,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 8400.0,
-            "selection_delta_proxy": 0.24509577167638696,
+            "strike": 8300.0,
+            "selection_delta_proxy": 0.24424298531550226,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 7700.0,
-            "selection_delta_proxy": -0.08209593740896093,
+            "strike": 7800.0,
+            "selection_delta_proxy": -0.11320587220737577,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1597,7 +1597,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:PX",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1612,17 +1612,17 @@
       "underlying_contract": "RM701",
       "expiry_date": "2026-12-11",
       "selection_forward": 2220.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1867,
+        "selection_sigma": 0.1814,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 2150.0,
-            "selection_delta_proxy": -0.23030701287273914,
+            "selection_delta_proxy": -0.20739630351426452,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1649,7 +1649,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:RM",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1663,32 +1663,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "SA701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 951.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 945.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2339,
+        "selection_sigma": 0.2481,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 920.0,
-            "selection_delta_proxy": -0.268041118936061,
+            "strike": 910.0,
+            "selection_delta_proxy": -0.23806354335967272,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 990.0,
-            "selection_delta_proxy": 0.24562798298894767,
+            "strike": 980.0,
+            "selection_delta_proxy": 0.2635185823583713,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 890.0,
-            "selection_delta_proxy": -0.1132056415188375,
+            "strike": 880.0,
+            "selection_delta_proxy": -0.09325204873551407,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1703,7 +1703,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:SA",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1717,18 +1717,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "SF701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 5824.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 5796.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1411,
+        "selection_sigma": 0.1381,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 5700.0,
-            "selection_delta_proxy": -0.2569419548023322,
+            "selection_delta_proxy": -0.2877607835507835,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1755,7 +1755,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:SF",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1769,39 +1769,39 @@
       "selected_contract_count": 10,
       "underlying_contract": "SH701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 1513.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 1502.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2696,
+        "selection_sigma": 0.2954,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 1460.0,
-            "selection_delta_proxy": -0.2796967678072483,
+            "strike": 1440.0,
+            "selection_delta_proxy": -0.2497098416406126,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 1580.0,
-            "selection_delta_proxy": 0.26182787203537294,
+            "selection_delta_proxy": 0.2299644101331294,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 1400.0,
-            "selection_delta_proxy": -0.10884954085715881,
+            "strike": 1380.0,
+            "selection_delta_proxy": -0.09272113745770161,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
             "strike": 1640.0,
-            "selection_delta_proxy": 0.11235885061887407,
+            "selection_delta_proxy": 0.09558425089256856,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -1810,7 +1810,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:SH",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1824,18 +1824,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "SM701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 5780.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 5754.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1225,
+        "selection_sigma": 0.12595,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 5700.0,
-            "selection_delta_proxy": -0.3124111787699372,
+            "strike": 5600.0,
+            "selection_delta_proxy": -0.16257864732710736,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1862,7 +1862,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:SM",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1876,11 +1876,11 @@
       "selected_contract_count": 2,
       "underlying_contract": "SR701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 5047.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 5025.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1161,
+        "selection_sigma": 0.1356,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
@@ -1913,7 +1913,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:SR",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1927,25 +1927,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "TA701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 5924.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 5902.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2934,
+        "selection_sigma": 0.30275,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 5700.0,
-            "selection_delta_proxy": -0.27998009016532,
+            "selection_delta_proxy": -0.29061042443412155,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 6200.0,
-            "selection_delta_proxy": 0.27031103724327066,
+            "selection_delta_proxy": 0.24226197585999976,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -1966,7 +1966,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:TA",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -1980,25 +1980,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "UR701",
       "expiry_date": "2026-12-11",
-      "selection_forward": 1714.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 1709.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.12614999999999998,
+        "selection_sigma": 0.1328,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 1680.0,
-            "selection_delta_proxy": -0.2491120659754067,
+            "selection_delta_proxy": -0.2758946859106478,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 1760.0,
-            "selection_delta_proxy": 0.19486082319680825,
+            "strike": 1740.0,
+            "selection_delta_proxy": 0.2759809813942734,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2019,7 +2019,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:UR",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2034,7 +2034,7 @@
       "underlying_contract": "ZC701",
       "expiry_date": "2026-12-11",
       "selection_forward": 801.4,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
         "selection_sigma": 0.25,
@@ -2044,28 +2044,28 @@
             "side": "P",
             "target_delta": -0.25,
             "strike": 770.0,
-            "selection_delta_proxy": -0.24305011084603978,
+            "selection_delta_proxy": -0.22731865624343306,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 840.0,
-            "selection_delta_proxy": 0.2252765504111689,
+            "strike": 830.0,
+            "selection_delta_proxy": 0.2729706694151023,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 740.0,
-            "selection_delta_proxy": -0.08703495847041087,
+            "strike": 750.0,
+            "selection_delta_proxy": -0.11090247676435738,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 870.0,
-            "selection_delta_proxy": 0.09017426516886978,
+            "strike": 860.0,
+            "selection_delta_proxy": 0.10685808852959361,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -2074,7 +2074,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "CZCE:ZC",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2088,32 +2088,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "AD2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 21190.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 21350.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.19079999999999997,
+        "selection_sigma": 0.17299999999999996,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 20400.0,
-            "selection_delta_proxy": -0.2505989594219581,
+            "strike": 20600.0,
+            "selection_delta_proxy": -0.23461470960939823,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 22000.0,
-            "selection_delta_proxy": 0.2724649278273624,
+            "strike": 22200.0,
+            "selection_delta_proxy": 0.23070126692980414,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 19700.0,
-            "selection_delta_proxy": -0.10319199067461193,
+            "strike": 20000.0,
+            "selection_delta_proxy": -0.0966665911831972,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2128,53 +2128,53 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:AD",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 294,
+      "directory_contract_count": 300,
       "selector_version": 3,
       "series_type": "standard",
-      "contract_budget": 28,
-      "selected_contract_count": 28,
+      "contract_budget": 30,
+      "selected_contract_count": 30,
       "underlying_contract": "AG2702",
       "expiry_date": "2027-01-25",
-      "selection_forward": 10372.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 9939.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.4709,
+        "selection_sigma": 0.5239,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 9200.0,
-            "selection_delta_proxy": -0.24229806084812178,
+            "strike": 8800.0,
+            "selection_delta_proxy": -0.2520562544562056,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 12100.0,
-            "selection_delta_proxy": 0.25161135223592457,
+            "strike": 11800.0,
+            "selection_delta_proxy": 0.24834059741660658,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 8200.0,
-            "selection_delta_proxy": -0.1014057928158717,
+            "strike": 7700.0,
+            "selection_delta_proxy": -0.1000041033189647,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 13700.0,
-            "selection_delta_proxy": 0.09858949319362342,
+            "strike": 13500.0,
+            "selection_delta_proxy": 0.09712985011630043,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -2183,7 +2183,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:AG",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2197,39 +2197,39 @@
       "selected_contract_count": 10,
       "underlying_contract": "AL2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 21425.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 21605.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.16449999999999998,
+        "selection_sigma": 0.17405000000000004,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 20800.0,
-            "selection_delta_proxy": -0.2720381932021907,
+            "selection_delta_proxy": -0.22285623548093958,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 22200.0,
-            "selection_delta_proxy": 0.250759576758414,
+            "strike": 22400.0,
+            "selection_delta_proxy": 0.24970161305837563,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 20000.0,
-            "selection_delta_proxy": -0.08431653043612464,
+            "strike": 20200.0,
+            "selection_delta_proxy": -0.09166807425293777,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 23000.0,
-            "selection_delta_proxy": 0.08579962151354303,
+            "strike": 23200.0,
+            "selection_delta_proxy": 0.08749381476555873,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -2238,7 +2238,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:AL",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2252,18 +2252,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "AO2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 2619.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 2578.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.14705000000000001,
+        "selection_sigma": 0.1534,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 2550.0,
-            "selection_delta_proxy": -0.27122816236178615,
+            "strike": 2500.0,
+            "selection_delta_proxy": -0.24223737522359934,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2290,53 +2290,53 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:AO",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 152,
+      "directory_contract_count": 158,
       "selector_version": 3,
       "series_type": "standard",
       "contract_budget": 14,
       "selected_contract_count": 14,
       "underlying_contract": "AU2702",
       "expiry_date": "2027-01-25",
-      "selection_forward": 778.64,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 772.34,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2528,
+        "selection_sigma": 0.2863,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 728.0,
-            "selection_delta_proxy": -0.24846811078142927,
+            "strike": 720.0,
+            "selection_delta_proxy": -0.25802669153883595,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 840.0,
-            "selection_delta_proxy": 0.2572424146717851,
+            "selection_delta_proxy": 0.25896327989693035,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 680.0,
-            "selection_delta_proxy": -0.09445302568911318,
+            "strike": 664.0,
+            "selection_delta_proxy": -0.09173122204601236,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 896.0,
-            "selection_delta_proxy": 0.10524180217501988,
+            "strike": 904.0,
+            "selection_delta_proxy": 0.10313849960724747,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -2345,7 +2345,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:AU",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2359,32 +2359,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "BR2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 15590.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 15075.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.349,
+        "selection_sigma": 0.38049999999999995,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 14600.0,
-            "selection_delta_proxy": -0.254269472176596,
+            "strike": 14000.0,
+            "selection_delta_proxy": -0.2379287202080138,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 16800.0,
-            "selection_delta_proxy": 0.2618587654236628,
+            "strike": 16400.0,
+            "selection_delta_proxy": 0.2446528624813134,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 13600.0,
-            "selection_delta_proxy": -0.09381251186008277,
+            "strike": 13200.0,
+            "selection_delta_proxy": -0.10836896445698652,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2399,7 +2399,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:BR",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2413,32 +2413,32 @@
       "selected_contract_count": 8,
       "underlying_contract": "BU2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 4260.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 4250.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.4179,
+        "selection_sigma": 0.4243,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 3950.0,
-            "selection_delta_proxy": -0.258316094529079,
+            "selection_delta_proxy": -0.25930302730332133,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 4700.0,
-            "selection_delta_proxy": 0.24357157870634488,
+            "strike": 4650.0,
+            "selection_delta_proxy": 0.2568305603392086,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
             "strike": 3650.0,
-            "selection_delta_proxy": -0.10402782751879203,
+            "selection_delta_proxy": -0.10129234735992387,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2453,32 +2453,32 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:BU",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 46,
+      "directory_contract_count": 48,
       "selector_version": 3,
       "series_type": "standard",
       "contract_budget": 4,
       "selected_contract_count": 4,
       "underlying_contract": "CU2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 93360.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 92390.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.24015000000000003,
+        "selection_sigma": 0.2845,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 88000.0,
-            "selection_delta_proxy": -0.20263099640210025,
+            "selection_delta_proxy": -0.2676206693432237,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2505,7 +2505,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:CU",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2519,39 +2519,39 @@
       "selected_contract_count": 14,
       "underlying_contract": "FU2701",
       "expiry_date": "2026-12-18",
-      "selection_forward": 3833.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 3730.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.6406000000000001,
+        "selection_sigma": 0.6812499999999999,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 3450.0,
-            "selection_delta_proxy": -0.24760423837583123,
+            "strike": 3350.0,
+            "selection_delta_proxy": -0.24453169052884516,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 4400.0,
-            "selection_delta_proxy": 0.24546581573424164,
+            "strike": 4250.0,
+            "selection_delta_proxy": 0.2601565050614894,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 3100.0,
-            "selection_delta_proxy": -0.09940378715734977,
+            "strike": 3000.0,
+            "selection_delta_proxy": -0.09497628818464177,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 4900.0,
-            "selection_delta_proxy": 0.09758295026016334,
+            "strike": 4750.0,
+            "selection_delta_proxy": 0.10263034811280042,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -2560,7 +2560,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:FU",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2574,18 +2574,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "NI2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 117610.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 117140.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2233,
+        "selection_sigma": 0.23475000000000001,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 112000.0,
-            "selection_delta_proxy": -0.2292257148986666,
+            "selection_delta_proxy": -0.24815553166516424,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2612,7 +2612,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:NI",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2626,11 +2626,11 @@
       "selected_contract_count": 2,
       "underlying_contract": "OP2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 3564.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 3562.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1268,
+        "selection_sigma": 0.12295,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
@@ -2663,7 +2663,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:OP",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2677,18 +2677,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "PB2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 15580.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 15430.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.14995,
+        "selection_sigma": 0.1469,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 15200.0,
-            "selection_delta_proxy": -0.2894479818288771,
+            "strike": 15000.0,
+            "selection_delta_proxy": -0.25093794565840055,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2715,7 +2715,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:PB",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2729,11 +2729,11 @@
       "selected_contract_count": 2,
       "underlying_contract": "RB2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 3011.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 2994.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.1048,
+        "selection_sigma": 0.10149999999999999,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
@@ -2766,7 +2766,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:RB",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2780,25 +2780,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "RU2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 18690.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 18235.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.22945,
+        "selection_sigma": 0.25925,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 17750.0,
-            "selection_delta_proxy": -0.22308986101688477,
+            "strike": 17250.0,
+            "selection_delta_proxy": -0.22309176831536237,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 19750.0,
-            "selection_delta_proxy": 0.2293841350773253,
+            "strike": 19250.0,
+            "selection_delta_proxy": 0.2522960256776663,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2819,46 +2819,46 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:RU",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 94,
+      "directory_contract_count": 98,
       "selector_version": 3,
       "series_type": "standard",
       "contract_budget": 8,
       "selected_contract_count": 8,
       "underlying_contract": "SN2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 309920.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 310240.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.38,
+        "selection_sigma": 0.40915,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 290000.0,
-            "selection_delta_proxy": -0.26651037818552636,
+            "selection_delta_proxy": -0.2684647137337681,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
             "strike": 340000.0,
-            "selection_delta_proxy": 0.23319418494457456,
+            "selection_delta_proxy": 0.24336132711593195,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 270000.0,
-            "selection_delta_proxy": -0.10922191982269125,
+            "strike": 265000.0,
+            "selection_delta_proxy": -0.08666019448457796,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2873,7 +2873,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:SN",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2887,18 +2887,18 @@
       "selected_contract_count": 4,
       "underlying_contract": "SP2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 4570.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 4582.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.16659999999999997,
+        "selection_sigma": 0.17475000000000002,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 4400.0,
-            "selection_delta_proxy": -0.2234461469278004,
+            "strike": 4450.0,
+            "selection_delta_proxy": -0.2773222374644473,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2925,7 +2925,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:SP",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -2939,25 +2939,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "ZN2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 24050.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 23825.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.19885,
+        "selection_sigma": 0.1953,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 23200.0,
-            "selection_delta_proxy": -0.269228320059021,
+            "strike": 23000.0,
+            "selection_delta_proxy": -0.261626658149539,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 25000.0,
-            "selection_delta_proxy": 0.27479851568636016,
+            "strike": 24800.0,
+            "selection_delta_proxy": 0.25312892724130104,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -2978,39 +2978,39 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "SHFE:ZN",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 64,
+      "directory_contract_count": 66,
       "selector_version": 3,
       "series_type": "standard",
       "contract_budget": 6,
       "selected_contract_count": 6,
       "underlying_contract": "BC2612",
       "expiry_date": "2026-11-24",
-      "selection_forward": 87050.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 86730.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.3185,
+        "selection_sigma": 0.3487,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 85000.0,
-            "selection_delta_proxy": -0.23225971424813652,
+            "strike": 86000.0,
+            "selection_delta_proxy": -0.31837997343907043,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 89000.0,
-            "selection_delta_proxy": 0.2585684037034245,
+            "strike": 88000.0,
+            "selection_delta_proxy": 0.21554079242276497,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -3031,7 +3031,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "INE:BC",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -3045,25 +3045,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "NR2701",
       "expiry_date": "2026-12-25",
-      "selection_forward": 15845.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 15370.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.2401,
+        "selection_sigma": 0.26425,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 15200.0,
-            "selection_delta_proxy": -0.2755425287408819,
+            "strike": 14600.0,
+            "selection_delta_proxy": -0.2432140131562397,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 16800.0,
-            "selection_delta_proxy": 0.226633004204716,
+            "strike": 16200.0,
+            "selection_delta_proxy": 0.2633454103330768,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -3084,7 +3084,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "INE:NR",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -3098,39 +3098,39 @@
       "selected_contract_count": 10,
       "underlying_contract": "SC2701",
       "expiry_date": "2026-12-15",
-      "selection_forward": 590.3,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 583.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.5444,
+        "selection_sigma": 0.5824,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 540.0,
-            "selection_delta_proxy": -0.2431085911367007,
+            "strike": 530.0,
+            "selection_delta_proxy": -0.23023506429695495,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 660.0,
-            "selection_delta_proxy": 0.23819687487189084,
+            "strike": 650.0,
+            "selection_delta_proxy": 0.24530753938585909,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 495.0,
-            "selection_delta_proxy": -0.09559836740076544,
+            "strike": 490.0,
+            "selection_delta_proxy": -0.09906659912037052,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 720.0,
-            "selection_delta_proxy": 0.09294699858278638,
+            "strike": 710.0,
+            "selection_delta_proxy": 0.09563481326539441,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -3139,7 +3139,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "INE:SC",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -3153,39 +3153,39 @@
       "selected_contract_count": 20,
       "underlying_contract": "LC2701",
       "expiry_date": "2026-12-07",
-      "selection_forward": 90760.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 89560.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.5111,
+        "selection_sigma": 0.5419,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 85000.0,
-            "selection_delta_proxy": -0.25797994912873623,
+            "strike": 84000.0,
+            "selection_delta_proxy": -0.2556008684674421,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 98000.0,
-            "selection_delta_proxy": 0.2608736473080613,
+            "strike": 97000.0,
+            "selection_delta_proxy": 0.24231779864052688,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
             "strike": 79000.0,
-            "selection_delta_proxy": -0.09454964745438055,
+            "selection_delta_proxy": -0.1083756808812617,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 106000.0,
-            "selection_delta_proxy": 0.08817508491179443,
+            "strike": 104000.0,
+            "selection_delta_proxy": 0.08764173415478893,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -3194,53 +3194,53 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "GFEX:LC",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 160,
+      "directory_contract_count": 174,
       "selector_version": 3,
       "series_type": "standard",
       "contract_budget": 16,
       "selected_contract_count": 16,
       "underlying_contract": "PD2702",
       "expiry_date": "2027-01-08",
-      "selection_forward": 209.15,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 210.4,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.3570999999999999,
+        "selection_sigma": 0.43799999999999994,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 194.0,
-            "selection_delta_proxy": -0.26104816498691974,
+            "strike": 192.0,
+            "selection_delta_proxy": -0.252609813353067,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 232.0,
-            "selection_delta_proxy": 0.2336007988987004,
+            "strike": 236.0,
+            "selection_delta_proxy": 0.254403797314045,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 184.0,
-            "selection_delta_proxy": -0.14810433715492866,
+            "strike": 174.0,
+            "selection_delta_proxy": -0.09690516133346838,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 248.0,
-            "selection_delta_proxy": 0.1080888971006046,
+            "strike": 260.0,
+            "selection_delta_proxy": 0.09964830581648032,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -3249,46 +3249,46 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "GFEX:PD",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 94,
+      "directory_contract_count": 96,
       "selector_version": 3,
       "series_type": "standard",
       "contract_budget": 8,
       "selected_contract_count": 8,
       "underlying_contract": "PS2701",
       "expiry_date": "2026-12-07",
-      "selection_forward": 32125.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 31965.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.3238,
+        "selection_sigma": 0.33145,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
             "strike": 30500.0,
-            "selection_delta_proxy": -0.21835790237435582,
+            "selection_delta_proxy": -0.2250690390483192,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 34000.0,
-            "selection_delta_proxy": 0.21863281140835988,
+            "strike": 33500.0,
+            "selection_delta_proxy": 0.24506501595832952,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
             "strike": 29500.0,
-            "selection_delta_proxy": -0.1047754623016468,
+            "selection_delta_proxy": -0.1022676935722846,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -3303,53 +3303,53 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "GFEX:PS",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     },
     {
       "profile": "core_v1",
-      "directory_contract_count": 148,
+      "directory_contract_count": 156,
       "selector_version": 3,
       "series_type": "standard",
       "contract_budget": 14,
       "selected_contract_count": 14,
       "underlying_contract": "PT2702",
       "expiry_date": "2027-01-08",
-      "selection_forward": 316.8,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 316.85,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.38439999999999996,
+        "selection_sigma": 0.45,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 292.0,
-            "selection_delta_proxy": -0.2581045475712427,
+            "strike": 288.0,
+            "selection_delta_proxy": -0.24905110437158173,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 352.0,
-            "selection_delta_proxy": 0.2489969173997708,
+            "strike": 356.0,
+            "selection_delta_proxy": 0.2580412579133629,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "P",
             "target_delta": -0.1,
-            "strike": 272.0,
-            "selection_delta_proxy": -0.12446235857294696,
+            "strike": 260.0,
+            "selection_delta_proxy": -0.09379938328703052,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.1,
-            "strike": 384.0,
-            "selection_delta_proxy": 0.09758425324191011,
+            "strike": 392.0,
+            "selection_delta_proxy": 0.10521174581216342,
             "state": "selected_proxy_not_observed_delta"
           }
         ],
@@ -3358,7 +3358,7 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "GFEX:PT",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
@@ -3372,25 +3372,25 @@
       "selected_contract_count": 6,
       "underlying_contract": "SI2701",
       "expiry_date": "2026-12-07",
-      "selection_forward": 8600.0,
-      "selection_forward_date": "2026-11-20",
+      "selection_forward": 8280.0,
+      "selection_forward_date": "2026-11-23",
       "selection_reason": "standard_active_series_atm_reprojected_wings_prior_OI_within_existing_budget",
       "sampling": {
-        "selection_sigma": 0.14395,
+        "selection_sigma": 0.14775,
         "sigma_source": "previous_sample_median_IV",
         "wing_selection": [
           {
             "side": "P",
             "target_delta": -0.25,
-            "strike": 8400.0,
-            "selection_delta_proxy": -0.21977265673253488,
+            "strike": 8100.0,
+            "selection_delta_proxy": -0.21945760785046398,
             "state": "selected_proxy_not_observed_delta"
           },
           {
             "side": "C",
             "target_delta": 0.25,
-            "strike": 8800.0,
-            "selection_delta_proxy": 0.23438516803773213,
+            "strike": 8500.0,
+            "selection_delta_proxy": 0.18625914325409665,
             "state": "selected_proxy_not_observed_delta"
           },
           {
@@ -3411,15 +3411,15 @@
       "full_chain": false,
       "selection_price_field": "settle",
       "selection_price_timestamp": null,
-      "selection_open_interest_date": "2026-11-20",
+      "selection_open_interest_date": "2026-11-23",
       "product_key": "GFEX:SI",
       "directory_scope": "selected_active_underlying_only",
       "directory_source": "WindPy.wset.optionchain"
     }
   ],
-  "directory_contract_count": 5196,
-  "universe_contract_count": 462,
-  "quote_contract_count": 462,
+  "directory_contract_count": 5242,
+  "universe_contract_count": 464,
+  "quote_contract_count": 464,
   "quote_coverage_complete": true,
   "coverage": {
     "expected_product_count": 64,
@@ -3502,15 +3502,15 @@
   "quality": {
     "collection_scope": "core_v1",
     "analytics_scope": "sampled_strikes",
-    "trade_date": "2026-11-20",
-    "record_count": 462,
-    "unique_contract_count": 462,
+    "trade_date": "2026-11-23",
+    "record_count": 464,
+    "unique_contract_count": 464,
     "source_date_match_pct": 1.0,
     "underlying_settle_coverage": 1.0,
     "expiry_coverage": 1.0,
     "exercise_style_coverage": 1.0,
-    "iv_coverage": 0.8441558441558441,
-    "vendor_greeks_coverage": 0.9783549783549783,
+    "iv_coverage": 0.8512931034482759,
+    "vendor_greeks_coverage": 0.978448275862069,
     "model_greeks_coverage": 0.0,
     "bid_ask_coverage": 0.0,
     "open_interest_coverage": 1.0,
@@ -3521,8 +3521,8 @@
     "successful_product_count": 64,
     "product_coverage": 1.0,
     "full_product_scope_verified": true,
-    "universe_contract_count": 462,
-    "quote_contract_count": 462,
+    "universe_contract_count": 464,
+    "quote_contract_count": 464,
     "quote_coverage_complete": true,
     "universe_source": "wind_optionchain_active_underlying",
     "all_inputs_ifind": false,
@@ -3547,462 +3547,462 @@
   },
   "storage_format": "product_shards_gzip",
   "records_sharded": true,
-  "record_count": 462,
+  "record_count": 464,
   "shard_count": 64,
   "full_snapshot": {
-    "path": "snapshots/2026-11-20.json.gz",
-    "record_count": 462,
-    "sha256": "f68b0b28bfa033027864485c303a3a2c995743931e540add824064650f88f5da",
+    "path": "snapshots/2026-11-23.json.gz",
+    "record_count": 464,
+    "sha256": "2f5b6ba0324bb8d9ad4d0e88a8de30818e906fe809e2b43422fcbed737a44c68",
     "retention_trading_days": 20
   },
   "shards": [
     {
       "exchange": "CZCE",
       "product": "AP",
-      "path": "latest_shards/2026-11-20/CZCE/AP.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/AP.json.gz",
       "record_count": 8,
-      "sha256": "895985f00c6ce1833841a83d39cd5156ee909991bed2c9f06aa3478bf13ac784"
+      "sha256": "8c815fcb0b1bd88490c083ff3fd63a481121c778ca4ad9c0deb8860110f90e5b"
     },
     {
       "exchange": "CZCE",
       "product": "CF",
-      "path": "latest_shards/2026-11-20/CZCE/CF.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/CF.json.gz",
       "record_count": 6,
-      "sha256": "2bdcbff965669416121c29f9f0015339ce14ba1efa6ee234b3077b8a167052e0"
+      "sha256": "aae79dfce418cc7da8f9cf841c77565601e957fc5103c98d7040ed77d64abed8"
     },
     {
       "exchange": "CZCE",
       "product": "CJ",
-      "path": "latest_shards/2026-11-20/CZCE/CJ.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/CJ.json.gz",
       "record_count": 10,
-      "sha256": "429a61a09b5615e6b81cf11f8c3b1bc61ab948a550061e9309267ceca52233b9"
+      "sha256": "ed3a543f9ebace190da0b3821e39e8577f702dc6b0d242fb022ffbac9dd64253"
     },
     {
       "exchange": "CZCE",
       "product": "FG",
-      "path": "latest_shards/2026-11-20/CZCE/FG.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/FG.json.gz",
       "record_count": 10,
-      "sha256": "d51505c72c500d924d652ee8aa74566aa8361b2655fcaa0849b8c0982d2837ab"
+      "sha256": "41de5781790c22902f651234c53462cb2a22a95cd6b0ffb3a389cca66e077dcb"
     },
     {
       "exchange": "CZCE",
       "product": "MA",
-      "path": "latest_shards/2026-11-20/CZCE/MA.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/MA.json.gz",
       "record_count": 8,
-      "sha256": "fddf5ff9e9c77d1c9101a32e55c341a1c154d134e261d22b6b5570314962b75a"
+      "sha256": "a17b19774acc975515e16a8b166e1e2358ece3dbabe3d50c84d14053dd0930e4"
     },
     {
       "exchange": "CZCE",
       "product": "OI",
-      "path": "latest_shards/2026-11-20/CZCE/OI.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/OI.json.gz",
       "record_count": 4,
-      "sha256": "a24a017fe38baf1730da1e1e12c9917c1d74496cc5453313aa29cd3af64e04e1"
+      "sha256": "f4235c80b82cdc65bb5fc4b06b821043bfa071739275c2a3e19be8e459044ab5"
     },
     {
       "exchange": "CZCE",
       "product": "PF",
-      "path": "latest_shards/2026-11-20/CZCE/PF.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/PF.json.gz",
       "record_count": 4,
-      "sha256": "c2d239493c94dbb7248aba2f1e31c9ecb2c63c0520ccce4baaa71d86bed76022"
+      "sha256": "64536771a86f4381af917243b99e0f2e70e7047afcb7ffa0487416e2132bbca5"
     },
     {
       "exchange": "CZCE",
       "product": "PK",
-      "path": "latest_shards/2026-11-20/CZCE/PK.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/PK.json.gz",
       "record_count": 4,
-      "sha256": "98995a96e8c0c7e015f1baaecfe165a4cf7e4cca326d1f445b288218eb31c230"
+      "sha256": "93caab90d72465f8951b32a20a7030d4d4e2dc9fe3c6b5d463b7ac4c73e2ed2b"
     },
     {
       "exchange": "CZCE",
       "product": "PL",
-      "path": "latest_shards/2026-11-20/CZCE/PL.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/PL.json.gz",
       "record_count": 6,
-      "sha256": "09e6cd94490c9cffb9800c7d2d5f4116c4a856212ae06233711f17dcf63b5d13"
+      "sha256": "f01fbb0b100a83c3e140ed952a2e3ec2d8a61d66b1dd0e97d006151a5ba18a4c"
     },
     {
       "exchange": "CZCE",
       "product": "PR",
-      "path": "latest_shards/2026-11-20/CZCE/PR.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/PR.json.gz",
       "record_count": 4,
-      "sha256": "992b0995204b242572597857ad560f822975a6055540be1dea62d8987dc1ab40"
+      "sha256": "4d1d88376db9ff8d8bb813c8288e1c0e7335621da635b07f4bb97e83e2551056"
     },
     {
       "exchange": "CZCE",
       "product": "PX",
-      "path": "latest_shards/2026-11-20/CZCE/PX.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/PX.json.gz",
       "record_count": 8,
-      "sha256": "603c36808dadc87ac87f8690457e7df3626f132430ebb9cf6e65ac05300a3185"
+      "sha256": "1e29fb8354c95488a1e3e805a0382329a453b3a9c8a6a9943db495b169a7000d"
     },
     {
       "exchange": "CZCE",
       "product": "RM",
-      "path": "latest_shards/2026-11-20/CZCE/RM.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/RM.json.gz",
       "record_count": 4,
-      "sha256": "65d72610fed98f554197522c3356e21180898640accba8b11219840c4ef5a699"
+      "sha256": "db52b49ab8e35f746c40eeb695b7e2c700d3612b81535b43aae00f6d4e95b6d0"
     },
     {
       "exchange": "CZCE",
       "product": "SA",
-      "path": "latest_shards/2026-11-20/CZCE/SA.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/SA.json.gz",
       "record_count": 8,
-      "sha256": "1f787a8b02582ca8f178627cab3aefd8ecccfa2ac99276bedd4d934ccfa27dc4"
+      "sha256": "60186cd56d04e18c4b576f8f51306fe832086ceef01252929e652dfdf13739ac"
     },
     {
       "exchange": "CZCE",
       "product": "SF",
-      "path": "latest_shards/2026-11-20/CZCE/SF.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/SF.json.gz",
       "record_count": 4,
-      "sha256": "ecff0140939c91e6a7f14a38e1c36a91b124377dbfabd6902cce463c40839530"
+      "sha256": "188fd9b5cd0c5fca6e5b17c0a575c5a195cd57b23beff87b7cd2f15620e3fa6d"
     },
     {
       "exchange": "CZCE",
       "product": "SH",
-      "path": "latest_shards/2026-11-20/CZCE/SH.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/SH.json.gz",
       "record_count": 10,
-      "sha256": "4b8e97718d3f2e38d7205470ff1804caeafc8ae2798b1edcd2ddc3e2289b7b6f"
+      "sha256": "ab925db5c2f0818625ca1249e7b5b8d7674d2249150818199592c906fff60b33"
     },
     {
       "exchange": "CZCE",
       "product": "SM",
-      "path": "latest_shards/2026-11-20/CZCE/SM.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/SM.json.gz",
       "record_count": 4,
-      "sha256": "bac8f6b3326fe6c205ebff71b36d6348e0cb2c56d55432620eaa576d1beaf473"
+      "sha256": "08cb7015a7592c8b56566acf91264b1a79f1e7511e3bd3c28a75c8c1ae3a360c"
     },
     {
       "exchange": "CZCE",
       "product": "SR",
-      "path": "latest_shards/2026-11-20/CZCE/SR.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/SR.json.gz",
       "record_count": 2,
-      "sha256": "5d60b1d4223f22bb1b2f8768759a657901bc79bcc30737dce816113ee7cb6dfa"
+      "sha256": "156447fea88832b3a30adc080e2578630581e383b1ab5c406feb156e371b371a"
     },
     {
       "exchange": "CZCE",
       "product": "TA",
-      "path": "latest_shards/2026-11-20/CZCE/TA.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/TA.json.gz",
       "record_count": 6,
-      "sha256": "27c5fed279d36783b6ef61b450b48aca8d3bceaa1685a6f52e1ecab97386e83d"
+      "sha256": "939fc41130499ed39cb7dc6dfa970928ff6366050d348a56ad2456209799a8d5"
     },
     {
       "exchange": "CZCE",
       "product": "UR",
-      "path": "latest_shards/2026-11-20/CZCE/UR.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/UR.json.gz",
       "record_count": 6,
-      "sha256": "5d61f282cad7826840fe08b46b83dba1e68272892e08f2d3d40da0f48dec081e"
+      "sha256": "87294e044ba292a2953b9f7c52ad04de4a59fe82a99e860aa9af4bc465f22927"
     },
     {
       "exchange": "CZCE",
       "product": "ZC",
-      "path": "latest_shards/2026-11-20/CZCE/ZC.json.gz",
+      "path": "latest_shards/2026-11-23/CZCE/ZC.json.gz",
       "record_count": 10,
-      "sha256": "b4674b55b20968c0c959ec93a207fa3ba2067d995c3e829cb226da287d8e5f2f"
+      "sha256": "722ceca0d1444950d999e37341b79cc4dfd009ab8ba66feef1554e82d7253356"
     },
     {
       "exchange": "DCE",
       "product": "A",
-      "path": "latest_shards/2026-11-20/DCE/A.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/A.json.gz",
       "record_count": 6,
-      "sha256": "cf01700d875245babf72b88609c68b5ec8fd39d182208ee72ad02fc91549910a"
+      "sha256": "60c98b8c496d28c9fec9483c1f3e682ba0ec8ffb5e60acbca15fd13f27a1e58c"
     },
     {
       "exchange": "DCE",
       "product": "B",
-      "path": "latest_shards/2026-11-20/DCE/B.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/B.json.gz",
       "record_count": 4,
-      "sha256": "2faaf3cb6caf4172040b966cbddbe1f4b367d08efcc4e0c8d40d2e6ad36d3df3"
+      "sha256": "5d29bced56cd02d4d86827f6efda045901f3b3fd58ca6afc716503abef114db8"
     },
     {
       "exchange": "DCE",
       "product": "BZ",
-      "path": "latest_shards/2026-11-20/DCE/BZ.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/BZ.json.gz",
       "record_count": 6,
-      "sha256": "2f92cbe0ac5ee35f2a5e313a3fa57246d684af22e150b8945dbc6b428bdfcd3c"
+      "sha256": "657b59ed17429e971583c82d1857725733563b32ec53eeeabd396db0a8d91cfd"
     },
     {
       "exchange": "DCE",
       "product": "C",
-      "path": "latest_shards/2026-11-20/DCE/C.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/C.json.gz",
       "record_count": 6,
-      "sha256": "d45bb2c5cfaabf5a787a970f66e7ae7c5fea77041f89ab24daaedfb396154c56"
+      "sha256": "75a68b6843b07d7014dc925234f15da3650fa374f71b72ebebbaa2cb5f3285af"
     },
     {
       "exchange": "DCE",
       "product": "CS",
-      "path": "latest_shards/2026-11-20/DCE/CS.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/CS.json.gz",
       "record_count": 2,
-      "sha256": "242453980fa6654714b0484961db21b5b4a894fe4510d421e3e159d4bd5cd3be"
+      "sha256": "3fe7be40a9bff7d85bcc53e329debbbd4a7adcfdd73aa5251d3f279db8a77eb0"
     },
     {
       "exchange": "DCE",
       "product": "EB",
-      "path": "latest_shards/2026-11-20/DCE/EB.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/EB.json.gz",
       "record_count": 8,
-      "sha256": "96e223a220abe3f8b74623033e314eb7a177e0745cec0b766b80390c5164d9e7"
+      "sha256": "7250f09b472dea111a42cf92c826c1c44ded64f4cd02da2d87b938e268348b64"
     },
     {
       "exchange": "DCE",
       "product": "EG",
-      "path": "latest_shards/2026-11-20/DCE/EG.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/EG.json.gz",
       "record_count": 6,
-      "sha256": "be0c9f6ad74e0311cef484d4f1d7f5c6b30ba0257a22a83c7c541f06d31901f5"
+      "sha256": "470f3570296c63f716ae0068f934b2863ccafad6b18e186f3eaf5ea4be7e7d95"
     },
     {
       "exchange": "DCE",
       "product": "I",
-      "path": "latest_shards/2026-11-20/DCE/I.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/I.json.gz",
       "record_count": 6,
-      "sha256": "ebfc9b55b41a649f0e420a434b7cd731b53e88e8ce8721901a554ef1ac3f4344"
+      "sha256": "172ff60295519744bb7d25e2b515d2d29df2efa15aceb74508d28466c18845ec"
     },
     {
       "exchange": "DCE",
       "product": "JD",
-      "path": "latest_shards/2026-11-20/DCE/JD.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/JD.json.gz",
       "record_count": 4,
-      "sha256": "ef5db80f55518645d78ba2b74fd134040dbd742b2d18341baca642affbe0fd04"
+      "sha256": "8990f108bdf3196abb2cebd876710c212448ebfb7a6c5db29a9f85ab3ba28fc3"
     },
     {
       "exchange": "DCE",
       "product": "JM",
-      "path": "latest_shards/2026-11-20/DCE/JM.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/JM.json.gz",
       "record_count": 8,
-      "sha256": "12f6a79172bce6a79c94a13960096aeefb6eec5d0f0524684e5746a3cc1ad4d1"
+      "sha256": "32d561d84d2ae6943c56ee9de1dd3c7b997bcbf0909f220916fec77eaf911cd8"
     },
     {
       "exchange": "DCE",
       "product": "L",
-      "path": "latest_shards/2026-11-20/DCE/L.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/L.json.gz",
       "record_count": 8,
-      "sha256": "dfa1dbc46efcd2d89c5cca3d609d11dd5b9aa62eb41f987d0ad6d596aa239d67"
+      "sha256": "9a764dcefd6b9a43673e7efb15f56124391493ce63c5a4d8fad4265691d40ac7"
     },
     {
       "exchange": "DCE",
       "product": "LG",
-      "path": "latest_shards/2026-11-20/DCE/LG.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/LG.json.gz",
       "record_count": 2,
-      "sha256": "67d8f2ea4d04da97b2bc04e5252e02855e0ce535a504652cbeee9befbe666bc3"
+      "sha256": "defe70a5b0606b3647e0d79ea607bdc67988f98b0113e9b8331b8e5293c5b636"
     },
     {
       "exchange": "DCE",
       "product": "LH",
-      "path": "latest_shards/2026-11-20/DCE/LH.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/LH.json.gz",
       "record_count": 6,
-      "sha256": "2b207a5dce32dc2acf72be500f81df1eb1d4e9c9a62334cbf74cbbb28e7962cf"
+      "sha256": "5229943bd74f98adf7f57d97d1357f9e7e2a071430bd82a65a6cc8a16fbe3b37"
     },
     {
       "exchange": "DCE",
       "product": "M",
-      "path": "latest_shards/2026-11-20/DCE/M.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/M.json.gz",
       "record_count": 4,
-      "sha256": "5d92e782582cb1344df707762609f5e1540e79a3da0aa66c7192c842c7ebcf36"
+      "sha256": "6135b525a2c0ae73958ce74092182f9b0c00d8b3c225f4f5ececa1207b2325c4"
     },
     {
       "exchange": "DCE",
       "product": "P",
-      "path": "latest_shards/2026-11-20/DCE/P.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/P.json.gz",
       "record_count": 6,
-      "sha256": "80ad8ba12b363d49e7064a0bf007ad4b5f2641046f22e2e101faa2b78431840d"
+      "sha256": "e397c09e49f0fae4d63a46ef3105dcd15643cea580d27e04fe2cb774c75c8824"
     },
     {
       "exchange": "DCE",
       "product": "PG",
-      "path": "latest_shards/2026-11-20/DCE/PG.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/PG.json.gz",
       "record_count": 14,
-      "sha256": "674706bf3cc2d1993c7a835b48f99f3e603a0e9999fd14beeedfd4d37c11314b"
+      "sha256": "b631f044dcf01ae0e31e6afe8c8f5dd66248aeb9413ecd13595552882e28679c"
     },
     {
       "exchange": "DCE",
       "product": "PP",
-      "path": "latest_shards/2026-11-20/DCE/PP.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/PP.json.gz",
       "record_count": 8,
-      "sha256": "79097088d130821b9618a2118a1369f434cc7d90f9ccdd1f93af1665bd07e5ec"
+      "sha256": "e5b8e97ffc32a272260f4694d6958f2efce40cd53f9cece25f748c8839f4088d"
     },
     {
       "exchange": "DCE",
       "product": "V",
-      "path": "latest_shards/2026-11-20/DCE/V.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/V.json.gz",
       "record_count": 6,
-      "sha256": "fb6beeea9eb321ec0feb11ba6dce8f487820c77c3241004a790f4c63511e7bd0"
+      "sha256": "943f888592c835e488cfc3e6a19f50043c635bca22a65a0dfa375dae1ac2f762"
     },
     {
       "exchange": "DCE",
       "product": "Y",
-      "path": "latest_shards/2026-11-20/DCE/Y.json.gz",
+      "path": "latest_shards/2026-11-23/DCE/Y.json.gz",
       "record_count": 6,
-      "sha256": "54c2330ff6ea3cbb86e41aa5bf3d7a079fa3119dde4a695a2e8d3294f77dccd7"
+      "sha256": "6d0aa3ba91272a490405b3a3cd1ea258a56eac15202307ba6af99846112b9026"
     },
     {
       "exchange": "GFEX",
       "product": "LC",
-      "path": "latest_shards/2026-11-20/GFEX/LC.json.gz",
+      "path": "latest_shards/2026-11-23/GFEX/LC.json.gz",
       "record_count": 20,
-      "sha256": "41d6b28cb314ae94263904f07adef3a6ffdc3e9266d274c14c1cd14535fd6cf3"
+      "sha256": "07c63d6330bc20c4164b65b01d945f330b0a5748d357544f6da0b2640cef94a1"
     },
     {
       "exchange": "GFEX",
       "product": "PD",
-      "path": "latest_shards/2026-11-20/GFEX/PD.json.gz",
+      "path": "latest_shards/2026-11-23/GFEX/PD.json.gz",
       "record_count": 16,
-      "sha256": "5deabc3548a8e7dc8341d2c36a9ce16fb8c262125373ef8d4eb5552375c0856b"
+      "sha256": "442d14e156393d05c43eb56aec8d240fb9088a8211d3fa5df5d0fa81451a15a1"
     },
     {
       "exchange": "GFEX",
       "product": "PS",
-      "path": "latest_shards/2026-11-20/GFEX/PS.json.gz",
+      "path": "latest_shards/2026-11-23/GFEX/PS.json.gz",
       "record_count": 8,
-      "sha256": "199ef25ddca5b63041ee64c8998ed9808a23505cd84486bd1d0b69f0b6688e1a"
+      "sha256": "0c3e2affa28ed6d7bf5e072da5b3b8beb1f35470441a381a4559f10003eff0a5"
     },
     {
       "exchange": "GFEX",
       "product": "PT",
-      "path": "latest_shards/2026-11-20/GFEX/PT.json.gz",
+      "path": "latest_shards/2026-11-23/GFEX/PT.json.gz",
       "record_count": 14,
-      "sha256": "f950e08c3f7d48dd2fd3f28586dbf567c1528f95f610674a1256834bc4bbed08"
+      "sha256": "33987f6f504a15c46c22004d38d0b171984696da37761d69c82e5de159c85dc8"
     },
     {
       "exchange": "GFEX",
       "product": "SI",
-      "path": "latest_shards/2026-11-20/GFEX/SI.json.gz",
+      "path": "latest_shards/2026-11-23/GFEX/SI.json.gz",
       "record_count": 6,
-      "sha256": "d7b31ac360a94f06b6a0795cb9b395ae5c133a497f8d41c174249321cf7c4eb0"
+      "sha256": "ea0c401744bffd9a5144337287f1b1cdb470ac595e21a0995efd1e911ee61220"
     },
     {
       "exchange": "INE",
       "product": "BC",
-      "path": "latest_shards/2026-11-20/INE/BC.json.gz",
+      "path": "latest_shards/2026-11-23/INE/BC.json.gz",
       "record_count": 6,
-      "sha256": "d3ccbcb7c60e1acc4e85aef3814219a550b0948191417fc3d4a0d4891c1f167b"
+      "sha256": "178269079033cbad19279a466511c0db2f0667207e0e1f5b0c4f7216b26d26b3"
     },
     {
       "exchange": "INE",
       "product": "NR",
-      "path": "latest_shards/2026-11-20/INE/NR.json.gz",
+      "path": "latest_shards/2026-11-23/INE/NR.json.gz",
       "record_count": 6,
-      "sha256": "873861b15fab15a299660891d667f934f82a6c4c6c5041229b22531cc21c39b8"
+      "sha256": "fc1cd0e99603a38f6f6ba36b1591245a360075c2c8c8520a2ce094d410027474"
     },
     {
       "exchange": "INE",
       "product": "SC",
-      "path": "latest_shards/2026-11-20/INE/SC.json.gz",
+      "path": "latest_shards/2026-11-23/INE/SC.json.gz",
       "record_count": 10,
-      "sha256": "8563600f482d61be282b567b17757556d1b1fd5fb0c3e7b71b1ea562569dffaa"
+      "sha256": "2db50a74567b3208111351ce30b30831544d7991e6bfcd51eca7e0c7758654cc"
     },
     {
       "exchange": "SHFE",
       "product": "AD",
-      "path": "latest_shards/2026-11-20/SHFE/AD.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/AD.json.gz",
       "record_count": 8,
-      "sha256": "436fe9ac2daab45e2ccdf9afb1d666c6e5cf0661154834f8cd6f3d8825b248df"
+      "sha256": "8c13200f7124a992d6e7fe1c9f9ac48f4a8c1353278df23e052d10bed7b47284"
     },
     {
       "exchange": "SHFE",
       "product": "AG",
-      "path": "latest_shards/2026-11-20/SHFE/AG.json.gz",
-      "record_count": 28,
-      "sha256": "2f4a295fe88098f126a645e28e7defe27e7620f471561ef19fd7064271d504ce"
+      "path": "latest_shards/2026-11-23/SHFE/AG.json.gz",
+      "record_count": 30,
+      "sha256": "7996b383b7bd0a8b4e6f2d4860019ff7f741d27ea40f1dfe46999b6027c57608"
     },
     {
       "exchange": "SHFE",
       "product": "AL",
-      "path": "latest_shards/2026-11-20/SHFE/AL.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/AL.json.gz",
       "record_count": 10,
-      "sha256": "9c9ed2879a02eb8800a58356e48ece6ba587e86d9acf1094a3aee27638d43ee8"
+      "sha256": "247b1ada28621c86a016617d08f9425e6dbf0c82e1105d17a3e7595e312b02b7"
     },
     {
       "exchange": "SHFE",
       "product": "AO",
-      "path": "latest_shards/2026-11-20/SHFE/AO.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/AO.json.gz",
       "record_count": 4,
-      "sha256": "4ad0ab8ec9327b1e86eac4a6adf806de51db5c11f57296005a39d252a7c8e1dc"
+      "sha256": "ffd1de8407f88c75cd3aa666a62c7df092d979ee80b97d8ceee6073ebed9811a"
     },
     {
       "exchange": "SHFE",
       "product": "AU",
-      "path": "latest_shards/2026-11-20/SHFE/AU.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/AU.json.gz",
       "record_count": 14,
-      "sha256": "19060c3325421aca68d5cd33789af83e80c8fea3a0595ee755b516465a528173"
+      "sha256": "28c26210e23986dd4e5b9a094c5846d840e08728edc18965d9853ff2dd375ead"
     },
     {
       "exchange": "SHFE",
       "product": "BR",
-      "path": "latest_shards/2026-11-20/SHFE/BR.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/BR.json.gz",
       "record_count": 8,
-      "sha256": "cfbbdbb93501d847a301394d7dbb213bec26f1b2490fa53d4ec952859c69da95"
+      "sha256": "93303ca5c9cca8ec8218825955b15253d4087690b4af84dc3bc5443da69a0cc2"
     },
     {
       "exchange": "SHFE",
       "product": "BU",
-      "path": "latest_shards/2026-11-20/SHFE/BU.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/BU.json.gz",
       "record_count": 8,
-      "sha256": "52f92377c870903c2e0bf4b9d5d34e22eedd8dee9fbbf1c216ac98a918f3419d"
+      "sha256": "d5e4f9d3d521aaf0e8f2d4a9b76b5612c25e73ab92b2648f425261dd4620a053"
     },
     {
       "exchange": "SHFE",
       "product": "CU",
-      "path": "latest_shards/2026-11-20/SHFE/CU.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/CU.json.gz",
       "record_count": 4,
-      "sha256": "b515d9e18962048bf3da8db3dd3ebc12e0e7be37424d79058b77a279601ad0ca"
+      "sha256": "89c31c6828e31d3dc6ef5260a407d2193d3d724202fda638ea2d9035b94e123b"
     },
     {
       "exchange": "SHFE",
       "product": "FU",
-      "path": "latest_shards/2026-11-20/SHFE/FU.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/FU.json.gz",
       "record_count": 14,
-      "sha256": "018d4b643b7ac46d97b0f660d7f6e82aadc39b3462f4a87f120ed103598c2d62"
+      "sha256": "c6fd7075277892e69093f4d2042c2de0e0aa730241158c253c61ff503787dc4c"
     },
     {
       "exchange": "SHFE",
       "product": "NI",
-      "path": "latest_shards/2026-11-20/SHFE/NI.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/NI.json.gz",
       "record_count": 4,
-      "sha256": "12eee450d0c289b10742835d5fcc3ad23688a2c0499bde451e184fdf1a162797"
+      "sha256": "1470ff1ec37ff6135d45505de0e51f5055e2dab1593a28dc5f697a6dfba5beda"
     },
     {
       "exchange": "SHFE",
       "product": "OP",
-      "path": "latest_shards/2026-11-20/SHFE/OP.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/OP.json.gz",
       "record_count": 2,
-      "sha256": "1dec3160a7763be85feb132abca4096eecbf8be7906362351f7659f30b222760"
+      "sha256": "e3430bfe50f35a2d98afc4d2c9bdb3207e861e0e4d0e8acb1af645834078cea6"
     },
     {
       "exchange": "SHFE",
       "product": "PB",
-      "path": "latest_shards/2026-11-20/SHFE/PB.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/PB.json.gz",
       "record_count": 4,
-      "sha256": "54960c2a3a0661550d65cfee40ad27c08c7ed3acb6d5c987f580759fc557a8bc"
+      "sha256": "4f5af90fe41ee10c3d67052867716d7948fb6d13838e546b834a65bf259c265f"
     },
     {
       "exchange": "SHFE",
       "product": "RB",
-      "path": "latest_shards/2026-11-20/SHFE/RB.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/RB.json.gz",
       "record_count": 2,
-      "sha256": "a870213b3ddc53a00c10797e43f4cf330cbef2485f1cf7e0fa2e79ca88b79d22"
+      "sha256": "4bf6392078f9acc5c465f4d435afbed9561f40b13213a3e50d70df5af052d198"
     },
     {
       "exchange": "SHFE",
       "product": "RU",
-      "path": "latest_shards/2026-11-20/SHFE/RU.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/RU.json.gz",
       "record_count": 6,
-      "sha256": "7ae5cee6efcf1b3508f54bccac5c3c272c93fea2f1c0f63d02269bb3f38560ef"
+      "sha256": "3804c04562d35bd9259b08be60bf0ef4fcedf244d2676531e503dcfd9fbfe672"
     },
     {
       "exchange": "SHFE",
       "product": "SN",
-      "path": "latest_shards/2026-11-20/SHFE/SN.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/SN.json.gz",
       "record_count": 8,
-      "sha256": "ec98f2050f6de6e5bd63d95448e62e9f11889ea7b43957ad5f13a434fcfb31d0"
+      "sha256": "46648617a6a38b031d710b9e60b2c00b1270f1acf647839c5a1198e90cd4ac88"
     },
     {
       "exchange": "SHFE",
       "product": "SP",
-      "path": "latest_shards/2026-11-20/SHFE/SP.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/SP.json.gz",
       "record_count": 4,
-      "sha256": "4ba53a968eb0729346efd67ce1e8a58227be385180fa3ec49e2bbdc9aa2351b0"
+      "sha256": "23f2f5de384f87016f8c33f069e18499e70d0aff9ca3745957469ce8399d2f65"
     },
     {
       "exchange": "SHFE",
       "product": "ZN",
-      "path": "latest_shards/2026-11-20/SHFE/ZN.json.gz",
+      "path": "latest_shards/2026-11-23/SHFE/ZN.json.gz",
       "record_count": 6,
-      "sha256": "5977080d8408dca799da66aa9291abec717a0f8a517aff3016028e20d523822c"
+      "sha256": "2d877d8182e52bb8c55510a23c1ab6287831029a51114c96667be91a653bcdee"
     }
   ]
 }
