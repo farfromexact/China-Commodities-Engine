@@ -2,12 +2,12 @@
   "schema_version": 1,
   "source_provider": "wind",
   "mode": "intraday",
-  "trading_date": "2026-11-25",
+  "trading_date": "2026-11-26",
   "session": "day",
-  "session_start": "2026-11-25T09:30:00+08:00",
-  "cutoff": "2026-11-25T15:30:00+08:00",
-  "started_at": "2026-11-25T16:36:12.254195+08:00",
-  "generated_at": "2026-11-25T16:37:18.600350+08:00",
+  "session_start": "2026-11-26T09:30:00+08:00",
+  "cutoff": "2026-11-26T15:30:00+08:00",
+  "started_at": "2026-11-26T15:42:16.905903+08:00",
+  "generated_at": "2026-11-26T15:43:57.802224+08:00",
   "records": [
     {
       "key": "GC001",
@@ -19,13 +19,13 @@
       "unit": "percent_per_annum",
       "statistic": "selected_5min_bar_last_repo_rate",
       "record_state": "quote",
-      "source_timestamp": "2026-11-25T15:30:00+08:00",
+      "source_timestamp": "2026-11-26T15:30:00+08:00",
       "lag_to_cutoff_seconds": 0,
-      "open": 1.29,
-      "high": 1.45,
-      "low": 1.2,
-      "close": 1.45,
-      "volume": 13181154.0
+      "open": 1.4,
+      "high": 1.41,
+      "low": 1.37,
+      "close": 1.385,
+      "volume": 18033451.0
     },
     {
       "key": "GC007",
@@ -37,13 +37,13 @@
       "unit": "percent_per_annum",
       "statistic": "selected_5min_bar_last_repo_rate",
       "record_state": "quote",
-      "source_timestamp": "2026-11-25T15:30:00+08:00",
+      "source_timestamp": "2026-11-26T15:30:00+08:00",
       "lag_to_cutoff_seconds": 0,
-      "open": 1.405,
-      "high": 1.425,
-      "low": 0.01,
-      "close": 1.425,
-      "volume": 115983.0
+      "open": 1.415,
+      "high": 1.42,
+      "low": 1.37,
+      "close": 1.42,
+      "volume": 856980.0
     },
     {
       "key": "GC014",
@@ -55,13 +55,13 @@
       "unit": "percent_per_annum",
       "statistic": "selected_5min_bar_last_repo_rate",
       "record_state": "quote",
-      "source_timestamp": "2026-11-25T15:30:00+08:00",
+      "source_timestamp": "2026-11-26T15:30:00+08:00",
       "lag_to_cutoff_seconds": 0,
-      "open": 1.36,
-      "high": 1.39,
-      "low": 1.36,
-      "close": 1.39,
-      "volume": 4134.0
+      "open": 1.405,
+      "high": 1.405,
+      "low": 1.32,
+      "close": 1.395,
+      "volume": 12287.0
     },
     {
       "key": "SZ_R001",
@@ -73,13 +73,13 @@
       "unit": "percent_per_annum",
       "statistic": "selected_5min_bar_last_repo_rate",
       "record_state": "quote",
-      "source_timestamp": "2026-11-25T15:30:00+08:00",
+      "source_timestamp": "2026-11-26T15:30:00+08:00",
       "lag_to_cutoff_seconds": 0,
-      "open": 1.32,
-      "high": 1.425,
-      "low": 1.21,
-      "close": 1.425,
-      "volume": 50135170.0
+      "open": 1.38,
+      "high": 1.395,
+      "low": 1.355,
+      "close": 1.375,
+      "volume": 22305750.0
     },
     {
       "key": "SZ_R007",
@@ -91,13 +91,13 @@
       "unit": "percent_per_annum",
       "statistic": "selected_5min_bar_last_repo_rate",
       "record_state": "quote",
-      "source_timestamp": "2026-11-25T15:30:00+08:00",
+      "source_timestamp": "2026-11-26T15:30:00+08:00",
       "lag_to_cutoff_seconds": 0,
-      "open": 1.4,
-      "high": 1.42,
-      "low": 1.325,
-      "close": 1.42,
-      "volume": 133260.0
+      "open": 1.41,
+      "high": 1.415,
+      "low": 1.41,
+      "close": 1.415,
+      "volume": 385400.0
     },
     {
       "key": "SZ_R014",
@@ -109,13 +109,13 @@
       "unit": "percent_per_annum",
       "statistic": "selected_5min_bar_last_repo_rate",
       "record_state": "quote",
-      "source_timestamp": "2026-11-25T15:30:00+08:00",
+      "source_timestamp": "2026-11-26T15:30:00+08:00",
       "lag_to_cutoff_seconds": 0,
-      "open": 1.375,
-      "high": 1.38,
-      "low": 1.27,
-      "close": 1.38,
-      "volume": 9830.0
+      "open": 1.36,
+      "high": 1.375,
+      "low": 1.36,
+      "close": 1.375,
+      "volume": 12340.0
     }
   ],
   "coverage": {
