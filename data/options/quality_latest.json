@@ -15,7 +15,7 @@
     "iv_coverage": 0.8446808510638298,
     "vendor_greeks_coverage": 0.9765957446808511,
     "model_greeks_coverage": 0.0,
-    "bid_ask_coverage": 0.0,
+    "bid_ask_coverage": 0.8936170212765957,
     "open_interest_coverage": 1.0,
     "series_count": 64,
     "balanced_call_put_series_pct": 1.0,
@@ -40,7 +40,6 @@
     "dealer_gamma_direction_known": false,
     "status": "core_available",
     "limitations": [
-      "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000",
       "model_greeks_ready blocked: model_greeks_coverage=0.0000 < 0.8000",
       "vendor risk units: see per-record explicit conversion metadata",
       "dealer_gamma_direction_known=false; dealer Gamma direction is not observed or inferred",

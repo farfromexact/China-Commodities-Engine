@@ -3510,7 +3510,7 @@
     "iv_coverage": 0.8446808510638298,
     "vendor_greeks_coverage": 0.9765957446808511,
     "model_greeks_coverage": 0.0,
-    "bid_ask_coverage": 0.0,
+    "bid_ask_coverage": 0.8936170212765957,
     "open_interest_coverage": 1.0,
     "series_count": 64,
     "balanced_call_put_series_pct": 1.0,
@@ -3535,7 +3535,6 @@
     "dealer_gamma_direction_known": false,
     "status": "core_available",
     "limitations": [
-      "execution_ready blocked: bid_ask_coverage=0.0000 < 0.8000",
       "model_greeks_ready blocked: model_greeks_coverage=0.0000 < 0.8000",
       "vendor risk units: see per-record explicit conversion metadata",
       "dealer_gamma_direction_known=false; dealer Gamma direction is not observed or inferred",
@@ -3543,6 +3542,7 @@
       "core sample: unselected contracts are intentional; no full-chain positioning inference"
     ]
   },
+  "book_scope": "core_v1 last observed day-session tick through 15:00 Asia/Shanghai",
   "storage_format": "product_shards_gzip",
   "records_sharded": true,
   "record_count": 470,
@@ -3550,7 +3550,7 @@
   "full_snapshot": {
     "path": "snapshots/2026-11-26.json.gz",
     "record_count": 470,
-    "sha256": "b605abe3b9ed9d197939a700c904a1e767def9f9b5452384bb270a26cd7258df",
+    "sha256": "2fc5416cc5314495195f45262590b5813c3edb56d895e56ffcf807ae5bde1a7a",
     "retention_trading_days": 20
   },
   "shards": [
@@ -3559,448 +3559,448 @@
       "product": "AP",
       "path": "latest_shards/2026-11-26/CZCE/AP.json.gz",
       "record_count": 8,
-      "sha256": "b353abbf045705ac7dafddbfc42060ef21d8fcf62fe908b96cfbc33719114a3d"
+      "sha256": "c731786a9bca642bfb2d94faf5a8ccb0164546f7a70aeba28a3ddc0d303c8e95"
     },
     {
       "exchange": "CZCE",
       "product": "CF",
       "path": "latest_shards/2026-11-26/CZCE/CF.json.gz",
       "record_count": 6,
-      "sha256": "eec1d21c1354e82225106f7b2fbbd6f91883a52593505066d88913c4cb506a12"
+      "sha256": "f60f86172f91b524f3f0dc3ce95ed097623c1e5543d98d899d94265ba5c3ea02"
     },
     {
       "exchange": "CZCE",
       "product": "CJ",
       "path": "latest_shards/2026-11-26/CZCE/CJ.json.gz",
       "record_count": 10,
-      "sha256": "ab31809888103723399b4f203ebd7b67e8b7f6a54433e9307940126d9ae88c49"
+      "sha256": "e1c4373d2306182d87bd06b707cb47678607f18159dcad26b625e056929cbd3f"
     },
     {
       "exchange": "CZCE",
       "product": "FG",
       "path": "latest_shards/2026-11-26/CZCE/FG.json.gz",
       "record_count": 10,
-      "sha256": "e1a8172acc0d1e91a856ab76e0385e26490e4ed7f12a1cd98aa772eee69d876e"
+      "sha256": "60e715cc4969ab073474fd4b0d61cb54d959f5cbca5be818d47e1b6ed77b36b3"
     },
     {
       "exchange": "CZCE",
       "product": "MA",
       "path": "latest_shards/2026-11-26/CZCE/MA.json.gz",
       "record_count": 8,
-      "sha256": "d1b13c6b12e920b9b6c91d57f47e060b9f3303182b86bb733c071bc0db39d5b5"
+      "sha256": "7f88dd31fc0992c6e81328a143c3dfdf03c7d04fe546ebea4aeb0bf258d144da"
     },
     {
       "exchange": "CZCE",
       "product": "OI",
       "path": "latest_shards/2026-11-26/CZCE/OI.json.gz",
       "record_count": 4,
-      "sha256": "ed59f3c5404365677fa0df85739f437c83d08225aa27b1c078128401a42d1d66"
+      "sha256": "dd36210b98dc5a8bb4a7844638bb3a556fada26cf8048795148c08bc4af6031d"
     },
     {
       "exchange": "CZCE",
       "product": "PF",
       "path": "latest_shards/2026-11-26/CZCE/PF.json.gz",
       "record_count": 4,
-      "sha256": "eefd3b5def783b0fc04e80b930fea2a60c2205e0f9904cc57f36e258d76207d9"
+      "sha256": "ffb929917ec21f3d81be3971452b1ddb63acb047f67ca33c7a0151ab4d4a89db"
     },
     {
       "exchange": "CZCE",
       "product": "PK",
       "path": "latest_shards/2026-11-26/CZCE/PK.json.gz",
       "record_count": 4,
-      "sha256": "c2d5bb89839e326c1daeb27e1a180a957aab251ec24b8f8d9eeac24964fd78dc"
+      "sha256": "34d198150df1dd116a6ceab527ba1d9c530398b0ce10f1c31c972e80a6d1da41"
     },
     {
       "exchange": "CZCE",
       "product": "PL",
       "path": "latest_shards/2026-11-26/CZCE/PL.json.gz",
       "record_count": 6,
-      "sha256": "9af2533bb3a6e58da2f239bfc51f39cc295417ca6d348629f3bcb1377dbe5324"
+      "sha256": "cac0b2eff7296fd69430d7c133b71e3114d347e00f59d06d95b32fc833bdcdd7"
     },
     {
       "exchange": "CZCE",
       "product": "PR",
       "path": "latest_shards/2026-11-26/CZCE/PR.json.gz",
       "record_count": 4,
-      "sha256": "5c4cb3dcee8f5797ca375a96b824279cb13844b7dd94ee659ac1bebb4247026a"
+      "sha256": "2aaac2cd69fedfc745a11abece2e58c88ef96ae11730b1b134457d9c81067e61"
     },
     {
       "exchange": "CZCE",
       "product": "PX",
       "path": "latest_shards/2026-11-26/CZCE/PX.json.gz",
       "record_count": 6,
-      "sha256": "585e4231b2f9a7c5b4264e9c634ecb08553ea8136eef4d1851326a38c703b948"
+      "sha256": "14b1f51ce0b0b8e04089e1a9d3ff86d49b27f8813ec373efaaa34c5bc30be32a"
     },
     {
       "exchange": "CZCE",
       "product": "RM",
       "path": "latest_shards/2026-11-26/CZCE/RM.json.gz",
       "record_count": 4,
-      "sha256": "ebfb027c5df2ef8d16fc509437cbc745d3a9c32435cf0a4a21028184edfaddfe"
+      "sha256": "0549a459128d275687eddb4f9ee884c0b0755e7341606c477ade24c428b2eb42"
     },
     {
       "exchange": "CZCE",
       "product": "SA",
       "path": "latest_shards/2026-11-26/CZCE/SA.json.gz",
       "record_count": 8,
-      "sha256": "a6435cbb7b9b5bb5814c2f1415e0e04e88c99c5787bd735aae8257dd118ee2ec"
+      "sha256": "72639263d35f23cb4158bd494cbe4db70b4f94093865409302df72d006654f1e"
     },
     {
       "exchange": "CZCE",
       "product": "SF",
       "path": "latest_shards/2026-11-26/CZCE/SF.json.gz",
       "record_count": 4,
-      "sha256": "5c7f70b6aabd789769b0c37b14025cfe3d060a2e4bcd62bef2242d6304f3e9a1"
+      "sha256": "457723dfe357da0deb7de72922abcff60b3bf8797ee3c89bf435814b038a1a76"
     },
     {
       "exchange": "CZCE",
       "product": "SH",
       "path": "latest_shards/2026-11-26/CZCE/SH.json.gz",
       "record_count": 10,
-      "sha256": "719d6e3be45b836f919cd8c44f7e0d9139208487f2bbbc4cfa70c9b282d5664a"
+      "sha256": "722050c25647e535bd208af1282dd1b406e75d6b2cdc9eb1c7d4250ef8ca7af4"
     },
     {
       "exchange": "CZCE",
       "product": "SM",
       "path": "latest_shards/2026-11-26/CZCE/SM.json.gz",
       "record_count": 4,
-      "sha256": "0d1191fedf799ee11ecb3aaac4dc57c555d85596b345d61ac935997a50a16256"
+      "sha256": "7c6fde71be92405ac159d5296c2f5860362366ee2026473a38901976ff4d09b5"
     },
     {
       "exchange": "CZCE",
       "product": "SR",
       "path": "latest_shards/2026-11-26/CZCE/SR.json.gz",
       "record_count": 2,
-      "sha256": "e3a85ec6888d14b4445ce7f4589e644d6ae13d80ae839db7c1e7059e15757db6"
+      "sha256": "77d1a9f8880be90523514cb09b845ba11c30b1431ef918ec1b6a603048cf1081"
     },
     {
       "exchange": "CZCE",
       "product": "TA",
       "path": "latest_shards/2026-11-26/CZCE/TA.json.gz",
       "record_count": 6,
-      "sha256": "b08fa004e36a098676bb3206923b7b4eb858a42dd273ff379e99fe6229a2d4eb"
+      "sha256": "ddd0d3d6e53ba7475fc3f51e092b859e9d807883cf33d974804c7ad39048c77e"
     },
     {
       "exchange": "CZCE",
       "product": "UR",
       "path": "latest_shards/2026-11-26/CZCE/UR.json.gz",
       "record_count": 6,
-      "sha256": "7ca484cfbf0cf95907f343a2b543b5a75a37f12c56e9d4e177872ef3aea0d64f"
+      "sha256": "7e1a691d4d80148e894ce2083deeb37da14230a0fcee01c600720a4f5273cc60"
     },
     {
       "exchange": "CZCE",
       "product": "ZC",
       "path": "latest_shards/2026-11-26/CZCE/ZC.json.gz",
       "record_count": 10,
-      "sha256": "e4dfcd0b0ffae43b17d2eee3707cd5e3d40419fff24d5649f65be5ae12ebe2bd"
+      "sha256": "88dbdf5c94295a5e69cd5525bc6f753f20a8ea9a4918bf0265a156b77f1724e6"
     },
     {
       "exchange": "DCE",
       "product": "A",
       "path": "latest_shards/2026-11-26/DCE/A.json.gz",
       "record_count": 6,
-      "sha256": "e3ef01a52944c28a7ffc412e0682f4f86ea21cd68432e70ad8df33fe6c32ef3f"
+      "sha256": "e6c5d2eac965d5ed766d1a4af467dc544494818790b2f89343c30aa605e73939"
     },
     {
       "exchange": "DCE",
       "product": "B",
       "path": "latest_shards/2026-11-26/DCE/B.json.gz",
       "record_count": 4,
-      "sha256": "03f4cb89236badac704643d06a5b865f5ef14ddcdda2060461645f7c0fde8bf0"
+      "sha256": "3af1b4e16beb654cc0857d6a142abf207dae64bce4bdc7b428d7d2a61cc8947b"
     },
     {
       "exchange": "DCE",
       "product": "BZ",
       "path": "latest_shards/2026-11-26/DCE/BZ.json.gz",
       "record_count": 6,
-      "sha256": "4f0faa34746d949aa9008ff3d4136d1063aeec144ac0ef397acec0fbe2b78487"
+      "sha256": "45d4c62087f857e561c445b4b4d077d8c76a8e42568244789315d5f5b52cccc9"
     },
     {
       "exchange": "DCE",
       "product": "C",
       "path": "latest_shards/2026-11-26/DCE/C.json.gz",
       "record_count": 6,
-      "sha256": "bf423de5e8c20340708ec372e9fb0292da79cc4450507e43af21a87e720ef71e"
+      "sha256": "a8edaa25cacaf87738731ac2f9ceec0e458f93dbf117ca096c37982c0be1fbd8"
     },
     {
       "exchange": "DCE",
       "product": "CS",
       "path": "latest_shards/2026-11-26/DCE/CS.json.gz",
       "record_count": 2,
-      "sha256": "dd15eb8e3e264d96fbf9d06f3ff3f4a93192f594d2706550b00c0b28f79c2027"
+      "sha256": "c236f56756871fc2753f238b2388df05bed65b5b1dfde5d0013275ee4f088b76"
     },
     {
       "exchange": "DCE",
       "product": "EB",
       "path": "latest_shards/2026-11-26/DCE/EB.json.gz",
       "record_count": 8,
-      "sha256": "1554fef6b0dbcd9731f74714a8e2b38213e7daef3d7f3f8571a8196ce4935505"
+      "sha256": "39a0486b615483958e59194351dbbb46856253eb1456830e6758fd15b40fd145"
     },
     {
       "exchange": "DCE",
       "product": "EG",
       "path": "latest_shards/2026-11-26/DCE/EG.json.gz",
       "record_count": 6,
-      "sha256": "4c20f26eee34d1c3df13acb76b228e7434792f7f7c72e6c45516176335f73e39"
+      "sha256": "9703d955d3c1497b1feff8f404d6a6045522245838919eddb742001a397bad42"
     },
     {
       "exchange": "DCE",
       "product": "I",
       "path": "latest_shards/2026-11-26/DCE/I.json.gz",
       "record_count": 6,
-      "sha256": "cf87bb1252b9ea4d29682d1d1c50609d231378536a06fa764d858307acae54c3"
+      "sha256": "bb130d692b761442ee0a3b59003901a58ed3cc0af2152971221ad4c16170e6d5"
     },
     {
       "exchange": "DCE",
       "product": "JD",
       "path": "latest_shards/2026-11-26/DCE/JD.json.gz",
       "record_count": 4,
-      "sha256": "c23b3635a61d2e8746baf842833ac3ffb2fc01489c4e5fb6743e006cdcc4985f"
+      "sha256": "87dda46e7d4971bd06bc699d08e955f5dc58836b70cc7ad6804ae2fe1bdba7aa"
     },
     {
       "exchange": "DCE",
       "product": "JM",
       "path": "latest_shards/2026-11-26/DCE/JM.json.gz",
       "record_count": 8,
-      "sha256": "ea78dcf611ff849f90a8d79ad52ea790a436d3363e6c412c34b0ab01d34041e5"
+      "sha256": "6bfc8365d32b59f8fbc33261eb947d1cd42582bb1c76290964b4a2ed2304969d"
     },
     {
       "exchange": "DCE",
       "product": "L",
       "path": "latest_shards/2026-11-26/DCE/L.json.gz",
       "record_count": 8,
-      "sha256": "a7e30a85f3de7fea2cbc5d196b7557ff16b626187fd1f2f5610a3c3e80d4dbf7"
+      "sha256": "97fed5ecc7f2e9b3c5c1257edf16929b617fdf839eda9e20c08dee42975aa9e5"
     },
     {
       "exchange": "DCE",
       "product": "LG",
       "path": "latest_shards/2026-11-26/DCE/LG.json.gz",
       "record_count": 2,
-      "sha256": "d9ce01512f2e1063b2e2d8b489a745265c02296fdbd5113ab12a2d926d9bb6dc"
+      "sha256": "c222d972a875f7408c148d37b859e17301cb6be66511c0386b7a2be4fd5a55f2"
     },
     {
       "exchange": "DCE",
       "product": "LH",
       "path": "latest_shards/2026-11-26/DCE/LH.json.gz",
       "record_count": 6,
-      "sha256": "2f4460eb219bc79e26b12d39bc51d633301c3ca364923421bda9e2859fcf3b95"
+      "sha256": "b43bb51d8b5c6fa43288a36ce283e16ac38c9a7d11570a7d038982c98e32b6c6"
     },
     {
       "exchange": "DCE",
       "product": "M",
       "path": "latest_shards/2026-11-26/DCE/M.json.gz",
       "record_count": 4,
-      "sha256": "a463da0bc8e4650ff0afcb32d5da666a577b9947cdcfea3a80660cb5f9e2e730"
+      "sha256": "b9cab6a931347f0f6a96fedde3a298d238bfd45f4842104446831c455265007e"
     },
     {
       "exchange": "DCE",
       "product": "P",
       "path": "latest_shards/2026-11-26/DCE/P.json.gz",
       "record_count": 6,
-      "sha256": "afca83af53418dce4085f27ffd069331453157545a39d078587de0705ad12749"
+      "sha256": "78640a36304ff1a427a203cbbf133b70c466a81e6c852edf67dd7756735c37c5"
     },
     {
       "exchange": "DCE",
       "product": "PG",
       "path": "latest_shards/2026-11-26/DCE/PG.json.gz",
       "record_count": 14,
-      "sha256": "d8c24c732897a1764be98cff555f2f65e3f6f17bf3b785a3704b83ea8ac9c553"
+      "sha256": "3608edcce62b4df4b19d05fd041d067ba6586ae4569fd943a5d998a0c10a03bd"
     },
     {
       "exchange": "DCE",
       "product": "PP",
       "path": "latest_shards/2026-11-26/DCE/PP.json.gz",
       "record_count": 8,
-      "sha256": "c89cf72efce88bc80bf5e352a1fc9b43c499188aa6c8351512eebe7213e1b247"
+      "sha256": "124394611e4f041a23c5b970917038cf8ff622f6a3ee5264f3af2ae3ec701035"
     },
     {
       "exchange": "DCE",
       "product": "V",
       "path": "latest_shards/2026-11-26/DCE/V.json.gz",
       "record_count": 6,
-      "sha256": "823e40b05b8edff60fc08f097d9b691bdc4f7c2bc971b7c3816e9750ce8fc8e9"
+      "sha256": "afe7f08976faa954974a6c962b76c24ebe74e9b40933aa020089bdfdffa5a540"
     },
     {
       "exchange": "DCE",
       "product": "Y",
       "path": "latest_shards/2026-11-26/DCE/Y.json.gz",
       "record_count": 2,
-      "sha256": "4afac6bfbbaf5b3031573c0769ac6a1da67a4c6804daf86b11ce989e5af2f6ed"
+      "sha256": "db2559f094aaefeb93ab0a8f6c8842df6480a8475ef8760f1485983b2d5c820c"
     },
     {
       "exchange": "GFEX",
       "product": "LC",
       "path": "latest_shards/2026-11-26/GFEX/LC.json.gz",
       "record_count": 20,
-      "sha256": "d8f1cc623f7e6f3dd3fded27ba81582f43dc3c9a08fcbbd1e180c8ef8354bc95"
+      "sha256": "bc854111d22a282f27a2ce19baa10b779d558009131e37c25afa665025c33348"
     },
     {
       "exchange": "GFEX",
       "product": "PD",
       "path": "latest_shards/2026-11-26/GFEX/PD.json.gz",
       "record_count": 18,
-      "sha256": "5c36cb1bc6fe552853c4721257e1ca443b4ee6fdc2d74ca13935c11c2e0a0331"
+      "sha256": "1dc70829c2808ee4446fb1fa884f749f3c821809957b0475e6f6a6bc14f86b94"
     },
     {
       "exchange": "GFEX",
       "product": "PS",
       "path": "latest_shards/2026-11-26/GFEX/PS.json.gz",
       "record_count": 8,
-      "sha256": "5085c11a413ff8f0e0a9c5294c063ca2192ae8618ece048a1450c6ba0ce81fde"
+      "sha256": "5082640dffd4715ac4a80f37b8cbbfb261ee28bb802c91439c505c7fbf35a510"
     },
     {
       "exchange": "GFEX",
       "product": "PT",
       "path": "latest_shards/2026-11-26/GFEX/PT.json.gz",
       "record_count": 16,
-      "sha256": "d3933932c49ec1d9f6dde7a88ba785e4d57320b2e1a92148847c6cfa51b256fb"
+      "sha256": "10fbaca477924c0263d5a1654bfd5fc89e1c6ab841e27886dc7c8cf116382e02"
     },
     {
       "exchange": "GFEX",
       "product": "SI",
       "path": "latest_shards/2026-11-26/GFEX/SI.json.gz",
       "record_count": 6,
-      "sha256": "5c741606bf50a265443db9b0ae94546d0403626864e90e8847862f2a14e563c4"
+      "sha256": "13f2ad00c6a7734857f0d189eec6431f235b15f4041a8f47f04acd85d99be9ce"
     },
     {
       "exchange": "INE",
       "product": "BC",
       "path": "latest_shards/2026-11-26/INE/BC.json.gz",
       "record_count": 6,
-      "sha256": "49e7f6edb2f8a489873dbccfb4af111ccde36848d0a40f0384ed92a1f8493df6"
+      "sha256": "794e0b79cad204eb13a88848d25c54351f16a6d5e43f9254dd1568a8469ce775"
     },
     {
       "exchange": "INE",
       "product": "NR",
       "path": "latest_shards/2026-11-26/INE/NR.json.gz",
       "record_count": 6,
-      "sha256": "d91c59e5cf27813c00af6f13fcab87c9d74bf6720eae3cca90eb51dce8e8bb06"
+      "sha256": "a60731f7061c5772d2ca8f916ef9ee379e395212ab4c544776816b4ccbdc8dda"
     },
     {
       "exchange": "INE",
       "product": "SC",
       "path": "latest_shards/2026-11-26/INE/SC.json.gz",
       "record_count": 12,
-      "sha256": "84ba9be08b8a3f81165f01c2baa38ebbcc59bfecfd6f9d0204cbd2d8d219b821"
+      "sha256": "63cc0116ffc08d7bbef80b2d88a0c2c9a7cb0b9dbeab6fd97c4178c4df8c234c"
     },
     {
       "exchange": "SHFE",
       "product": "AD",
       "path": "latest_shards/2026-11-26/SHFE/AD.json.gz",
       "record_count": 8,
-      "sha256": "e146458b07ec9631bddd5668d6194fe2a7df13a872f32a993a55c96096c6a4af"
+      "sha256": "ec5b7ba8d0e505430ffd48df197328cdaf03a77261ab26527810d9eaa4dd133e"
     },
     {
       "exchange": "SHFE",
       "product": "AG",
       "path": "latest_shards/2026-11-26/SHFE/AG.json.gz",
       "record_count": 30,
-      "sha256": "eaf58727f29e2314464aba2bdc3cc9686faa48bfad201802c9dad691ebd4f523"
+      "sha256": "246c6bf9d55addc8d585c307b5adf778a9b9a72a4b763f3c788dcd3a607b0f00"
     },
     {
       "exchange": "SHFE",
       "product": "AL",
       "path": "latest_shards/2026-11-26/SHFE/AL.json.gz",
       "record_count": 12,
-      "sha256": "4ff0135783dd42115c7e5d9169bd93aed5c409512d17c54c1d53429a684a817c"
+      "sha256": "ad3bafc68bede6a282b359fcd60687351e26138f4200f2b1d45fff2bcdd015ab"
     },
     {
       "exchange": "SHFE",
       "product": "AO",
       "path": "latest_shards/2026-11-26/SHFE/AO.json.gz",
       "record_count": 4,
-      "sha256": "11b43e72f2c1b7255075891460d7d8f1d70723cc64a88169fe8253d8c40a87f0"
+      "sha256": "7cb9c7b98d570851ad06e188f084fb22d2a26431857dc68b22bb6986f4b121dc"
     },
     {
       "exchange": "SHFE",
       "product": "AU",
       "path": "latest_shards/2026-11-26/SHFE/AU.json.gz",
       "record_count": 16,
-      "sha256": "6df845bfe1c6acdcf8fde040269a8f3eaf029d7a5f200fef36c41e7794153f07"
+      "sha256": "f1f800f3090e42a84df9f4028835df83c83cf40415dfa642d73e3be1f761fe59"
     },
     {
       "exchange": "SHFE",
       "product": "BR",
       "path": "latest_shards/2026-11-26/SHFE/BR.json.gz",
       "record_count": 8,
-      "sha256": "a4289a839658c351e414f23f0cd9c31031c2ef7e30b5691236d5d18beeee7408"
+      "sha256": "f73685d9efe9daa9e7c9768c7c6d2b4acc3e3a062e268cb0101a04b9cc0cef7b"
     },
     {
       "exchange": "SHFE",
       "product": "BU",
       "path": "latest_shards/2026-11-26/SHFE/BU.json.gz",
       "record_count": 8,
-      "sha256": "a084120ca38b9c989b90739a3eefaeb9513040b9583763794f1d8dfe84c00df0"
+      "sha256": "a034e452a403afd72c8d7eba0475c7378458f77cc419ba458b19daa00a1e6cf9"
     },
     {
       "exchange": "SHFE",
       "product": "CU",
       "path": "latest_shards/2026-11-26/SHFE/CU.json.gz",
       "record_count": 4,
-      "sha256": "b0c927c9156f8cb109ae7a515cc3b2957e6f0c4b7a8d6cf404eb836959102902"
+      "sha256": "09389555a87b137d54adbd945f70bd065bc7e5ed59d665e6922af6407adad10e"
     },
     {
       "exchange": "SHFE",
       "product": "FU",
       "path": "latest_shards/2026-11-26/SHFE/FU.json.gz",
       "record_count": 14,
-      "sha256": "3a4e576f5f01824fce3a9b25b585ce4036050bef67a6a92ff243dbe8276d4498"
+      "sha256": "2239a738cecb60b9ad05155eabd330d8fb09459377073b8a1bbc94105f53b504"
     },
     {
       "exchange": "SHFE",
       "product": "NI",
       "path": "latest_shards/2026-11-26/SHFE/NI.json.gz",
       "record_count": 6,
-      "sha256": "f87f187150633c6065848fdae1fa466bb75c7ee23a1f91e2fc241c15d1016774"
+      "sha256": "8fcf8eef9092b943b8b40feaac4bc1997b18ff7f4a6f4b5786c577de5cfe1a70"
     },
     {
       "exchange": "SHFE",
       "product": "OP",
       "path": "latest_shards/2026-11-26/SHFE/OP.json.gz",
       "record_count": 2,
-      "sha256": "d8c70ac756bdcc692e4cfa50862041c5be7b8983740bbc1440ec0983ec283791"
+      "sha256": "258a93e0991a22e6da653375a9b81da03d049778515d67530459b472d2eef4af"
     },
     {
       "exchange": "SHFE",
       "product": "PB",
       "path": "latest_shards/2026-11-26/SHFE/PB.json.gz",
       "record_count": 4,
-      "sha256": "e7e5ca5dfb2872babd211984cfb5bcdaac333dc03977cb20ba0e663bf3a161b3"
+      "sha256": "b5f5762bf065ad59ec3868c16e5af9d61a2d1f766d26564194c0a308512fa02d"
     },
     {
       "exchange": "SHFE",
       "product": "RB",
       "path": "latest_shards/2026-11-26/SHFE/RB.json.gz",
       "record_count": 2,
-      "sha256": "c5b3ef983f626993eeaf544540f46e4516ca78ae0f2b192ac451a3d31d54ce7e"
+      "sha256": "2cdb3573931a30e33db956d6b64373dddedac11aee152fc1a84b38c03afcad74"
     },
     {
       "exchange": "SHFE",
       "product": "RU",
       "path": "latest_shards/2026-11-26/SHFE/RU.json.gz",
       "record_count": 4,
-      "sha256": "4588ea24a5508f866bcf04d6e05e8933eceda3e77298b084b33d76dd7deb4824"
+      "sha256": "288798fd5d6edb464def5490277ee4ca00d701ed3bb18d7fb7a9bc4c26f7b3dd"
     },
     {
       "exchange": "SHFE",
       "product": "SN",
       "path": "latest_shards/2026-11-26/SHFE/SN.json.gz",
       "record_count": 10,
-      "sha256": "d395bf47efad762cc83d832cbbe87f9247921951c322b6378484e9ca02ebab88"
+      "sha256": "b7bef57a841ba08d90810a8818a5cc359309994e6de60d31c0496c81b9438efb"
     },
     {
       "exchange": "SHFE",
       "product": "SP",
       "path": "latest_shards/2026-11-26/SHFE/SP.json.gz",
       "record_count": 4,
-      "sha256": "bce0ad0b4b2a2a83058186ab811d8cfdaf68648512f5dca7189bba0b9adff301"
+      "sha256": "a9b34fb30d4631559e8591d96225932952a1865084f9b9775fbd380dfddf5dc3"
     },
     {
       "exchange": "SHFE",
       "product": "ZN",
       "path": "latest_shards/2026-11-26/SHFE/ZN.json.gz",
       "record_count": 6,
-      "sha256": "ca4836b8434d07ba7a2f1508de629a82da8109d30ada3c34db40b818c368f24b"
+      "sha256": "2e0dfacf102d1b0dee00ac0ce8c0955b5ae222d7c30e3af670b37d0172cfc57e"
     }
   ]
 }
