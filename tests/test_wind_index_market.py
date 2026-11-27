@@ -62,7 +62,7 @@ class MarketTests(unittest.TestCase):
                 self.assertEqual(books(api,['x'],'2026-11-12')['status'],'not_requested_for_historical_day')
             self.assertEqual(sdk.calls,2)
 
-    def test_batch_wrong_date_identity_or_missing_field_invalidates_cache(self):
+    def test_batch_retains_dated_blanks_and_rejects_wrong_date_or_identity(self):
         for fault in ('missing','identity','date'):
             with self.subTest(fault=fault),TemporaryDirectory() as tmp:
                 sdk=IndexWind();original=sdk.wsd
@@ -73,7 +73,13 @@ class MarketTests(unittest.TestCase):
                     if fault=='date':r.Times=[datetime(2026,11,12)]
                     return r
                 sdk.wsd=broken;api=CachedWind(sdk,Path(tmp),lambda:None,0)
-                with self.assertRaises(ValueError):full_quotes(api,['IO2611-C-100.CFE','IO2611-P-100.CFE'],'2026-11-13')
+                codes=['IO2611-C-100.CFE','IO2611-P-100.CFE']
+                if fault=='missing':
+                    rows=full_quotes(api,codes,'2026-11-13')
+                    self.assertIsNone(rows[codes[0]]['settle'])
+                    self.assertEqual(rows[codes[1]]['settle'],10.)
+                else:
+                    with self.assertRaises(ValueError):full_quotes(api,codes,'2026-11-13')
 
     def test_entire_paired_expiry_cannot_be_dropped_and_legacy_not_mislabelled(self):
         with TemporaryDirectory() as tmp:

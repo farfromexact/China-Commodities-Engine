@@ -8,6 +8,7 @@ from .index_analytics import finite, positive
 from .storage import read_json, write_json_if_changed, write_json_gzip_if_changed
 from .trading_calendar import previous_trading_day
 from .wind_daily import ZONE
+from .wind_availability import WindUnavailable
 
 
 FIRST_DATE = '2026-11-26'
@@ -34,16 +35,19 @@ def daily_values(api, codes, field, day):
     if not codes:
         return {}
     args = (','.join(sorted(codes)), field, day, day, DAY_OPTIONS)
-    raw = api.call('wsd', *args)
+    try:
+        raw = api.call('wsd', *args)
+    except WindUnavailable:
+        return dict.fromkeys(codes)
+    if not raw['times'] and not any(raw['data']):
+        return dict.fromkeys(codes)
     try:
         if (raw['codes'] != sorted(codes) or [f.lower() for f in raw['fields']] != [field]
                 or [t[:10] for t in raw['times']] != [day] or len(raw['data']) != 1
                 or len(raw['data'][0]) != len(codes)):
             raise ValueError(f'invalid Wind {field} date, codes or shape')
         values = dict(zip(raw['codes'], raw['data'][0]))
-        if any(v is not None and (not finite(v) or (field == 'st_stock' and v < 0))
-               for v in values.values()):
-            raise ValueError(f'invalid Wind {field} value')
+        values = {code:v if finite(v) and (field!='st_stock' or v>=0) else None for code,v in values.items()}
     except (KeyError, ValueError):
         api.discard('wsd', *args)
         raise
@@ -56,7 +60,10 @@ def daily_values(api, codes, field, day):
 def member_list(api, code, side, day):
     metric = RANK_FIELDS[side]
     args = ('futureoir', f'startdate={day};enddate={day};wind_code={code};order_by={side};ranks=all')
-    raw = api.call('wset', *args)
+    try:
+        raw = api.call('wset', *args)
+    except WindUnavailable:
+        return []
     if not raw['data'] or not any(raw['data']):
         api.discard('wset', *args)
         return []
@@ -79,9 +86,10 @@ def member_list(api, code, side, day):
             if rank > 20:
                 continue
             name, quantity, change = item['member_name'], item[metric], item[metric + '_increase']
-            if (not isinstance(name, str) or not name.strip() or not finite(quantity) or quantity < 0
-                    or (change is not None and not finite(change))):
-                raise ValueError('invalid ranked member or position')
+            if not isinstance(name, str) or not name.strip():
+                raise ValueError('invalid ranked member identity')
+            quantity=quantity if finite(quantity) and quantity>=0 else None
+            change=change if finite(change) else None
             rows.append(dict(rank=int(rank), member=name.strip(), position=quantity, change=change))
         rows.sort(key=lambda row: row['rank'])
         validate_members(rows)
@@ -120,9 +128,13 @@ def last_tick(api, code, day, start, end):
 
 
 def option_book(api, code, day):
-    tick = last_tick(api, code, day, '14:55:00', '15:00:00')
-    if tick is None:
-        tick = last_tick(api, code, day, '09:00:00', '14:55:00')
+    try:
+        tick = last_tick(api, code, day, '14:55:00', '15:00:00')
+        if tick is None:
+            tick = last_tick(api, code, day, '09:00:00', '14:55:00')
+    except WindUnavailable as exc:
+        return dict(book_state='query_unavailable',book_source_endpoint='WindPy.wst',book_source_timestamp=None,
+                    bid=None,ask=None,bid_size=None,ask_size=None,book_error=str(exc))
     timestamp, values = tick or (None, [None] * 4)
     bid, ask, bid_size, ask_size = values
     # Empty quote sides can be 0, NaN or the vendor's maximum-double sentinel.
@@ -171,14 +183,14 @@ def needs_collection(root, day, now):
     if not payload:
         return True
     futures = read_json(Path(root) / 'snapshots' / (day + '.json'))
-    options = read_json(Path(root) / 'options' / 'snapshots' / (day + '.json.gz'))
+    options = read_json(Path(root) / 'options' / 'snapshots' / (day + '.json.gz'),default={})
     try:
         validate(payload, day)
     except (KeyError, TypeError, ValueError):
         return True
     if (set(main_contracts(futures)) != {p['source_code'] for p in payload['products']}
             or set(payload['contract_basis']) != {r['source_code'] for r in futures['futures_contracts']}
-            or set(payload['option_books']) != {r['source_code'] for r in options['records']}):
+            or set(payload['option_books']) != {r['source_code'] for r in options.get('records',[])}):
         return True
     return (has_vendor_blanks(payload) and not payload['checked_after_trade_date']
             and now.date().isoformat() > day)
@@ -192,14 +204,18 @@ def collect(api, day, root):
         raise ValueError('commodity detail collection requires an eligible completed day')
     root = Path(root)
     futures = read_json(root / 'snapshots' / (day + '.json'))
-    options = read_json(root / 'options' / 'snapshots' / (day + '.json.gz'))
-    if (futures['trade_date'] != day or options['trade_date'] != day or not futures['verified']
-            or futures['source']['provider'] != 'wind' or options['source_provider'] != 'wind'):
+    options = read_json(root / 'options' / 'snapshots' / (day + '.json.gz'),default={})
+    if not futures:
+        raise WindUnavailable('commodity details require dated futures contracts')
+    if (futures['trade_date'] != day or not futures['verified'] or futures['source']['provider'] != 'wind'
+            or (options and (options['trade_date']!=day or options['source_provider']!='wind'))):
         raise ValueError('commodity details require same-date Wind source snapshots')
-    validate_option_snapshot(options)
+    if options:
+        validate_option_snapshot(options)
     mains = main_contracts(futures)
-    codes = {r['source_code'] for r in options['records'] if r['source_trade_date'] == day}
-    if len(codes) != len(options['records']):
+    source_rows=options.get('records',[])
+    codes = {r['source_code'] for r in source_rows if r['source_trade_date'] == day}
+    if len(codes) != len(source_rows):
         raise ValueError('option detail contract identity or source date mismatch')
     prior_date = previous_trading_day(date.fromisoformat(day)).isoformat()
     old = read_json(dated_path(root, day), default={})
@@ -257,7 +273,7 @@ def validate(payload, day, expected_mains=None, expected_options=None):
     products, books = payload['products'], payload['option_books']
     mains = {r['source_code'] for r in products}
     if (payload.get('schema_version') != 1 or payload.get('source_provider') != 'wind'
-            or payload.get('trade_date') != day or not products or not books
+            or payload.get('trade_date') != day or not products
             or len(mains) != len(products) or len({(r['exchange'],r['product']) for r in products}) != len(products)
             or (expected_mains is not None and mains != expected_mains)
             or (expected_options is not None and set(books) != expected_options)
@@ -278,9 +294,9 @@ def validate(payload, day, expected_mains=None, expected_options=None):
             validate_members(item[side])
     for book in books.values():
         state, ts = book['book_state'], book['book_source_timestamp']
-        if state not in {'two_sided','one_sided','crossed','no_displayed_side','no_day_ticks'}:
+        if state not in {'two_sided','one_sided','crossed','no_displayed_side','no_day_ticks','query_unavailable'}:
             raise ValueError('unknown option book state')
-        if (ts is None) != (state == 'no_day_ticks') or book['book_source_endpoint'] != 'WindPy.wst':
+        if (ts is None) != (state in {'no_day_ticks','query_unavailable'}) or book['book_source_endpoint'] != 'WindPy.wst':
             raise ValueError('missing option tick provenance')
         if ts:
             stamp = datetime.fromisoformat(ts)
@@ -300,11 +316,12 @@ def validate(payload, day, expected_mains=None, expected_options=None):
 
 
 def validate_members(rows):
+    quantities=[r['position'] for r in rows if r['position'] is not None]
     if (len(rows) > 20 or [r['rank'] for r in rows] != list(range(1, len(rows) + 1))
             or len({r['member'] for r in rows}) != len(rows)
-            or any(not r['member'] or not finite(r['position']) or r['position'] < 0
+            or any(not r['member'] or (r['position'] is not None and (not finite(r['position']) or r['position'] < 0))
                    or (r['change'] is not None and not finite(r['change'])) for r in rows)
-            or any(a['position'] < b['position'] for a, b in zip(rows, rows[1:]))):
+            or any(a < b for a, b in zip(quantities, quantities[1:]))):
         raise ValueError('invalid member ranking order, identity or continuity')
 
 
@@ -345,12 +362,12 @@ def product_summaries(payload, futures):
                 sign_check='consistent_with_spot_minus_close_across_months' if consistent else 'unverified'))
         if item['long'] or item['short']:
             summary = dict(base, source_endpoint='WindPy.wset.futureoir', ranking_scope='contract',
-                           ranking_reconciled=bool(item['long'] and item['short']), source_unit='contracts')
+                           ranking_reconciled=bool(item['long'] and item['short'] and all(r['position'] is not None for r in item['long']+item['short'])), source_unit='contracts')
             for side in RANK_FIELDS:
                 members = item[side]
                 summary[side + '_member_count'] = len(members)
                 summary['reported_' + side + '_open_interest'] = (
-                    sum(r['position'] for r in members) if members else None)
+                    sum(r['position'] for r in members) if members and all(r['position'] is not None for r in members) else None)
                 summary['reported_' + side + '_open_interest_change'] = (
                     sum(r['change'] for r in members) if members and all(r['change'] is not None for r in members)
                     else None)
@@ -367,16 +384,17 @@ def publish_details(root, payload):
     root, day = Path(root), payload['trade_date']
     future_path = root / 'snapshots' / (day + '.json')
     futures = read_json(future_path)
-    options = read_json(root / 'options/snapshots' / (day + '.json.gz'))
-    validate(payload, day, set(main_contracts(futures)), {r['source_code'] for r in options['records']})
+    options = read_json(root / 'options/snapshots' / (day + '.json.gz'),default={})
+    validate(payload, day, set(main_contracts(futures)), {r['source_code'] for r in options.get('records',[])})
     if set(payload['contract_basis']) != {r['source_code'] for r in futures['futures_contracts']}:
         raise ValueError('commodity basis universe differs from futures snapshot')
     warehouse, bases, rankings = product_summaries(payload, futures)
-    for row in options['records']:
-        row.update(payload['option_books'][row['source_code']])
-    options['book_scope'] = payload['book_scope']
-    with preserve_newer_latest(root, day):
-        publish_option_eod(options, root, surface_shadow_days=1)
+    if options:
+        for row in options['records']:
+            row.update(payload['option_books'][row['source_code']])
+        options['book_scope'] = payload['book_scope']
+        with preserve_newer_latest(root, day):
+            publish_option_eod(options, root, surface_shadow_days=1)
     curves = enrich_and_score_curves(futures['commodity_curves'], warehouse, bases,
                                      futures['commodity_options'], rankings)
     candidates = select_candidates(curves)
@@ -440,17 +458,20 @@ def validate_join(root, futures):
     payload = read_json(root/'commodity_details/latest.json.gz')
     if payload is None and 'commodity_details_coverage' not in futures:
         return
+    if (payload and payload['trade_date'] < day and 'commodity_details_coverage' not in futures
+            and not dated_path(root,day).exists()):
+        return
     if not payload or day != payload.get('trade_date') or read_json(dated_path(root, day)) != payload:
         raise ValueError('commodity detail latest and dated snapshots disagree')
-    options = read_json(root/'options/snapshots'/(day+'.json.gz'))
-    validate(payload, day, set(main_contracts(futures)), {r['source_code'] for r in options['records']})
+    options = read_json(root/'options/snapshots'/(day+'.json.gz'),default={})
+    validate(payload, day, set(main_contracts(futures)), {r['source_code'] for r in options.get('records',[])})
     if (futures.get('commodity_details_coverage') != payload['coverage']
             or set(payload['contract_basis']) != {r['source_code'] for r in futures['futures_contracts']}):
         raise ValueError('commodity detail coverage differs from futures snapshot')
     for rows, key in zip(product_summaries(payload, futures), ('warehouse_inventory','proxy_basis','member_rankings')):
         if futures[key] != rows:
             raise ValueError('commodity detail summary mismatch: ' + key)
-    for row in options['records']:
+    for row in options.get('records',[]):
         book = payload['option_books'][row['source_code']]
         if any(key not in row or row[key] != value for key,value in book.items()):
             raise ValueError('commodity option bid/ask differs from historical tick')

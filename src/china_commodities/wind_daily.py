@@ -49,7 +49,7 @@ def load_snapshot(path):
     return read_json(path,default={})
 
 
-def night_complete(root, day):
+def night_complete(root, day, *, allow_partial=False):
     payload=load_snapshot(Path(root)/f'night_session/{day}.json')
     if payload.get('trading_date')!=day or payload.get('source',{}).get('provider')!='wind':
         return False
@@ -58,13 +58,25 @@ def night_complete(root, day):
         return payload.get('collection_state')=='no_scheduled_night_session' and payload.get('calendar_version')==CALENDAR_VERSION
     coverage=payload.get('coverage',{})
     rows=payload.get('records',[])
+    allowed={'night_session','no_night_trade'}
+    resolved=coverage.get('unresolved_contract_count')==0 and coverage.get('night_session_contract_count',0)>0
+    if allow_partial and coverage.get('partial_contracts'):
+        allowed.update(('query_error','missing_quote','missing_price'))
+        partial=[r.get('source_code') for r in rows if r.get('missing_fields') or r.get('record_state') not in ('night_session','no_night_trade')]
+        unresolved=sum(r.get('record_state') not in ('night_session','no_night_trade') for r in rows)
+        resolved=partial==coverage['partial_contracts'] and unresolved==coverage.get('unresolved_contract_count')
+    elif coverage.get('partial_contracts'):
+        resolved=False
+    if allow_partial and payload.get('collection_state')=='sampled_no_night_trades':
+        resolved=all(r.get('record_state')=='no_night_trade' for r in rows) and coverage.get('no_night_trade_count')==len(rows)
+    if coverage.get('unavailable_product_directories') and not allow_partial:
+        resolved=False
     return bool(rows and payload.get('session_start_date')==str(session[0])
                 and coverage.get('selected_contract_count')==len(rows)
-                and coverage.get('unresolved_contract_count')==0
-                and coverage.get('night_session_contract_count',0)>0
+                and resolved
                 and len({(r.get('exchange'),r.get('contract')) for r in rows})==len(rows)
                 and all(r.get('source_provider')=='wind' and r.get('trading_date')==day
-                        and r.get('record_state') in {'night_session','no_night_trade'} for r in rows))
+                        and r.get('record_state') in allowed for r in rows))
 
 
 def full_complete(root, day):
@@ -81,10 +93,17 @@ def full_complete(root, day):
     if validate_snapshot(future):
         return False
     options=load_snapshot(root/f'options/snapshots/{day}.json.gz')
+    return options_observed(options,day,load_catalog()) and night_complete(root,day,allow_partial=True)
+
+
+def options_observed(options,day,catalog):
     if options.get('trade_date')!=day or options.get('source_provider')!='wind':
         return False
     option_rows=options.get('records',[])
-    if {(r.get('exchange'),r.get('product')) for r in option_rows}!={(p.exchange,p.product) for p in load_catalog().options}:
+    found={r.get('exchange','')+':'+r.get('product','') for r in option_rows}
+    missing=set(options.get('coverage',{}).get('failed_products',[]))
+    declared={p.get('product_key') for p in options.get('collection_plans',[]) if p.get('state') in ('missing_current_underlying_or_chain','no_dated_option_quotes')}
+    if missing!=declared or found & missing or (found | missing)!={p.exchange+':'+p.product for p in catalog.options}:
         return False
     if not all(r.get('source_provider')=='wind' and r.get('source_date_match') is True and r.get('source_trade_date')==day for r in option_rows):
         return False
@@ -93,7 +112,7 @@ def full_complete(root, day):
         validate_option_snapshot(options)
     except OptionSnapshotValidationError:
         return False
-    return night_complete(root,day)
+    return True
 
 
 def eod_session_complete(day, now=None):
@@ -128,7 +147,7 @@ def intraday_window(now):
                 cutoff=cutoff.isoformat(),started_at=now.isoformat())
 
 
-def _with_rates_plan(work,root,settings,now,excluded_funding=()):
+def _with_rates_plan(work,root,settings,now,excluded_funding=(),attempted=()):
     from . import wind_treasury,wind_funding
     for name,module in [('treasury',wind_treasury),('funding',wind_funding)]:
         current=module.window(now)
@@ -139,11 +158,13 @@ def _with_rates_plan(work,root,settings,now,excluded_funding=()):
             while cursor<=closed:
                 day=str(cursor)
                 if (is_trading_day(cursor) and not (name=='funding' and day in excluded_funding)
-                        and not module.complete(root,day)):
+                        and (name+'_eod',day) not in attempted and not module.complete(root,day)):
                     missing.append(day)
                 cursor+=timedelta(days=1)
         if name == 'funding' and current and wind_funding.published_intraday_covers(root, current):
             current = None
+        if current and (name+'_intraday',current['trading_date']) in attempted:
+            current=None
         work[name+'_intraday']=current
         limit=settings['max_days_per_run']
         work[name+'_dates']=missing[:limit]
@@ -152,7 +173,7 @@ def _with_rates_plan(work,root,settings,now,excluded_funding=()):
     return work
 
 
-def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_funding=(),history_budget=None):
+def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_funding=(),history_budget=None,attempted=()):
     from .wind_index import complete as index_complete
     from .wind_commodity_details import FIRST_DATE, needs_collection
     root=Path(root)
@@ -165,7 +186,7 @@ def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_fund
                     full_dates=[],remaining_dates=[],index_dates=[],remaining_index_dates=[],night_date=None,intraday=intraday,
                     has_work=True,verified_dates=list(known_completed),timezone='Asia/Shanghai')
         from .wind_history import extend_plan
-        return extend_plan(_with_rates_plan(work,root,settings,now,excluded_funding),root,settings,history_budget)
+        return extend_plan(_with_rates_plan(work,root,settings,now,excluded_funding,attempted),root,settings,history_budget)
     closed=today if eod_session_complete(today,now) else previous_trading_day(today)
     start=settings.get('start_date') or anchor
     if not start:
@@ -188,11 +209,11 @@ def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_fund
                       (receipt.get('trade_date')==day and receipt.get('provider')=='wind' and receipt.get('layers')==['futures','options','night'])))
             if archived or full_complete(root,day):
                 verified.append(day)
-                if day >= FIRST_DATE and retained and needs_collection(root, day, now):
+                if day >= FIRST_DATE and retained and ('commodity_details',day) not in attempted and needs_collection(root, day, now):
                     detail_missing.append(day)
-            else:
+            elif ('commodity_eod',day) not in attempted:
                 missing.append(day)
-            if not index_complete(root,day,scope=settings.get('index_options_scope','report_v1')):
+            if ('index_eod',day) not in attempted and not index_complete(root,day,scope=settings.get('index_options_scope','report_v1')):
                 index_missing.append(day)
         cursor+=timedelta(days=1)
     selected=missing[:settings['max_days_per_run']]
@@ -203,18 +224,28 @@ def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_fund
         target=next_trading_day(closed)
         if (str(target)>=start and night_session_dates(target)
                 and now>=_night_window(str(target))[2]
-                and not night_complete(root,str(target))):
+                and ('commodity_night',str(target)) not in attempted and not night_complete(root,str(target),allow_partial=True)):
             night_day=str(target)
     index_dates=index_missing[:settings['max_days_per_run']]
     detail_limit=settings['max_days_per_run']
-    detail_dates=sorted(set(detail_missing[:detail_limit]).union(day for day in selected if day >= FIRST_DATE))
+    detail_dates=sorted(set(detail_missing[:detail_limit]).union(day for day in selected if day >= FIRST_DATE and ('commodity_details',day) not in attempted))
     work=dict(start_date=start,latest_completed_eod=str(closed),full_dates=selected,
                 index_dates=index_dates,remaining_index_dates=index_missing[len(index_dates):],
                 remaining_dates=missing[len(selected):],night_date=night_day,
                 commodity_detail_dates=detail_dates,remaining_commodity_detail_dates=detail_missing[detail_limit:],
                 has_work=bool(selected or night_day or index_dates or detail_dates),verified_dates=verified,timezone='Asia/Shanghai')
+    work['field_repairs']=[]
+    for module in ('index_derivatives','treasury_futures'):
+        published=read_json(root/module/'latest.json',default={})
+        day=published.get('trade_date')
+        coverage=published.get('coverage',published).get('field_availability') or {}
+        stamp=published.get('fields_updated_at') or published.get('generated_at')
+        if (coverage.get('missing_by_field') and day and start<=day<=str(closed) and stamp
+                and datetime.fromisoformat(stamp)<now and (module+'_fields',day) not in attempted):
+            work['field_repairs'].append(dict(module=module,date=day))
+    work['has_work']=work['has_work'] or bool(work['field_repairs'])
     from .wind_history import extend_plan
-    return extend_plan(_with_rates_plan(work,root,settings,now,excluded_funding),root,settings,history_budget)
+    return extend_plan(_with_rates_plan(work,root,settings,now,excluded_funding,attempted),root,settings,history_budget)
 
 
 def desk_busy(settings):

@@ -10,6 +10,15 @@ from china_commodities.storage import write_json_atomic
 
 
 class DailyRunTests(unittest.TestCase):
+    def test_unavailable_module_does_not_block_other_data(self):
+        from china_commodities.wind_availability import WindUnavailable
+        self.work.update(night_date=None,index_dates=['2026-11-13'],treasury_dates=['2026-11-13'])
+        self.index_eod.side_effect=WindUnavailable('no dated Wind observation')
+        outcome=runner.once(DEFAULTS,self.cache)
+        self.assertEqual(outcome['unavailable'],[('index_eod','2026-11-13')])
+        self.treasury_eod.assert_called_once()
+        self.publisher.prepare.assert_called_once()
+
     def setUp(self):
         stack = self.enterContext(ExitStack())
         self.root = Path(stack.enter_context(TemporaryDirectory()))

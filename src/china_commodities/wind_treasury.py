@@ -5,7 +5,7 @@ import re
 
 from .catalog import ProductCatalog
 from .index_analytics import activity, finite, positive, total
-from .wind_availability import FUTURES_FIELDS, WindUnavailable, field_coverage, numeric_quote, valid_fields
+from .wind_availability import FUTURES_FIELDS, WindUnavailable, declared_undated, field_coverage, valid_fields
 from .storage import read_json, write_json_if_changed
 from .trading_calendar import is_trading_day
 
@@ -52,7 +52,8 @@ def validate(payload):
         code=r.get('source_code','')
         if (not re.fullmatch(str(r.get('product'))+r'\d{4}\.CFE',code)
                 or r.get('exchange')!='CFFEX' or r.get('source_provider')!='wind'
-                or r.get('source_trade_date')!=day or not r.get('listed_date','z')<=str(day)<=r.get('expiry_date','')
+                or (r.get('source_trade_date')!=day and not (partial and declared_undated(r,FUTURES_FIELDS)))
+                or not r.get('listed_date','z')<=str(day)<=r.get('expiry_date','')
                 or r.get('price_unit')!='CNY_per_100_CNY_face_value'):
             errors.append('treasury identity/date/unit mismatch: '+code)
         if not valid_fields(r,FUTURES_FIELDS,partial) or any(r.get(f)==0 for f in ('close','settle')):
@@ -89,7 +90,7 @@ def summary(rows):
 def collect_eod(api, day, root):
     from .wind_daily import ZONE
     from .wind_daily_collect import directory,FIELDS
-    from .wind_index import daily_quote
+    from .wind_index import futures_quote
     from .trading_calendar import previous_trading_day
     if not eod_ready(day):
         raise ValueError('treasury day session not completed at 15:15')
@@ -98,7 +99,7 @@ def collect_eod(api, day, root):
     old={r['source_code']:r for r in prior.get('contracts',[])} if prior and not validate(prior) else {}
     rows=[]
     for code,identity in sorted(universe.items()):
-        q=numeric_quote(daily_quote(api,code,FIELDS,day),FIELDS.split(','),('close','settle','pre_settle'))
+        q=futures_quote(api,code,FIELDS,day)
         product=identity['product']
         previous=old.get(code,{})
         rows.append(dict(source_provider='wind',source_endpoint='WindPy.wsd',source_trade_date=day,
@@ -110,6 +111,8 @@ def collect_eod(api, day, root):
             close_change_points=q['close']-q['pre_settle'] if finite(q['close']) and finite(q['pre_settle']) else None,
             close_change_basis='previous_settlement',
             oi_change=q['oi']-previous['open_interest'] if finite(q['oi']) and finite(previous.get('open_interest')) else None))
+        if q.get('record_state'):
+            rows[-1].update({k:q[k] for k in ('record_state','source_trade_date','source_date_match','source_date_basis')})
     payload=dict(schema_version=VERSION,trade_date=day,source_provider='wind',frequency='EOD',night_session='not_applicable',
         generated_at=datetime.now(ZONE).isoformat(),directory_codes=sorted(universe),contracts=rows,products=summary(rows),
         field_availability=field_coverage((rows,FUTURES_FIELDS)),

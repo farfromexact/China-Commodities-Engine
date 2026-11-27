@@ -709,6 +709,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     from .wind_index import report_view as index_report_view
     from .wind_treasury import report_view as treasury_report_view
     from .wind_funding import report_view as funding_report_view
+    unavailable = read_json(root/'wind_daily/unavailable.json',default={})
     treasury_view = treasury_report_view(root, futures.get('trade_date'))
     funding_view = funding_report_view(root, futures.get('trade_date'))
     detail_coverage = futures.get('commodity_details_coverage')
@@ -723,6 +724,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
                        execution_ready=False)
     return {
         "current_market_snapshot": current_snapshot,
+        **({'wind_unavailable':unavailable} if unavailable else {}),
         **({'commodity_details': details} if details else {}),
         "index_derivatives": index_report_view(root, futures.get('trade_date')),
         "treasury_futures": treasury_view,
@@ -816,7 +818,8 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
             "generated_at": futures.get("generated_at"),
             "verified": futures.get("verified"),
             "scope_verified": futures.get("scope_verified"),
-            "full_market_ready": futures.get("verified") is True,
+            "full_market_ready": (futures.get("verified") is True and
+                                  (futures.get("quality_metrics") or {}).get('wind_eod_fields',{}).get('status')!='partial'),
             "provider": _mapping(futures.get("source")).get("provider"),
             "quality_metrics": futures.get("quality_metrics") or {},
             "contract_count": len(_list(futures.get("futures_contracts"))),

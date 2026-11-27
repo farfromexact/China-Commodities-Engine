@@ -50,7 +50,7 @@ def prepare_options(snapshot, cache):
     return snapshot
 
 
-def build_night(day, universe, prior, cache):
+def build_night(day, universe, prior, cache, *, allow_partial=False, unavailable=None):
     session_date, start, end = _night_window(day)
     if prior['trade_date'] != session_date:
         raise ValueError('night prior EOD date mismatch')
@@ -72,16 +72,27 @@ def build_night(day, universe, prior, cache):
             timestamp=datetime.fromisoformat(b['timestamp']).replace(tzinfo=ZoneInfo('Asia/Shanghai'))
             if not start < timestamp <= end:
                 raise ValueError('night timestamp outside window')
-        traded=[b for b in bars if (b.get('volume') or 0)>0 and (b.get('close') or 0)>0]
+        reason=(unavailable or {}).get(code)
+        traded=[b for b in bars if (b.get('volume') or 0)>0 and (allow_partial or (b.get('close') or 0)>0)]
         if traded:
             traded.sort(key=lambda b:b['timestamp'])
-            if any(b.get(k) is None for b in traded for k in ('open','high','low','close','volume')):
+            if not allow_partial and any(b.get(k) is None for b in traded for k in ('open','high','low','close','volume')):
                 raise ValueError('incomplete traded bar')
             quote=dict(time=traded[-1]['timestamp'],open=traded[0]['open'],
-                       high=max(b['high'] for b in traded),low=min(b['low'] for b in traded),
+                       high=max(b['high'] for b in traded) if all(b['high'] is not None for b in traded) else None,
+                       low=min(b['low'] for b in traded) if all(b['low'] is not None for b in traded) else None,
                        latest=traded[-1]['close'],volume=sum(b['volume'] for b in traded))
+            if any(b.get('volume') is None for b in bars):
+                quote.update(open=None,high=None,low=None,volume=None)
             r=_record_from_quote(context,quote,trading_date=day,session_date=session_date,
                                  window_start=start,window_end=end)
+            if allow_partial:
+                absent=[f for f in ('open','high','low','night_close','volume') if r.get(f) is None]
+                if absent:
+                    r.update(quality_state='partial',missing_fields=absent)
+        elif reason or (allow_partial and any(b.get('volume') is None for b in bars)):
+            r=_record_from_quote(context,None,trading_date=day,session_date=session_date,
+                                 window_start=start,window_end=end,error=reason or 'Wind night activity unavailable')
         else:
             r=_record_from_quote(context,None,trading_date=day,session_date=session_date,
                                  window_start=start,window_end=end)
@@ -92,8 +103,11 @@ def build_night(day, universe, prior, cache):
                  timestamp_semantics='last_traded_5min_bar_end',bar_count=len(bars),traded_bar_count=len(traded))
         records.append(r)
     coverage=_coverage(records,len(records))
-    if not coverage['night_session_contract_count'] or coverage['unresolved_contract_count']:
+    if not allow_partial and (not coverage['night_session_contract_count'] or coverage['unresolved_contract_count']):
         raise ValueError('night coverage invalid')
+    partial=bool(coverage['unresolved_contract_count'] or any(r.get('missing_fields') for r in records))
+    if allow_partial and partial:
+        coverage['partial_contracts']=[r['source_code'] for r in records if r.get('missing_fields') or r['record_state'] not in ('night_session','no_night_trade')]
     generated=datetime.now(ZoneInfo('Asia/Shanghai')).isoformat()
     snapshot=normalize_night_session_snapshot(dict(schema_version=2,trading_date=day,
         night_session_date=session_date,session_start_date=session_date,session_end_date=end.date().isoformat(),
@@ -103,9 +117,11 @@ def build_night(day, universe, prior, cache):
         intraday_used=True,coverage=coverage,records=records,
         limitations=dict(is_separate_from_daily_eod=True,bar_size_minutes=5,
                          zero_volume_bars_excluded=True,open_interest_unavailable=True)),daily_snapshot=prior)
+    if allow_partial and records and coverage['no_night_trade_count']==len(records):
+        snapshot['collection_state']='sampled_no_night_trades'
     status=normalize_night_session_status(dict(schema_version=2,trading_date=day,
         night_session_date=session_date,generated_at=generated,data_fresh=True,
-        validation_passed=True,published=True,coverage_complete=True,coverage=coverage,
+        validation_passed=True,published=True,coverage_complete=not partial,coverage=coverage,
         validation_errors=[],coverage_warnings=[],source_provider='wind'),snapshot)
     return snapshot,status
 

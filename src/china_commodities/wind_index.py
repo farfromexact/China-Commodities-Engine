@@ -7,7 +7,7 @@ import re
 from .catalog import ProductCatalog
 from .storage import read_json, write_json_if_changed
 from .index_selection import REPORT_SCOPE, FULL_SCOPE, SCOPES, PAIRS_PER_EXPIRY, select as select_for_report
-from .wind_availability import FUTURES_FIELDS, OPTION_FIELDS, WindUnavailable, field_coverage, numeric_quote, valid_fields
+from .wind_availability import FUTURES_FIELDS, OPTION_FIELDS, WindUnavailable, declared_undated, field_coverage, no_dated_quote, numeric_quote, valid_fields
 from .index_analytics import activity
 
 FUTURES = ('IF', 'IH', 'IC', 'IM')
@@ -27,6 +27,8 @@ def daily_quote(api, code, fields, day):
     args = (code, fields, day, day, 'Days=Trading;Fill=Blank')
     try:
         rows = historical_rows(api.call('wsd', *args), fields)
+        if not rows:
+            raise WindUnavailable(f'no dated Wind quote: {code}')
         if len(rows) != 1 or rows[0]['timestamp'][:10] != day:
             raise ValueError('index derivatives source date mismatch')
         return rows[0]
@@ -35,13 +37,22 @@ def daily_quote(api, code, fields, day):
         raise
 
 
+def futures_quote(api, code, fields, day):
+    try:
+        return numeric_quote(daily_quote(api,code,fields,day),fields.split(','),('close','settle','pre_settle'))
+    except WindUnavailable:
+        return no_dated_quote(fields)
+
+
 def option_directory(api, day, product):
     index = OPTIONS[product]
     args = ('optionchain', f'date={day};us_code={index};option_var=all;call_put=all')
     try:
         raw = api.call('wset', *args)
         fields = [f.lower() for f in raw['fields']]
-        if not raw['data'] or len(raw['data']) != len(fields) or len({len(c) for c in raw['data']}) != 1:
+        if not raw['data'] or not any(raw['data']):
+            raise WindUnavailable(f'empty index option directory: {product}')
+        if len(raw['data']) != len(fields) or len({len(c) for c in raw['data']}) != 1:
             raise ValueError('index option directory shape mismatch')
         result = []
         seen = set()
@@ -103,7 +114,9 @@ def validate(payload):
     futures, options = payload.get('futures_contracts', []), payload.get('options_contracts', [])
     if {r.get('product') for r in futures} != set(FUTURES):
         errors.append('index futures product coverage incomplete')
-    if {r.get('product') for r in options} != set(OPTIONS):
+    omitted = set(payload.get('coverage',{}).get('unavailable_option_products',[])) if modern else set()
+    observed = {r.get('product') for r in options}
+    if observed | omitted != set(OPTIONS) or observed & omitted:
         errors.append('index options product coverage incomplete')
     codes = [r.get('source_code') for r in futures+options]
     if len(codes) != len(set(codes)):
@@ -116,7 +129,8 @@ def validate(payload):
     for rows, required in groups:
         for row in rows:
             code = row.get('source_code', '')
-            if (row.get('source_trade_date') != day or row.get('source_date_match') is not True
+            dated = row.get('source_trade_date')==day and row.get('source_date_match') is True
+            if ((not dated and not (partial and declared_undated(row,required)))
                     or row.get('source_provider') != 'wind' or row.get('exchange') != 'CFFEX'):
                 errors.append(f'index derivative date/source mismatch: {code}')
             if not valid_fields(row, required, partial):
@@ -148,6 +162,10 @@ def validate(payload):
         errors.append('index option selection plans incomplete')
     for plan in plans:
         selected = [r for r in options if 'CFFEX:'+r.get('product','') == plan.get('product_key')]
+        if plan.get('product_key','').removeprefix('CFFEX:') in omitted:
+            if selected or plan.get('selected_contract_count')!=0 or plan.get('state')!='unavailable' or not plan.get('reason'):
+                errors.append('invalid unavailable index option product')
+            continue
         if modern:
             expected_options = plan.get('directory_codes',[])
             expected_selected = expected_options if full else plan.get('selected_codes',[])
@@ -178,11 +196,11 @@ def validate(payload):
         errors.append('index futures directory coverage mismatch')
     if modern:
         from .index_analytics import PRICE_BASIS
-        if payload.get('options_scope') not in SCOPES or payload.get('full_option_chain') is not full:
+        if payload.get('options_scope') not in SCOPES or payload.get('full_option_chain') is not (full and not omitted):
             errors.append('index option collection scope missing')
         analytics = payload.get('analytics',{})
         if (analytics.get('price_basis')!=PRICE_BASIS or analytics.get('collection_scope')!=payload.get('options_scope')
-                or set(analytics.get('products',{}))!=set(OPTIONS)):
+                or set(analytics.get('products',{}))!=observed):
             errors.append('index option analysis products/basis missing')
         for product in OPTIONS:
             expiries = analytics.get('products',{}).get(product,{}).get('expiries',[])
@@ -214,22 +232,14 @@ def complete(root, day, scope=REPORT_SCOPE):
 
 def full_quotes(api, codes, day):
     """Wind supports multiple codes with one WSD field; require exact dates/codes."""
-    result = {c:{} for c in codes}
-    for offset in range(0,len(codes),200):
-        batch = codes[offset:offset+200]
-        for field in OPTION_EOD_FIELDS:
-            args = (','.join(batch),field,day,day,'Days=Trading;Fill=Blank')
-            try:
-                raw = api.call('wsd',*args)
-                if (raw['codes']!=batch or [f.lower() for f in raw['fields']]!=[field]
-                        or len(raw['times'])!=1 or raw['times'][0][:10]!=day
-                        or len(raw['data'])!=1 or len(raw['data'][0])!=len(batch)):
-                    raise ValueError('full option quote date, coverage or value mismatch')
-                for code,value in zip(batch,raw['data'][0]):
-                    result[code][field] = value if number(value) and value>=0 else None
-            except (KeyError,ValueError):
-                api.discard('wsd',*args)
-                raise
+    from .wind_daily_collect import batched_eod
+    fields=','.join(OPTION_EOD_FIELDS)
+    undated=set()
+    result=batched_eod(api,codes,fields,day,undated=undated)
+    for code,quote in result.items():
+        numeric_quote(quote,OPTION_EOD_FIELDS)
+        if code in undated:
+            quote.update(no_dated_quote(fields))
     return result
 
 
@@ -251,20 +261,27 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
                   exchange='CFFEX', price_unit='index_points', volume_unit='contracts', night_session=False)
     futures, options, plans = [], [], []
     for code, identity in sorted(universe.items()):
-        q = numeric_quote(daily_quote(api, code, FIELDS, day),FIELDS.split(','),('close','settle','pre_settle'))
+        q = futures_quote(api, code, FIELDS, day)
         futures.append(dict(common, source_code=code, contract=identity['contract'],product=identity['product'],
             listed_date=str(identity['contract_issue_date'])[:10],expiry_date=str(identity['last_trade_date'])[:10],
             **{f:q[f] for f in ('open','high','low','close','settle','pre_settle','volume')},
             open_interest=q['oi'],turnover=q['amt'],turnover_unit='CNY',
             close_vs_pre_settle_pct=(q['close']/q['pre_settle']-1)*100 if q['close'] is not None and q['pre_settle'] else None))
+        if q.get('record_state'):
+            futures[-1].update({k:q[k] for k in ('record_state','source_trade_date','source_date_match','source_date_basis')})
     for product, index in OPTIONS.items():
-        spot = daily_quote(api, index, 'close', day)['close']
-        if not number(spot) or spot<=0:
-            raise WindUnavailable(f'index option missing dated cash index reference: {index}')
+        try:
+            spot = daily_quote(api, index, 'close', day)['close']
+            if not number(spot) or spot<=0:
+                raise WindUnavailable(f'missing dated cash index reference: {index}')
+            chain = option_directory(api,day,product)
+        except WindUnavailable as exc:
+            plans.append(dict(product_key='CFFEX:'+product,state='unavailable',reason=str(exc),selected_contract_count=0))
+            continue
         main = max([r for r in futures if r['product']=={'IO':'IF','HO':'IH','MO':'IM'}[product]],
                    key=activity)
-        selected,plan = select_for_report(option_directory(api,day,product),day,spot,
-            scope=options_scope,previous=previous,main_month=main['contract'][2:])
+        selected,plan = select_for_report(chain,day,spot,
+            scope=options_scope,previous=previous,main_month=main['contract'][2:] if any(activity(main)) else None)
         plans.append(plan)
         quotes = full_quotes(api,plan['selected_codes'],day)
         for identity in selected:
@@ -272,6 +289,8 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
             options.append(dict(common, **{k:v for k,v in identity.items() if k not in common},
                 **{f:q[f] for f in ('close','settle','pre_settle','volume')}, open_interest=q['oi'],
                 underlying_index_close=spot, underlying_source_trade_date=day))
+            if q.get('record_state'):
+                options[-1].update({k:q[k] for k in ('record_state','source_trade_date','source_date_match','source_date_basis')})
     attach_changes(options,previous,day)
     prior_futures = {r['source_code']:r for r in previous.get('futures_contracts',[])}
     for row in futures:
@@ -280,14 +299,15 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
     analytics = analyze(options,day,scope=options_scope)
     cash = cash_market(api,day)
     summaries, linkage = futures_summary(futures,cash,analytics,day)
+    omitted = [p['product_key'].removeprefix('CFFEX:') for p in plans if p.get('state')=='unavailable']
     payload = dict(schema_version=VERSION, trade_date=day, source_provider='wind',frequency='EOD',
-        generated_at=datetime.now(ZONE).isoformat(),options_scope=options_scope,full_option_chain=options_scope==FULL_SCOPE,
+        generated_at=datetime.now(ZONE).isoformat(),options_scope=options_scope,full_option_chain=options_scope==FULL_SCOPE and not omitted,
         futures_directory_codes=sorted(universe),futures_contracts=futures,options_contracts=options,
         collection_plans=plans,night_session='not_applicable',analytics=analytics,cash_market=cash,
         futures_summary=summaries,futures_option_linkage=linkage,
-        coverage=dict(futures_products=list(FUTURES),options_products=list(OPTIONS),
+        coverage=dict(futures_products=list(FUTURES),options_products=[p for p in OPTIONS if p not in omitted],
                       futures_contract_count=len(futures),option_contract_count=len(options),
-                      option_directory_contract_count=sum(p['directory_contract_count'] for p in plans)),
+                      option_directory_contract_count=sum(p.get('directory_contract_count',0) for p in plans)),
         limitations=[('Full coverage against the target-day Wind directory; not an independent exchange audit.' if options_scope==FULL_SCOPE
                      else 'Report sample only; PCR and Gamma describe selected strikes, not whole-market positioning.'),
                     'Settlement/fallback-close Black76 on parity forward; fixed 1.5% rate assumption.',
@@ -295,6 +315,8 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
                     'ETF share unit unverified; raw changes only; CNY flow estimates disabled.',
                     'WSQ books are separate observations with unverified vendor time; never EOD pricing inputs.'])
     payload['coverage']['field_availability'] = field_coverage((futures,FUTURES_FIELDS),(options,OPTION_FIELDS))
+    if omitted:
+        payload['coverage']['unavailable_option_products'] = omitted
     errors = validate(payload)
     if errors:
         raise ValueError('; '.join(errors))
@@ -310,7 +332,7 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
         write_json_if_changed(root/'latest.json',payload)
         write_json_if_changed(root/'radar_latest.json',radar(payload))
     # Books are optional and cannot invalidate verified EOD settlement data.
-    if include_books:
+    if include_books and options:
         observed = books(api,[r['source_code'] for r in options],day)
         if observed['status']!='not_requested_for_historical_day':
             write_json_if_changed(root/'books/latest.json',observed)
@@ -402,8 +424,8 @@ def collect_intraday(api, window, root, *, options_scope=REPORT_SCOPE):
         for identity in selected:
             options.append(dict(common,**{k:v for k,v in identity.items() if k not in common},
                                 **quote(api,identity['source_code'],window)))
-    if not any(r['record_state']=='quote' for r in futures):
-        raise ValueError('no current index futures quotes')
+    if not any(r['record_state']=='quote' for r in futures+options):
+        raise WindUnavailable('no current index derivatives quotes')
     payload = dict(schema_version=VERSION,mode='intraday',**window,validation_passed=True,
         source_provider='wind',generated_at=datetime.now(ZONE).isoformat(),options_scope=options_scope,
         full_option_directory=len(plans)==3 and all(p.get('directory_codes') for p in plans),

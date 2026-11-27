@@ -58,7 +58,9 @@ def collect_futures_history(api, day, root, *, catalog=None, allowed_empty=('CZC
     if futures_complete(root, day):
         return dict(mode='futures_history', date=day, state='already_complete')
     universe, empty = directory(api, day, catalog=catalog, allowed_empty=allowed_empty)
-    result = futures(api, day, universe, batched=True)
+    result = futures(api, day, universe, batched=True, data_root=root)
+    if not result.verified:
+        return dict(mode='futures_history',date=day,unavailable={'futures':f'data/wind_daily/available_futures/{day}.json.gz'})
     publish_futures_history(result, Path(root))
     return dict(mode='futures_history', date=day, directory_count=len(universe),
                 declared_empty_products=empty, layers=['futures'], state='validated')

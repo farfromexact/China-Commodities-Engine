@@ -15,7 +15,8 @@ sys.path.insert(0, str(ROOT / 'src'))
 
 from china_commodities.wind_daily import config, plan, ZONE
 from china_commodities.wind_daily_git import Publisher, git
-from china_commodities.storage import read_json, write_json_atomic, refresh_market_state
+from china_commodities.storage import read_json, write_json_atomic, write_json_if_changed, refresh_market_state
+from china_commodities.wind_availability import WindUnavailable, repair_fields
 from china_commodities.collectors.wind_runtime import load_wind
 from china_commodities.wind_daily_collect import CachedWind, collect_day
 from china_commodities.reporting import publish_report_input
@@ -62,8 +63,33 @@ def measure(phase,api=None):
 
 
 def measured_collect(label,api,function,*args,**kwargs):
-    with measure(label,api):
-        return function(api,*args,**kwargs)
+    module = label.split(':',1)[0]
+    target = args[0]
+    day = target.get('trading_date','') if isinstance(target,dict) else target
+    try:
+        with measure(label,api):
+            result = function(api,*args,**kwargs)
+    except WindUnavailable as exc:
+        print(f'{module} {day}: {exc}，继续采集其他模块。', flush=True)
+        result = dict(state='unavailable',unavailable={'module':str(exc)})
+    return dict(result,collection_module=module,target_date=day)
+
+
+def update_unavailable(stage,results):
+    path=stage/'wind_daily/unavailable.json'
+    gaps=read_json(path,default={})
+    deferred=[]
+    for result in results:
+        module,day=result['collection_module'],result['target_date']
+        key=f'{module}/{day}'
+        if result.get('unavailable'):
+            gaps[key]=result['unavailable']
+            deferred.append((module,day))
+        else:
+            gaps.pop(key,None)
+    if gaps or path.exists():
+        write_json_if_changed(path,gaps)
+    return deferred
 
 
 def emit(payload):
@@ -80,7 +106,7 @@ def finish(cache, phase, **details):
     return payload
 
 
-def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
+def once(settings, cache, now=None,excluded_funding=(),history_budget=None,attempted=()):
     now = now or datetime.now(ZONE)
     cache = Path(cache)
     cache.mkdir(parents=True, exist_ok=True)
@@ -91,7 +117,7 @@ def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
         publisher.sync()
     anchor = read_json(cache / 'anchor.json', default={})
     work = plan(ROOT / 'data', settings, now=now, anchor=anchor.get('start_date'),
-                known_completed=anchor.get('verified_dates', []),excluded_funding=excluded_funding,history_budget=history_budget)
+                known_completed=anchor.get('verified_dates', []),excluded_funding=excluded_funding,history_budget=history_budget,attempted=attempted)
     write_json_atomic(cache / 'anchor.json', dict(start_date=work['start_date'], verified_dates=work['verified_dates']))
     if not work['has_work']:
         return finish(cache, 'up_to_date', plan=work, recovered_push=recovered)
@@ -104,7 +130,7 @@ def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
         if started.ErrorCode or not sdk.isconnected():
             raise RuntimeError(f'Wind 连接失败（{started.ErrorCode}），请登录官方 Wind 后重新启动。')
     # Vendor errors are handled by CachedWind; do not probe the desktop/session per request.
-    api = CachedWind(sdk, cache / 'raw', lambda: None, settings['request_interval_seconds'])
+    api = CachedWind(sdk, cache / 'raw', lambda: None, settings['request_interval_seconds'],batch_quotes=True)
     with tempfile.TemporaryDirectory(prefix='staging-', dir=cache) as temporary:
         stage = Path(temporary) / 'data'
         with measure('stage_copy'):
@@ -144,7 +170,9 @@ def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
             print(f'{day}: 提取银行间与交易所回购利率...',flush=True)
             result=measured_collect('funding_eod:'+day,api,collect_funding_eod,day,stage)
             results.append(result)
-            if not result['coverage_complete']:
+            if result.get('state')=='unavailable':
+                deferred.add(day)
+            elif not result['coverage_complete']:
                 deferred.add(day)
                 print(f"{day}: 回购面板部分缺失（{result['available']}/{result['expected']}）；保留缺失状态，本次不循环重试。",flush=True)
         for task in work.get('history_tasks', []):
@@ -156,7 +184,15 @@ def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
             else:
                 results.append(measured_collect('index_history:'+day,api,collect_index_eod,day,stage,
                                                 include_books=False,options_scope=settings['index_options_scope'],refresh_analytics=False))
+        checked_fields=[]
+        for task in work.get('field_repairs',[]):
+            module,day=task['module'],task['date']
+            results.append(measured_collect(module+'_fields:'+day,api,repair_fields,day,stage,module))
+            checked_fields.append((module+'_fields',day))
+        if results and all(r.get('mode')=='field_repair' and not r['updated_fields'] for r in results):
+            return finish(cache,'up_to_date',plan=work,results=results,attempted_fields=checked_fields)
         with measure('validation_and_report'):
+            unavailable=update_unavailable(stage,results)
             errors = [] if work.get('intraday') else validate_snapshot(read_json(stage / 'latest.json'))
             if errors:
                 raise RuntimeError(f'数据校验失败: {errors}')
@@ -172,7 +208,8 @@ def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
             publisher.prepare(stage, base)
             publisher.recover()
     # Never stop/logout/cancel the shared Wind session.
-    return finish(cache, 'published', plan=work, results=results,deferred_funding_dates=sorted(deferred))
+    return finish(cache, 'published', plan=work, results=results,deferred_funding_dates=sorted(deferred),
+                  unavailable=unavailable,attempted_fields=checked_fields)
 
 
 def main(argv=None):
@@ -188,6 +225,7 @@ def main(argv=None):
     cache = ROOT / 'tmp/wind-daily'
     started_at = datetime.now(ZONE)
     deferred_funding=set()
+    attempted=set()
     if not args.plan:
         TRACE=dict(started_at=started_at.isoformat(),clock=time.monotonic(),events=[],outcome='running',
             path=cache/'run-timings'/(started_at.strftime('%Y%m%d-%H%M%S-%f')+'.json'),
@@ -201,12 +239,14 @@ def main(argv=None):
             return 0
         history_budget = settings['max_history_days_per_run']
         while True:
-            result = once(settings, cache, now=started_at,excluded_funding=deferred_funding,history_budget=history_budget)
+            result = once(settings, cache, now=started_at,excluded_funding=deferred_funding,history_budget=history_budget,attempted=attempted)
             # Daily catch-up can have multiple batches. History allowance belongs
             # to this entire user launch, not each batch; never loop over its backlog.
             history_budget = 0
             emit(result)
             deferred_funding.update(result.get('deferred_funding_dates',[]))
+            attempted.update(map(tuple,result.get('unavailable',[])))
+            attempted.update(map(tuple,result.get('attempted_fields',[])))
             if not any(result['plan'].get(key) for key in ('remaining_dates','remaining_index_dates','remaining_treasury_dates','remaining_funding_dates','remaining_commodity_detail_dates')):
                 if TRACE is not None:
                     TRACE.update(outcome=result['phase'],deferred_funding_dates=sorted(deferred_funding))
