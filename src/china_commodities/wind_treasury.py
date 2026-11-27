@@ -4,7 +4,8 @@ from pathlib import Path
 import re
 
 from .catalog import ProductCatalog
-from .index_analytics import finite, positive
+from .index_analytics import activity, finite, positive, total
+from .wind_availability import FUTURES_FIELDS, WindUnavailable, field_coverage, numeric_quote, valid_fields
 from .storage import read_json, write_json_if_changed
 from .trading_calendar import is_trading_day
 
@@ -43,6 +44,10 @@ def validate(payload):
     if (not expected or len(expected)!=len(set(expected)) or len(codes)!=len(set(codes))
             or set(codes)!=set(expected) or {r.get('product') for r in rows}!=set(PRODUCTS)):
         errors.append('treasury directory coverage mismatch')
+    availability=payload.get('field_availability')
+    if availability is not None and availability!=field_coverage((rows,FUTURES_FIELDS)):
+        errors.append('treasury field coverage mismatch')
+    partial=bool(availability) and availability.get('status')=='partial'
     for r in rows:
         code=r.get('source_code','')
         if (not re.fullmatch(str(r.get('product'))+r'\d{4}\.CFE',code)
@@ -50,10 +55,9 @@ def validate(payload):
                 or r.get('source_trade_date')!=day or not r.get('listed_date','z')<=str(day)<=r.get('expiry_date','')
                 or r.get('price_unit')!='CNY_per_100_CNY_face_value'):
             errors.append('treasury identity/date/unit mismatch: '+code)
-        required=('open','high','low','close','settle','pre_settle','volume','open_interest','turnover')
-        if any(not finite(r.get(f)) or r[f]<0 for f in required) or not positive(r.get('close')) or not positive(r.get('settle')):
+        if not valid_fields(r,FUTURES_FIELDS,partial) or any(r.get(f)==0 for f in ('close','settle')):
             errors.append('treasury missing/invalid core fields: '+code)
-        elif not r['low']<=min(r['open'],r['close'])<=max(r['open'],r['close'])<=r['high']:
+        elif all(finite(r[k]) for k in ('open','high','low','close')) and not r['low']<=min(r['open'],r['close'])<=max(r['open'],r['close'])<=r['high']:
             errors.append('treasury OHLC mismatch: '+code)
         if r.get('face_value_cny')!=FACE_VALUE.get(r.get('product')) or r.get('point_value_cny')!=FACE_VALUE.get(r.get('product'),0)/100:
             errors.append('treasury contract unit mismatch: '+code)
@@ -69,15 +73,15 @@ def summary(rows):
     result={}
     for product in PRODUCTS:
         selected=sorted([r for r in rows if r['product']==product],key=lambda r:r['expiry_date'])
-        active=[r for r in selected if r['volume']>0 or r['open_interest']>0]
+        active=[r for r in selected if any(activity(r))]
         if not active:
             result[product]=dict(status='no_active_contracts')
             continue
-        main=max(active,key=lambda r:(r['volume'],r['open_interest']))
+        main=max(active,key=activity)
         following=next((r for r in active if r['expiry_date']>main['expiry_date']),None)
         result[product]=dict(status='ok',tenor_years=PRODUCTS[product],main_contract=main,next_contract=following,
-            total_volume=sum(r['volume'] for r in selected),total_open_interest=sum(r['open_interest'] for r in selected),
-            next_minus_main_points=following['close']-main['close'] if following else None,
+            total_volume=total(selected,'volume'),total_open_interest=total(selected,'open_interest'),
+            next_minus_main_points=following['close']-main['close'] if following and positive(following['close']) and positive(main['close']) else None,
             total_oi_change=sum(r['oi_change'] for r in selected) if all(finite(r.get('oi_change')) for r in selected) else None)
     return result
 
@@ -94,7 +98,7 @@ def collect_eod(api, day, root):
     old={r['source_code']:r for r in prior.get('contracts',[])} if prior and not validate(prior) else {}
     rows=[]
     for code,identity in sorted(universe.items()):
-        q=daily_quote(api,code,FIELDS,day)
+        q=numeric_quote(daily_quote(api,code,FIELDS,day),FIELDS.split(','),('close','settle','pre_settle'))
         product=identity['product']
         previous=old.get(code,{})
         rows.append(dict(source_provider='wind',source_endpoint='WindPy.wsd',source_trade_date=day,
@@ -108,6 +112,7 @@ def collect_eod(api, day, root):
             oi_change=q['oi']-previous['open_interest'] if finite(q['oi']) and finite(previous.get('open_interest')) else None))
     payload=dict(schema_version=VERSION,trade_date=day,source_provider='wind',frequency='EOD',night_session='not_applicable',
         generated_at=datetime.now(ZONE).isoformat(),directory_codes=sorted(universe),contracts=rows,products=summary(rows),
+        field_availability=field_coverage((rows,FUTURES_FIELDS)),
         limitations=['Prices are per CNY100 face, not yields.','No CTD, conversion-factor basis, implied repo or DV01 hedge estimates.'])
     errors=validate(payload)
     if errors:
@@ -117,7 +122,7 @@ def collect_eod(api, day, root):
     write_json_if_changed(target/'snapshots'/f'{day}.json',payload)
     if read_json(target/'latest.json',default={}).get('trade_date','')<=day:
         write_json_if_changed(target/'latest.json',payload)
-    return dict(mode='treasury_eod',date=day,contract_count=len(rows))
+    return dict(mode='treasury_eod',date=day,contract_count=len(rows),field_availability=payload['field_availability'])
 
 
 def collect_intraday(api, window, root):
@@ -145,7 +150,7 @@ def collect_intraday(api, window, root):
             effective_contract_cutoff=effective['cutoff'],price_unit='CNY_per_100_CNY_face_value',
             settle=None,open_interest=None,**q))
     if not any(r['record_state']=='quote' for r in rows):
-        raise ValueError('no treasury minute quotes within cutoff')
+        raise WindUnavailable('no treasury minute quotes within cutoff')
     payload=dict(schema_version=VERSION,source_provider='wind',mode='intraday',**window,validation_passed=True,
         generated_at=datetime.now(ZONE).isoformat(),contracts=rows,coverage=coverage(rows),
         unavailable_fields=['settle','open_interest'],volume_unit='contracts_in_selected_5min_bar')
@@ -166,5 +171,5 @@ def report_view(root, expected_date):
     return dict(available=bool(eod) or current['mode']=='intraday',eod_available=bool(eod),trade_date=eod.get('trade_date'),expected_date=expected_date,
         expected_date_basis='alignment_with_commodity_EOD_not_wall_clock',
         validation_passed=eod.get('validation_passed',False),generated_at=eod.get('generated_at'),
-        date_matches=eod.get('trade_date')==expected_date,products=eod.get('products',{}),
+        date_matches=eod.get('trade_date')==expected_date,products=eod.get('products',{}),field_availability=eod.get('field_availability'),
         current_market_snapshot=current,limitations=eod.get('limitations',[]))

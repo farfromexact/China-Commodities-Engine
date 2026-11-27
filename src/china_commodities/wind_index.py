@@ -7,6 +7,8 @@ import re
 from .catalog import ProductCatalog
 from .storage import read_json, write_json_if_changed
 from .index_selection import REPORT_SCOPE, FULL_SCOPE, SCOPES, PAIRS_PER_EXPIRY, select as select_for_report
+from .wind_availability import FUTURES_FIELDS, OPTION_FIELDS, WindUnavailable, field_coverage, numeric_quote, valid_fields
+from .index_analytics import activity
 
 FUTURES = ('IF', 'IH', 'IC', 'IM')
 # Index options are on cash indices, not on the corresponding index futures.
@@ -106,16 +108,20 @@ def validate(payload):
     codes = [r.get('source_code') for r in futures+options]
     if len(codes) != len(set(codes)):
         errors.append('duplicate index derivative contract')
-    for rows, required in [(futures, ('open','high','low','close','settle','pre_settle','volume','open_interest','turnover')),
-                           (options, ('close','settle','pre_settle','volume','open_interest'))]:
+    groups = ((futures,FUTURES_FIELDS),(options,OPTION_FIELDS))
+    availability = payload.get('coverage',{}).get('field_availability')
+    if availability is not None and availability != field_coverage(*groups):
+        errors.append('index derivative field coverage mismatch')
+    partial = modern and bool(availability) and availability.get('status')=='partial'
+    for rows, required in groups:
         for row in rows:
             code = row.get('source_code', '')
             if (row.get('source_trade_date') != day or row.get('source_date_match') is not True
                     or row.get('source_provider') != 'wind' or row.get('exchange') != 'CFFEX'):
                 errors.append(f'index derivative date/source mismatch: {code}')
-            if any(not number(row.get(f)) or row[f] < 0 for f in required):
+            if not valid_fields(row, required, partial):
                 errors.append(f'index derivative missing/invalid core fields: {code}')
-            elif (row in futures or not modern) and (row['close'] <= 0 or row['settle'] <= 0):
+            elif (row in futures or not modern) and any(row[f] == 0 for f in ('close','settle')):
                 errors.append(f'index derivative nonpositive price: {code}')
             if row in futures:
                 if not re.fullmatch(r'(IF|IH|IC|IM)\d{4}\.CFE', code) or not code.startswith(row.get('product','?')):
@@ -217,11 +223,10 @@ def full_quotes(api, codes, day):
                 raw = api.call('wsd',*args)
                 if (raw['codes']!=batch or [f.lower() for f in raw['fields']]!=[field]
                         or len(raw['times'])!=1 or raw['times'][0][:10]!=day
-                        or len(raw['data'])!=1 or len(raw['data'][0])!=len(batch)
-                        or any(not number(v) or v<0 for v in raw['data'][0])):
+                        or len(raw['data'])!=1 or len(raw['data'][0])!=len(batch)):
                     raise ValueError('full option quote date, coverage or value mismatch')
                 for code,value in zip(batch,raw['data'][0]):
-                    result[code][field] = value
+                    result[code][field] = value if number(value) and value>=0 else None
             except (KeyError,ValueError):
                 api.discard('wsd',*args)
                 raise
@@ -246,7 +251,7 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
                   exchange='CFFEX', price_unit='index_points', volume_unit='contracts', night_session=False)
     futures, options, plans = [], [], []
     for code, identity in sorted(universe.items()):
-        q = daily_quote(api, code, FIELDS, day)
+        q = numeric_quote(daily_quote(api, code, FIELDS, day),FIELDS.split(','),('close','settle','pre_settle'))
         futures.append(dict(common, source_code=code, contract=identity['contract'],product=identity['product'],
             listed_date=str(identity['contract_issue_date'])[:10],expiry_date=str(identity['last_trade_date'])[:10],
             **{f:q[f] for f in ('open','high','low','close','settle','pre_settle','volume')},
@@ -255,9 +260,9 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
     for product, index in OPTIONS.items():
         spot = daily_quote(api, index, 'close', day)['close']
         if not number(spot) or spot<=0:
-            raise ValueError('index option missing cash index reference')
+            raise WindUnavailable(f'index option missing dated cash index reference: {index}')
         main = max([r for r in futures if r['product']=={'IO':'IF','HO':'IH','MO':'IM'}[product]],
-                   key=lambda r:(r['volume'],r['open_interest']))
+                   key=activity)
         selected,plan = select_for_report(option_directory(api,day,product),day,spot,
             scope=options_scope,previous=previous,main_month=main['contract'][2:])
         plans.append(plan)
@@ -271,7 +276,7 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
     prior_futures = {r['source_code']:r for r in previous.get('futures_contracts',[])}
     for row in futures:
         prior = prior_futures.get(row['source_code'],{}).get('open_interest')
-        row['oi_change'] = row['open_interest']-prior if number(prior) else None
+        row['oi_change'] = row['open_interest']-prior if number(prior) and number(row['open_interest']) else None
     analytics = analyze(options,day,scope=options_scope)
     cash = cash_market(api,day)
     summaries, linkage = futures_summary(futures,cash,analytics,day)
@@ -289,6 +294,7 @@ def collect_eod(api, day, root, *, include_books=True, options_scope=REPORT_SCOP
                     'Delta targets require distance/duplicate checks; approximate_metrics are observations only. Gamma is unsigned, not dealer positioning.',
                     'ETF share unit unverified; raw changes only; CNY flow estimates disabled.',
                     'WSQ books are separate observations with unverified vendor time; never EOD pricing inputs.'])
+    payload['coverage']['field_availability'] = field_coverage((futures,FUTURES_FIELDS),(options,OPTION_FIELDS))
     errors = validate(payload)
     if errors:
         raise ValueError('; '.join(errors))
@@ -342,7 +348,7 @@ def rebuild_analytics(data_root):
             previous.get('trade_date') == str(previous_trading_day(date.fromisoformat(day)))) else {}
         for row in snapshot['futures_contracts']:
             before = prior.get(row['source_code'], {}).get('open_interest')
-            row['oi_change'] = row['open_interest']-before if number(before) else None
+            row['oi_change'] = row['open_interest']-before if number(before) and number(row['open_interest']) else None
         snapshot['analytics'] = analyze(snapshot['options_contracts'],day,scope=snapshot['options_scope'])
         snapshot['futures_summary'], snapshot['futures_option_linkage'] = futures_summary(
             snapshot['futures_contracts'],snapshot['cash_market'],snapshot['analytics'],day)

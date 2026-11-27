@@ -17,7 +17,7 @@
 - 期权：以沪深300（000300.SH）、上证50（000016.SH）、中证1000（000852.SH）现金指数为真实标的，查询目标日期权目录。当前默认`report_v1`，近两月加主力期指对应月，每月最多七对；结算分析由本地模型计算，盘口另存。旧`core_v1`仅作历史兼容，当前规则见[股指模块](INDEX_DERIVATIVES.md)。
 - 股指只有日盘，09:30前尚无完整分钟线时明确跳过本次股指盘中请求；夜间不请求股指分钟行情。夜盘运行保留股指最新日终，不能当作夜盘确认。商品已结束夜盘仍仅采集期货。
 - 股指日终和盘中分别保存在 `data/index_derivatives/latest.json`、`snapshots/YYYY-MM-DD.json` 及 `intraday/`，不混入商品文件。`report_input_latest.json` 的 `index_derivatives` 提供独立日期、覆盖和当前文件指针，`data/chat/manifest.json` 也包括股指分片。
-- 日终模式按现有 `start_date` / anchor 起点独立补齐股指缺口，即使商品批次已完成也会补采。任一股指日期或核心覆盖校验失败，本批不发布；已完成请求留在本地缓存以便恢复。
+- 日终模式按现有 `start_date` / anchor 起点独立补齐股指缺口。Wind 尚无有效值时直接发布已核验的字段，股指和国债通过 `field_availability.missing_by_field` 列出受影响的合约。依赖缺失字段的指标留空，其他模块继续。日期和合约身份仍需核验。
 
 盘中股指分支经过模拟检查；日终分支已在Windows用官方WindPy实机验证。Mac新增股指流程与盘中实机尚未验证。
 

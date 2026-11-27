@@ -24,6 +24,15 @@ def positive(x):
     return finite(x) and x > 0
 
 
+def total(rows, field):
+    values = [r.get(field) for r in rows]
+    return sum(values) if values and all(finite(v) for v in values) else None
+
+
+def activity(row):
+    return (row['volume'] or 0, row['open_interest'] or 0)
+
+
 def price(row):
     if positive(row.get('settle')):
         return row['settle']
@@ -80,10 +89,12 @@ def analyze(options, day, *, rate=RATE, scope='full_chain_v2'):
             discount = math.exp(-rate*years)
             delta = discount * (_normal_cdf(d1) if row['option_type']=='C' else _normal_cdf(d1)-1)
             gamma = discount * _normal_pdf(d1)/(forward*iv*math.sqrt(years))
-            exposure = gamma * row['open_interest'] * row['multiplier'] * forward**2 * .01
+            exposure = (gamma * row['open_interest'] * row['multiplier'] * forward**2 * .01
+                        if finite(row['open_interest']) else None)
             row.update(iv_percent=iv*100, delta=delta, gamma=gamma, gamma_1pct=exposure)
             points.append((row['option_type'], delta, iv, row['strike']))
-            gamma_nodes[row['strike']] = gamma_nodes.get(row['strike'], 0) + abs(exposure)
+            if exposure is not None:
+                gamma_nodes[row['strike']] = gamma_nodes.get(row['strike'], 0) + abs(exposure)
         def wing(side, target):
             available = [p for p in points if p[0]==side]
             return min(available, key=lambda p: (abs(p[1]-target), p[3]))[2] if available else None
@@ -133,12 +144,12 @@ def analyze(options, day, *, rate=RATE, scope='full_chain_v2'):
             contract_codes=sorted(r['source_code'] for r in contracts))
         for side, name in [('C','call'), ('P','put')]:
             selected = [r for r in contracts if r['option_type']==side]
-            metrics[name+'_oi'] = sum(r['open_interest'] for r in selected)
-            metrics[name+'_volume'] = sum(r['volume'] for r in selected)
+            metrics[name+'_oi'] = total(selected,'open_interest')
+            metrics[name+'_volume'] = total(selected,'volume')
             changes = [r.get('oi_change') for r in selected]
             metrics[name+'_oi_change'] = sum(changes) if all(finite(v) for v in changes) else None
-        metrics['pcr_oi'] = metrics['put_oi']/metrics['call_oi'] if metrics['call_oi'] else None
-        metrics['pcr_volume'] = metrics['put_volume']/metrics['call_volume'] if metrics['call_volume'] else None
+        metrics['pcr_oi'] = metrics['put_oi']/metrics['call_oi'] if finite(metrics['put_oi']) and metrics['call_oi'] else None
+        metrics['pcr_volume'] = metrics['put_volume']/metrics['call_volume'] if finite(metrics['put_volume']) and metrics['call_volume'] else None
         series = dict(symbol=contracts[0]['contract'].split('-')[0], expiry=expiry,
             forward=forward, t_years=max(years,0), metrics=metrics,
             analytics_state='expired' if years<=0 else 'ok' if points else 'unavailable')
@@ -157,7 +168,7 @@ def attach_changes(options, previous, day):
     for row in options:
         prior = lookup.get(row['source_code'], {})
         value = prior.get('open_interest')
-        row['oi_change'] = row['open_interest']-value if finite(value) else None
+        row['oi_change'] = row['open_interest']-value if finite(value) and finite(row['open_interest']) else None
         row['previous_date'] = expected if finite(value) else None
 
 
@@ -165,27 +176,29 @@ def futures_summary(futures, cash, analytics, day):
     summaries, linkage = {}, {}
     for product in DIRECT:
         contracts = sorted([r for r in futures if r['product']==product], key=lambda r:r['expiry_date'])
-        active = [r for r in contracts if r['volume']>0 or r['open_interest']>0]
+        active = [r for r in contracts if any(activity(r))]
         if not active:
             summaries[product] = dict(status='empty', contracts=contracts)
             continue
-        main = max(active,key=lambda r:(r['volume'],r['open_interest']))
+        main = max(active,key=activity)
         later = [r for r in active if r['expiry_date']>main['expiry_date']]
         remaining = [r for r in active if r['source_code']!=main['source_code']]
-        following = later[0] if later else max(remaining,key=lambda r:(r['volume'],r['open_interest']),default=None)
+        following = later[0] if later else max(remaining,key=activity,default=None)
         index = cash['indices'].get(product, {})
         spot = index.get('close')
-        basis = main['close']-spot if positive(spot) else None
+        basis = main['close']-spot if positive(spot) and positive(main['close']) else None
         dte = (date.fromisoformat(main['expiry_date'])-date.fromisoformat(day)).days
         gap = ((date.fromisoformat(following['expiry_date'])-date.fromisoformat(main['expiry_date'])).days
                if following else 0)
+        volume, oi = total(contracts,'volume'), total(contracts,'open_interest')
+        both_prices = following and positive(following['close']) and positive(main['close'])
         summaries[product] = dict(status='ok',front_contract=active[0],main_contract=main,next_contract=following,
-            total_volume=sum(r['volume'] for r in contracts),total_open_interest=sum(r['open_interest'] for r in contracts),
+            total_volume=volume,total_open_interest=oi,
             total_oi_change=sum(r['oi_change'] for r in contracts) if all(finite(r.get('oi_change')) for r in contracts) else None,
-            main_volume_share=main['volume']/sum(r['volume'] for r in contracts) if sum(r['volume'] for r in contracts)>0 else None,
-            main_oi_share=main['open_interest']/sum(r['open_interest'] for r in contracts) if sum(r['open_interest'] for r in contracts)>0 else None,
-            next_minus_main_points=following['close']-main['close'] if following else None,
-            annualized_roll_pct_inferred=(following['close']/main['close']-1)*365/gap if gap>0 else None,
+            main_volume_share=main['volume']/volume if volume else None,
+            main_oi_share=main['open_interest']/oi if oi else None,
+            next_minus_main_points=following['close']-main['close'] if both_prices else None,
+            annualized_roll_pct_inferred=(following['close']/main['close']-1)*365/gap if both_prices and gap>0 else None,
             cash_index_code=index.get('source_code'),cash_index_close=spot,cash_basis_points=basis,
             cash_basis_pct=basis/spot if basis is not None else None,
             annualized_cash_basis_pct_inferred=basis/spot*365/dte if basis is not None and dte>0 else None,
@@ -197,7 +210,7 @@ def futures_summary(futures, cash, analytics, day):
         forward = exact.get('forward') if exact else None
         linkage[product] = dict(direct_option_product=option,matched_option_symbol=exact['symbol'] if exact else None,
             linkage_status='same_month' if exact else 'no_direct_index_option' if option is None else 'missing_same_month',
-            option_forward=forward, future_minus_option_forward_points=main['close']-forward if positive(forward) else None)
+            option_forward=forward, future_minus_option_forward_points=main['close']-forward if positive(forward) and positive(main['close']) else None)
     return summaries, linkage
 
 
@@ -244,7 +257,7 @@ def history_changes(records):
                     current_main, prior_main = summary.get('main_contract',{}), prior.get('main_contract',{})
                     same = bool(current_main.get('source_code') and current_main.get('source_code')==prior_main.get('source_code'))
                     comparison['futures'][product] = dict(same_main_contract=same,
-                        main_close_change=current_main['close']-prior_main['close'] if same else None,
+                        main_close_change=current_main['close']-prior_main['close'] if same and positive(current_main.get('close')) and positive(prior_main.get('close')) else None,
                         cash_basis_change=summary['cash_basis_points']-prior['cash_basis_points']
                             if same and finite(summary.get('cash_basis_points')) and finite(prior.get('cash_basis_points')) else None)
             record.setdefault('changes',{})[str(lag)+'d'] = comparison
