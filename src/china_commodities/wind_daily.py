@@ -142,6 +142,8 @@ def _with_rates_plan(work,root,settings,now,excluded_funding=()):
                         and not module.complete(root,day)):
                     missing.append(day)
                 cursor+=timedelta(days=1)
+        if name == 'funding' and current and wind_funding.published_intraday_covers(root, current):
+            current = None
         work[name+'_intraday']=current
         limit=settings['max_days_per_run']
         work[name+'_dates']=missing[:limit]
@@ -152,6 +154,7 @@ def _with_rates_plan(work,root,settings,now,excluded_funding=()):
 
 def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_funding=(),history_budget=None):
     from .wind_index import complete as index_complete
+    from .wind_commodity_details import FIRST_DATE, needs_collection
     root=Path(root)
     now=(now or datetime.now(ZONE)).astimezone(ZONE)
     today=now.date()
@@ -173,6 +176,7 @@ def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_fund
     cursor=date.fromisoformat(start)
     missing=[]
     index_missing=[]
+    detail_missing=[]
     verified=[]
     while cursor<=closed:
         if is_trading_day(cursor):
@@ -184,6 +188,8 @@ def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_fund
                       (receipt.get('trade_date')==day and receipt.get('provider')=='wind' and receipt.get('layers')==['futures','options','night'])))
             if archived or full_complete(root,day):
                 verified.append(day)
+                if day >= FIRST_DATE and retained and needs_collection(root, day, now):
+                    detail_missing.append(day)
             else:
                 missing.append(day)
             if not index_complete(root,day,scope=settings.get('index_options_scope','report_v1')):
@@ -200,10 +206,13 @@ def plan(root, settings, now=None, anchor=None, known_completed=(),excluded_fund
                 and not night_complete(root,str(target))):
             night_day=str(target)
     index_dates=index_missing[:settings['max_days_per_run']]
+    detail_limit=settings['max_days_per_run']
+    detail_dates=sorted(set(detail_missing[:detail_limit]).union(day for day in selected if day >= FIRST_DATE))
     work=dict(start_date=start,latest_completed_eod=str(closed),full_dates=selected,
                 index_dates=index_dates,remaining_index_dates=index_missing[len(index_dates):],
                 remaining_dates=missing[len(selected):],night_date=night_day,
-                has_work=bool(selected or night_day or index_dates),verified_dates=verified,timezone='Asia/Shanghai')
+                commodity_detail_dates=detail_dates,remaining_commodity_detail_dates=detail_missing[detail_limit:],
+                has_work=bool(selected or night_day or index_dates or detail_dates),verified_dates=verified,timezone='Asia/Shanghai')
     from .wind_history import extend_plan
     return extend_plan(_with_rates_plan(work,root,settings,now,excluded_funding),root,settings,history_budget)
 

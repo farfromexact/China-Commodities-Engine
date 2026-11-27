@@ -78,3 +78,13 @@ class DailyGitTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError,'uncommitted'):
             self.publisher.prepare(self.stage,self.base)
         self.assertEqual(git(self.root,'rev-parse','HEAD'),self.base)
+
+    def test_untracked_export_remains_local_but_untracked_data_blocks(self):
+        export = self.root/'exports'/'personal.json'
+        export.parent.mkdir()
+        export.write_text('local')
+        self.publisher.clean()
+        (self.root/'data'/'unpublished.json').write_text('local data')
+        with self.assertRaisesRegex(RuntimeError,'uncommitted'):
+            self.publisher.clean()
+        self.assertEqual(export.read_text(),'local')

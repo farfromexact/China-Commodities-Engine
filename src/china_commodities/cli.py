@@ -250,6 +250,11 @@ def _validate(args: argparse.Namespace) -> int:
             module_payload=read_json(data_dir/relative)
             if module_payload is not None:
                 errors.extend(validator(module_payload))
+        from .wind_commodity_details import validate_join
+        try:
+            validate_join(data_dir, payload)
+        except (ValueError, TypeError, KeyError) as exc:
+            errors.append(str(exc))
     if errors:
         for error in errors:
             print(f"ERROR: {error}")

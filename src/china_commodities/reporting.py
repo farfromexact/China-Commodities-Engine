@@ -657,6 +657,10 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     product_by_code = {
         str(item.get("product") or "").upper(): item for item in products
     }
+    if futures.get('commodity_details_coverage') and market_state.get('trade_date') == futures.get('trade_date'):
+        by_product = {(r['exchange'],r['product']):r for r in futures.get('proxy_basis', [])}
+        for item in products:
+            item['commodity_basis'] = by_product.get((item.get('exchange'),item.get('product')))
     surfaces = [
         _compact_surface(item)
         for item in _list(options_surface.get("surfaces"))
@@ -707,8 +711,19 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
     from .wind_funding import report_view as funding_report_view
     treasury_view = treasury_report_view(root, futures.get('trade_date'))
     funding_view = funding_report_view(root, futures.get('trade_date'))
+    detail_coverage = futures.get('commodity_details_coverage')
+    details = {}
+    if detail_coverage:
+        details = dict(trade_date=futures['trade_date'], coverage=detail_coverage,
+                       source_path='data/commodity_details/latest.json.gz',
+                       member_scope='up to 20 long and 20 short members of each selected main contract',
+                       basis_scope='Wind ANAL_BASIS in contract price units; spot specification unavailable',
+                       warehouse_unit='Wind native product-specific units',
+                       option_book_scope='last observed day-session tick through 15:00 Asia/Shanghai',
+                       execution_ready=False)
     return {
         "current_market_snapshot": current_snapshot,
+        **({'commodity_details': details} if details else {}),
         "index_derivatives": index_report_view(root, futures.get('trade_date')),
         "treasury_futures": treasury_view,
         "funding": funding_view,
@@ -737,6 +752,7 @@ def build_report_input(data_dir: str | Path = "data") -> dict[str, Any]:
         "intraday": current_snapshot.get("mode") == "intraday",
         "has_night_session": bool(night_session_view.get("published")),
         "source_paths": {
+            **({'commodity_details':details['source_path']} if details else {}),
             "index_derivatives": "data/index_derivatives/latest.json",
             "treasury_futures": "data/treasury_futures/latest.json",
             "funding": "data/funding/latest.json",

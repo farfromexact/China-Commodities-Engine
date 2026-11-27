@@ -25,6 +25,7 @@ from china_commodities.wind_index import collect_eod as collect_index_eod, colle
 from china_commodities.wind_treasury import collect_eod as collect_treasury_eod, collect_intraday as collect_treasury_intraday
 from china_commodities.wind_funding import collect_eod as collect_funding_eod, collect_intraday as collect_funding_intraday
 from china_commodities.wind_history import collect_futures_history
+from china_commodities.wind_commodity_details import collect_and_publish as collect_commodity_details, validate_join
 
 TRACE = None
 
@@ -124,6 +125,9 @@ def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
             print(f'{day}: 提取期货、核心期权及夜盘...', flush=True)
             results.append(measured_collect('commodity_eod:'+day,api,collect_day, day, stage, cache / 'normalized',
                                        allowed_empty=settings['allowed_empty_products']))
+        for day in work.get('commodity_detail_dates', []):
+            print(f'{day}: 提取商品仓单、基差、会员排名与样本期权历史盘口...', flush=True)
+            results.append(measured_collect('commodity_details:'+day, api, collect_commodity_details, day, stage))
         if work['night_date']:
             day = work['night_date']
             print(f'{day}: 提取已完成夜盘...', flush=True)
@@ -161,6 +165,8 @@ def once(settings, cache, now=None,excluded_funding=(),history_budget=None):
             refresh_market_state(stage)
             rebuild_analytics(stage)
             publish_report_input(stage)
+            if (stage/'commodity_details/latest.json.gz').exists():
+                validate_join(stage, read_json(stage/'latest.json'))
         print('校验通过，提交并推送数据...', flush=True)
         with measure('git_publish'):
             publisher.prepare(stage, base)
@@ -201,7 +207,7 @@ def main(argv=None):
             history_budget = 0
             emit(result)
             deferred_funding.update(result.get('deferred_funding_dates',[]))
-            if not any(result['plan'].get(key) for key in ('remaining_dates','remaining_index_dates','remaining_treasury_dates','remaining_funding_dates')):
+            if not any(result['plan'].get(key) for key in ('remaining_dates','remaining_index_dates','remaining_treasury_dates','remaining_funding_dates','remaining_commodity_detail_dates')):
                 if TRACE is not None:
                     TRACE.update(outcome=result['phase'],deferred_funding_dates=sorted(deferred_funding))
                     save_timing()

@@ -9,6 +9,7 @@ from pathlib import Path
 
 MAX_BYTES = 48 * 1024
 SOURCES = {
+    'commodity_details': 'commodity_details/latest.json.gz',
     'index_derivatives': 'index_derivatives/latest.json',
     'index_derivatives_intraday': 'index_derivatives/intraday/latest.json',
     'index_radar': 'index_derivatives/radar_latest.json',
@@ -177,6 +178,8 @@ def export_chat_data(data_dir='data'):
                 'options_scope','validation_passed','current_market_snapshot','current_exchange_snapshot',
                 'source_paths','source_path','limitations') if k in view}
     overview['limitations'] = report.get('quality', {}).get('limitations', [])
+    if 'commodity_details' in report:
+        overview['commodity_details'] = report['commodity_details']
     overview['options_quality'] = report.get('quality', {}).get('options_quality', {})
     overview['product_keys'] = product_keys(report.get('products', []))
     overview_ref = write('overview.json', overview)

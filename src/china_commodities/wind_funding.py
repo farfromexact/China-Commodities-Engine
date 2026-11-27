@@ -150,6 +150,19 @@ def complete(root, day):
     return p.get('trade_date')==day and p.get('coverage_complete') is True and not validate(p)
 
 
+def published_intraday_covers(root, target):
+    old = read_json(Path(root)/'funding/intraday/latest.json', default={})
+    if (old.get('trading_date') != target['trading_date'] or old.get('source_provider') != 'wind'
+            or old.get('session') != target['session'] or old.get('session_start') != target['session_start']
+            or old.get('cutoff','') < target['cutoff'] or old.get('validation_passed') is not True):
+        return False
+    expected = {key:spec['source_code'] for key,spec in INSTRUMENTS.items() if spec['market'].startswith('exchange_')}
+    rows = old.get('records', [])
+    return (len(rows) == len(expected) and {r.get('key'):r.get('source_code') for r in rows} == expected
+            and all(r.get('record_state') == 'quote' and r.get('source_timestamp') == old['cutoff']
+                    and finite(r.get('close')) for r in rows))
+
+
 def collect_eod(api, day, root):
     from .wind_daily import ZONE
     if not eod_ready(day):

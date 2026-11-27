@@ -270,7 +270,7 @@ def enrich_and_score_curves(
                     if (row["warehouse"] or {}).get("is_stale")
                     else "same_trade_date_carry_forward_as_published"
                     if (row["warehouse"] or {}).get("carried_forward")
-                    else "official_as_published_unit_unstandardized"
+                    else row["warehouse"].get("warehouse_quality", "official_as_published_unit_unstandardized")
                     if row["warehouse"]
                     else None
                 ),

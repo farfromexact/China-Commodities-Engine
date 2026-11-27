@@ -43,7 +43,10 @@ class Publisher:
     def clean(self):
         if git(self.root,'branch','--show-current')!=self.branch:
             raise RuntimeError('local checkout is not on configured publication branch')
-        if git(self.root,'status','--porcelain'):
+        # Only tracked changes and unpublished data can conflict with this publisher.
+        # Git's fast-forward checkout also protects unrelated local files from overwrite.
+        if (git(self.root,'status','--porcelain','--untracked-files=no')
+                or git(self.root,'ls-files','--others','--exclude-standard','--','data')):
             raise RuntimeError('local checkout has uncommitted changes; nothing auto-committed')
 
     def sync(self):

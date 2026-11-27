@@ -60,16 +60,19 @@ class CachedWind:
             self.metrics['sdk_seconds']+=time.monotonic()-started
         self.last_request=time.monotonic()
         raw=clean(dict(error=r.ErrorCode,codes=list(r.Codes),fields=list(r.Fields),times=list(r.Times),data=r.Data))
-        if method=='wsi' and raw['error']==WIND_NO_DATA_AVAILABLE:
-            # No bars for this contract/session is a valid empty night result.
+        no_history = raw['error']==WIND_NO_DATA_AVAILABLE or (
+            method=='wst' and raw['error']==-40520010 and
+            raw['data']==[['WSTService: Server Not Found Data.']])
+        if method in {'wsi','wst'} and no_history:
+            # A known contract may have no observations inside the historical window.
             # Keep the vendor code in the raw cache for audit and never fabricate bars.
             fields=[field.strip().lower() for field in args[1].split(',')]
-            raw=dict(error=0,vendor_error_code=WIND_NO_DATA_AVAILABLE,no_data_available=True,
+            raw=dict(error=0,vendor_error_code=raw['error'],no_data_available=True,
                      codes=[args[0]],fields=fields,times=[],data=[[] for _ in fields])
         if raw['error']:
             self.metrics['vendor_errors']+=1
             raise ValueError(f'Wind {method} error {raw["error"]}')
-        if method in {'wsd','wsi'} and [str(c).upper() for c in raw['codes']] != [c.strip().upper() for c in args[0].split(',')]:
+        if method in {'wsd','wsi','wst'} and [str(c).upper() for c in raw['codes']] != [c.strip().upper() for c in args[0].split(',')]:
             raise ValueError('Wind contract identity mismatch')
         write_json_if_changed(path,raw)
         return raw

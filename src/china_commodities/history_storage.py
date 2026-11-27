@@ -314,6 +314,8 @@ def _option_history_rows(snapshot: Mapping[str, Any]) -> list[dict[str, Any]]:
                 "settle": record.get("settle"),
                 "bid": record.get("bid"),
                 "ask": record.get("ask"),
+                **{key: record[key] for key in ("book_state", "book_source_timestamp", "book_source_endpoint",
+                                                "bid_size", "ask_size") if key in record},
                 "volume": record.get("volume"),
                 "open_interest": record.get("open_interest"),
                 "underlying_settle": record.get("underlying_settle"),

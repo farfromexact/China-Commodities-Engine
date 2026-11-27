@@ -30,7 +30,9 @@
 | 股指期权盘口 | 仅所选样本，独立WSQ观测 | 买一/卖一、挂单量及供应商日期/时钟；时间语义未确认，不参与EOD定价 | `data/index_derivatives/books/latest.json` |
 | 国债期货 | TS（2年）、TF（5年）、T（10年）、TL（30年），全部有效具体合约 | Wind报价；程序计算主力、同品种跨期价差和持仓变化 | `data/treasury_futures/` |
 | 回购资金面 | 银行间DR/R及沪深交易所回购，各1/7/14天，共12条序列 | 利率水平、1/3/5/20日BP变化与明确口径的利差；不代表资金净流量 | `data/funding/` |
-| 元数据与辅助层 | 合约参数、仓单、会员排名、核对等既有产物 | 独立读取其来源/日期/完整性，不因核心行情更新而宣称同步更新 | `data/contract_meta.json`、`data/crosschecks/`等 |
+| 商品仓单、基差和会员排名 | 自 2026-11-26 起，按品种查注册仓单、按具体合约查基差、按各品种当日主力合约查多头和空头各前 20 名 | Wind `ST_STOCK` 保留品种原单位，增减以前一交易日同口径计算。`ANAL_BASIS` 保留供应商原值及符号。会员榜分方向保留会员、名次、持仓和增减 | `data/commodity_details/latest.json.gz`、Chat 的 `commodity_details` |
+| 商品期权历史盘口 | 当日 `core_v1` 样本，日盘截至 15:00 的最后一条 Wind 逐笔记录 | 买一、卖一、挂单量和实际行情时间。单边只保留有效侧，无逐笔记录留空。历史盘口用于复盘 | `data/options/` 合约分片及上述商品明细 |
+| 元数据与核对 | 合约参数及核对等既有产物 | 独立读取其来源、日期和完整性 | `data/contract_meta.json`、`data/crosschecks/`等 |
 
 商品具体产品以 [config/products.json](config/products.json) 为准。仓库不采个股，不联动股票或其他期权仓库。
 

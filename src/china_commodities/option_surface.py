@@ -78,6 +78,8 @@ def _leg(record: Mapping[str, Any]) -> dict[str, Any]:
         "close": record.get("close"),
         "bid": record.get("bid"),
         "ask": record.get("ask"),
+        **{key: record[key] for key in ("book_state", "book_source_timestamp", "book_source_endpoint",
+                                        "bid_size", "ask_size") if key in record},
         "volume": record.get("volume"),
         "open_interest": record.get("open_interest"),
         "iv_percent": _selected(record, "iv_percent"),
