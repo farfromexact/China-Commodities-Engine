@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "trade_date": "2026-11-26",
+  "trade_date": "2026-11-27",
   "source_provider": "wind",
   "frequency": "EOD",
-  "generated_at": "2026-11-27T08:41:22.603137+08:00",
+  "generated_at": "2026-11-28T10:00:00.113470+08:00",
   "records": [
     {
       "key": "DR001",
@@ -13,10 +13,10 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "银存间质押1日",
-      "raw_value": 1.2788,
-      "rate_percent": 1.2788,
+      "raw_value": 1.2845,
+      "rate_percent": 1.2845,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -24,10 +24,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": 0.8599999999999941,
-        "3d": 0.5399999999999849,
-        "5d": 4.179999999999984,
-        "20d": -0.19000000000000128
+        "1d": 0.5700000000000038,
+        "3d": 1.429999999999998,
+        "5d": 1.079999999999992,
+        "20d": -0.06999999999999229
       }
     },
     {
@@ -38,10 +38,10 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "银存间质押7日",
-      "raw_value": 1.3826,
-      "rate_percent": 1.3826,
+      "raw_value": 1.3895,
+      "rate_percent": 1.3895,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -49,10 +49,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": -0.08999999999999009,
-        "3d": 1.8199999999999994,
-        "5d": 2.1600000000000064,
-        "20d": 3.5700000000000065
+        "1d": 0.6899999999999906,
+        "3d": -1.0499999999999954,
+        "5d": 2.0000000000000018,
+        "20d": 0.5199999999999871
       }
     },
     {
@@ -63,10 +63,10 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "银存间质押14日",
-      "raw_value": 1.4003,
-      "rate_percent": 1.4003,
+      "raw_value": 1.4009,
+      "rate_percent": 1.4009,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -74,10 +74,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": 1.450000000000018,
-        "3d": 3.7000000000000144,
-        "5d": 2.1400000000000086,
-        "20d": 5.26000000000002
+        "1d": 0.05999999999999339,
+        "3d": -0.6599999999999939,
+        "5d": 2.3500000000000076,
+        "20d": 2.42
       }
     },
     {
@@ -88,10 +88,10 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "银行间质押1日",
-      "raw_value": 1.3705,
-      "rate_percent": 1.3705,
+      "raw_value": 1.3709,
+      "rate_percent": 1.3709,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -99,10 +99,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": 0.7400000000000073,
-        "3d": 1.21,
-        "5d": 4.689999999999994,
-        "20d": 3.269999999999995
+        "1d": 0.039999999999995595,
+        "3d": 0.40999999999999925,
+        "5d": 1.7400000000000082,
+        "20d": -1.639999999999997
       }
     },
     {
@@ -113,10 +113,10 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "银行间质押7日",
-      "raw_value": 1.4459,
-      "rate_percent": 1.4459,
+      "raw_value": 1.4359,
+      "rate_percent": 1.4359,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -124,10 +124,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": 1.429999999999998,
-        "3d": 3.0200000000000005,
-        "5d": 3.0299999999999994,
-        "20d": 4.919999999999991
+        "1d": -1.0000000000000009,
+        "3d": 0.21999999999999797,
+        "5d": 2.2599999999999953,
+        "20d": -0.2700000000000147
       }
     },
     {
@@ -138,10 +138,10 @@
       "statistic": "daily_trade_weighted_repo_rate",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "银行间质押14日",
-      "raw_value": 1.4511,
-      "rate_percent": 1.4511,
+      "raw_value": 1.4379,
+      "rate_percent": 1.4379,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -149,10 +149,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": -0.45999999999999375,
-        "3d": 0.2600000000000158,
-        "5d": 0.649999999999995,
-        "20d": 3.5600000000000076
+        "1d": -1.32000000000001,
+        "3d": -1.0199999999999987,
+        "5d": 0.039999999999995595,
+        "20d": 0.39000000000000146
       }
     },
     {
@@ -163,10 +163,10 @@
       "statistic": "closing_annualized_repo_quote",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "GC001",
-      "raw_value": 1.385,
-      "rate_percent": 1.385,
+      "raw_value": 1.47,
+      "rate_percent": 1.47,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -174,10 +174,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": -6.499999999999995,
-        "3d": 3.499999999999992,
-        "5d": 24.0,
-        "20d": -8.499999999999996
+        "1d": 8.499999999999996,
+        "3d": 15.999999999999993,
+        "5d": 7.499999999999996,
+        "20d": 36.5
       }
     },
     {
@@ -188,10 +188,10 @@
       "statistic": "closing_annualized_repo_quote",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "GC007",
-      "raw_value": 1.42,
-      "rate_percent": 1.42,
+      "raw_value": 1.43,
+      "rate_percent": 1.43,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -199,10 +199,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": -0.5000000000000115,
-        "3d": 1.0000000000000009,
-        "5d": 5.499999999999994,
-        "20d": 1.0000000000000009
+        "1d": 1.0000000000000009,
+        "3d": 3.499999999999992,
+        "5d": 4.499999999999993,
+        "20d": 6.499999999999995
       }
     },
     {
@@ -213,10 +213,10 @@
       "statistic": "closing_annualized_repo_quote",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "GC014",
-      "raw_value": 1.395,
-      "rate_percent": 1.395,
+      "raw_value": 1.41,
+      "rate_percent": 1.41,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -224,10 +224,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": 0.5000000000000115,
-        "3d": -1.0000000000000009,
-        "5d": 1.0000000000000009,
-        "20d": 3.499999999999992
+        "1d": 1.4999999999999902,
+        "3d": 2.499999999999991,
+        "5d": 2.499999999999991,
+        "20d": 4.499999999999993
       }
     },
     {
@@ -238,10 +238,10 @@
       "statistic": "closing_annualized_repo_quote",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "R-001",
-      "raw_value": 1.375,
-      "rate_percent": 1.375,
+      "raw_value": 1.455,
+      "rate_percent": 1.455,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -249,10 +249,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": -5.000000000000004,
-        "3d": 4.0000000000000036,
-        "5d": 25.0,
-        "20d": -7.499999999999996
+        "1d": 8.000000000000007,
+        "3d": 15.500000000000004,
+        "5d": 7.500000000000018,
+        "20d": 37.5
       }
     },
     {
@@ -263,10 +263,10 @@
       "statistic": "closing_annualized_repo_quote",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "R-007",
-      "raw_value": 1.415,
-      "rate_percent": 1.415,
+      "raw_value": 1.43,
+      "rate_percent": 1.43,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -274,10 +274,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": -0.49999999999998934,
-        "3d": 1.0000000000000009,
-        "5d": 4.499999999999993,
-        "20d": 1.5000000000000124
+        "1d": 1.4999999999999902,
+        "3d": 3.499999999999992,
+        "5d": 5.499999999999994,
+        "20d": 6.999999999999984
       }
     },
     {
@@ -288,10 +288,10 @@
       "statistic": "closing_annualized_repo_quote",
       "source_provider": "wind",
       "source_endpoint": "WindPy.wsd.close",
-      "source_trade_date": "2026-11-26",
+      "source_trade_date": "2026-11-27",
       "instrument_name": "R-014",
-      "raw_value": 1.375,
-      "rate_percent": 1.375,
+      "raw_value": 1.4,
+      "rate_percent": 1.4,
       "unit": "percent_per_annum",
       "unit_basis": "published_instrument_definition; Wind_native_close_without_numeric_rescaling",
       "unit_verification": "definition_based_not_Wind_field_metadata",
@@ -299,10 +299,10 @@
       "source_date_verified": true,
       "record_state": "ok",
       "changes_bp": {
-        "1d": -0.49999999999998934,
-        "3d": 0.0,
-        "5d": 0.0,
-        "20d": 0.0
+        "1d": 2.499999999999991,
+        "3d": 2.9999999999999805,
+        "5d": 3.499999999999992,
+        "20d": 5.999999999999983
       }
     }
   ],
@@ -313,8 +313,8 @@
       "key": "R001_minus_DR001",
       "first": "R001",
       "second": "DR001",
-      "value_bp": 9.170000000000012,
-      "source_trade_date": "2026-11-26",
+      "value_bp": 8.640000000000004,
+      "source_trade_date": "2026-11-27",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -323,8 +323,8 @@
       "key": "R007_minus_DR007",
       "first": "R007",
       "second": "DR007",
-      "value_bp": 6.329999999999991,
-      "source_trade_date": "2026-11-26",
+      "value_bp": 4.64,
+      "source_trade_date": "2026-11-27",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -333,8 +333,8 @@
       "key": "R014_minus_DR014",
       "first": "R014",
       "second": "DR014",
-      "value_bp": 5.079999999999996,
-      "source_trade_date": "2026-11-26",
+      "value_bp": 3.699999999999992,
+      "source_trade_date": "2026-11-27",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -343,8 +343,8 @@
       "key": "DR007_minus_DR001",
       "first": "DR007",
       "second": "DR001",
-      "value_bp": 10.380000000000011,
-      "source_trade_date": "2026-11-26",
+      "value_bp": 10.499999999999998,
+      "source_trade_date": "2026-11-27",
       "comparison_basis": "daily_weighted_rates",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
@@ -353,8 +353,8 @@
       "key": "GC001_minus_DR001",
       "first": "GC001",
       "second": "DR001",
-      "value_bp": 10.620000000000008,
-      "source_trade_date": "2026-11-26",
+      "value_bp": 18.55,
+      "source_trade_date": "2026-11-27",
       "comparison_basis": "different_market_close_vs_daily_weighted",
       "unit_basis": "configured_annual_percent_no_numeric_rescaling",
       "not_arbitrage_signal": true
